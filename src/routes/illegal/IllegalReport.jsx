@@ -17,7 +17,7 @@ import {
 	SelectInput
 } from "beefly-common";
 import env from "../../js/env";
-import {orderFlowMap, userSearchTypeMap} from '../../js/maps';
+import {orderFlowMap, userSearchTypeMap , handleType ,operateState,reportState,vagueState} from '../../js/maps';
 import userApi from "../../apis/userApi";
 
 
@@ -77,13 +77,12 @@ export default class User extends React.Component {
 			<Content>
 				<Box theme="query">
 					<Form inline>
-						<Select ref={(e) => this._userStatus = e} label="用户状态" options={orderFlowMap} whole={true}/>
-						<Input ref={(e) => this._mobile = e} placeholder="手机号" label="手机号"/>
-						<Input label="姓名" placeholder="姓名"/>
+						<Select ref={(e) => this._userStatus = e} label="处理进度" options={handleType} whole={true}/>
 						<CitySelect ref={(e) => this._citySelect = e} label='城市区域'/>
-						<DateRange ref={(e) => this._dateRange = e} label="注册时间"/>
-						<NumberRange ref={(e) => this._numberRange = e} label="账户余额"/>
-						<SelectInput ref={(e) => this._selectInput = e} label="模糊搜索" selectOptions={userSearchTypeMap}/>
+						<Select ref={(e) => this._operateStatus = e} label="车辆运营状态" options={operateState} whole={true}/>
+						<Select ref={(e) => this._reportStatus = e} label="上报角色" options={reportState} whole={true}/>
+						<DateRange ref={(e) => this._dateRange = e} label="上报时间"/>
+						<SelectInput ref={(e) => this._selectInput = e} label="模糊搜索" selectOptions={vagueState}/>
 						<Button icon="search" onClick={this.search.bind(this)}>查询</Button>
 					</Form>
 					<DataTable columns={columns} api={userApi.queryPage} query={query}/>

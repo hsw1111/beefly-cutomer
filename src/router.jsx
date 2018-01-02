@@ -9,6 +9,7 @@ const BikeMonitor = asyncComponent(() => import(/* webpackChunkName: "bike/monit
 const BikeWindMornitor = asyncComponent(() => import(/* webpackChunkName: "bike/windMornitor" */'./routes/bike/BikeWindMornitor'));
 const Error404 = asyncComponent(() => import(/* webpackChunkName: "error/404" */'./routes/error/Error404'));
 const Error500 = asyncComponent(() => import(/* webpackChunkName: "error/500" */'./routes/error/Error500'));
+const IllegalReport = asyncComponent(() => import(/* webpackChunkName: "illegal/report" */'./routes/illegal/IllegalReport'));
 const User = asyncComponent(() => import(/* webpackChunkName: "user/index" */'./routes/user/User'));
 const UserInfo = asyncComponent(() => import(/* webpackChunkName: "user/info" */'./routes/user/UserInfo'));
 const UserProblem = asyncComponent(() => import(/* webpackChunkName: "user/problem" */'./routes/user/UserProblem'));
@@ -28,6 +29,7 @@ export default () => (
 			<Route exact path="/bike/windMornitor" component={BikeWindMornitor}/>
 			<Route exact path="/error/404" component={Error404}/>
 			<Route exact path="/error/500" component={Error500}/>
+			<Route exact path="/illegal/report" component={IllegalReport}/>
 			<Route exact path="/user" component={User}/>
 			<Route exact path="/user/info" component={UserInfo}/>
 			<Route exact path="/user/problem" component={UserProblem}/>

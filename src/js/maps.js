@@ -297,3 +297,44 @@ export const bikePoliceReasonMap = {
 	4: '海拔过高',
 	5: '翻倒'
 };
+
+/**
+ * 违停上报 处理进度
+ */
+
+export const handleType = {
+	0: '未处理',
+	1: '处理中',
+	2: '发送地勤确认',
+	3: '地勤确认中',
+	4: '地勤已处理',
+	5: '已出处理'
+};
+
+/**
+ * 违停上报 车辆运营状态
+ */
+
+export const operateState = {
+	1: '运营中',
+	2: '非运营中',
+};
+
+
+/**
+ * 违停上报 上报角色
+ */
+
+export const reportState = {
+	1: '用户',
+	2: '地勤',
+};
+
+/**
+ * 违停上报 模糊搜索
+ */
+
+export const vagueState = {
+	1: '手机号',
+	2: '车辆编号',
+};

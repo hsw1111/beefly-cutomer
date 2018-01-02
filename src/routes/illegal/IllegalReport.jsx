@@ -28,20 +28,14 @@ export default class User extends React.Component {
 
 		this.state = {
 			columns: [
-				{title: '用户编号', data: 'userId'},
-				{title: '用户姓名', data: 'name'},
-				{title: '手机号码', data: 'mobile'},
-				{title: '登陆城市', data: 'registerCity'},
-				{title: '用户状态', data: 'userStatusName'},
-				{title: '注册时间', data: 'registerTime', render: dtUtils.renderDateTime},
-				{
-					title: '账户余额',
-					data: 'balance',
-					className: "text-right",
-					render: (data) => dtUtils.renderNumber(data, '0.00')
-				},
-				{title: '信用积分', data: 'credScore', className: "text-right"},
-				{title: '失信状态', data: 'creditLimit', className: "text-center"},
+				{title: '上报编号', data: 'userId'},
+				{title: '城市', data: 'name'},
+				{title: '上报姓名', data: 'mobile'},
+				{title: '上报角色', data: 'registerCity'},
+				{title: '手机号', data: 'userStatusName'},
+				{title: '车辆编号', data: 'credScore'},
+				{title: '上报时间', data: 'registerTime', render: dtUtils.renderDateTime},
+				{title: '处理进度', data: 'creditLimit'},
 				{title: '操作', type: 'object', render: this.renderActions},
 			],
 			modalShow: false,
@@ -66,13 +60,15 @@ export default class User extends React.Component {
 
 	renderActions(data, type, row) {
 		let actions = [
-			{text: 'Action', icon: 'search', onclick: `beefly.showMsg('${row.userId}')`},
-			{text: 'Another action', icon: 'user-plus', onclick: `beefly.showMsg('${row.userId}')`},
+			{text: '查看详情', icon: 'search', onclick: `beefly.showMsg('${row.userId}')`},
+			{text: '添加备注', icon: 'user-plus', onclick: `beefly.showMsg('${row.userId}')`},
+			{text: '驳回处理', icon: 'user-plus', onclick: `beefly.showMsg('${row.userId}')`},
+			{text: '确认处理', icon: 'user-plus', onclick: `beefly.showMsg('${row.userId}')`},
 			// { text: 'Something else here', onclick: `beefly.showMsg('${row.userId}')` },
 			// '-',
 			// { id: 'add4', text: 'Separated link', onclick: `beefly.showMsg('${row.mobile}')` },
 		];
-		return dtUtils.renderActions(actions)
+		return dtUtils.renderActions(actions,'dropdown')
 	}
 
 	render() {
@@ -90,11 +86,6 @@ export default class User extends React.Component {
 						<SelectInput ref={(e) => this._selectInput = e} label="模糊搜索" selectOptions={userSearchTypeMap}/>
 						<Button icon="search" onClick={this.search.bind(this)}>查询</Button>
 					</Form>
-					<div>
-						{query.conditionFlag}
-						~
-						{query.keywords}
-					</div>
 					<DataTable columns={columns} api={userApi.queryPage} query={query}/>
 				</Box>
 

@@ -24,7 +24,7 @@ module.exports = {
 	],
 	output: {
 		publicPath: './',
-		path: path.join(__dirname, 'public'),
+		path: path.join(__dirname, 'public/module'),
 		filename: 'js/[name].' + hash + '.js',
 		chunkFilename: 'js/[name].' + hash + '.js'
 	},

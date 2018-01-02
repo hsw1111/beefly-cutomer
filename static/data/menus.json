@@ -1,0 +1,48 @@
+[
+	{
+		"name": "车辆管理",
+		"icon": "fa-car",
+		"child": [
+			{
+				"name": "车辆管理",
+				"path": "/bike"
+			},
+			{
+				"name": "车辆信息",
+				"path": "/bike/info"
+			},
+			{
+				"name": "车辆日志",
+				"path": "/bike/log"
+			},
+			{
+				"name": "车辆监控系统",
+				"path": "/bike/monitor"
+			},
+			{
+				"name": "风控监控系统",
+				"path": "/bike/windMornitor"
+			}
+		]
+	},
+	{
+		"name": "用户管理",
+		"icon": "fa-wrench",
+		"child": [
+			{
+				"name": "用户管理",
+				"path": "/user"
+			}
+		]
+	},
+	{
+		"name": "违停上报",
+		"icon": "fa-exclamation-triangle",
+		"child": [
+			{
+				"name": "违停上报",
+				"path": "/illegal/report"
+			}
+		]
+	}
+]

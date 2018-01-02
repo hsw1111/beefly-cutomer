@@ -23,9 +23,16 @@
 	<!-- Google Font -->
 	<link rel="stylesheet"
 		  href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+	<style>
+		.loading {
+			padding: 15px;
+		}
+	</style>
 </head>
 <body style="background: transparent">
-<div id="app"></div>
+<div id="app">
+	<p class="loading"><i class="fa fa-spin fa-spinner"></i> Loading...</p>
+</div>
 <!--react-->
 <script src="http://cdn.bootcss.com/react/15.6.1/react.min.js"></script>
 <script src="http://cdn.bootcss.com/react/15.6.1/react-dom.min.js"></script>
@@ -38,5 +45,7 @@
 <script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <!-- lodash -->
 <script src="http://cdn.bootcss.com/lodash.js/4.17.4/lodash.min.js"></script>
+<!-- bootbox -->
+<script src="https://cdn.bootcss.com/bootbox.js/4.4.0/bootbox.min.js"></script>
 </body>
 </html>

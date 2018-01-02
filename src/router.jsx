@@ -3,12 +3,14 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import { asyncComponent } from 'beefly-common';
 
 const Bike = asyncComponent(() => import(/* webpackChunkName: "bike/index" */'./routes/bike/Bike'));
+const BikeDetails = asyncComponent(() => import(/* webpackChunkName: "bike/details" */'./routes/bike/BikeDetails'));
 const BikeInfo = asyncComponent(() => import(/* webpackChunkName: "bike/info" */'./routes/bike/BikeInfo'));
 const BikeLog = asyncComponent(() => import(/* webpackChunkName: "bike/log" */'./routes/bike/BikeLog'));
 const BikeMonitor = asyncComponent(() => import(/* webpackChunkName: "bike/monitor" */'./routes/bike/BikeMonitor'));
 const BikeWindMornitor = asyncComponent(() => import(/* webpackChunkName: "bike/windMornitor" */'./routes/bike/BikeWindMornitor'));
 const Error404 = asyncComponent(() => import(/* webpackChunkName: "error/404" */'./routes/error/Error404'));
 const Error500 = asyncComponent(() => import(/* webpackChunkName: "error/500" */'./routes/error/Error500'));
+const Home = asyncComponent(() => import(/* webpackChunkName: "home/index" */'./routes/home/Home'));
 const IllegalReport = asyncComponent(() => import(/* webpackChunkName: "illegal/report" */'./routes/illegal/IllegalReport'));
 const User = asyncComponent(() => import(/* webpackChunkName: "user/index" */'./routes/user/User'));
 const UserInfo = asyncComponent(() => import(/* webpackChunkName: "user/info" */'./routes/user/UserInfo'));
@@ -23,12 +25,14 @@ export default () => (
 	<Router>
 		<Switch>
 			<Route exact path="/bike" component={Bike}/>
+			<Route exact path="/bike/details" component={BikeDetails}/>
 			<Route exact path="/bike/info" component={BikeInfo}/>
 			<Route exact path="/bike/log" component={BikeLog}/>
 			<Route exact path="/bike/monitor" component={BikeMonitor}/>
 			<Route exact path="/bike/windMornitor" component={BikeWindMornitor}/>
 			<Route exact path="/error/404" component={Error404}/>
 			<Route exact path="/error/500" component={Error500}/>
+			<Route exact path="/home" component={Home}/>
 			<Route exact path="/illegal/report" component={IllegalReport}/>
 			<Route exact path="/user" component={User}/>
 			<Route exact path="/user/info" component={UserInfo}/>

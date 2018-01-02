@@ -22,7 +22,7 @@ module.exports = {
 	devtool: process.env.WEBPACK_DEVTOOL || 'eval-source-map',
 	output: {
 		publicPath: '/',
-		path: path.join(__dirname, 'public'),
+		path: path.join(__dirname, 'public/module'),
 		filename: 'bundle.js',
 		chunkFilename: '[name].bundle.js'
 	},
@@ -63,6 +63,7 @@ module.exports = {
 		}),
 		new DashboardPlugin(),
 		new HtmlWebpackPlugin({
+			filename: 'module/index.html',
 			template: './src/template.html',
 			files: {
 				css: ['style.css'],

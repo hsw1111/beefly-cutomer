@@ -8,6 +8,7 @@ import {handleType, operateState, reportState, vagueState} from '../../js/maps';
 import userApi from "../../apis/userApi";
 import AddRemarkModal from "./modals/AddRemarkModal";
 import RejectModal from "./modals/RejectModal";
+import tripProblemApi from "../../apis/tripProblemApi";
 
 /**
  * 违停上报
@@ -19,14 +20,14 @@ export default class Illegal extends React.Component {
 
 		this.state = {
 			columns: [
-				{title: '上报编号', data: 'userId'},
-				{title: '城市', data: 'name'},
-				{title: '上报姓名', data: 'mobile'},
-				{title: '上报角色', data: 'registerCity'},
-				{title: '手机号', data: 'userStatusName'},
-				{title: '车辆编号', data: 'credScore'},
-				{title: '上报时间', data: 'registerTime', render: dtUtils.renderDateTime},
-				{title: '处理进度', data: 'creditLimit'},
+				{title: '上报编号', data: 'id'},
+				{title: '城市', data: 'cityName'},
+				{title: '上报姓名', data: 'userName'},
+				{title: '上报角色', data: 'content'},
+				{title: '手机号', data: 'mobile'},
+				{title: '车辆编号', data: 'bikeCode'},
+				{title: '上报时间', data: 'lastReportTime', render: dtUtils.renderDateTime},
+				{title: '处理进度', data: 'state'},
 				{title: '操作', type: 'object', render: this.renderActions},
 			],
 			modalShow: false,
@@ -34,13 +35,13 @@ export default class Illegal extends React.Component {
 
 
 			query: {
-				'state': '',
-				'cityCode': '',
-				'beginDate': '',
-				'endDate': '',
-				'mobile': '',
-				'bikeCode': '',
-				'content': '',
+				// 'state': '',
+				// 'cityCode': '',
+				// 'beginDate': '',
+				// 'endDate': '',
+				// 'mobile': '',
+				// 'bikeCode': '',
+				// 'content': '',
 			}
 		};
 
@@ -53,7 +54,7 @@ export default class Illegal extends React.Component {
 	renderActions(data, type, row) {
 		console.log(row);
 		let actions = [
-			{text: '查看详情', icon: 'search', onclick: `beefly.details('${row.userId}')`},
+			{text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
 			{text: '添加备注', icon: 'user-plus', onclick: `beefly.addRemark('${row.userId}')`},
 			{text: '驳回处理', icon: 'user-plus', onclick: `beefly.reject('${row.userId}')`},
 			{text: '确认处理', icon: 'user-plus', onclick: `beefly.confirm('${row.userId}')`},
@@ -76,10 +77,10 @@ export default class Illegal extends React.Component {
 						<SelectInput ref={(e) => this._selectInput = e} label="模糊搜索" selectOptions={vagueState}/>
 						<Button icon="search" onClick={this.search.bind(this)}>查询</Button>
 					</Form>
-					<DataTable columns={columns} api={userApi.queryPage} query={query}/>
+					<DataTable columns={columns} api={tripProblemApi.page} query={query}/>
 				</Box>
 
-				<AddRemarkModal ref={(e) => this._addRemarkModal = e} onOk={(remark)=>this.addRemark_ok(remark)}/>
+				<AddRemarkModal ref={(e) => this._addRemarkModal = e} onOk={(remark) => this.addRemark_ok(remark)}/>
 				<RejectModal ref={(e) => this._rejectModal = e}/>
 
 			</Content>
@@ -88,32 +89,35 @@ export default class Illegal extends React.Component {
 
 	search() {
 		let query = {
-			'state': this._handleStatus.value,
-			'cityCode': this._citySelect.cityCode,
-			'beginDate': this._dateRange.startDate,
-			'endDate': this._dateRange.endDate,
-			'mobile': '',
-			'bikeCode': '',
-			'content': this._reportStatus.value,
-			'carState':this._operateStatus.value
+			// 'state': this._handleStatus.value,
+			// 'cityCode': this._citySelect.cityCode,
+			// 'beginDate': this._dateRange.startDate,
+			// 'endDate': this._dateRange.endDate,
+			// 'mobile': '',
+			// 'bikeCode': '',
+			// 'content': this._reportStatus.value,
+			// 'carState': this._operateStatus.value
 		};
 
-		if(this._selectInput.selectValue == 'mobile'){
-			query.mobile = this._selectInput.inputValue;
-			query.bikeCode = ''
-		}else{
-			query.mobile = '';
-			query.bikeCode = this._selectInput.inputValue
-		}
+		// if (this._selectInput.selectValue == 'mobile') {
+		// 	query.mobile = this._selectInput.inputValue;
+		// 	query.bikeCode = ''
+		// } else {
+		// 	query.mobile = '';
+		// 	query.bikeCode = this._selectInput.inputValue
+		// }
 
 		this.setState({query})
 	}
 
 	// 查看详情
-	details() {
+	details(id) {
 		utils.addTab({
 			name: '违停上报详情',
-			path: '/illegal/details'
+			path: '/illegal/details',
+			params: {
+				id
+			}
 		})
 	}
 
@@ -122,7 +126,7 @@ export default class Illegal extends React.Component {
 		this._addRemarkModal.show();
 	}
 
-	addRemark_ok(remark){
+	addRemark_ok(remark) {
 		console.log(remark)
 	}
 

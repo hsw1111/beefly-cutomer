@@ -24,9 +24,9 @@ $.ajaxPrefilter((options, originalOptions, jqXHR) => {
 });
 
 //
-// $.ajaxSuccess((event, XMLHttpRequest, ajaxOptions) => {
-// 	console.log(event, XMLHttpRequest, ajaxOptions);
-// });
+$(document).ajaxSuccess((event, XMLHttpRequest, ajaxOptions) => {
+	console.log(event, XMLHttpRequest, ajaxOptions);
+});
 
 console.log(beefly);
 

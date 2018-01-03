@@ -13,6 +13,8 @@ const Error500 = asyncComponent(() => import(/* webpackChunkName: "error/500" */
 const Home = asyncComponent(() => import(/* webpackChunkName: "home/index" */'./routes/home/Home'));
 const Illegal = asyncComponent(() => import(/* webpackChunkName: "illegal/index" */'./routes/illegal/Illegal'));
 const IllegalDetails = asyncComponent(() => import(/* webpackChunkName: "illegal/details" */'./routes/illegal/IllegalDetails'));
+const AddRemarkModal = asyncComponent(() => import(/* webpackChunkName: "illegal/modals/AddRemarkModal" */'./routes/illegal/modals/AddRemarkModal'));
+const RejectModal = asyncComponent(() => import(/* webpackChunkName: "illegal/modals/RejectModal" */'./routes/illegal/modals/RejectModal'));
 const User = asyncComponent(() => import(/* webpackChunkName: "user/index" */'./routes/user/User'));
 const UserInfo = asyncComponent(() => import(/* webpackChunkName: "user/info" */'./routes/user/UserInfo'));
 const UserProblem = asyncComponent(() => import(/* webpackChunkName: "user/problem" */'./routes/user/UserProblem'));
@@ -36,6 +38,8 @@ export default () => (
 			<Route exact path="/home" component={Home}/>
 			<Route exact path="/illegal" component={Illegal}/>
 			<Route exact path="/illegal/details" component={IllegalDetails}/>
+			<Route exact path="/illegal/modals/AddRemarkModal" component={AddRemarkModal}/>
+			<Route exact path="/illegal/modals/RejectModal" component={RejectModal}/>
 			<Route exact path="/user" component={User}/>
 			<Route exact path="/user/info" component={UserInfo}/>
 			<Route exact path="/user/problem" component={UserProblem}/>

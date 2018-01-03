@@ -32,16 +32,15 @@ export default class Illegal extends React.Component {
 			modalShow: false,
 			inputs: [],
 
+
 			query: {
-				'userStatusValue': '',
-				'qRegistTimeStart': '',
-				'qRegistTimeEnd': '',
-				'qBalanceType': '1',
-				'qBalanceStart': '',
-				'qBalanceEnd': '',
-				'keywords': '',
-				'registerCityCode': '',
-				'conditionFlag': 'mobile'
+				'state': '',
+				'cityCode': '',
+				'beginDate': '',
+				'endDate': '',
+				'mobile': '',
+				'bikeCode': '',
+				'content': '',
 			}
 		};
 
@@ -68,7 +67,7 @@ export default class Illegal extends React.Component {
 			<Content>
 				<Box theme="query">
 					<Form inline>
-						<Select ref={(e) => this._userStatus = e} label="处理进度" options={handleType} whole={true}/>
+						<Select ref={(e) => this._handleStatus = e} label="处理进度" options={handleType} whole={true}/>
 						<CitySelect ref={(e) => this._citySelect = e} label='城市区域'/>
 						<Select ref={(e) => this._operateStatus = e} label="车辆运营状态" options={operateState}
 								whole={true}/>
@@ -89,16 +88,23 @@ export default class Illegal extends React.Component {
 
 	search() {
 		let query = {
-			'userStatusValue': this._userStatus.text,
-			'qRegistTimeStart': this._dateRange.startDate,
-			'qRegistTimeEnd': this._dateRange.endDate,
-			'qBalanceType': '1',
-			'qBalanceStart': this._numberRange.startNumber,
-			'qBalanceEnd': this._numberRange.endNumber,
-			'keywords': this._selectInput.inputValue,
-			'registerCityCode': this._citySelect.cityCode,
-			'conditionFlag': this._selectInput.selectValue
+			'state': this._handleStatus.value,
+			'cityCode': this._citySelect.cityCode,
+			'beginDate': this._dateRange.startDate,
+			'endDate': this._dateRange.endDate,
+			'mobile': '',
+			'bikeCode': '',
+			'content': this._reportStatus.value,
+			'carState':this._operateStatus.value
 		};
+
+		if(this._selectInput.selectValue == 'mobile'){
+			query.mobile = this._selectInput.inputValue;
+			query.bikeCode = ''
+		}else{
+			query.mobile = '';
+			query.bikeCode = this._selectInput.inputValue
+		}
 
 		this.setState({query})
 	}
@@ -118,7 +124,6 @@ export default class Illegal extends React.Component {
 
 	addRemark_ok(remark){
 		console.log(remark)
-
 	}
 
 	// 驳回处理

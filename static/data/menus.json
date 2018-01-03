@@ -41,7 +41,7 @@
 		"child": [
 			{
 				"name": "违停上报",
-				"path": "/illegal/report"
+				"path": "/illegal"
 			}
 		]
 	}

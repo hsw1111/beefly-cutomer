@@ -9,7 +9,8 @@
 const development = {
 	name: 'development',
 	dir: 'test',
-	mifengSystem: 'http://59.110.29.195:8088/mifeng/system/',
+	apiPath: 'http://47.93.48.250:7080/',
+	apiPath_customer: 'http://47.93.48.250:7080/customer/',
 };
 
 
@@ -17,8 +18,9 @@ const development = {
 const production = {
 	name: 'production',
 	dir: 'official',
-	mifengSystem: 'http://59.110.29.195:8088/mifeng/system/',
+	apiPath: 'http://47.93.48.250:7080/',
+	apiPath_customer: 'http://47.93.48.250:7080/customer/',
 };
 
-module.exports = production;
+module.exports = development;
 

@@ -6,7 +6,7 @@ import env from '../js/env';
  */
 const userApi = {
 	// 查询用户列表分页
-	queryPage: (params) => request.get(env.mifengSystem + 'user!queryPage.do', params),
+	queryPage: (params) => request.get(env.apiPath + 'user!queryPage.do', params),
 };
 
 export default userApi

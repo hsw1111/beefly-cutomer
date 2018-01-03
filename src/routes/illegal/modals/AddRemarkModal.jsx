@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Content, Modal, Form, Input} from "beefly-common";
+import {Box, Content, Modal, Form, Textarea} from "beefly-common";
 
 /**
  * 添加备注弹框
@@ -18,7 +18,7 @@ export default class AddRemarkModal extends React.Component {
 		return (
 			<Modal show={show} title="添加备注" onOk={this.onOk.bind(this)}>
 				<Form>
-					<Input ref={e => this._remark = e} label="备注"/>
+					<Textarea ref={e => this._remark = e} label="备注" rows={5}/>
 				</Form>
 			</Modal>
 		)

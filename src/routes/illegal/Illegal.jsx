@@ -8,6 +8,7 @@ import {handleType, operateState, reportState, vagueState} from '../../js/maps';
 import userApi from "../../apis/userApi";
 import AddRemarkModal from "./modals/AddRemarkModal";
 import RejectModal from "./modals/RejectModal";
+import tripProblemApi from "../../apis/tripProblemApi";
 
 /**
  * 违停上报
@@ -77,10 +78,10 @@ export default class Illegal extends React.Component {
 						<SelectInput ref={(e) => this._selectInput = e} label="模糊搜索" selectOptions={vagueState}/>
 						<Button icon="search" onClick={this.search.bind(this)}>查询</Button>
 					</Form>
-					<DataTable columns={columns} api={userApi.queryPage} query={query}/>
+					<DataTable columns={columns} api={tripProblemApi.page} query={query}/>
 				</Box>
 
-				<AddRemarkModal ref={(e) => this._addRemarkModal = e} onOk={(remark)=>this.addRemark_ok(remark)}/>
+				<AddRemarkModal ref={(e) => this._addRemarkModal = e} onOk={(remark) => this.addRemark_ok(remark)}/>
 				<RejectModal ref={(e) => this._rejectModal = e}/>
 
 			</Content>
@@ -89,15 +90,15 @@ export default class Illegal extends React.Component {
 
 	search() {
 		let query = {
-			'userStatusValue': this._userStatus.text,
-			'qRegistTimeStart': this._dateRange.startDate,
-			'qRegistTimeEnd': this._dateRange.endDate,
-			'qBalanceType': '1',
-			'qBalanceStart': this._numberRange.startNumber,
-			'qBalanceEnd': this._numberRange.endNumber,
-			'keywords': this._selectInput.inputValue,
-			'registerCityCode': this._citySelect.cityCode,
-			'conditionFlag': this._selectInput.selectValue
+			// 'userStatusValue': this._userStatus.text,
+			// 'qRegistTimeStart': this._dateRange.startDate,
+			// 'qRegistTimeEnd': this._dateRange.endDate,
+			// 'qBalanceType': '1',
+			// 'qBalanceStart': this._numberRange.startNumber,
+			// 'qBalanceEnd': this._numberRange.endNumber,
+			// 'keywords': this._selectInput.inputValue,
+			// 'registerCityCode': this._citySelect.cityCode,
+			// 'conditionFlag': this._selectInput.selectValue
 		};
 
 		this.setState({query})
@@ -116,7 +117,7 @@ export default class Illegal extends React.Component {
 		this._addRemarkModal.show();
 	}
 
-	addRemark_ok(remark){
+	addRemark_ok(remark) {
 		console.log(remark)
 
 	}

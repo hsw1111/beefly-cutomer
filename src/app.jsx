@@ -4,33 +4,40 @@ import Router from './router';
 import {request, localStore} from 'jeselvmo';
 import './styles/index.scss';
 import {DataTable} from 'beefly-common'
+import $ from 'jquery';
 
-request.addParam('managerToken', localStore.get('managerToken'));
-request.addParam('systemUserId', localStore.get('systemUserId'));
+$.ajaxSetup({
+	xhrFields: {
+		withCredentials: true
+	},
+	data: {
+		accessToken: function () {
+			let loginUser = localStore.get('loginUser');
+			return loginUser ? loginUser.token : ''
+		}
+	}
+});
+
+// Modify options, control originalOptions, store jqXHR, etc
+$.ajaxPrefilter((options, originalOptions, jqXHR) => {
+	// console.log(options, originalOptions, jqXHR);
+});
+
+//
+// $.ajaxSuccess((event, XMLHttpRequest, ajaxOptions) => {
+// 	console.log(event, XMLHttpRequest, ajaxOptions);
+// });
 
 console.log(beefly);
 
 DataTable.defaultProps.onAjax = (api, params, callback) => {
-	if (typeof api === 'string') {
-		request
-			.post(api, params)
-			.then((result) => {
-				let returnData = {};
-				returnData.data = result.data.data;
-				returnData.recordsTotal = result.data.totalCount;
-				returnData.recordsFiltered = result.data.totalCount;
-				callback(returnData);
-			})
-	} else if (api instanceof Function) {
-		api(params).then((result) => {
-			let returnData = {};
-			returnData.data = result.data.data;
-			returnData.recordsTotal = result.data.totalCount;
-			returnData.recordsFiltered = result.data.totalCount;
-			callback(returnData);
-		})
-	}
-
+	api(params).then((result) => {
+		let returnData = {};
+		returnData.data = result.data;
+		returnData.recordsTotal = result.totalItems;
+		returnData.recordsFiltered = result.totalItems;
+		callback(returnData);
+	})
 };
 
 /**

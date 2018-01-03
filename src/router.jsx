@@ -11,7 +11,8 @@ const BikeWindMornitor = asyncComponent(() => import(/* webpackChunkName: "bike/
 const Error404 = asyncComponent(() => import(/* webpackChunkName: "error/404" */'./routes/error/Error404'));
 const Error500 = asyncComponent(() => import(/* webpackChunkName: "error/500" */'./routes/error/Error500'));
 const Home = asyncComponent(() => import(/* webpackChunkName: "home/index" */'./routes/home/Home'));
-const IllegalReport = asyncComponent(() => import(/* webpackChunkName: "illegal/report" */'./routes/illegal/IllegalReport'));
+const Illegal = asyncComponent(() => import(/* webpackChunkName: "illegal/index" */'./routes/illegal/Illegal'));
+const IllegalDetails = asyncComponent(() => import(/* webpackChunkName: "illegal/details" */'./routes/illegal/IllegalDetails'));
 const User = asyncComponent(() => import(/* webpackChunkName: "user/index" */'./routes/user/User'));
 const UserInfo = asyncComponent(() => import(/* webpackChunkName: "user/info" */'./routes/user/UserInfo'));
 const UserProblem = asyncComponent(() => import(/* webpackChunkName: "user/problem" */'./routes/user/UserProblem'));
@@ -33,7 +34,8 @@ export default () => (
 			<Route exact path="/error/404" component={Error404}/>
 			<Route exact path="/error/500" component={Error500}/>
 			<Route exact path="/home" component={Home}/>
-			<Route exact path="/illegal/report" component={IllegalReport}/>
+			<Route exact path="/illegal" component={Illegal}/>
+			<Route exact path="/illegal/details" component={IllegalDetails}/>
 			<Route exact path="/user" component={User}/>
 			<Route exact path="/user/info" component={UserInfo}/>
 			<Route exact path="/user/problem" component={UserProblem}/>

@@ -305,10 +305,10 @@ export const bikePoliceReasonMap = {
 export const handleType = {
 	0: '未处理',
 	1: '处理中',
-	2: '发送地勤确认',
+	2: '已发送地勤确认',
 	3: '地勤确认中',
 	4: '地勤已处理',
-	5: '已出处理'
+	5: '已处理'
 };
 
 /**
@@ -326,8 +326,8 @@ export const operateState = {
  */
 
 export const reportState = {
+	0: '地勤',
 	1: '用户',
-	2: '地勤',
 };
 
 /**
@@ -335,6 +335,6 @@ export const reportState = {
  */
 
 export const vagueState = {
-	1: '手机号',
-	2: '车辆编号',
+	'mobile': '手机号',
+	'bikeCode': '车辆编号',
 };

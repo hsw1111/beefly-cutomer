@@ -1,7 +1,7 @@
 import React from 'react';
 import beefly from './js/beefly';
 import Router from './router';
-import {request, localStore} from 'jeselvmo';
+import {localStore} from 'jeselvmo';
 import './styles/index.scss';
 import {DataTable} from 'beefly-common'
 import $ from 'jquery';
@@ -15,17 +15,24 @@ $.ajaxSetup({
 			let loginUser = localStore.get('loginUser');
 			return loginUser ? loginUser.token : ''
 		}
+	},
+	complete: function (XMLHttpRequest, textStatus) {
+		// console.log(XMLHttpRequest, textStatus);
+		try {
+			// var json = $.parseJSON(XMLHttpRequest.responseText);
+			let json = XMLHttpRequest.responseJSON;
+			if (json.message === "用户登录超时") {
+				alert(json.message);
+			}
+		} catch (e) {
+			console.log(e)
+		}
 	}
 });
 
 // Modify options, control originalOptions, store jqXHR, etc
 $.ajaxPrefilter((options, originalOptions, jqXHR) => {
 	// console.log(options, originalOptions, jqXHR);
-});
-
-//
-$(document).ajaxSuccess((event, XMLHttpRequest, ajaxOptions) => {
-	console.log(event, XMLHttpRequest, ajaxOptions);
 });
 
 console.log(beefly);

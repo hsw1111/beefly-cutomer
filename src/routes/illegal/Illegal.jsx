@@ -80,7 +80,7 @@ export default class Illegal extends React.Component {
 					<DataTable columns={columns} api={userApi.queryPage} query={query}/>
 				</Box>
 
-				<AddRemarkModal ref={(e) => this._addRemarkModal = e}/>
+				<AddRemarkModal ref={(e) => this._addRemarkModal = e} onOk={(remark)=>this.addRemark_ok(remark)}/>
 				<RejectModal ref={(e) => this._rejectModal = e}/>
 
 			</Content>
@@ -114,6 +114,11 @@ export default class Illegal extends React.Component {
 	// 添加备注
 	addRemark() {
 		this._addRemarkModal.show();
+	}
+
+	addRemark_ok(remark){
+		console.log(remark)
+
 	}
 
 	// 驳回处理

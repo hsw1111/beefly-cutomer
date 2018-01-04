@@ -11,17 +11,15 @@ export default class AddRemarkModal extends React.Component {
 		this.state = {
 			show: false,
 			remark: '',
-			remark1: '',
 		}
 	}
 
 	render() {
-		let {show, remark} = this.state;
+		let {show} = this.state;
 		return (
 			<Modal show={show} title="添加备注" onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
 				<Form>
-					<Textarea label="备注" rows={5} value={remark} model="remark1"
-							  onChange={(e) => this.setState({remark: e.target.value})}/>
+					<Textarea label="备注" model="remark" rows={5}/>
 				</Form>
 			</Modal>
 		)
@@ -40,9 +38,8 @@ export default class AddRemarkModal extends React.Component {
 	}
 
 	ok() {
-		let {remark, remark1} = this.state;
+		let {remark} = this.state;
 		console.log('remark:', remark)
-		console.log('remark1:', remark1)
 		this.hide()
 	}
 

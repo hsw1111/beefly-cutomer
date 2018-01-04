@@ -17,7 +17,7 @@ $.ajaxSetup({
 		}
 	},
 	complete: function (XMLHttpRequest, textStatus) {
-		// console.log(XMLHttpRequest, textStatus);
+		console.log(XMLHttpRequest, textStatus);
 		try {
 			// var json = $.parseJSON(XMLHttpRequest.responseText);
 			let json = XMLHttpRequest.responseJSON;

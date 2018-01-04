@@ -42,7 +42,11 @@ export default class Illegal extends React.Component {
 				// 'mobile': '',
 				// 'bikeCode': '',
 				// 'content': '',
-			}
+			},
+
+			showAddRemarkModal: false,
+			showRejectModal: false,
+
 		};
 
 		beefly.details = this.details.bind(this);
@@ -52,7 +56,6 @@ export default class Illegal extends React.Component {
 	}
 
 	renderActions(data, type, row) {
-		console.log(row);
 		let actions = [
 			{text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
 			{text: '添加备注', icon: 'user-plus', onclick: `beefly.addRemark('${row.userId}')`},
@@ -63,7 +66,7 @@ export default class Illegal extends React.Component {
 	}
 
 	render() {
-		let {columns, query, modalShow} = this.state;
+		let {columns, query, modalShow, showAddRemarkModal, showRejectModal} = this.state;
 		return (
 			<Content>
 				<Box theme="query">
@@ -80,8 +83,8 @@ export default class Illegal extends React.Component {
 					<DataTable columns={columns} api={tripProblemApi.page} query={query}/>
 				</Box>
 
-				<AddRemarkModal ref={(e) => this._addRemarkModal = e} onOk={(remark) => this.addRemark_ok(remark)}/>
-				<RejectModal ref={(e) => this._rejectModal = e}/>
+				<AddRemarkModal ref={(e) => this._addRemarkModal = e}/>
+				<RejectModal show={showRejectModal}/>
 
 			</Content>
 		)
@@ -126,13 +129,11 @@ export default class Illegal extends React.Component {
 		this._addRemarkModal.show();
 	}
 
-	addRemark_ok(remark) {
-		console.log(remark)
-	}
-
 	// 驳回处理
 	reject() {
-		this._rejectModal.show();
+		this.setState({
+			showRejectModal: true
+		})
 	}
 
 	// 确认处理

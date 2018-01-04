@@ -1,5 +1,6 @@
 import React from 'react';
-import {Box, Content, Modal, Form, Textarea} from "beefly-common";
+import {Modal, Form, Textarea, utils} from "beefly-common";
+import tripProblemApi from "../../../apis/tripProblemApi";
 
 /**
  * 添加备注弹框
@@ -10,26 +11,27 @@ export default class AddRemarkModal extends React.Component {
 		super(props);
 		this.state = {
 			show: false,
-			remark: '',
-			remark1: '',
+			id: '',
+			remark: ''
 		}
 	}
 
 	render() {
-		let {show, remark} = this.state;
+		let {show} = this.state;
 		return (
 			<Modal show={show} title="添加备注" onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
 				<Form>
-					<Textarea label="备注" rows={5} value={remark} model="remark1"
-							  onChange={(e) => this.setState({remark: e.target.value})}/>
+					<Textarea label="备注" rows={5} model="remark"/>
 				</Form>
 			</Modal>
 		)
 	}
 
-	show() {
+	show({id}) {
 		this.setState({
-			show: true
+			show: true,
+			id,
+			remark: ''
 		})
 	}
 
@@ -39,11 +41,14 @@ export default class AddRemarkModal extends React.Component {
 		})
 	}
 
-	ok() {
-		let {remark, remark1} = this.state;
-		console.log('remark:', remark)
-		console.log('remark1:', remark1)
-		this.hide()
+	async ok() {
+		let {id, remark} = this.state;
+
+		let result = await tripProblemApi.addRemark({id, remark});
+		if(result.resultCode == 1){
+			this.hide();
+			utils.alert('添加备注成功！')
+		}
 	}
 
 }

@@ -37,7 +37,12 @@ $.ajaxPrefilter((options, originalOptions, jqXHR) => {
 
 console.log(beefly);
 
-DataTable.defaultProps.onAjax = (api, params, callback) => {
+DataTable.defaultProps.onAjax = (api, params, data, callback) => {
+
+	// 添加分页参数
+	params['pageNo'] = (data.start / data.length) + 1;
+	params['pageSize'] = data.length;
+
 	api(params).then((result) => {
 		let returnData = {};
 		returnData.data = result.data;

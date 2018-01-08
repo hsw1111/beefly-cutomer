@@ -12,6 +12,7 @@ const Error404 = asyncComponent(() => import(/* webpackChunkName: "error/404" */
 const Error500 = asyncComponent(() => import(/* webpackChunkName: "error/500" */'./routes/error/Error500'));
 const Home = asyncComponent(() => import(/* webpackChunkName: "home/index" */'./routes/home/Home'));
 const Illegal = asyncComponent(() => import(/* webpackChunkName: "illegal/index" */'./routes/illegal/Illegal'));
+const IllegalConfirm = asyncComponent(() => import(/* webpackChunkName: "illegal/confirm" */'./routes/illegal/IllegalConfirm'));
 const IllegalDetails = asyncComponent(() => import(/* webpackChunkName: "illegal/details" */'./routes/illegal/IllegalDetails'));
 const AddRemarkModal = asyncComponent(() => import(/* webpackChunkName: "illegal/modals/AddRemarkModal" */'./routes/illegal/modals/AddRemarkModal'));
 const RejectModal = asyncComponent(() => import(/* webpackChunkName: "illegal/modals/RejectModal" */'./routes/illegal/modals/RejectModal'));
@@ -37,6 +38,7 @@ export default () => (
 			<Route exact path="/error/500" component={Error500}/>
 			<Route exact path="/home" component={Home}/>
 			<Route exact path="/illegal" component={Illegal}/>
+			<Route exact path="/illegal/confirm" component={IllegalConfirm}/>
 			<Route exact path="/illegal/details" component={IllegalDetails}/>
 			<Route exact path="/illegal/modals/AddRemarkModal" component={AddRemarkModal}/>
 			<Route exact path="/illegal/modals/RejectModal" component={RejectModal}/>

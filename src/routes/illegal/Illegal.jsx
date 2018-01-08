@@ -2,7 +2,7 @@ import React from 'react';
 import beefly from "../../js/beefly";
 import {
 	Box, Button, CitySelect, Content, DataTable, DateRange, dtUtils, Form, Map, Modal, Select,
-	SelectInput, utils
+	SelectInput, utils,Input
 } from "beefly-common";
 import {handleType, operateState, reportState, vagueState} from '../../maps/illegalMap';
 import userApi from "../../apis/userApi";
@@ -35,16 +35,14 @@ export default class Illegal extends React.Component {
 				'state': '',
 				'stateText': '',
 				'cityCode': '',
-				'cityName': '全国',
 				'beginDate': '',
 				'endDate': '',
-				'mobile': '',
-				'bikeCode': '',
 				'content': '',
 				'carState': '',
-
-				'keywordType': 'mobile',
+				'category': 'mobile',
 				'keyword': '',
+				'mobile': '',
+				'bikeCode': '',
 			},
 
 		};
@@ -59,8 +57,8 @@ export default class Illegal extends React.Component {
 		let actions = [
 			{text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
 			{text: '添加备注', icon: 'user-plus', onclick: `beefly.addRemark('${row.id}')`},
-			{text: '驳回处理', icon: 'user-plus', onclick: `beefly.reject('${row.userId}')`},
-			{text: '确认处理', icon: 'user-plus', onclick: `beefly.confirm('${row.userId}')`},
+			{text: '驳回处理', icon: 'user-plus', onclick: `beefly.reject('${row.id}')`},
+			{text: '确认处理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
 		];
 		return dtUtils.renderActions(actions, 'dropdown')
 	}
@@ -76,7 +74,8 @@ export default class Illegal extends React.Component {
 						<Select label="车辆运营状态" model="query.carState" options={operateState} whole={true}/>
 						<Select label="上报角色" model="query.content" options={reportState} whole={true}/>
 						<DateRange label="上报时间" model="query.beginDate,query.endDate"/>
-						<SelectInput label="模糊搜索" model="query.keywordType,query.keyword" selectOptions={vagueState}/>
+						<Input label="都没有"/>
+						<SelectInput label="精确搜索" model="query.category,query.keyword" selectOptions={vagueState}/>
 						<Button icon="search" onClick={this.search.bind(this)}>查询</Button>
 					</Form>
 					<DataTable ref={(e) => this._dataTable = e}
@@ -93,8 +92,9 @@ export default class Illegal extends React.Component {
 	search() {
 		let {query} = this.state;
 
+		// 多选一个字段处理
 		query.mobile = query.bikeCode = '';
-		query[query.keywordType] = query.keyword;
+		query[query.category] = query.keyword;
 
 		this._dataTable.search(query);
 	}
@@ -112,17 +112,27 @@ export default class Illegal extends React.Component {
 
 	// 添加备注
 	addRemark(id) {
-		this._addRemarkModal.show({id});
+		this._addRemarkModal.show({
+			id
+		});
 	}
 
 	// 驳回处理
 	reject(id) {
-		this._rejectModal.show({id});
+		this._rejectModal.show({
+			id
+		});
 	}
 
 	// 确认处理
-	confirm() {
-
+	confirm(id) {
+		utils.addTab({
+			name: '确认处理-' + id,
+			path: '/illegal/confirm',
+			params: {
+				id
+			}
+		})
 	}
 
 }

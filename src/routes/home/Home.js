@@ -9,7 +9,7 @@ export default class Home extends React.Component {
 		super(props);
 
 		this.state = {
-			username: 'admin2',
+			username: 'admin',
 			password: '123456',
 			loginUser: null,
 		};

@@ -13,7 +13,7 @@ const tripProblemApi = {
 	/**
 	 * 违规上报分页查询接口
 	 */
-	detail: (id) => request.get(env.apiPath_customer + 'tripProblem/detail', {id}),
+	detail: (params) => request.get(env.apiPath_customer + 'tripProblem/detail', params),
 	/**
 	 * 违规上报添加备注
 	 */

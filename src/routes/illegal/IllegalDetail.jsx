@@ -1,16 +1,14 @@
 import React from 'react';
-import {Content} from "beefly-common";
+import {Box, Content, dtUtils} from "beefly-common";
 import {urlUtils} from 'jeselvmo';
 import tripProblemApi from "../../apis/tripProblemApi";
-import UserAward from "./blocks/UserAward";
-import HandleSuggestion from "./blocks/HandleSuggestion";
-import IllegalCategory from "./blocks/IllegalCategory";
+import {reportState} from '../../maps/illegalMap';
 import Detail from "./blocks/Detail";
 
 /**
- * 违停上报确认
+ * 违停上报详情
  */
-export default class IllegalConfirm extends React.Component {
+export default class IllegalDetails extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -34,12 +32,11 @@ export default class IllegalConfirm extends React.Component {
 		if (detail) {
 			return (
 				<Content>
-					<Detail detail={detail} smiple/>
-					{detail.reportRole == 0 && <IllegalCategory detail={detail}/>}
-					{detail.reportRole == 0 ? <UserAward detail={detail}/> : <HandleSuggestion detail={detail}/>}
+					<Detail detail={detail}/>
 				</Content>
 			)
 		}
 		return null
 	}
+
 }

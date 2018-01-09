@@ -35,7 +35,7 @@ export default class IllegalConfirm extends React.Component {
 			return (
 				<Content>
 					<Detail detail={detail} smiple/>
-					{detail.reportRole == 0 && <IllegalCategory detail={detail}/>}
+					{detail.reportRole != 0 && <IllegalCategory detail={detail}/>}
 					{detail.reportRole == 0 ? <UserAward detail={detail}/> : <HandleSuggestion detail={detail}/>}
 				</Content>
 			)

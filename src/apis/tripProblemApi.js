@@ -22,6 +22,10 @@ const tripProblemApi = {
 	 * 违规上报驳回处理
 	 */
 	reject: (params) => request.get(env.apiPath_customer + 'tripProblem/reject', params),
+	/**
+	 * 违停上报确认处理_客户接口
+	 */
+	confirmHandle: (params) => request.get(env.apiPath_customer + 'tripProblem/confirmHandle', params),
 };
 
 export default tripProblemApi

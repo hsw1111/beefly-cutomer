@@ -22,6 +22,18 @@ const tripProblemApi = {
 	 * 违规上报驳回处理
 	 */
 	reject: (params) => request.get(env.apiPath_customer + 'tripProblem/reject', params),
+	/**
+	 * 违规上报更换订单
+	 */
+	orderPage: (params) => request.get(env.apiPath_customer + 'order/page', params),
+	/**
+	 * 违规上报信用积分
+	 */
+	creditScorepage: (params) => request.get(env.apiPath_customer + 'creditScore/page', params),
+	/**
+	 * 违规上报违停短信
+	 */
+	pageSms: (params) => request.get(env.apiPath_customer + 'syms/pageSms', params),
 };
 
 export default tripProblemApi

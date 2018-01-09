@@ -2,7 +2,7 @@ import React from 'react';
 import beefly from "../../js/beefly";
 import {
 	Box, Button, CitySelect, Content, DataTable, DateRange, dtUtils, Form, Map, Modal, Select,
-	SelectInput, utils,Input
+	SelectInput, utils, Input
 } from "beefly-common";
 import {handleType, operateState, reportState, vagueState} from '../../maps/illegalMap';
 import userApi from "../../apis/userApi";
@@ -83,9 +83,10 @@ export default class Illegal extends React.Component {
 						<Select label="车辆运营状态" model="query.carState" options={operateState} whole={true}/>
 						<Select label="上报角色" model="query.content" options={reportState} whole={true}/>
 						<DateRange label="上报时间" model="query.beginDate,query.endDate"/>
-						<Input label="都没有"/>
 						<SelectInput label="精确搜索" model="query.category,query.keyword" selectOptions={vagueState}/>
-						<Button icon="search" onClick={this.search.bind(this)}>查询</Button>
+						<div className="form-group">
+							<Button icon="search" onClick={this.search.bind(this)}>查询</Button>
+						</div>
 					</Form>
 					<DataTable ref={(e) => this._dataTable = e}
 							   columns={columns} api={tripProblemApi.page} query={query}/>
@@ -114,7 +115,7 @@ export default class Illegal extends React.Component {
 	details(id) {
 		utils.addTab({
 			name: '违停上报详情-' + id,
-			path: '/illegal/details',
+			path: '/illegal/detail',
 			params: {
 				id
 			}

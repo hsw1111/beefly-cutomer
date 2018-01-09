@@ -13,7 +13,11 @@ const Error500 = asyncComponent(() => import(/* webpackChunkName: "error/500" */
 const Home = asyncComponent(() => import(/* webpackChunkName: "home/index" */'./routes/home/Home'));
 const Illegal = asyncComponent(() => import(/* webpackChunkName: "illegal/index" */'./routes/illegal/Illegal'));
 const IllegalConfirm = asyncComponent(() => import(/* webpackChunkName: "illegal/confirm" */'./routes/illegal/IllegalConfirm'));
-const IllegalDetails = asyncComponent(() => import(/* webpackChunkName: "illegal/details" */'./routes/illegal/IllegalDetails'));
+const IllegalDetail = asyncComponent(() => import(/* webpackChunkName: "illegal/detail" */'./routes/illegal/IllegalDetail'));
+const Detail = asyncComponent(() => import(/* webpackChunkName: "illegal/blocks/Detail" */'./routes/illegal/blocks/Detail'));
+const HandleSuggestion = asyncComponent(() => import(/* webpackChunkName: "illegal/blocks/HandleSuggestion" */'./routes/illegal/blocks/HandleSuggestion'));
+const IllegalCategory = asyncComponent(() => import(/* webpackChunkName: "illegal/blocks/IllegalCategory" */'./routes/illegal/blocks/IllegalCategory'));
+const UserAward = asyncComponent(() => import(/* webpackChunkName: "illegal/blocks/UserAward" */'./routes/illegal/blocks/UserAward'));
 const AddRemarkModal = asyncComponent(() => import(/* webpackChunkName: "illegal/modals/AddRemarkModal" */'./routes/illegal/modals/AddRemarkModal'));
 const RejectModal = asyncComponent(() => import(/* webpackChunkName: "illegal/modals/RejectModal" */'./routes/illegal/modals/RejectModal'));
 const User = asyncComponent(() => import(/* webpackChunkName: "user/index" */'./routes/user/User'));
@@ -39,7 +43,11 @@ export default () => (
 			<Route exact path="/home" component={Home}/>
 			<Route exact path="/illegal" component={Illegal}/>
 			<Route exact path="/illegal/confirm" component={IllegalConfirm}/>
-			<Route exact path="/illegal/details" component={IllegalDetails}/>
+			<Route exact path="/illegal/detail" component={IllegalDetail}/>
+			<Route exact path="/illegal/blocks/Detail" component={Detail}/>
+			<Route exact path="/illegal/blocks/HandleSuggestion" component={HandleSuggestion}/>
+			<Route exact path="/illegal/blocks/IllegalCategory" component={IllegalCategory}/>
+			<Route exact path="/illegal/blocks/UserAward" component={UserAward}/>
 			<Route exact path="/illegal/modals/AddRemarkModal" component={AddRemarkModal}/>
 			<Route exact path="/illegal/modals/RejectModal" component={RejectModal}/>
 			<Route exact path="/user" component={User}/>

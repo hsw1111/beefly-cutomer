@@ -46,12 +46,22 @@ export default class RejectModal extends React.Component {
 
 	async ok() {
 		let {id, remark} = this.state;
+		let {onClose} = this.props;
 
 		let result = await tripProblemApi.reject({id, remark});
-		if(result.resultCode == 1){
+		if (result.resultCode == 1) {
 			this.hide();
-			utils.alert('驳回成功');
+			utils.alert('驳回成功', ()=>{
+				onClose && onClose()
+			});
 		}
 	}
 
 }
+
+
+RejectModal.propTypes = {
+	onClose: React.PropTypes.func,
+}
+
+RejectModal.defaultProps = {}

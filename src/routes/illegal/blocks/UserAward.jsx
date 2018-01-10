@@ -60,7 +60,7 @@ export default class UserAward extends React.Component {
 						</Tab>
 					</Tabs>
 				</Form>
-				<div className="pull-right">
+				<div className="pull-right buttons">
 					<Button value="取消" theme="default" margin/>
 					<Button value="确定" onClick={this.confirmHandle.bind(this)}/>
 				</div>

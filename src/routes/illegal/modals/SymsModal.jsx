@@ -29,10 +29,16 @@ export default class SymsModal extends React.Component {
 	render() {
 		let {show, columns, query, userId, mobile} = this.state;
 		return (
-			<Modal show={show} title="违规短信" onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
+			<Modal show={show} title="违规短信" size="lg" onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
 				<Form>
-					<div>用户编号：{userId}</div>
-					<div>手机号：{mobile}</div>
+					<div className={'row'}>
+						<div className={'col-sm-6'}>
+							<div>用户编号：{userId}</div>
+						</div>
+						<div className={'col-sm-6'}>
+							<div>手机号：{mobile}</div>
+						</div>
+					</div>
 					<hr/>
 					<h5><b>接收违停短信记录</b></h5>
 					<DataTable ref={(e) => this._dataTable = e}

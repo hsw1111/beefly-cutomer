@@ -9,7 +9,7 @@ export default class Home extends React.Component {
 		super(props);
 
 		this.state = {
-			username: 'admin2',
+			username: 'admin',
 			password: '123456',
 			loginUser: null,
 		};
@@ -25,8 +25,8 @@ export default class Home extends React.Component {
 					</div>
 				</div>
 				<div className="row">
-					<div className="col-md-4"/>
-					<div className="col-md-4">
+					<div className="col-md-3"/>
+					<div className="col-md-6">
 						<div className="box box-info">
 							<div className="box-header with-border">
 								<h3 className="box-title">用户登录</h3>
@@ -67,7 +67,7 @@ export default class Home extends React.Component {
 							</form>
 						</div>
 					</div>
-					<div className="col-md-4"/>
+					<div className="col-md-3"/>
 				</div>
 				<div className="row">
 					<div className="col-md-12">

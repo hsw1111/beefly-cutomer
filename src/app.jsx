@@ -61,7 +61,7 @@ DataTable.defaultProps.onAjax = (api, params, data, callback) => {
 
 	api(params).then((result) => {
 		let returnData = {};
-		returnData.data = result.data;
+		returnData.data = result.data || [];
 		returnData.recordsTotal = result.totalItems;
 		returnData.recordsFiltered = result.totalItems;
 		callback(returnData);

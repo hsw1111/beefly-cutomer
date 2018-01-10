@@ -20,7 +20,7 @@ export default class AddRemarkModal extends React.Component {
 		let {show} = this.state;
 		return (
 			<Modal show={show} title="添加备注" onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
-				<Form>
+				<Form >
 					<Textarea label="备注" rows={5} model="remark"/>
 				</Form>
 			</Modal>

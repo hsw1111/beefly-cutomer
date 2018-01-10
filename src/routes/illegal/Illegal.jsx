@@ -2,7 +2,7 @@ import React from 'react';
 import beefly from "../../js/beefly";
 import {
 	Box, Button, CitySelect, Content, DataTable, DateRange, dtUtils, Form, Map, Modal, Select,
-	SelectInput, utils, Input
+	SelectInput, utils, Input, Field
 } from "beefly-common";
 import {handleType, operateState, reportState, vagueState} from '../../maps/illegalMap';
 import userApi from "../../apis/userApi";
@@ -84,7 +84,9 @@ export default class Illegal extends React.Component {
 						<Select label="上报角色" model="query.content" options={reportState} whole={true}/>
 						<DateRange label="上报时间" model="query.beginDate,query.endDate"/>
 						<SelectInput label="精确搜索" model="query.category,query.keyword" selectOptions={vagueState}/>
-						<Button icon="search" onClick={this.search.bind(this)}>查询</Button>
+						<Field>
+							<Button icon="search" onClick={this.search.bind(this)}>查询</Button>
+						</Field>
 					</Form>
 					<DataTable ref={(e) => this._dataTable = e}
 							   columns={columns} api={tripProblemApi.page} query={query}/>

@@ -5,21 +5,31 @@
 .fg-label {
 	padding-top: 7px;
 	margin-bottom: 0;
-	width: 16.66666667%;
-	float: left;
 }
 
 .fg-control {
-	float: left;
-	width: 83.33333333%;
 	position: relative;
 	min-height: 1px;
 	padding-top: 7px;
 }
 
-.form-horizontal .fg {
-	margin-right: 15px;
-	margin-left: 15px;
+.form-horizontal {
+	.fg {
+		margin-right: 15px;
+		margin-left: 15px;
+	}
+
+	$labelWidth: 200px;
+
+	.fg-label {
+		float: left;
+		width: $labelWidth;
+	}
+
+	.fg-control {
+		float: left;
+		width: calc(100% - #{$labelWidth});
+	}
 }
 
 .form-inline {
@@ -32,11 +42,13 @@
 	}
 
 	.fg-label {
+		float: left;
 		width: auto;
 		padding-top: 12px;
 	}
 
 	.fg-control {
+		float: left;
 		width: auto;
 	}
 
@@ -90,5 +102,11 @@
 // Text
 .fg-text {
 
+}
+
+.buttons {
+	button {
+		margin: 0 5px;
+	}
 }
 

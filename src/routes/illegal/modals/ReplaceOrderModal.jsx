@@ -36,7 +36,7 @@ export default class ReplaceOrderModal extends React.Component {
 	render() {
 		let {show, columns, query, bikeCode} = this.state;
 		return (
-			<Modal show={show} title="更改订单" onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
+			<Modal show={show} title="更改订单" size="lg" onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
 				<Form>
 					<div>车辆编号：{bikeCode}</div><hr/>
 					<h5><b>订单记录</b></h5>

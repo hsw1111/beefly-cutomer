@@ -54,13 +54,22 @@ export default class Illegal extends React.Component {
 	}
 
 	renderActions(data, type, row) {
-		let actions = [
-			{text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
-			{text: '添加备注', icon: 'user-plus', onclick: `beefly.addRemark('${row.id}')`},
-			{text: '驳回处理', icon: 'user-plus', onclick: `beefly.reject('${row.id}')`},
-			{text: '确认处理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
-		];
-		return dtUtils.renderActions(actions, 'dropdown')
+
+		if(row.state == 5){
+			let actions = [
+				{text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
+				{text: '添加备注', icon: 'user-plus', onclick: `beefly.addRemark('${row.id}')`},
+			];
+			return dtUtils.renderActions(actions, 'dropdown')
+		}else {
+			let actions = [
+				{text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
+				{text: '添加备注', icon: 'user-plus', onclick: `beefly.addRemark('${row.id}')`},
+				{text: '驳回处理', icon: 'user-plus', onclick: `beefly.reject('${row.id}')`},
+				{text: '确认处理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
+			];
+			return dtUtils.renderActions(actions, 'dropdown')
+		}
 	}
 
 	render() {
@@ -83,7 +92,6 @@ export default class Illegal extends React.Component {
 
 				<AddRemarkModal ref={(e) => this._addRemarkModal = e}/>
 				<RejectModal ref={(e) => this._rejectModal = e}/>
-
 			</Content>
 		)
 	}

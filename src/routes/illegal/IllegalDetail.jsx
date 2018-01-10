@@ -1,8 +1,8 @@
 import React from 'react';
-import {Box, Content, dtUtils} from "beefly-common";
+import {Content, Button, utils } from "beefly-common";
 import {urlUtils} from 'jeselvmo';
 import tripProblemApi from "../../apis/tripProblemApi";
-import {reportState} from '../../maps/illegalMap';
+import RejectModal from "./modals/RejectModal";
 import Detail from "./blocks/Detail";
 
 /**
@@ -33,10 +33,34 @@ export default class IllegalDetails extends React.Component {
 			return (
 				<Content>
 					<Detail detail={detail}/>
+					<Button onClick={this.reject.bind(this)}>驳回处理</Button>
+					<Button onClick={this.confirm.bind(this)}>确认处理</Button>
+					<Button onClick={this.closed.bind(this)}>关闭</Button>
+					<RejectModal ref={(e) => this._rejectModal = e}/>
 				</Content>
 			)
 		}
 		return null
+	}
+	// 驳回处理
+	reject() {
+		this._rejectModal.show({
+			id: this.state.detail.id
+		});
+	}
+	// 确认处理
+	confirm() {
+		utils.addTab({
+			name: '确认处理-' + this.state.detail.id,
+			path: '/illegal/confirm',
+			params: {
+				id: this.state.detail.id
+			}
+		})
+	}
+	//关闭详情
+	closed() {
+		utils.alert('现在我还关不了，请点叉号关闭！');
 	}
 
 }

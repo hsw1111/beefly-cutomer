@@ -11,6 +11,8 @@ export default class IntegralModal extends React.Component {
 		super(props);
 		this.state = {
 			show: false,
+			userId: '',
+			mobile: '',
 			columns: [
 				{title: '编号', data: 'id'},
 				{title: '操作时间', data: 'createTime'},
@@ -29,11 +31,13 @@ export default class IntegralModal extends React.Component {
 	}
 
 	render() {
-		let {show, columns, query} = this.state;
+		let {show, columns, query, userId, mobile} = this.state;
 		return (
 			<Modal show={show} title="信用积分" onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
 				<Form>
-					<div>用户编号：666666     手机号：13624151215</div><hr/>
+					<div>用户编号：{userId}</div>
+					<div>手机号：{mobile}</div>
+					<hr/>
 					<h5><b>积分奖励记录</b></h5>
 					<DataTable ref={(e) => this._dataTable = e}
 							   columns={columns} api={tripProblemApi.creditScorepage} query={query}/>
@@ -42,12 +46,14 @@ export default class IntegralModal extends React.Component {
 		)
 	}
 
-	show({id}) {
+	show(data) {
 		this.setState({
 			show: true,
+			userId: data.userId,
+			mobile: data.mobile
 		});
 		let {query} = this.state;
-		query.userId = 761228;
+		query.userId = data.userId;
 		this._dataTable.search(query);
 	}
 

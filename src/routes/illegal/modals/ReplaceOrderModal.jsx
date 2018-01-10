@@ -47,14 +47,14 @@ export default class ReplaceOrderModal extends React.Component {
 		)
 	}
 
-	show({bikeCode}) {
+	show(data) {
 		this.setState({
 			show: true,
-			bikeCode:bikeCode
+			bikeCode: data.bikeCode
 		});
 		let {query} = this.state;
-		query.bikeCode = bikeCode;
-		query.beginDate = '2017-12-20';
+		query.bikeCode = data.bikeCode;
+		query.beginDate = data.beginDate;
 		this._dataTable.search(query);
 	}
 

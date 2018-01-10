@@ -38,6 +38,14 @@ const tripProblemApi = {
 	 * 违规上报违停短信
 	 */
 	pageSms: (params) => request.get(env.apiPath_customer + 'syms/pageSms', params),
+	/**
+	 * 违规人收到违停短信次数
+	 */
+	countSms: (params) => request.get(env.apiPath_customer + 'syms/countSms', params),
+	/**
+	 * 违规人收到违停短信次数
+	 */
+	count: (params) => request.get(env.apiPath_customer + 'creditScore/count', params),
 };
 
 export default tripProblemApi

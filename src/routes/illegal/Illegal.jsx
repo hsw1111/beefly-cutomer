@@ -9,9 +9,6 @@ import userApi from "../../apis/userApi";
 import AddRemarkModal from "./modals/AddRemarkModal";
 import RejectModal from "./modals/RejectModal";
 import tripProblemApi from "../../apis/tripProblemApi";
-import ReplaceOrderModal from "./modals/ReplaceOrderModal";
-import IntegralModal from "./modals/IntegralModal";
-import SymsModal from "./modals/SymsModal";
 
 /**
  * 违停上报
@@ -54,22 +51,25 @@ export default class Illegal extends React.Component {
 		beefly.addRemark = this.addRemark.bind(this);
 		beefly.reject = this.reject.bind(this);
 		beefly.confirm = this.confirm.bind(this);
-		beefly.replace = this.replace.bind(this);
-		beefly.integral = this.integral.bind(this);
-		beefly.syms = this.syms.bind(this);
 	}
 
 	renderActions(data, type, row) {
-		let actions = [
-			{text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
-			{text: '添加备注', icon: 'user-plus', onclick: `beefly.addRemark('${row.id}')`},
-			{text: '驳回处理', icon: 'user-plus', onclick: `beefly.reject('${row.id}')`},
-			{text: '确认处理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
-			{text: '更换订单', icon: 'user-plus', onclick: `beefly.replace('${row.bikeCode}')`},
-			{text: '信用积分', icon: 'user-plus', onclick: `beefly.integral('${row.id}')`},
-			{text: '违停短信', icon: 'user-plus', onclick: `beefly.syms('${row.id}')`},
-		];
-		return dtUtils.renderActions(actions, 'dropdown')
+
+		if(row.state == 5){
+			let actions = [
+				{text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
+				{text: '添加备注', icon: 'user-plus', onclick: `beefly.addRemark('${row.id}')`},
+			];
+			return dtUtils.renderActions(actions, 'dropdown')
+		}else {
+			let actions = [
+				{text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
+				{text: '添加备注', icon: 'user-plus', onclick: `beefly.addRemark('${row.id}')`},
+				{text: '驳回处理', icon: 'user-plus', onclick: `beefly.reject('${row.id}')`},
+				{text: '确认处理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
+			];
+			return dtUtils.renderActions(actions, 'dropdown')
+		}
 	}
 
 	render() {
@@ -94,9 +94,6 @@ export default class Illegal extends React.Component {
 
 				<AddRemarkModal ref={(e) => this._addRemarkModal = e}/>
 				<RejectModal ref={(e) => this._rejectModal = e}/>
-				<ReplaceOrderModal ref={(e) => this._replaceModal = e}/>
-                <IntegralModal ref={(e) => this._integralModal = e}/>
-                <SymsModal ref={(e) => this._symesModal = e}/>
 			</Content>
 		)
 	}
@@ -134,27 +131,6 @@ export default class Illegal extends React.Component {
 		this._rejectModal.show({
 			id
 		});
-	}
-
-	// 更改订单
-	replace(bikeCode) {
-		this._replaceModal.show({
-			bikeCode
-		});
-	}
-
-	//信用积分
-	integral(id){
-		this._integralModal.show({
-			id
-		})
-	}
-
-	//违停短信
-	syms(id){
-		this._symesModal.show({
-			id
-		})
 	}
 
 	// 确认处理

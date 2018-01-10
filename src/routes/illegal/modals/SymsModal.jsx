@@ -10,6 +10,8 @@ export default class SymsModal extends React.Component {
 		super(props);
 		this.state = {
 			show: false,
+			mobile: '',
+			userId: '',
 			columns: [
 				{title: '发送时间', data: 'sendTime'},
 				{title: '发送人员', data: 'senderName'},
@@ -25,11 +27,13 @@ export default class SymsModal extends React.Component {
 	}
 
 	render() {
-		let {show, columns, query} = this.state;
+		let {show, columns, query, userId, mobile} = this.state;
 		return (
 			<Modal show={show} title="违规短信" onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
 				<Form>
-					<div>用户编号：666666 手机号：13624151215</div><hr/>
+					<div>用户编号：{userId}</div>
+					<div>手机号：{mobile}</div>
+					<hr/>
 					<h5><b>接收违停短信记录</b></h5>
 					<DataTable ref={(e) => this._dataTable = e}
 							   columns={columns} api={tripProblemApi.pageSms} query={query}/>
@@ -38,13 +42,15 @@ export default class SymsModal extends React.Component {
 		)
 	}
 
-	show({id}) {
+	show(data) {
 		this.setState({
 			show: true,
+			mobile: data.module,
+			userId: data.userId
 		});
 		let {query} = this.state;
-		query.mobiles = '13720036022';
-		query.serviceType = 0;
+		query.mobiles = data.mobile;
+		query.serviceType = 4;
 		this._dataTable.search(query);
 	}
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Field, Form, Text} from "beefly-common";
+import {Box, Field, Form, Text, Button} from "beefly-common";
 import {reportState} from '../../../maps/illegalMap';
 
 /**

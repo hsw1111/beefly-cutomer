@@ -75,9 +75,7 @@ export default class Illegal extends React.Component {
 						<Select label="上报角色" model="query.content" options={reportState} whole={true}/>
 						<DateRange label="上报时间" model="query.beginDate,query.endDate"/>
 						<SelectInput label="精确搜索" model="query.category,query.keyword" selectOptions={vagueState}/>
-						<div className="form-group">
-							<Button icon="search" onClick={this.search.bind(this)}>查询</Button>
-						</div>
+						<Button icon="search" onClick={this.search.bind(this)}>查询</Button>
 					</Form>
 					<DataTable ref={(e) => this._dataTable = e}
 							   columns={columns} api={tripProblemApi.page} query={query}/>

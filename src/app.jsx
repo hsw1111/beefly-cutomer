@@ -5,6 +5,7 @@ import {localStore} from 'jeselvmo';
 import './styles/index.scss';
 import {DataTable} from 'beefly-common'
 import $ from 'jquery';
+import {regexp} from 'jeselvmo';
 
 $.ajaxSetup({
 	xhrFields: {
@@ -15,6 +16,9 @@ $.ajaxSetup({
 			let loginUser = localStore.get('loginUser');
 			return loginUser ? loginUser.token : ''
 		}
+	},
+	beforeSend: function (xhr) {
+		// console.log('xhr:', xhr)
 	},
 	complete: function (XMLHttpRequest, textStatus) {
 		// console.log(XMLHttpRequest, textStatus);
@@ -32,7 +36,19 @@ $.ajaxSetup({
 
 // Modify options, control originalOptions, store jqXHR, etc
 $.ajaxPrefilter((options, originalOptions, jqXHR) => {
-	// console.log(options, originalOptions, jqXHR);
+
+	if ('get'.indexOf(options.type)) {
+
+		// 使用测试用户
+		console.log(options.data);
+		options.data = regexp.replace(options.data, /appUserId=\w+/ig, 'appUserId=52468');
+		console.log(options.data);
+	}
+
+	// console.log('options:', options);
+	// console.log('originalOptions:', originalOptions);
+	// console.log('jqXHR:', jqXHR);
+	// debugger;
 });
 
 console.log(beefly);

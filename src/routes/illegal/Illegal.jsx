@@ -1,11 +1,10 @@
 import React from 'react';
 import beefly from "../../js/beefly";
 import {
-	Box, Button, CitySelect, Content, DataTable, DateRange, dtUtils, Form, Map, Modal, Select,
-	SelectInput, utils, Input, Field
+	Box, Button, CitySelect, Clear, Content, DataTable, DateRange, dtUtils, Field, Form, Select, SelectInput,
+	utils
 } from "beefly-common";
 import {handleType, operateState, reportState, vagueState} from '../../maps/illegalMap';
-import userApi from "../../apis/userApi";
 import AddRemarkModal from "./modals/AddRemarkModal";
 import RejectModal from "./modals/RejectModal";
 import tripProblemApi from "../../apis/tripProblemApi";
@@ -76,7 +75,7 @@ export default class Illegal extends React.Component {
 		let {columns, query} = this.state;
 		return (
 			<Content>
-				<Box theme="query">
+				<Box>
 					<Form inline>
 						<Select label="处理进度" model="query.state" options={handleType} whole={true}/>
 						<CitySelect label='城市区域' model="query.cityCode"/>

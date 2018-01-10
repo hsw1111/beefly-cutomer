@@ -11,7 +11,7 @@ export default class Detail extends React.Component {
 		let {detail, smiple} = this.props;
 		return (
 			<Box title="违停上报详情">
-				<Form horizontal>
+				<Form className="form-label-150" horizontal>
 					<Text label="上报编号" value={detail.id}/>
 					<Text label="上报人员姓名" value={detail.userName}/>
 					<Text label="上报人员手机号" value={detail.mobile}/>

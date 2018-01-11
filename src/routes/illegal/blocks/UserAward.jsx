@@ -61,7 +61,7 @@ export default class UserAward extends React.Component {
 					</Tabs>
 				</Form>
 				<div className="pull-right buttons">
-					<Button value="取消" theme="default" margin/>
+					<Button value="取消" theme="default" onClick={()=> utils.closeTab()}/>
 					<Button value="确定" onClick={this.confirmHandle.bind(this)}/>
 				</div>
 			</Box>
@@ -102,7 +102,9 @@ export default class UserAward extends React.Component {
 			...rewardScore
 		});
 
-		utils.alert(result.message);
+		utils.alert(result.message, ()=>{
+			utils.closeTab()
+		});
 		if (result.resultCode == 1) {
 			// utils.alert(result.message);
 		} else {
@@ -122,7 +124,9 @@ export default class UserAward extends React.Component {
 			...rewardCoupon
 		});
 
-		utils.alert(result.message);
+		utils.alert(result.message, ()=>{
+			utils.closeTab()
+		});
 		if (result.resultCode == 1) {
 			// utils.alert(result.message);
 		} else {
@@ -142,7 +146,9 @@ export default class UserAward extends React.Component {
 			...rewardBlance
 		});
 
-		utils.alert(result.message);
+		utils.alert(result.message, ()=>{
+			utils.closeTab()
+		});
 		if (result.resultCode == 1) {
 			// utils.alert(result.message);
 		} else {
@@ -162,7 +168,9 @@ export default class UserAward extends React.Component {
 			...noReward
 		});
 
-		utils.alert(result.message);
+		utils.alert(result.message, ()=>{
+			utils.closeTab()
+		});
 		if (result.resultCode == 1) {
 			// utils.alert(result.message);
 		} else {

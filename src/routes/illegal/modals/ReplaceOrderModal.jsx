@@ -1,4 +1,5 @@
 import React from 'react';
+import beefly from "../../../js/beefly";
 import {Form, Modal, DataTable, dtUtils} from "beefly-common";
 import tripProblemApi from "../../../apis/tripProblemApi";
 
@@ -13,6 +14,7 @@ export default class ReplaceOrderModal extends React.Component {
 			show: false,
 			bikeCode: '',
 			columns: [
+				// {title: '#', data: 'id', render: this.renderRadio.bind(this)},
 				{title: '订单编号', data: 'id'},
 				{title: '用户编号', data: 'userId'},
 				{title: '手机号码', data: 'mobile'},
@@ -30,8 +32,13 @@ export default class ReplaceOrderModal extends React.Component {
 				'bikeCode': '',
 				'beginDate': '',
 			},
-		}
+		};
+		// beefly.radio = this.radio.bind(this);
 	}
+
+	// renderRadio(data, type, row){
+	// 	return `<input name="Fruit" type="radio" value="" onclick=beefly.radio('${row.id}') />`
+	// }
 
 	render() {
 		let {show, columns, query, bikeCode} = this.state;
@@ -68,6 +75,9 @@ export default class ReplaceOrderModal extends React.Component {
 		this.setState({
 			show: false
 		})
+	}
+	radio(id){
+		 console.log(id)
 	}
 
 }

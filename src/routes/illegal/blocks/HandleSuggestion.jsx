@@ -116,8 +116,8 @@ export default class HandleSuggestion extends React.Component {
 						</Tab>
 					</Tabs>
 				</Form>
-				<div className="pull-right">
-					<Button value="取消" theme="default" margin/>
+				<div className="pull-right buttons">
+					<Button value="取消" theme="default" onClick={()=> utils.closeTab()}/>
 					<Button value="确定" onClick={this.confirmHandle.bind(this)}/>
 				</div>
 			</Box>
@@ -159,7 +159,9 @@ export default class HandleSuggestion extends React.Component {
 			...deductScore
 		});
 
-		utils.alert(result.message);
+		utils.alert(result.message, ()=>{
+			utils.closeTab()
+		});
 		if (result.resultCode == 1) {
 			// utils.alert(result.message);
 		} else {
@@ -179,7 +181,9 @@ export default class HandleSuggestion extends React.Component {
 			...deductCashPledge
 		});
 
-		utils.alert(result.message);
+		utils.alert(result.message, ()=>{
+			utils.closeTab()
+		});
 		if (result.resultCode == 1) {
 			// utils.alert(result.message);
 		} else {
@@ -199,7 +203,9 @@ export default class HandleSuggestion extends React.Component {
 			...noPunish
 		});
 
-		utils.alert(result.message);
+		utils.alert(result.message, ()=>{
+			utils.closeTab()
+		});
 		if (result.resultCode == 1) {
 			// utils.alert(result.message);
 		} else {
@@ -219,7 +225,9 @@ export default class HandleSuggestion extends React.Component {
 			...sendSms
 		});
 
-		utils.alert(result.message);
+		utils.alert(result.message, ()=>{
+			utils.closeTab()
+		});
 		if (result.resultCode == 1) {
 			// utils.alert(result.message);
 		} else {

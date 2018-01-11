@@ -54,6 +54,12 @@ export default class RejectModal extends React.Component {
 			utils.alert('驳回成功', ()=>{
 				onClose && onClose()
 			});
+			this.timer = setTimeout(
+				() => {
+					utils.close();
+				},
+				3000
+			);
 		}
 	}
 

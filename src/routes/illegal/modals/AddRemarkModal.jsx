@@ -47,7 +47,13 @@ export default class AddRemarkModal extends React.Component {
 		let result = await tripProblemApi.addRemark({id, remark});
 		if(result.resultCode == 1){
 			this.hide();
-			utils.alert('添加备注成功！')
+			utils.alert('添加备注成功！');
+			this.timer = setTimeout(
+				() => {
+					utils.close();
+				},
+				3000
+			);
 		}
 	}
 

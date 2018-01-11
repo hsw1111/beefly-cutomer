@@ -162,6 +162,12 @@ export default class HandleSuggestion extends React.Component {
 		utils.alert(result.message, ()=>{
 			utils.closeTab()
 		});
+		this.timer = setTimeout(
+			() => {
+				utils.close();
+			},
+			3000
+		);
 		if (result.resultCode == 1) {
 			// utils.alert(result.message);
 		} else {
@@ -184,6 +190,12 @@ export default class HandleSuggestion extends React.Component {
 		utils.alert(result.message, ()=>{
 			utils.closeTab()
 		});
+		this.timer = setTimeout(
+			() => {
+				utils.close();
+			},
+			3000
+		);
 		if (result.resultCode == 1) {
 			// utils.alert(result.message);
 		} else {
@@ -206,6 +218,12 @@ export default class HandleSuggestion extends React.Component {
 		utils.alert(result.message, ()=>{
 			utils.closeTab()
 		});
+		this.timer = setTimeout(
+			() => {
+				utils.close();
+			},
+			3000
+		);
 		if (result.resultCode == 1) {
 			// utils.alert(result.message);
 		} else {
@@ -228,6 +246,12 @@ export default class HandleSuggestion extends React.Component {
 		utils.alert(result.message, ()=>{
 			utils.closeTab()
 		});
+		this.timer = setTimeout(
+			() => {
+				utils.close();
+			},
+			3000
+		);
 		if (result.resultCode == 1) {
 			// utils.alert(result.message);
 		} else {

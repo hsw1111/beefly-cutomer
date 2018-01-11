@@ -13,10 +13,10 @@ export default class ReplaceOrderModal extends React.Component {
 		this.state = {
 			show: false,
 			bikeCode: '',
-			idd: '',
-			mmobile: '',
+			id: '',
+			mobile: '',
 			columns: [
-				// {title: '#', data: 'id', render: this.renderRadio.bind(this)},
+				{title: '#', data: 'id', render: this.renderRadio.bind(this)},
 				{title: '订单编号', data: 'id'},
 				{title: '用户编号', data: 'userId'},
 				{title: '手机号码', data: 'mobile'},
@@ -38,9 +38,9 @@ export default class ReplaceOrderModal extends React.Component {
 		beefly.radio = this.radio.bind(this);
 	}
 
-	// renderRadio(data, type, row){
-	// 	return `<input name="Fruit" type="radio" value="" onclick=beefly.radio('${row.id},${row.mobile}') />`
-	// }
+	renderRadio(data, type, row){
+		return `<input name="Fruit" type="radio" value="" onclick=beefly.radio('${row.id},${row.mobile}') />`
+	}
 
 	render() {
 		let {show, columns, query, bikeCode} = this.state;
@@ -78,14 +78,15 @@ export default class ReplaceOrderModal extends React.Component {
 			show: false,
 		})
 	}
-
+    //选中的数据
 	radio(data){
 		let m = data.split(",");
 		this.setState({
-			idd: m[0],
-			mmobile: m[1]
+			id: m[0],
+			mobile: m[1]
 		});
-		console.log(this.state.mmobile, 888888)
+		console.log(this.state.id, 888888)
+		console.log(this.state.mobile, 888888)
 	}
 
 }

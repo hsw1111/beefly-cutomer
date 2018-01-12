@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Field, Form, Text, Button} from "beefly-common";
+import {Box, Field, Form, Text, Row, Col} from "beefly-common";
 import {reportState} from '../../../maps/illegalMap';
 
 /**
@@ -8,9 +8,9 @@ import {reportState} from '../../../maps/illegalMap';
 export default class Detail extends React.Component {
 
 	render() {
-		let {detail, smiple} = this.props;
+		let {detail, showHandle, showRemarks} = this.props;
 		return (
-			<Box title="违停上报详情">
+			<Box>
 				<Form className="form-label-150" horizontal>
 					<Text label="上报编号" value={detail.id}/>
 					<Text label="上报人员姓名" value={detail.userName}/>
@@ -24,22 +24,32 @@ export default class Detail extends React.Component {
 					</Field>
 					<Text label="上报人员角色" value={reportState[detail.reportRole]}/>
 
-					{!smiple && (
-						<div>
-							<Text label="接单处理时间" value={detail.acceptTime}/>
-							<Text label="接受处理人员" value={detail.accepterName}/>
-							<Text label="处理完成时间" value={detail.completeTime}/>
-							<Text label="发送地勤确定时间" value={detail.sendOperTime}/>
-							<Text label="发送地勤确认人员" value={detail.sendOperName}/>
-							<Text label="处理完成人员" value={detail.completerName}/>
-							<br/>
-							<h4>备注：</h4>
+				</Form>
+				{showHandle && (
+					<Form className="form-label-150" horizontal>
+						<Row>
+							<Col md={5}>
+								<Text label="接单处理时间" value={detail.acceptTime}/>
+								<Text label="接受处理人员" value={detail.accepterName}/>
+								<Text label="处理完成时间" value={detail.completeTime}/>
+							</Col>
+							<Col md={7}>
+								<Text label="发送地勤确定时间" value={detail.sendOperTime}/>
+								<Text label="发送地勤确认人员" value={detail.sendOperName}/>
+								<Text label="处理完成人员" value={detail.completerName}/>
+							</Col>
+						</Row>
+					</Form>
+				)}
+				{showRemarks && detail.remarks && detail.remarks.length > 0 && (
+					<Form>
+						<Field label={'备注'}>
 							<table className="table">
 								<tbody>
 								<tr>
 									<th style={{width: '10px'}}>#</th>
-									<th style={{width: '20%'}}>提交人</th>
-									<th style={{width: '20%'}}>提交时间</th>
+									<th style={{width: '100px'}}>提交人</th>
+									<th style={{width: '160px'}}>提交时间</th>
 									<th>内容</th>
 								</tr>
 								{detail.remarks.map((r, i) => (
@@ -52,10 +62,20 @@ export default class Detail extends React.Component {
 								))}
 								</tbody>
 							</table>
-						</div>
-					)}
-				</Form>
+						</Field>
+					</Form>
+				)}
 			</Box>
 		)
 	}
 }
+
+Detail.propTypes = {
+	showHandle: React.PropTypes.bool,		// 显示处理信息
+	showRemarks: React.PropTypes.bool,		// 显示备注信息
+};
+
+Detail.defaultProps = {
+	showHandle: false,
+	showRemarks: false,
+};

@@ -47,7 +47,6 @@ module.exports = {
 		new webpack.optimize.UglifyJsPlugin({
 			compress: {
 				warnings: false,
-				screw_ie8: true,
 				drop_console: env.name === 'production',
 				drop_debugger: env.name === 'production'
 			},

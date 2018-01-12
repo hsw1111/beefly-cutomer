@@ -1,5 +1,5 @@
 import React from 'react';
-import {Content, utils, Form, Input, Checkbox, Box, Button} from 'beefly-common';
+import {Box, Button, Content, Form, Input, utils} from 'beefly-common';
 import systemApi from "../../apis/systemApi";
 import {localStore} from 'jeselvmo';
 
@@ -9,7 +9,7 @@ export default class Home extends React.Component {
 		super(props);
 
 		this.state = {
-			username: 'admin2',
+			username: 'admin',
 			password: '123456',
 			loginUser: null,
 		};
@@ -31,7 +31,7 @@ export default class Home extends React.Component {
 								<Form horizontal>
 									<div className="box-body">
 										<Input label={'用户名'} model={'username'}/>
-										<Input label={'密码'} model={'password'}/>
+										<Input label={'密码'} type={'password'} model={'password'}/>
 									</div>
 								</Form>
 							</Box.Body>

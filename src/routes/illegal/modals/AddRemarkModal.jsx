@@ -19,8 +19,11 @@ export default class AddRemarkModal extends React.Component {
 	render() {
 		let {show} = this.state;
 		return (
-			<Modal show={show} title="添加备注" onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
-				<Form >
+			<Modal show={show}
+				   title="添加备注"
+				   onHide={this.hide.bind(this)}
+				   onOk={this.ok.bind(this)}>
+				<Form>
 					<Textarea label="备注" rows={5} model="remark"/>
 				</Form>
 			</Modal>
@@ -45,7 +48,7 @@ export default class AddRemarkModal extends React.Component {
 		let {id, remark} = this.state;
 
 		let result = await tripProblemApi.addRemark({id, remark});
-		if(result.resultCode == 1){
+		if (result.resultCode == 1) {
 			this.hide();
 			utils.alert('添加备注成功！');
 			this.timer = setTimeout(

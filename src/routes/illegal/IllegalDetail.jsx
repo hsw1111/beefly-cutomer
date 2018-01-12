@@ -32,7 +32,7 @@ export default class IllegalDetails extends React.Component {
 		if (detail) {
 			return (
 				<Content>
-					<Detail detail={detail}/>
+					<Detail detail={detail} showHandle showRemarks/>
 					<div className="pull-right buttons margin-b-20">
 						<Button onClick={this.reject.bind(this)}>驳回处理</Button>
 						<Button onClick={this.confirm.bind(this)}>确认处理</Button>

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Form, Modal, DataTable} from "beefly-common";
 import tripProblemApi from "../../../apis/tripProblemApi";
+import symsApi from "../../../apis/symsApi";
 /**
  * 违停短信弹框
  */
@@ -42,7 +43,7 @@ export default class SymsModal extends React.Component {
 					<hr/>
 					<h5><b>接收违停短信记录</b></h5>
 					<DataTable ref={(e) => this._dataTable = e}
-							   columns={columns} api={tripProblemApi.pageSms} query={query}/>
+							   columns={columns} api={symsApi.pageSms} query={query}/>
 				</Form>
 			</Modal>
 		)

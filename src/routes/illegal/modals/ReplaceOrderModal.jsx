@@ -1,7 +1,8 @@
 import React from 'react';
 import beefly from "../../../js/beefly";
-import {Form, Modal, DataTable, dtUtils} from "beefly-common";
+import {Form, Modal, DataTable, dtUtils, Button, utils} from "beefly-common";
 import tripProblemApi from "../../../apis/tripProblemApi";
+import orderApi from "../../../apis/orderApi";
 
 /**
  * 更换订单弹框
@@ -13,8 +14,6 @@ export default class ReplaceOrderModal extends React.Component {
 		this.state = {
 			show: false,
 			bikeCode: '',
-			id: '',
-			mobile: '',
 			columns: [
 				{title: '#', data: 'id', render: this.renderRadio.bind(this)},
 				{title: '订单编号', data: 'id'},
@@ -34,24 +33,33 @@ export default class ReplaceOrderModal extends React.Component {
 				'bikeCode': '',
 				'beginDate': '',
 			},
+			// 选中的订单id
+			orderId: '',
 		};
-		beefly.radio = this.radio.bind(this);
+		beefly.selectOrder = this.selectOrder.bind(this);
 	}
 
-	renderRadio(data, type, row){
-		return `<input name="Fruit" type="radio" value="" onclick=beefly.radio('${row.id},${row.mobile}') />`
+	renderRadio(data, type, row) {
+		return `<input name="radio" type="radio" value="" onclick="beefly.selectOrder(${row.id})" />`
 	}
 
 	render() {
 		let {show, columns, query, bikeCode} = this.state;
 		return (
-			<Modal show={show} title="更改订单" size="lg" onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
-				<Form>
-					<div>车辆编号：{bikeCode}</div><hr/>
-					<h5><b>订单记录</b></h5>
-					<DataTable ref={(e) => this._dataTable = e}
-							   columns={columns} api={tripProblemApi.orderPage} query={query}/>
-				</Form>
+			<Modal show={show} title="更改订单" size="lg" onHide={this.hide.bind(this)}>
+				<Modal.Body style={{height: 600}}>
+					<Form>
+						<div>车辆编号：{bikeCode}</div>
+						<hr/>
+						<h5><b>订单记录</b></h5>
+						<DataTable ref={(e) => this._dataTable = e}
+								   columns={columns} api={orderApi.page} query={query}/>
+					</Form>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button value={'取消'} theme={'default'} onClick={this.hide.bind(this)}/>
+					<Button value={'确定'} onClick={this.ok.bind(this)}/>
+				</Modal.Footer>
 			</Modal>
 		)
 	}
@@ -74,19 +82,24 @@ export default class ReplaceOrderModal extends React.Component {
 	}
 
 	async ok() {
-		this.setState({
-			show: false,
-		})
+		let {orderId} = this.state;
+		let {onChange} = this.props;
+		if (orderId) {
+			this.setState({
+				show: false,
+			})
+
+			onChange && onChange(orderId)
+		} else {
+			utils.alert('请选择一个订单')
+		}
 	}
-    //选中的数据
-	radio(data){
-		let m = data.split(",");
+
+	//选中的数据
+	selectOrder(orderId) {
 		this.setState({
-			id: m[0],
-			mobile: m[1]
-		});
-		console.log(this.state.id, 888888)
-		console.log(this.state.mobile, 888888)
+			orderId
+		})
 	}
 
 }

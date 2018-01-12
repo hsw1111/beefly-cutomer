@@ -1,6 +1,7 @@
 import React from 'react';
 import {Box, Button, Form, Input, Tab, Tabs, Text, Textarea, utils} from "beefly-common";
 import tripProblemApi from "../../../apis/tripProblemApi";
+import appUserApi from "../../../apis/appUserApi";
 
 /**
  * 用户奖励
@@ -28,12 +29,28 @@ export default class UserAward extends React.Component {
 				remark: ''
 			},
 
-			noReward: {}
+			noReward: {},
+
+			// 用户详情（取余额数据）
+			userDetail: null,
 
 		}
 	}
 
+	async componentWillMount() {
+		let {detail} = this.props;
+		let result = await appUserApi.userDetail({id: detail.userId});
+		if (result.resultCode === 1) {
+			this.setState({
+				userDetail: result.data
+			})
+		} else {
+			utils.alert(result.message)
+		}
+	}
+
 	render() {
+		let {userDetail} = this.state;
 		return (
 			<Box title="用户奖励" icon="fa-tag">
 				<p>给用户的奖励可以选择如下任一种：</p>
@@ -51,7 +68,16 @@ export default class UserAward extends React.Component {
 							<Input label="过期时间" model="rewardCoupon.expireTime" type="date" width={250}/>
 						</Tab>
 						<Tab title="奖余额">
-							<Text label="用户当前余额" value={'958.3元 （充值金额950.0元+赠送金额8.3元）'}/>
+							<Text label="用户当前余额">
+								{userDetail && (
+									<div>
+										<span className={'text-yellow'}>
+											{(userDetail.balance || 0) + (userDetail.grantBalance || 0)}元
+										</span>
+										（充值金额{userDetail.balance || 0}元 + 赠送金额{userDetail.grantBalance || 0}元）
+									</div>
+								)}
+							</Text>
 							<Input label="金额" model="rewardBlance.amount" type="number" width={250}/>
 							<Textarea label="备注" model="rewardBlance.remark" width={'50%'}/>
 						</Tab>
@@ -61,7 +87,7 @@ export default class UserAward extends React.Component {
 					</Tabs>
 				</Form>
 				<div className="pull-right buttons">
-					<Button value="取消" theme="default" onClick={()=> utils.closeTab()}/>
+					<Button value="取消" theme="default" onClick={() => utils.closeTab()}/>
 					<Button value="确定" onClick={this.confirmHandle.bind(this)}/>
 				</div>
 			</Box>
@@ -102,7 +128,7 @@ export default class UserAward extends React.Component {
 			...rewardScore
 		});
 
-		utils.alert(result.message, ()=>{
+		utils.alert(result.message, () => {
 			utils.closeTab()
 		});
 		this.timer = setTimeout(
@@ -130,7 +156,7 @@ export default class UserAward extends React.Component {
 			...rewardCoupon
 		});
 
-		utils.alert(result.message, ()=>{
+		utils.alert(result.message, () => {
 			utils.closeTab()
 		});
 		this.timer = setTimeout(
@@ -158,7 +184,7 @@ export default class UserAward extends React.Component {
 			...rewardBlance
 		});
 
-		utils.alert(result.message, ()=>{
+		utils.alert(result.message, () => {
 			utils.closeTab()
 		});
 		this.timer = setTimeout(
@@ -186,7 +212,7 @@ export default class UserAward extends React.Component {
 			...noReward
 		});
 
-		utils.alert(result.message, ()=>{
+		utils.alert(result.message, () => {
 			utils.closeTab()
 		});
 		this.timer = setTimeout(

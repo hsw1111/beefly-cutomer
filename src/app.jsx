@@ -25,7 +25,7 @@ $.ajaxSetup({
 		try {
 			// var json = $.parseJSON(XMLHttpRequest.responseText);
 			let json = XMLHttpRequest.responseJSON;
-			if (json.message === "用户登录超时") {
+			if (json.resultCode === -1 && json.data === 0) {
 				alert(json.message);
 			}
 		} catch (e) {
@@ -40,9 +40,9 @@ $.ajaxPrefilter((options, originalOptions, jqXHR) => {
 	if ('get'.indexOf(options.type)) {
 
 		// 使用测试用户
-		console.log(options.data);
-		options.data = regexp.replace(options.data, /appUserId=\w+/ig, 'appUserId=52468');
-		console.log(options.data);
+		// console.log(options.data);
+		// options.data = regexp.replace(options.data, /appUserId=\w+/ig, 'appUserId=52468');
+		// console.log(options.data);
 	}
 
 	// console.log('options:', options);
@@ -62,8 +62,8 @@ DataTable.defaultProps.onAjax = (api, params, data, callback) => {
 	api(params).then((result) => {
 		let returnData = {};
 		returnData.data = result.data || [];
-		returnData.recordsTotal = result.totalItems;
-		returnData.recordsFiltered = result.totalItems;
+		returnData.recordsTotal = result.totalItems || 0;
+		returnData.recordsFiltered = result.totalItems || 0;
 		callback(returnData);
 	})
 };

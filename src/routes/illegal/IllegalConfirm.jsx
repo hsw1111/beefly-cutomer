@@ -15,7 +15,8 @@ export default class IllegalConfirm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			detail: null
+			detail: null,
+			orderDetail: null
 		}
 	}
 
@@ -30,16 +31,24 @@ export default class IllegalConfirm extends React.Component {
 	}
 
 	render() {
-		let {detail} = this.state;
+		let {detail, orderDetail} = this.state;
 		if (detail) {
 			return (
 				<Content>
 					<Detail detail={detail} simple/>
-					{detail.reportRole != 0 && <IllegalCategory detail={detail}/>}
-					{detail.reportRole == 0 ? <UserAward detail={detail}/> : <HandleSuggestion detail={detail}/>}
+					{detail.reportRole != 0 && <IllegalCategory detail={detail}
+																onOrderChange={this.orderChange.bind(this)}/>}
+					{detail.reportRole == 0 ? <UserAward detail={detail}/> :
+						<HandleSuggestion detail={detail} orderDetail={orderDetail}/>}
 				</Content>
 			)
 		}
 		return null
+	}
+
+	orderChange(orderDetail) {
+		this.setState({
+			orderDetail
+		})
 	}
 }

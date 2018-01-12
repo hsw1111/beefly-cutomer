@@ -2,6 +2,7 @@ import React from 'react';
 import {Form, Modal, dtUtils, DataTable} from "beefly-common";
 import tripProblemApi from "../../../apis/tripProblemApi";
 import {rewardType, integralType} from '../../../maps/illegalMap';
+import creditScoreApi from "../../../apis/creditScoreApi";
 
 /**
  * 信用积分弹框
@@ -34,7 +35,7 @@ export default class IntegralModal extends React.Component {
 	render() {
 		let {show, columns, query, userId, mobile} = this.state;
 		return (
-			<Modal show={show} title="信用积分" size="lg" onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
+			<Modal show={show} title="信用积分" size="lg" onHide={this.hide.bind(this)}>
 				<Form>
 					<div className={'row'}>
 						<div className={'col-sm-6'}>
@@ -47,7 +48,7 @@ export default class IntegralModal extends React.Component {
 					<hr/>
 					<h5><b>积分奖励记录</b></h5>
 					<DataTable ref={(e) => this._dataTable = e}
-							   columns={columns} api={tripProblemApi.creditScorepage} query={query}/>
+							   columns={columns} api={creditScoreApi.page} query={query}/>
 				</Form>
 			</Modal>
 		)
@@ -65,12 +66,6 @@ export default class IntegralModal extends React.Component {
 	}
 
 	hide() {
-		this.setState({
-			show: false
-		})
-	}
-
-	async ok() {
 		this.setState({
 			show: false
 		})

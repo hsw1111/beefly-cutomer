@@ -62,10 +62,11 @@ export default class HandleSuggestion extends React.Component {
 
 	render() {
 		let {deductScore, deductCashPledge} = this.state;
+		let {orderDetail} = this.props;
 		return (
 			<Box title="处理意见" icon="fa-tag">
 				<p>鉴于订单的违规类别和信用积分，我们建议的处理意见为 扣积分 ，你也可以更改处理意见。</p>
-				<Form horizontal>
+				<Form className="form-label-150" horizontal>
 					<Tabs model="type">
 						<Tab title="扣积分">
 							<Input label="扣除积分" model={'deductScore.creditScoreCount'} width={250}/>
@@ -110,14 +111,14 @@ export default class HandleSuggestion extends React.Component {
 							</ol>
 						</Tab>
 						<Tab title="发短信">
-							<Text label="手机号" model={'sendSms.mobile'}/>
+							<Text label="手机号" value={orderDetail ? orderDetail.mobile : '-'}/>
 							<Text label="发送目的" value="违规通知"/>
 							<Textarea label="短信内容" model={'sendSms.content'} width={'50%'}/>
 						</Tab>
 					</Tabs>
 				</Form>
 				<div className="pull-right buttons">
-					<Button value="取消" theme="default" onClick={()=> utils.closeTab()}/>
+					<Button value="取消" theme="default" onClick={() => utils.closeTab()}/>
 					<Button value="确定" onClick={this.confirmHandle.bind(this)}/>
 				</div>
 			</Box>
@@ -127,19 +128,28 @@ export default class HandleSuggestion extends React.Component {
 
 	// 确认处理
 	confirmHandle() {
+		let {detail, orderDetail} = this.props;
 		let type = this.state.type + 1;
+
+		let params = {
+			type,
+			id: detail.id,
+			appUserId: detail.userId,
+			orderId: orderDetail.id,
+		};
+
 		switch (type) {
 			case 1:
-				this.confirmHandle_deductScore(type);
+				this.confirmHandle_deductScore(params);
 				break;
 			case 2:
-				this.confirmHandle_deductCashPledge(type);
+				this.confirmHandle_deductCashPledge(params);
 				break;
 			case 3:
-				this.confirmHandle_noPunish(type);
+				this.confirmHandle_noPunish(params);
 				break;
 			case 4:
-				this.confirmHandle_sendSms(type);
+				this.confirmHandle_sendSms(params);
 				break;
 			default:
 				break;
@@ -148,18 +158,14 @@ export default class HandleSuggestion extends React.Component {
 	}
 
 	// 确认处理-扣积分
-	async confirmHandle_deductScore(type) {
-		let {detail} = this.props;
+	async confirmHandle_deductScore(params) {
 		let {deductScore} = this.state;
-
 		let result = await tripProblemApi.confirmHandleDq({
-			type,
-			id: detail.id,
-			appUserId: detail.userId,
+			...params,
 			...deductScore
 		});
 
-		utils.alert(result.message, ()=>{
+		utils.alert(result.message, () => {
 			utils.closeTab()
 		});
 		this.timer = setTimeout(
@@ -176,18 +182,14 @@ export default class HandleSuggestion extends React.Component {
 	}
 
 	// 确认处理-扣押金
-	async confirmHandle_deductCashPledge(type) {
-		let {detail} = this.props;
+	async confirmHandle_deductCashPledge(params) {
 		let {deductCashPledge} = this.state;
-
 		let result = await tripProblemApi.confirmHandleDq({
-			type,
-			id: detail.id,
-			appUserId: detail.userId,
+			...params,
 			...deductCashPledge
 		});
 
-		utils.alert(result.message, ()=>{
+		utils.alert(result.message, () => {
 			utils.closeTab()
 		});
 		this.timer = setTimeout(
@@ -204,18 +206,14 @@ export default class HandleSuggestion extends React.Component {
 	}
 
 	// 确认处理-不处罚
-	async confirmHandle_noPunish(type) {
-		let {detail} = this.props;
+	async confirmHandle_noPunish(params) {
 		let {noPunish} = this.state;
-
 		let result = await tripProblemApi.confirmHandleDq({
-			type,
-			id: detail.id,
-			appUserId: detail.userId,
+			...params,
 			...noPunish
 		});
 
-		utils.alert(result.message, ()=>{
+		utils.alert(result.message, () => {
 			utils.closeTab()
 		});
 		this.timer = setTimeout(
@@ -232,18 +230,14 @@ export default class HandleSuggestion extends React.Component {
 	}
 
 	// 确认处理-发短信
-	async confirmHandle_sendSms(type) {
-		let {detail} = this.props;
+	async confirmHandle_sendSms(params) {
 		let {sendSms} = this.state;
-
 		let result = await tripProblemApi.confirmHandleDq({
-			type,
-			id: detail.id,
-			appUserId: detail.userId,
+			...params,
 			...sendSms
 		});
 
-		utils.alert(result.message, ()=>{
+		utils.alert(result.message, () => {
 			utils.closeTab()
 		});
 		this.timer = setTimeout(

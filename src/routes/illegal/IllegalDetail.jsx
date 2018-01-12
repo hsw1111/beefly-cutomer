@@ -18,13 +18,7 @@ export default class IllegalDetails extends React.Component {
 	}
 
 	async componentWillMount() {
-		let {id} = urlUtils.getParams();
-		let result = await tripProblemApi.detail({id});
-		let detail = result.data;
-
-		this.setState({
-			detail
-		});
+		this.fetchDetail()
 	}
 
 	render() {
@@ -53,7 +47,7 @@ export default class IllegalDetails extends React.Component {
 	}
 
 	rejectSuccess() {
-		location.reload()
+		this.fetchDetail()
 	}
 
 	// 确认处理
@@ -70,6 +64,15 @@ export default class IllegalDetails extends React.Component {
 	//关闭详情
 	closed() {
 		utils.closeTab();
+	}
+
+	async fetchDetail() {
+		let {id} = urlUtils.getParams();
+		let result = await tripProblemApi.detail({id});
+		let detail = result.data;
+		this.setState({
+			detail
+		});
 	}
 
 }

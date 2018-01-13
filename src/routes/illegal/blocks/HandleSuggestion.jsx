@@ -1,7 +1,8 @@
 import React from 'react';
-import {Box, Button, Form, Input, Tab, Tabs, Text, Textarea, Checkbox, utils} from "beefly-common";
+import {Box, Button, Checkbox, Form, Input, Tab, Tabs, Text, Textarea} from "beefly-common";
 import tripProblemApi from "../../../apis/tripProblemApi";
 import transRecordApi from "../../../apis/transRecordApi";
+import beefly from "../../../js/beefly";
 
 /**
  * 处理意见
@@ -97,7 +98,8 @@ export default class HandleSuggestion extends React.Component {
 							</div>}
 							{deductCashPledge.depositState == 3 && <div>
 								<p className="text-red">*该用户押金已经提现，暂时无法扣押金，先冻结用户押金</p>
-								<Textarea label="备注" model={'deductCashPledge.remark'} width={'50%'}/>
+								<Textarea label="备注" model={'deductCashPledge.remark'} validations={['required']}
+										  width={'50%'}/>
 								<p>押金冻结后，用户无法自行提现。</p>
 							</div>}
 						</Tab>
@@ -118,7 +120,7 @@ export default class HandleSuggestion extends React.Component {
 					</Tabs>
 				</Form>
 				<div className="pull-right buttons">
-					<Button value="取消" theme="default" onClick={() => utils.closeTab()}/>
+					<Button value="取消" theme="default" onClick={() => beefly.tabs.closeTab()}/>
 					<Button value="确定" onClick={this.confirmHandle.bind(this)}/>
 				</div>
 			</Box>
@@ -130,6 +132,12 @@ export default class HandleSuggestion extends React.Component {
 	confirmHandle() {
 		let {detail, orderDetail} = this.props;
 		let type = this.state.type + 1;
+
+		if (!orderDetail) {
+			beefly.gritter.error('该车辆无订单数据')
+			return;
+		}
+
 
 		let params = {
 			type,
@@ -165,19 +173,10 @@ export default class HandleSuggestion extends React.Component {
 			...deductScore
 		});
 
-		utils.alert(result.message, () => {
-			utils.closeTab()
-		});
-		this.timer = setTimeout(
-			() => {
-				utils.close();
-			},
-			3000
-		);
 		if (result.resultCode == 1) {
-			// utils.alert(result.message);
-		} else {
-			// utils.alert(result.message);
+			beefly.gritter.success(result.message, () => {
+				beefly.tabs.closeTab()
+			});
 		}
 	}
 
@@ -189,19 +188,10 @@ export default class HandleSuggestion extends React.Component {
 			...deductCashPledge
 		});
 
-		utils.alert(result.message, () => {
-			utils.closeTab()
-		});
-		this.timer = setTimeout(
-			() => {
-				utils.close();
-			},
-			3000
-		);
 		if (result.resultCode == 1) {
-			// utils.alert(result.message);
-		} else {
-			// utils.alert(result.message);
+			beefly.gritter.success(result.message, () => {
+				beefly.tabs.closeTab()
+			});
 		}
 	}
 
@@ -213,19 +203,10 @@ export default class HandleSuggestion extends React.Component {
 			...noPunish
 		});
 
-		utils.alert(result.message, () => {
-			utils.closeTab()
-		});
-		this.timer = setTimeout(
-			() => {
-				utils.close();
-			},
-			3000
-		);
 		if (result.resultCode == 1) {
-			// utils.alert(result.message);
-		} else {
-			// utils.alert(result.message);
+			beefly.gritter.success(result.message, () => {
+				beefly.tabs.closeTab()
+			});
 		}
 	}
 
@@ -237,19 +218,10 @@ export default class HandleSuggestion extends React.Component {
 			...sendSms
 		});
 
-		utils.alert(result.message, () => {
-			utils.closeTab()
-		});
-		this.timer = setTimeout(
-			() => {
-				utils.close();
-			},
-			3000
-		);
 		if (result.resultCode == 1) {
-			// utils.alert(result.message);
-		} else {
-			// utils.alert(result.message);
+			beefly.gritter.success(result.message, () => {
+				beefly.tabs.closeTab()
+			});
 		}
 	}
 

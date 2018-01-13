@@ -1,7 +1,8 @@
 import React from 'react';
-import {Box, Button, Content, Form, Input, utils} from 'beefly-common';
+import {Box, Button, Content, Form, Input} from 'beefly-common';
 import systemApi from "../../apis/systemApi";
 import {localStore} from 'jeselvmo';
+import beefly from '../../js/beefly';
 
 export default class Home extends React.Component {
 
@@ -71,7 +72,7 @@ export default class Home extends React.Component {
 			})
 		}
 
-		utils.alert(result.message)
+		beefly.bootbox.alert(result.message)
 	}
 
 	logoff() {

@@ -1,13 +1,10 @@
 import React from 'react';
-import beefly from "../../js/beefly";
-import {
-	Box, Button, CitySelect, Clear, Content, DataTable, DateRange, dtUtils, Field, Form, Select, SelectInput,
-	utils
-} from "beefly-common";
+import {Box, Button, CitySelect, Content, DataTable, DateRange, Field, Form, Select, SelectInput} from "beefly-common";
 import {handleType, operateState, reportState, vagueState} from '../../maps/illegalMap';
 import AddRemarkModal from "./modals/AddRemarkModal";
 import RejectModal from "./modals/RejectModal";
 import tripProblemApi from "../../apis/tripProblemApi";
+import beefly from "../../js/beefly";
 
 /**
  * 违停上报
@@ -22,11 +19,11 @@ export default class Illegal extends React.Component {
 				{title: '上报编号', data: 'id'},
 				{title: '城市', data: 'cityName'},
 				{title: '上报姓名', data: 'userName'},
-				{title: '上报角色', data: 'reportRole', render: (data) => dtUtils.renderMap(data, reportState)},
+				{title: '上报角色', data: 'reportRole', render: (data) => beefly.dtUtils.renderMap(data, reportState)},
 				{title: '手机号', data: 'mobile'},
 				{title: '车辆编号', data: 'bikeCode'},
-				{title: '上报时间', data: 'lastReportTime', render: dtUtils.renderDateTime},
-				{title: '处理进度', data: 'state', render: (data) => dtUtils.renderMap(data, handleType)},
+				{title: '上报时间', data: 'lastReportTime', render: beefly.dtUtils.renderDateTime},
+				{title: '处理进度', data: 'state', render: (data) => beefly.dtUtils.renderMap(data, handleType)},
 				{title: '操作', type: 'object', render: this.renderActions},
 			],
 
@@ -59,7 +56,7 @@ export default class Illegal extends React.Component {
 				{text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
 				{text: '添加备注', icon: 'user-plus', onclick: `beefly.addRemark('${row.id}')`},
 			];
-			return dtUtils.renderActions(actions, 'dropdown')
+			return beefly.dtUtils.renderActions(actions, 'dropdown')
 		} else {
 			let actions = [
 				{text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
@@ -67,7 +64,7 @@ export default class Illegal extends React.Component {
 				{text: '驳回处理', icon: 'user-plus', onclick: `beefly.reject('${row.id}')`},
 				{text: '确认处理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
 			];
-			return dtUtils.renderActions(actions, 'dropdown')
+			return beefly.dtUtils.renderActions(actions, 'dropdown')
 		}
 	}
 
@@ -109,7 +106,7 @@ export default class Illegal extends React.Component {
 
 	// 查看详情
 	details(id) {
-		utils.addTab({
+		beefly.tabs.addTab({
 			name: '违停上报详情-' + id,
 			path: '/illegal/detail',
 			params: {
@@ -134,7 +131,7 @@ export default class Illegal extends React.Component {
 
 	// 确认处理
 	confirm(id) {
-		utils.addTab({
+		beefly.tabs.addTab({
 			name: '确认处理-' + id,
 			path: '/illegal/confirm',
 			params: {

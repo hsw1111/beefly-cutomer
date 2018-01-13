@@ -1,5 +1,6 @@
-const beefly = {
-	// 公共方法
-};
+import {utils} from 'beefly-common';
+
+let beefly = utils;
+
 window.beefly = beefly;
 export default beefly;

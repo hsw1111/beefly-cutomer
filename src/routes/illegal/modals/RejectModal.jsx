@@ -1,6 +1,7 @@
 import React from 'react';
 import {Form, Modal, Textarea, Button, utils} from "beefly-common";
 import tripProblemApi from "../../../apis/tripProblemApi";
+import beefly from "../../../js/beefly";
 
 /**
  * 驳回处理弹框
@@ -57,15 +58,8 @@ export default class RejectModal extends React.Component {
 		let result = await tripProblemApi.reject({id, remark});
 		if (result.resultCode == 1) {
 			this.hide();
-			utils.alert('驳回成功', () => {
-				onClose && onClose()
-			});
-			this.timer = setTimeout(
-				() => {
-					utils.close();
-				},
-				3000
-			);
+			beefly.gritter.success('驳回成功');
+			onClose && onClose()
 		}
 	}
 

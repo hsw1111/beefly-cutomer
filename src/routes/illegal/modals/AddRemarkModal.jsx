@@ -1,6 +1,7 @@
 import React from 'react';
-import {Modal, Form, Textarea, Button, utils} from "beefly-common";
+import {Button, Form, Modal, Textarea} from "beefly-common";
 import tripProblemApi from "../../../apis/tripProblemApi";
+import beefly from "../../../js/beefly";
 
 /**
  * 添加备注弹框
@@ -53,13 +54,7 @@ export default class AddRemarkModal extends React.Component {
 		let result = await tripProblemApi.addRemark({id, remark});
 		if (result.resultCode == 1) {
 			this.hide();
-			utils.alert('添加备注成功！');
-			this.timer = setTimeout(
-				() => {
-					utils.close();
-				},
-				3000
-			);
+			beefly.gritter.success('添加备注成功！');
 		}
 	}
 

@@ -46,3 +46,7 @@ yarn.lock
 
 # Ignore lock
 package-lock.json
+
+# bower
+bower_components
+bower.json

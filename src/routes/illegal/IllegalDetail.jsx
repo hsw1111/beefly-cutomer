@@ -1,9 +1,10 @@
 import React from 'react';
-import {Content, Button, utils} from "beefly-common";
+import {Button, Content} from "beefly-common";
 import {urlUtils} from 'jeselvmo';
 import tripProblemApi from "../../apis/tripProblemApi";
 import RejectModal from "./modals/RejectModal";
 import Detail from "./blocks/Detail";
+import beefly from "../../js/beefly";
 
 /**
  * 违停上报详情
@@ -52,7 +53,7 @@ export default class IllegalDetails extends React.Component {
 
 	// 确认处理
 	confirm() {
-		utils.addTab({
+		beefly.tabs.addTab({
 			name: '确认处理-' + this.state.detail.id,
 			path: '/illegal/confirm',
 			params: {
@@ -63,7 +64,7 @@ export default class IllegalDetails extends React.Component {
 
 	//关闭详情
 	closed() {
-		utils.closeTab();
+		beefly.tabs.closeTab();
 	}
 
 	async fetchDetail() {

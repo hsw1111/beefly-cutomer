@@ -25,8 +25,11 @@ $.ajaxSetup({
 		try {
 			// var json = $.parseJSON(XMLHttpRequest.responseText);
 			let json = XMLHttpRequest.responseJSON;
-			if (json.resultCode === -1 && json.data === 0) {
-				alert(json.message);
+			if (json.resultCode === -1) {
+				beefly.gritter.error(json.message);
+				// if (json.data === 0) {
+				// 	beefly.gritter.add()
+				// }
 			}
 		} catch (e) {
 			console.log(e)

@@ -1,7 +1,6 @@
 import React from 'react';
 import beefly from "../../../js/beefly";
-import {Form, Modal, DataTable, dtUtils, Button, utils} from "beefly-common";
-import tripProblemApi from "../../../apis/tripProblemApi";
+import {Button, DataTable, Form, Modal} from "beefly-common";
 import orderApi from "../../../apis/orderApi";
 
 /**
@@ -19,13 +18,13 @@ export default class ReplaceOrderModal extends React.Component {
 				{title: '订单编号', data: 'id'},
 				{title: '用户编号', data: 'userId'},
 				{title: '手机号码', data: 'mobile'},
-				{title: '下单时间', data: 'placeOrderTime', render: dtUtils.renderDateTime},
-				{title: '结束时间', data: 'endTime', render: dtUtils.renderDateTime},
+				{title: '下单时间', data: 'placeOrderTime', render: beefly.dtUtils.renderDateTime},
+				{title: '结束时间', data: 'endTime', render: beefly.dtUtils.renderDateTime},
 				{title: '取车时续航里程（m）', data: 'leftMileage'},
 				{title: '取车地点', data: 'pickLocation'},
-				{title: '骑行时间（m）', data: 'timeInOrder', render: (data) => dtUtils.renderNumber(data, '0.0')},
+				{title: '骑行时间（m）', data: 'timeInOrder', render: (data) => beefly.dtUtils.renderNumber(data, '0.0')},
 				{title: '骑行里程（m）', data: 'mileage'},
-				{title: '订单费用（￥）', data: 'actualAmount', render: (data) => dtUtils.renderNumber(data, '0.0')},
+				{title: '订单费用（￥）', data: 'actualAmount', render: (data) => beefly.dtUtils.renderNumber(data, '0.0')},
 				{title: '订单状态', data: 'state'},
 			],
 
@@ -91,7 +90,7 @@ export default class ReplaceOrderModal extends React.Component {
 
 			onChange && onChange(orderId)
 		} else {
-			utils.alert('请选择一个订单')
+			beefly.gritter.info('请选择一个订单')
 		}
 	}
 

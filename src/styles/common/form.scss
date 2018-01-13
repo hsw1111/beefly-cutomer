@@ -1,6 +1,8 @@
 ///////////////////////////////////////
 // default
 
+/* default fg */
+
 .fg {
 	margin-right: 15px;
 	margin-left: 15px;
@@ -12,7 +14,7 @@
 	margin-bottom: 0;
 
 	.required {
-		color: #dd4b39;
+		color: #D16E6C;
 		display: inline-block;
 		width: 8px;
 		margin-left: -8px;
@@ -25,18 +27,33 @@
 	padding-top: 7px;
 }
 
-.tooltip.bottom {
+/* has-error */
+
+.fg.has-error .fg-label {
+	color: #D16E6C;
+}
+
+.fg.has-error input, .fg.has-error select, .fg.has-error textarea {
+	border-color: #f2a696;
+	color: #D68273;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+/* tooltip */
+
+.fg.has-error .tooltip {
 	opacity: 1;
 
 	.tooltip-arrow {
 		left: 20px;
 		margin-left: 0;
-		border-bottom-color: #dd4b39;
+		border-bottom-color: #D16E6C;
 	}
-}
 
-.tooltip-inner {
-	background-color: #dd4b39;
+	.tooltip-inner {
+		background-color: #D16E6C;
+	}
 }
 
 ///////////////////////////////////////

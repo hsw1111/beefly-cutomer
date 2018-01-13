@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {Button, Form, Modal, Textarea} from "beefly-common";
 import tripProblemApi from "../../../apis/tripProblemApi";
 import beefly from "../../../js/beefly";
@@ -22,7 +23,7 @@ export default class AddRemarkModal extends React.Component {
 		return (
 			<Modal show={show} title="添加备注" onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
 				<Modal.Body>
-					<Form>
+					<Form ref={e => this._form = e}>
 						<Textarea label="备注" rows={5} model="remark" validation={{required: true}}/>
 					</Form>
 				</Modal.Body>

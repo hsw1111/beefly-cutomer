@@ -1,7 +1,7 @@
 import React from 'react';
 import beefly from "../../js/beefly";
 import {
-	Box, Button, CitySelect, Clear, Content, DataTable, DateRange, dtUtils, Field, Form, Select, SelectInput,
+	Box, Button, CitySelect, Content, DataTable, DateRange, dtUtils, Field, Form, Select, SelectInput,
 	utils
 } from "beefly-common";
 import {handleType, operateState, reportState, vagueState} from '../../maps/illegalMap';

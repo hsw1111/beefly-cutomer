@@ -23,7 +23,7 @@ export default class AddRemarkModal extends React.Component {
 			<Modal show={show} title="添加备注" onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
 				<Modal.Body>
 					<Form>
-						<Textarea label="备注" rows={5} model="remark"/>
+						<Textarea label="备注" rows={5} model="remark" validation={{required: true}}/>
 					</Form>
 				</Modal.Body>
 				<Modal.Footer>

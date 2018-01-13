@@ -9,7 +9,7 @@
     jest: true
 
   parserOptions:
-   ecmaVersion: 8
+   ecmaVersion: 7
    sourceType: "module"
    ecmaFeatures:
     jsx: true
@@ -21,6 +21,8 @@
   plugins:
     - react
     - jest
+  parser:
+    babel-eslint
   rules:
     react/jsx-uses-vars: 1
     react/prop-types: [1, { ignore: [children] }]

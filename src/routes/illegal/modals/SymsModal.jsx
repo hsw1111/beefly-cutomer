@@ -1,7 +1,7 @@
 import React from 'react';
-import {Form, Modal, DataTable} from "beefly-common";
-import tripProblemApi from "../../../apis/tripProblemApi";
+import {DataTable, Form, Modal} from "beefly-common";
 import symsApi from "../../../apis/symsApi";
+
 /**
  * 违停短信弹框
  */

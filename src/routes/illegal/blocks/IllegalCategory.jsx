@@ -1,12 +1,12 @@
 import React from 'react';
-import {Box, Field, Form, Text, utils} from "beefly-common";
-import tripProblemApi from "../../../apis/tripProblemApi";
+import {Box, Field, Form, Text} from "beefly-common";
 import ReplaceOrderModal from "../modals/ReplaceOrderModal";
 import IntegralModal from "../modals/IntegralModal";
 import SymsModal from "../modals/SymsModal";
 import orderApi from "../../../apis/orderApi";
 import creditScoreApi from "../../../apis/creditScoreApi";
 import symsApi from "../../../apis/symsApi";
+import beefly from "../../../js/beefly";
 
 /**
  * 违规类别
@@ -42,7 +42,11 @@ export default class IllegalCategory extends React.Component {
                 pageSize: 1,
             });
             if (result.resultCode === 1) {
-                orderId = result.data[0].id
+                if (result.data && result.data.length > 0) {
+                    orderId = result.data[0].id
+                }else {
+                    beefly.gritter.warning('该车辆无订单数据')
+                }
             }
         }
 
@@ -56,8 +60,6 @@ export default class IllegalCategory extends React.Component {
             });
 
             onOrderChange && onOrderChange(orderDetail);
-        } else {
-            utils.alert(result.message)
         }
     }
 
@@ -72,8 +74,6 @@ export default class IllegalCategory extends React.Component {
             this.setState({
                 buckleCount: result.data
             })
-        } else {
-            utils.alert(result.message)
         }
     }
 
@@ -87,8 +87,6 @@ export default class IllegalCategory extends React.Component {
             this.setState({
                 smsCount: result.data
             })
-        } else {
-            utils.alert(result.message)
         }
     }
 
@@ -145,7 +143,7 @@ export default class IllegalCategory extends React.Component {
                 mobile: orderDetail.mobile
             })
         } else {
-            utils.alert('')
+            beefly.bootbox.alert('')
         }
     }
 

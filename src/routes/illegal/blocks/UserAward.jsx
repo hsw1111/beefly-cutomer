@@ -1,7 +1,8 @@
 import React from 'react';
-import {Box, Button, Form, Input, Tab, Tabs, Text, Textarea, utils} from "beefly-common";
+import {Box, Button, Form, Input, Tab, Tabs, Text, Textarea} from "beefly-common";
 import tripProblemApi from "../../../apis/tripProblemApi";
 import appUserApi from "../../../apis/appUserApi";
+import beefly from "../../../js/beefly";
 
 /**
  * 用户奖励
@@ -44,8 +45,6 @@ export default class UserAward extends React.Component {
 			this.setState({
 				userDetail: result.data
 			})
-		} else {
-			utils.alert(result.message)
 		}
 	}
 
@@ -87,7 +86,7 @@ export default class UserAward extends React.Component {
 					</Tabs>
 				</Form>
 				<div className="pull-right buttons">
-					<Button value="取消" theme="default" onClick={() => utils.closeTab()}/>
+					<Button value="取消" theme="default" onClick={() => beefly.tabs.closeTab()}/>
 					<Button value="确定" onClick={this.confirmHandle.bind(this)}/>
 				</div>
 			</Box>
@@ -97,18 +96,26 @@ export default class UserAward extends React.Component {
 	// 确认处理
 	confirmHandle() {
 		let type = this.state.type + 1;
+		let {detail} = this.props;
+
+		let params = {
+			type,
+			id: detail.id,
+			appUserId: 52468 //detail.userId,
+		};
+
 		switch (type) {
 			case 1:
-				this.confirmHandle_rewardScore(type);
+				this.confirmHandle_rewardScore(params);
 				break;
 			case 2:
-				this.confirmHandle_rewardCoupon(type);
+				this.confirmHandle_rewardCoupon(params);
 				break;
 			case 3:
-				this.confirmHandle_rewardMoeny(type);
+				this.confirmHandle_rewardMoeny(params);
 				break;
 			case 4:
-				this.confirmHandle_noReward(type);
+				this.confirmHandle_noReward(params);
 				break;
 			default:
 				break;
@@ -117,114 +124,66 @@ export default class UserAward extends React.Component {
 	}
 
 	// 确认处理-奖积分
-	async confirmHandle_rewardScore(type) {
-		let {detail} = this.props;
+	async confirmHandle_rewardScore(params) {
 		let {rewardScore} = this.state;
 
 		let result = await tripProblemApi.confirmHandle({
-			type,
-			id: detail.id,
-			appUserId: detail.userId,
+			...params,
 			...rewardScore
 		});
 
-		utils.alert(result.message, () => {
-			utils.closeTab()
-		});
-		this.timer = setTimeout(
-			() => {
-				utils.close();
-			},
-			3000
-		);
 		if (result.resultCode == 1) {
-			// utils.alert(result.message);
-		} else {
-			// utils.alert(result.message);
+			beefly.gritter.success(result.message, () => {
+				beefly.tabs.closeTab()
+			});
 		}
 	}
 
 	// 确认处理-奖出行券
-	async confirmHandle_rewardCoupon(type) {
-		let {detail} = this.props;
+	async confirmHandle_rewardCoupon(params) {
 		let {rewardCoupon} = this.state;
 
 		let result = await tripProblemApi.confirmHandle({
-			type,
-			id: detail.id,
-			appUserId: detail.userId,
+			...params,
 			...rewardCoupon
 		});
 
-		utils.alert(result.message, () => {
-			utils.closeTab()
-		});
-		this.timer = setTimeout(
-			() => {
-				utils.close();
-			},
-			3000
-		);
 		if (result.resultCode == 1) {
-			// utils.alert(result.message);
-		} else {
-			// utils.alert(result.message);
+			beefly.gritter.success(result.message, () => {
+				beefly.tabs.closeTab()
+			});
 		}
 	}
 
 	// 确认处理-奖余额
-	async confirmHandle_rewardMoeny(type) {
-		let {detail} = this.props;
+	async confirmHandle_rewardMoeny(params) {
 		let {rewardBlance} = this.state;
 
 		let result = await tripProblemApi.confirmHandle({
-			type,
-			id: detail.id,
-			appUserId: detail.userId,
+			...params,
 			...rewardBlance
 		});
 
-		utils.alert(result.message, () => {
-			utils.closeTab()
-		});
-		this.timer = setTimeout(
-			() => {
-				utils.close();
-			},
-			3000
-		);
 		if (result.resultCode == 1) {
-			// utils.alert(result.message);
-		} else {
-			// utils.alert(result.message);
+			beefly.gritter.success(result.message, () => {
+				beefly.tabs.closeTab()
+			});
 		}
 	}
 
 	// 确认处理-不奖励
-	async confirmHandle_noReward(type) {
-		let {detail} = this.props;
+	async confirmHandle_noReward(params) {
 		let {noReward} = this.state;
 
 		let result = await tripProblemApi.confirmHandle({
-			type,
-			id: detail.id,
-			appUserId: detail.userId,
+			...params,
 			...noReward
 		});
 
-		utils.alert(result.message, () => {
-			utils.closeTab()
-		});
-		this.timer = setTimeout(
-			() => {
-				utils.close();
-			},
-			3000
-		);
 		if (result.resultCode == 1) {
-			// utils.alert(result.message);
-		} else {
-			// utils.alert(result.message);
+			beefly.gritter.success(result.message, () => {
+				beefly.tabs.closeTab()
+			});
 		}
 	}
 

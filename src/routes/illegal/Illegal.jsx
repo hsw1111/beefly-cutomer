@@ -83,6 +83,9 @@ export default class Illegal extends React.Component {
 						<Field>
 							<Button icon="search" onClick={this.search.bind(this)}>查询</Button>
 						</Field>
+						<Field>
+							<Button onClick={this.export.bind(this)}>导出</Button>
+						</Field>
 					</Form>
 					<DataTable ref={(e) => this._dataTable = e}
 							   columns={columns} api={tripProblemApi.page} query={query}/>
@@ -102,6 +105,12 @@ export default class Illegal extends React.Component {
 		query[query.category] = query.keyword;
 
 		this._dataTable.search(query);
+	}
+
+	async export (){
+		let {query} = this.state;
+		let result = await tripProblemApi.export2(query);
+		console.log(result)
 	}
 
 	// 查看详情

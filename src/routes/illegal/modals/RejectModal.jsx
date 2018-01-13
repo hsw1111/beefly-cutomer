@@ -26,7 +26,7 @@ export default class RejectModal extends React.Component {
 						<div>
 							确定驳回此次违停上报记录吗？
 						</div>
-						<Textarea label="备注" rows={5} model="remark"/>
+						<Textarea label="备注" rows={5} model="remark" validation={{required: true}}/>
 					</Form>
 				</Modal.Body>
 				<Modal.Footer>
@@ -54,7 +54,10 @@ export default class RejectModal extends React.Component {
 	async ok() {
 		let {id, remark} = this.state;
 		let {onClose} = this.props;
-
+		if(remark==''){
+			beefly.gritter.warning("备注不能为空");
+			return
+		}
 		let result = await tripProblemApi.reject({id, remark});
 		if (result.resultCode == 1) {
 			this.hide();

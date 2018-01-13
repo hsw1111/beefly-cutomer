@@ -27,9 +27,11 @@ $.ajaxSetup({
 			let json = XMLHttpRequest.responseJSON;
 			if (json.resultCode === -1) {
 				beefly.gritter.error(json.message);
-				// if (json.data === 0) {
-				// 	beefly.gritter.add()
-				// }
+				if (json.data === 0) {
+					setTimeout(()=>{
+						parent.location = '../login.html'
+					}, 1000)
+				}
 			}
 		} catch (e) {
 			console.log(e)

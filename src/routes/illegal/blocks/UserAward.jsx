@@ -58,13 +58,13 @@ export default class UserAward extends React.Component {
 						<Tab title="奖积分">
 							<Text label="奖罚类型" value="积分奖励"/>
 							<Text label="处理类型" value="其他"/>
-							<Input label="奖励积分" model="rewardScore.creditScoreCount" type="number" width={250}/>
+							<Input label="奖励积分" model="rewardScore.creditScoreCount" type="number" width={250} validation={{required: true}}/>
 							<Textarea label="备注" model="rewardScore.remark" width={'50%'}/>
 						</Tab>
 						<Tab title="奖出行券">
-							<Input label="出行券金额" model="rewardCoupon.couponAmout" type="number" width={150}/>
-							<Input label="出行券张数" model="rewardCoupon.num" type="number" width={150}/>
-							<Input label="过期时间" model="rewardCoupon.expireTime" type="date" width={250}/>
+							<Input label="出行券金额" model="rewardCoupon.couponAmout" type="number" width={150} validation={{required: true}}/>
+							<Input label="出行券张数" model="rewardCoupon.num" type="number" width={150}  validation={{required: true}}/>
+							<Input label="过期时间" model="rewardCoupon.expireTime" type="date" width={250} validation={{required: true}}/>
 						</Tab>
 						<Tab title="奖余额">
 							<Text label="用户当前余额">
@@ -77,7 +77,7 @@ export default class UserAward extends React.Component {
 									</div>
 								)}
 							</Text>
-							<Input label="金额" model="rewardBlance.amount" type="number" width={250}/>
+							<Input label="金额" model="rewardBlance.amount" type="number" width={250} validation={{required: true}}/>
 							<Textarea label="备注" model="rewardBlance.remark" width={'50%'}/>
 						</Tab>
 						<Tab title="不奖励">
@@ -127,6 +127,11 @@ export default class UserAward extends React.Component {
 	async confirmHandle_rewardScore(params) {
 		let {rewardScore} = this.state;
 
+		if(rewardScore.creditScoreCount == ''){
+			beefly.gritter.warning("奖励积分不能为空");
+			return
+		}
+
 		let result = await tripProblemApi.confirmHandle({
 			...params,
 			...rewardScore
@@ -143,6 +148,18 @@ export default class UserAward extends React.Component {
 	async confirmHandle_rewardCoupon(params) {
 		let {rewardCoupon} = this.state;
 
+		if(rewardCoupon.couponAmout == ''){
+			beefly.gritter.warning("出行券金额不能为空");
+			return
+		}
+		if(rewardCoupon.num == ''){
+			beefly.gritter.warning("出行券张数不能为空");
+			return
+		}
+		if(rewardCoupon.expireTime == ''){
+			beefly.gritter.warning("过期时间不能为空");
+			return
+		}
 		let result = await tripProblemApi.confirmHandle({
 			...params,
 			...rewardCoupon
@@ -158,6 +175,11 @@ export default class UserAward extends React.Component {
 	// 确认处理-奖余额
 	async confirmHandle_rewardMoeny(params) {
 		let {rewardBlance} = this.state;
+
+		if(rewardBlance.amount == ''){
+			beefly.gritter.warning("金额不能为空");
+			return
+		}
 
 		let result = await tripProblemApi.confirmHandle({
 			...params,

@@ -50,7 +50,10 @@ export default class AddRemarkModal extends React.Component {
 
 	async ok() {
 		let {id, remark} = this.state;
-
+        if(remark==''){
+        	beefly.gritter.warning("备注不能为空");
+			return
+		}
 		let result = await tripProblemApi.addRemark({id, remark});
 		if (result.resultCode == 1) {
 			this.hide();

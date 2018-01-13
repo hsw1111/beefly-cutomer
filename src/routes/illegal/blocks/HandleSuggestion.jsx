@@ -70,35 +70,35 @@ export default class HandleSuggestion extends React.Component {
 				<Form className="form-label-150" horizontal>
 					<Tabs model="type">
 						<Tab title="扣积分">
-							<Input label="扣除积分" model={'deductScore.creditScoreCount'} width={250}/>
+							<Input label="扣除积分" model={'deductScore.creditScoreCount'} width={250} validation={{required: true}}/>
 							<Textarea label="备注" model={'deductScore.remark'} width={'50%'}/>
 							<Checkbox model={'deductScore.smsFlag'} text="同时给违规人发送短信通知"/>
 							{deductScore.smsFlag == 1 && <div>
 								<Text label="手机号" model={'deductScore.mobile'}/>
 								<Text label="发送目的" value="违规通知"/>
-								<Textarea label="短信内容" model={'deductScore.content'} width={'50%'}/>
+								<Textarea label="短信内容" model={'deductScore.content'} width={'50%'} validation={{required: true}}/>
 							</div>}
 						</Tab>
 						<Tab title="扣押金">
 							{deductCashPledge.depositState == 1 && <div>
 								<p className="text-red">*押金充值已经超过3个月了，暂时无法扣押金，先拉黑用户</p>
-								<Input label="扣除金额" model={'deductCashPledge.depositAmount'} type="number" width={250}/>
-								<Textarea label="备注" model={'deductCashPledge.remark'} width={'50%'}/>
+								<Input label="扣除金额" model={'deductCashPledge.depositAmount'} type="number" width={250} validation={{required: true}}/>
+								<Textarea label="备注" model={'deductCashPledge.remark'} width={'50%'} validation={{required: true}}/>
 								<Checkbox model={'deductCashPledge.smsFlag'} text="同时给违规人发送短信通知"/>
 								{deductCashPledge.smsFlag == 1 && <div>
 									<Text label="手机号" model={'deductCashPledge.mobile'}/>
 									<Text label="发送目的" value="违规通知"/>
-									<Textarea label="短信内容" model={'deductCashPledge.content'} width={'50%'}/>
+									<Textarea label="短信内容" model={'deductCashPledge.content'} width={'50%'} validation={{required: true}}/>
 								</div>}
 							</div>}
 							{deductCashPledge.depositState == 2 && <div>
 								<p className="text-red">*押金充值已经超过3个月了，暂时无法扣押金，先拉黑用户</p>
-								<Textarea label="备注" model={'deductCashPledge.remark'} width={'50%'}/>
+								<Textarea label="备注" model={'deductCashPledge.remark'} width={'50%'} validation={{required: true}}/>
 								<p>拉黑后，用户无法再租用小蜜蜂。</p>
 							</div>}
 							{deductCashPledge.depositState == 3 && <div>
 								<p className="text-red">*该用户押金已经提现，暂时无法扣押金，先冻结用户押金</p>
-								<Textarea label="备注" model={'deductCashPledge.remark'} validations={['required']}
+								<Textarea label="备注" model={'deductCashPledge.remark'} validation={{required: true}}
 										  width={'50%'}/>
 								<p>押金冻结后，用户无法自行提现。</p>
 							</div>}
@@ -115,7 +115,7 @@ export default class HandleSuggestion extends React.Component {
 						<Tab title="发短信">
 							<Text label="手机号" value={orderDetail ? orderDetail.mobile : '-'}/>
 							<Text label="发送目的" value="违规通知"/>
-							<Textarea label="短信内容" model={'sendSms.content'} width={'50%'}/>
+							<Textarea label="短信内容" model={'sendSms.content'} width={'50%'} validation={{required: true}}/>
 						</Tab>
 					</Tabs>
 				</Form>
@@ -168,6 +168,16 @@ export default class HandleSuggestion extends React.Component {
 	// 确认处理-扣积分
 	async confirmHandle_deductScore(params) {
 		let {deductScore} = this.state;
+
+		if(deductScore.creditScoreCount == ''){
+			beefly.gritter.warning("扣除积分不能为空");
+			return
+		}
+		if(deductScore.smsFlag == 1&&deductScore.content == ''){
+			beefly.gritter.warning("短信内容不能为空");
+			return
+		}
+
 		let result = await tripProblemApi.confirmHandleDq({
 			...params,
 			...deductScore
@@ -183,6 +193,11 @@ export default class HandleSuggestion extends React.Component {
 	// 确认处理-扣押金
 	async confirmHandle_deductCashPledge(params) {
 		let {deductCashPledge} = this.state;
+
+		if(deductCashPledge.remark == ''){
+			beefly.gritter.warning("备注不能为空");
+			return
+		}
 		let result = await tripProblemApi.confirmHandleDq({
 			...params,
 			...deductCashPledge
@@ -213,6 +228,11 @@ export default class HandleSuggestion extends React.Component {
 	// 确认处理-发短信
 	async confirmHandle_sendSms(params) {
 		let {sendSms} = this.state;
+
+		if(sendSms.content == ''){
+			beefly.gritter.warning("短信内容不能为空");
+			return
+		}
 		let result = await tripProblemApi.confirmHandleDq({
 			...params,
 			...sendSms

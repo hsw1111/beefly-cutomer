@@ -107,9 +107,9 @@ export default class Illegal extends React.Component {
 		this._dataTable.search(query);
 	}
 
-	async export (){
+	async export() {
 		let {query} = this.state;
-		let result = await tripProblemApi.export2(query);
+		let result = await tripProblemApi.export(query);
 		console.log(result)
 	}
 

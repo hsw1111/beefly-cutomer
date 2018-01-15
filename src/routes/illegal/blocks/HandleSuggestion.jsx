@@ -1,5 +1,6 @@
 import React from 'react';
-import {Box, Button, Checkbox, Form, Input, Tab, Tabs, Text, Textarea} from "beefly-common";
+import {Box, Button, Checkbox, Form, Input, Tab, Tabs, Text, Textarea, Select} from "beefly-common";
+import {noPunishType} from '../../../maps/illegalMap';
 import tripProblemApi from "../../../apis/tripProblemApi";
 import transRecordApi from "../../../apis/transRecordApi";
 import beefly from "../../../js/beefly";
@@ -37,12 +38,18 @@ export default class HandleSuggestion extends React.Component {
 				content: ''
 			},
 
-			noPunish: {},
+			noPunish: {
+				code:''
+			},
 
 			sendSms: {
 				mobile: detail.mobile,
 				content: ''
 			},
+
+			data: {
+				text:'请选择原因', value: ''
+			}
 		}
 	}
 
@@ -62,7 +69,7 @@ export default class HandleSuggestion extends React.Component {
 	}
 
 	render() {
-		let {deductScore, deductCashPledge} = this.state;
+		let {deductScore, deductCashPledge ,data} = this.state;
 		let {orderDetail} = this.props;
 		return (
 			<Box title="处理意见" icon="fa-tag">
@@ -111,6 +118,9 @@ export default class HandleSuggestion extends React.Component {
 								<li>最近一次订单与违停上报时间点相差超过5天，不处罚</li>
 								<li>订单状态是＂开锁失败＂，不处罚</li>
 							</ol>
+							<Form horizontal>
+							<Select width={250} label="请选择不处罚的原因"  wholeOption={data}  model="noPunish.code"  whole={true} options={noPunishType} validation={{required: true}}/>
+							</Form>
 						</Tab>
 						<Tab title="发短信">
 							<Text label="手机号" value={orderDetail ? orderDetail.mobile : '-'}/>
@@ -213,6 +223,10 @@ export default class HandleSuggestion extends React.Component {
 	// 确认处理-不处罚
 	async confirmHandle_noPunish(params) {
 		let {noPunish} = this.state;
+		if(noPunish.code == ''){
+			beefly.gritter.warning("请选择原因");
+			return
+		}
 		let result = await tripProblemApi.confirmHandleDq({
 			...params,
 			...noPunish

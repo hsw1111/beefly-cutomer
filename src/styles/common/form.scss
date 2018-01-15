@@ -143,7 +143,9 @@ $labelWidths: (50, 75, 100, 125, 150, 175, 200, 225, 250, 275 300);
 
 // Input
 .fg-input {
-
+	.fg-label {
+		padding-top: 12px;
+	}
 }
 
 // Checkbox
@@ -161,6 +163,13 @@ $labelWidths: (50, 75, 100, 125, 150, 175, 200, 225, 250, 275 300);
 				margin-right: 5px;
 			}
 		}
+	}
+}
+
+// Select
+.fg-select {
+	.fg-label {
+		padding-top: 12px;
 	}
 }
 

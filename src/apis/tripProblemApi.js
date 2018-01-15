@@ -32,6 +32,10 @@ const tripProblemApi = {
 	 */
 	confirmHandleDq: (params) => request.get(env.apiPath_customer + 'tripProblem/confirmHandleDq', params),
 	/**
+	 * 违停上报确认处理_地勤 不处罚接口
+	 */
+	noPunishList: (params) => request.get(env.apiPath_customer + 'tripProblem/noPunishList', params),
+	/**
 	 * 违停上报导出
 	 */
 	export: (params) => {

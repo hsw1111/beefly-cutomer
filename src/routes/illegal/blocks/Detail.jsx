@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box, Field, Form, Text, Row, Col} from "beefly-common";
-import {reportState} from '../../../maps/illegalMap';
+import {reportState,handleType} from '../../../maps/illegalMap';
 
 /**
  * 详情
@@ -23,6 +23,7 @@ export default class Detail extends React.Component {
 						{detail.picUrls.map((r) => <img key={r} src={r} width={200} className="margin-r-10"/>)}
 					</Field>
 					<Text label="上报人员角色" value={reportState[detail.reportRole]}/>
+					<Text label="处理进度" value={handleType[detail.state]}/>
 
 				</Form>
 				{showHandle && (

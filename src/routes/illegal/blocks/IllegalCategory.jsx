@@ -68,7 +68,7 @@ export default class IllegalCategory extends React.Component {
         let {detail} = this.props;
         let result = await creditScoreApi.count({
             userId: detail.userId,
-            count: detail.count
+			unit: 0
         });
         if (result.resultCode === 1) {
             this.setState({

@@ -24,7 +24,6 @@ export default class IllegalConfirm extends React.Component {
 		let {id} = urlUtils.getParams();
 		let result = await tripProblemApi.detail({id});
 		let detail = result.data;
-
 		this.setState({
 			detail
 		});

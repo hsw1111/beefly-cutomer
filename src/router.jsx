@@ -17,6 +17,11 @@ const IntegralModal = asyncComponent(() => import(/* webpackChunkName: "illegal/
 const RejectModal = asyncComponent(() => import(/* webpackChunkName: "illegal/modals/RejectModal" */'./routes/illegal/modals/RejectModal'));
 const ReplaceOrderModal = asyncComponent(() => import(/* webpackChunkName: "illegal/modals/ReplaceOrderModal" */'./routes/illegal/modals/ReplaceOrderModal'));
 const SymsModal = asyncComponent(() => import(/* webpackChunkName: "illegal/modals/SymsModal" */'./routes/illegal/modals/SymsModal'));
+const Details = asyncComponent(() => import(/* webpackChunkName: "user/blocks/Details" */'./routes/user/blocks/Details'));
+const ModifyModal = asyncComponent(() => import(/* webpackChunkName: "user/modals/ModifyModal" */'./routes/user/modals/ModifyModal'));
+const user = asyncComponent(() => import(/* webpackChunkName: "user/index" */'./routes/user/user'));
+const userDetails = asyncComponent(() => import(/* webpackChunkName: "user/details" */'./routes/user/userDetails'));
+const userOrder = asyncComponent(() => import(/* webpackChunkName: "user/order" */'./routes/user/userOrder'));
 
 /**
  * 模块路由
@@ -39,6 +44,11 @@ export default () => (
 			<Route exact path="/illegal/modals/RejectModal" component={RejectModal}/>
 			<Route exact path="/illegal/modals/ReplaceOrderModal" component={ReplaceOrderModal}/>
 			<Route exact path="/illegal/modals/SymsModal" component={SymsModal}/>
+			<Route exact path="/user/blocks/Details" component={Details}/>
+			<Route exact path="/user/modals/ModifyModal" component={ModifyModal}/>
+			<Route exact path="/user" component={user}/>
+			<Route exact path="/user/details" component={userDetails}/>
+			<Route exact path="/user/order" component={userOrder}/>
 			<Route path="*" component={Error404}/>
 		</Switch>
 	</Router>

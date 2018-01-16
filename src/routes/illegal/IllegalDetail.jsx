@@ -29,9 +29,7 @@ export default class IllegalDetails extends React.Component {
 				<Content>
 					<Detail detail={detail} showHandle showRemarks/>
 					<div className="pull-right buttons margin-b-20">
-						<Button onClick={this.reject.bind(this)}>驳回处理</Button>
-						<Button onClick={this.confirm.bind(this)}>确认处理</Button>
-						<Button onClick={this.closed.bind(this)}>关闭</Button>
+						{this.renderPrize()}
 						<RejectModal ref={(e) => this._rejectModal = e} onClose={this.rejectSuccess.bind(this)}/>
 					</div>
 				</Content>
@@ -74,6 +72,19 @@ export default class IllegalDetails extends React.Component {
 		this.setState({
 			detail
 		});
+	}
+
+	renderPrize() {
+		let {detail} = this.state;
+		if(detail.state == 5) {
+			return <Button onClick={this.closed.bind(this)}>关闭</Button>
+		}else{
+			return <div>
+				<Button onClick={this.reject.bind(this)}>驳回处理</Button>
+				<Button onClick={this.confirm.bind(this)}>确认处理</Button>
+				<Button onClick={this.closed.bind(this)}>关闭</Button>
+			</div>
+		}
 	}
 
 }

@@ -110,7 +110,6 @@ export default class Illegal extends React.Component {
 	async export() {
 		let {query} = this.state;
 		let result = await tripProblemApi.export(query);
-		console.log(result)
 	}
 
 	// 查看详情

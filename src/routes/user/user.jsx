@@ -5,6 +5,7 @@ import {userState, vagueState, depositState} from '../../maps/userMap';
 import ModifyModal from "./modals/ModifyModal";
 import tripProblemApi from "../../apis/tripProblemApi";
 import appUserApi from "../../apis/appUserApi";
+import orderApi from "../../apis/orderApi";
 import beefly from "../../js/beefly";
 
 /**
@@ -45,13 +46,14 @@ export default class Illegal extends React.Component {
 		beefly.details = this.details.bind(this);
 		beefly.modify = this.modify.bind(this);
 		beefly.seeOrder = this.seeOrder.bind(this);
+		// beefly.black = this.black.bind(this);
 	}
 
 	renderActions(data, type, row) {
 			let actions = [
 				{text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
-				{text: '查看订单', icon: 'user-plus', onclick: `beefly.seeOrder('${row.bikeCode},${row.beginDate}')`},
-				// {text: '拉黑', icon: 'user-plus', onclick: `beefly.reject('${row.id}')`},
+				{text: '查看订单', icon: 'user-plus', onclick: `beefly.seeOrder('${row.id}')`},
+				// {text: '拉黑', icon: 'user-plus', onclick: `beefly.black('${row.id}')`},
 				// {text: '余额管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
 				// {text: '出行券管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
 				// {text: '信用积分管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
@@ -120,16 +122,21 @@ export default class Illegal extends React.Component {
 		});
 	}
 	//查看订单
-	seeOrder(data) {
-		console.log(data,8787)
-		// beefly.tabs.addTab({
-		// 	name: '用户管理详情-' + data.bikeCode,
-		// 	path: '/user/order',
-		// 	params: {
-		// 		data
-		// 	}
-		// })
+	async seeOrder(id) {
+		// let result = await orderApi.page({appUserId:id});
+		// console.log(result,8787)
+		beefly.tabs.addTab({
+			name: '用户管理详情-' + id,
+			path: '/user/order',
+			params: {
+				id
+			}
+		})
 	}
+	//拉黑
+	// block(id){
+	// 	console.log(id,6666)
+	// }
 
 
 }

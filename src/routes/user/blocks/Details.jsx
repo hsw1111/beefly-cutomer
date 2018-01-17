@@ -1,11 +1,26 @@
 import React from 'react';
-import {Box, Field, Form, Text, Row, Col} from "beefly-common";
+import {Box, Field, Form, Text, Row, Col, Tab, Tabs,} from "beefly-common";
 import {reportState,handleType} from '../../../maps/illegalMap';
 
 /**
  * 详情
  */
 export default class Detail extends React.Component {
+
+	constructor(props) {
+		super(props);
+
+		let {detail} = this.props;
+		this.state = {
+			type:0,
+		}
+
+	}
+	async componentWillMount() {
+		let {detail} = this.props;
+		console.log(detail.id,88888888888888)
+
+	}
 
 	render() {
 		let {detail, showHandle, showRemarks} = this.props;
@@ -30,6 +45,26 @@ export default class Detail extends React.Component {
 						</Col>
 					</Row>
 				</Form>
+				<Tabs model="type">
+					<Tab title="余额">
+						<Text label="发送目的" value="违规通知"/>
+					</Tab>
+					<Tab title="押金">
+						<Text label="发送目的" value="违规通知"/>
+					</Tab>
+					<Tab title="出行券">
+						<Text label="发送目的" value="违规通知"/>
+					</Tab>
+					<Tab title="权益卡">
+						<Text label="发送目的" value="违规通知"/>
+					</Tab>
+					<Tab title="信用积分">
+						<Text label="发送目的" value="违规通知"/>
+					</Tab>
+					<Tab title="拉黑">
+						<Text label="发送目的" value="违规通知"/>
+					</Tab>
+				</Tabs>
 			</Box>
 		)
 	}

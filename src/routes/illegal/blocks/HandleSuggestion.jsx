@@ -1,9 +1,10 @@
 import React from 'react';
 import {Box, Button, Checkbox, Form, Input, Tab, Tabs, Text, Textarea, Select} from "beefly-common";
-import {noPunishType} from '../../../maps/illegalMap';
+import {noPunishType,opinionType} from '../../../maps/illegalMap';
 import tripProblemApi from "../../../apis/tripProblemApi";
 import transRecordApi from "../../../apis/transRecordApi";
 import beefly from "../../../js/beefly";
+import creditScoreApi from "../../../apis/creditScoreApi";
 
 /**
  * 处理意见
@@ -66,14 +67,30 @@ export default class HandleSuggestion extends React.Component {
 				deductCashPledge
 			})
 		}
-	}
 
+		//信用分次数
+		this.fetchBuckleCount()
+	}
+	// 已扣信用分次数
+	async fetchBuckleCount() {
+		let {detail} = this.props;
+		let result = await creditScoreApi.count({
+			userId: detail.userId,
+			unit: 0
+		});
+		if (result.resultCode === 1) {
+			this.setState({
+				type: result.data == 0? 0: 1
+			})
+		}
+	}
 	render() {
-		let {deductScore, deductCashPledge ,data} = this.state;
+		let {deductScore, deductCashPledge ,data, type} = this.state;
+
 		let {orderDetail} = this.props;
 		return (
 			<Box title="处理意见" icon="fa-tag">
-				<p>鉴于订单的违规类别和信用积分，我们建议的处理意见为 扣积分 ，你也可以更改处理意见。</p>
+				<p>鉴于订单的违规类别和信用积分，我们建议的处理意见为 {beefly.dtUtils.renderMap(type, opinionType)} ，你也可以更改处理意见。</p>
 				<Form className="form-label-150" horizontal>
 					<Tabs model="type">
 						<Tab title="扣积分">

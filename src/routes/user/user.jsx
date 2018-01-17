@@ -21,7 +21,7 @@ export default class Illegal extends React.Component {
 				{title: '用户姓名', data: 'name'},
 				{title: '手机号', data: 'mobile'},
 				{title: '登录城市', data: 'cityName'},
-				{title: '用户状态', data: 'mobile'},
+				{title: '用户状态', data: 'userStatusName'},
 				{title: '注册时间', data: 'registerTime', render: beefly.dtUtils.renderDateTime},
 				{title: '账户余额（￥）', data: 'grantBalance'},
 				{title: '信用积分', data: 'credScore'},
@@ -68,7 +68,7 @@ export default class Illegal extends React.Component {
 			<Content>
 				<Box>
 					<Form inline>
-						<Select label="用户状态" model="query.state" options={userState} whole={true}/>
+						<Select label="用户状态" model="query.state" options={userState} whole={false}/>
 						<CitySelect label='城市' model="query.cityCode"/>
 						<NumberRange model="query.minBalance,query.maxBalance" label="账户余额"/>
 						<DateRange label="注册时间" model="query.beginRegisterTime,query.endRegisterTime"/>
@@ -104,7 +104,7 @@ export default class Illegal extends React.Component {
 	details(id) {
 		beefly.tabs.addTab({
 			name: '用户管理详情-' + id,
-			path: '/user/detail',
+			path: '/user/details',
 			params: {
 				id
 			}
@@ -121,13 +121,14 @@ export default class Illegal extends React.Component {
 	}
 	//查看订单
 	seeOrder(data) {
-		beefly.tabs.addTab({
-			name: '用户管理详情-' + data.bikeCode,
-			path: '/user/details',
-			params: {
-				data
-			}
-		})
+		console.log(data,8787)
+		// beefly.tabs.addTab({
+		// 	name: '用户管理详情-' + data.bikeCode,
+		// 	path: '/user/order',
+		// 	params: {
+		// 		data
+		// 	}
+		// })
 	}
 
 

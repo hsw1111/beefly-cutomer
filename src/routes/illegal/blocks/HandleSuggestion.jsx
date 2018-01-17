@@ -69,8 +69,8 @@ export default class HandleSuggestion extends React.Component {
 	}
 
 	render() {
-		let {deductScore, deductCashPledge ,data} = this.state;
-		let {orderDetail} = this.props;
+		let {deductScore, deductCashPledge,  data} = this.state;
+		let {orderDetai} = this.props;
 		return (
 			<Box title="处理意见" icon="fa-tag">
 				<p>鉴于订单的违规类别和信用积分，我们建议的处理意见为 扣积分 ，你也可以更改处理意见。</p>

@@ -104,7 +104,7 @@ export default class Illegal extends React.Component {
 	details(id) {
 		beefly.tabs.addTab({
 			name: '用户管理详情-' + id,
-			path: '/user/detail',
+			path: '/user/details',
 			params: {
 				id
 			}
@@ -123,7 +123,7 @@ export default class Illegal extends React.Component {
 	seeOrder(data) {
 		beefly.tabs.addTab({
 			name: '用户管理详情-' + data.bikeCode,
-			path: '/user/details',
+			path: '/user/order',
 			params: {
 				data
 			}

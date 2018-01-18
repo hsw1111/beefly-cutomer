@@ -1,4 +1,5 @@
 import React from 'react';
+import {observer} from 'mobx-react';
 import {Box, Field, Form, Text} from "beefly-common";
 import ReplaceOrderModal from "../modals/ReplaceOrderModal";
 import IntegralModal from "../modals/IntegralModal";
@@ -7,92 +8,27 @@ import orderApi from "../../../apis/orderApi";
 import creditScoreApi from "../../../apis/creditScoreApi";
 import symsApi from "../../../apis/symsApi";
 import beefly from "../../../js/beefly";
+import illegalStore from "../stores/illegalStore";
 
 /**
  * 违规类别
  */
+@observer
 export default class IllegalCategory extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            orderDetail: null,  // 订单详情
-            buckleCount: 0,     // 已扣信用分次数
-            smsCount: 0,        // 收到违停短信次数
-        }
-    }
-
-    async componentWillMount() {
+	componentWillMount() {
         // 获取订单详情
-        this.fetchOrderDetail();
-
+        illegalStore.fetchOrderDetail();
         // 获取收到违停短信次数
-        this.fetchSmsCount();
-
+		illegalStore.fetchSmsCount();
         // 获取已扣信用分次数
-        this.fetchBuckleCount();
+		illegalStore.fetchBuckleCount();
     }
 
-    // 订单详情
-    async fetchOrderDetail(orderId) {
-        let {detail, onOrderChange} = this.props;
-        if (!orderId) {
-            let result = await orderApi.page({
-                bikeCode: detail.bikeCode,
-                pageSize: 1,
-            });
-            if (result.resultCode === 1) {
-                if (result.data && result.data.length > 0) {
-                    orderId = result.data[0].id
-                }else {
-                    beefly.gritter.warning('该车辆无订单数据')
-                }
-            }
-        }
-
-        let result = await orderApi.detail({
-            orderId
-        });
-        if (result.resultCode === 1) {
-            let orderDetail = result.data;
-            this.setState({
-                orderDetail
-            });
-
-            onOrderChange && onOrderChange(orderDetail);
-        }
-    }
-
-    // 已扣信用分次数
-    async fetchBuckleCount() {
-        let {detail} = this.props;
-        let result = await creditScoreApi.count({
-            userId: detail.userId,
-			unit: 0
-        });
-        if (result.resultCode === 1) {
-            this.setState({
-                buckleCount: result.data
-            })
-        }
-    }
-
-    // 已扣信用分次数
-    async fetchSmsCount() {
-        let {detail} = this.props;
-        let result = await symsApi.countSms({
-            userId: detail.userId
-        });
-        if (result.resultCode === 1) {
-            this.setState({
-                smsCount: result.data
-            })
-        }
-    }
 
     render() {
-        let {detail} = this.props;
-        let {orderDetail, smsCount, buckleCount} = this.state;
+        let {detail, orderDetail, smsCount, buckleCount, misreport} = illegalStore;
+        name ='(订单里程<100米时，存在误报风险，需要处罚的有可能是上一次订单)';
         return (
             <Box>
                 <Form className={'form-label-150'} horizontal>
@@ -101,7 +37,7 @@ export default class IllegalCategory extends React.Component {
                         {orderDetail && <div>
                             <ul className="list-unstyled">
                                 <li><span className="margin-r-20">{orderDetail.id}</span>
-                                    <a href="javascript:" onClick={this.replace.bind(this)}>更换订单</a></li>
+                                    <a href="javascript:" onClick={this.replace.bind(this)}>更换订单</a>{misreport=0?<span className="margin-l-20" style={{backgroundColor:'yellow'}}>{name}</span>:''}</li>
                                 <li>订单状态：{orderDetail.state || '无'}，里程：{orderDetail.mileage || 0}米，时长：{orderDetail.timeInOrder || 0}分，结束时间：{orderDetail.endTime || '-'}</li>
                                 <li>还车地点：{orderDetail.backLocation || '-'}</li>
                             </ul>
@@ -126,7 +62,7 @@ export default class IllegalCategory extends React.Component {
 
     // 更改订单
     replace() {
-        let {detail} = this.props;
+        let {detail} = illegalStore;
         this._replaceModal.show({
             bikeCode: detail.bikeCode,
             beginDate: detail.lastReportTime
@@ -135,8 +71,7 @@ export default class IllegalCategory extends React.Component {
 
     //信用积分
     integral() {
-        let {detail} = this.props;
-        let {orderDetail} = this.state;
+        let {detail, orderDetail} = illegalStore;
         if (orderDetail) {
             this._integralModal.show({
                 userId: detail.userId,
@@ -149,7 +84,7 @@ export default class IllegalCategory extends React.Component {
 
     //违停短信
     syms() {
-        let {detail} = this.props;
+        let {detail} = illegalStore;
         this._symesModal.show({
             mobile: detail.mobile,
             userId: detail.userId,
@@ -157,7 +92,7 @@ export default class IllegalCategory extends React.Component {
     }
 
     changeOrder(orderId) {
-        this.fetchOrderDetail(orderId)
+		illegalStore.fetchOrderDetail(orderId)
     }
 
 }

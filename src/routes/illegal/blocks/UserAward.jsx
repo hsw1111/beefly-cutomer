@@ -1,12 +1,15 @@
 import React from 'react';
+import {observer} from 'mobx-react';
 import {Box, Button, Form, Input, Tab, Tabs, Text, Textarea} from "beefly-common";
 import tripProblemApi from "../../../apis/tripProblemApi";
 import appUserApi from "../../../apis/appUserApi";
 import beefly from "../../../js/beefly";
+import illegalStore from "../stores/illegalStore";
 
 /**
  * 用户奖励
  */
+@observer
 export default class UserAward extends React.Component {
 
 	constructor(props) {
@@ -39,7 +42,7 @@ export default class UserAward extends React.Component {
 	}
 
 	async componentWillMount() {
-		let {detail} = this.props;
+		let {detail} = illegalStore;
 		let result = await appUserApi.userDetail({id: detail.userId});
 		if (result.resultCode === 1) {
 			this.setState({
@@ -96,12 +99,12 @@ export default class UserAward extends React.Component {
 	// 确认处理
 	confirmHandle() {
 		let type = this.state.type + 1;
-		let {detail} = this.props;
+		let {detail} = illegalStore;
 
 		let params = {
 			type,
 			id: detail.id,
-			appUserId: 52468 //detail.userId,
+			appUserId: detail.userId,
 		};
 
 		switch (type) {

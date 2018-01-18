@@ -67,6 +67,7 @@ export default class IllegalDetails extends React.Component {
 
 	async fetchDetail() {
 		let {id} = urlUtils.getParams();
+		console.log('-------------id',urlUtils)
 		let result = await tripProblemApi.detail({id});
 		let detail = result.data;
 		this.setState({

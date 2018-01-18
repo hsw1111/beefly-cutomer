@@ -25,7 +25,7 @@ export default class Illegal extends React.Component {
 				{title: '注册时间', data: 'registerTime', render: beefly.dtUtils.renderDateTime},
 				{title: '账户余额（￥）', data: 'grantBalance'},
 				{title: '信用积分', data: 'credScore'},
-				{title: '押金状态', data: 'certState', render: (data) => beefly.dtUtils.renderMap(data, depositState)},
+				{title: '押金状态', data: 'depositState', render: (data) => beefly.dtUtils.renderMap(data, depositState)},
 				{title: '操作', type: 'object', render: this.renderActions},
 			],
 
@@ -121,15 +121,6 @@ export default class Illegal extends React.Component {
 	}
 	//查看订单
 	seeOrder(data) {
-<<<<<<< HEAD
-		beefly.tabs.addTab({
-			name: '用户管理详情-' + data.bikeCode,
-			path: '/user/order',
-			params: {
-				data
-			}
-		})
-=======
 		console.log(data,8787)
 		// beefly.tabs.addTab({
 		// 	name: '用户管理详情-' + data.bikeCode,
@@ -138,7 +129,6 @@ export default class Illegal extends React.Component {
 		// 		data
 		// 	}
 		// })
->>>>>>> e3f3de08d0c686dfb2ca1b7e94fa5ae7742e9a4a
 	}
 
 

@@ -53,7 +53,7 @@ export default class HandleSuggestion extends React.Component {
 		}
 	}
 
-	async componentWillMount() {
+	async componentWillMount() {		
 		let {detail} = this.props;
 		let result = await transRecordApi.getDepositState({
 			appUserId: detail.userId
@@ -70,7 +70,7 @@ export default class HandleSuggestion extends React.Component {
 
 	render() {
 		let {deductScore, deductCashPledge,  data} = this.state;
-		let {orderDetai} = this.props;
+		let {orderDetail} = this.props;
 		return (
 			<Box title="处理意见" icon="fa-tag">
 				<p>鉴于订单的违规类别和信用积分，我们建议的处理意见为 扣积分 ，你也可以更改处理意见。</p>

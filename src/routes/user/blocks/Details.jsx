@@ -1,6 +1,7 @@
 import React from 'react';
-import {Box, Field, Form, Text, Row, Col, Tab, Tabs,} from "beefly-common";
+import {Box, Field, Form, Text, Row, Col, Tab, Tabs,DataTable} from "beefly-common";
 import {reportState,handleType} from '../../../maps/illegalMap';
+import couponApi from "../../../apis/couponApi";
 
 /**
  * 详情
@@ -13,17 +14,29 @@ export default class Detail extends React.Component {
 		let {detail} = this.props;
 		this.state = {
 			type:0,
+			columns: [
+				{title: '用户编号', data: 'userId'},
+				{title: '用户姓名', data: 'userId'},
+			],
+
+			query: {
+				'appUserId': '',
+			},
 		}
 
 	}
 	async componentWillMount() {
 		let {detail} = this.props;
-		console.log(detail.id,88888888888888)
+		let {query} = this.state;
+		query.appUserId=detail.id;
+		// let result = await couponApi.page({appUserId:detail.id});
+		// console.log(result,123)
+		// console.log(detail.id,888)
 
 	}
 
 	render() {
-		let {detail, showHandle, showRemarks} = this.props;
+		let {detail, showHandle, showRemarks,columns,query} = this.props;
 		return (
 			<Box>
 				<Form className="form-label-150" horizontal>
@@ -53,7 +66,8 @@ export default class Detail extends React.Component {
 						<Text label="发送目的" value="违规通知"/>
 					</Tab>
 					<Tab title="出行券">
-						<Text label="发送目的" value="违规通知"/>
+						<DataTable ref={(e) => this._dataTable = e}
+								   columns={columns} api={couponApi.page} query={query}/>
 					</Tab>
 					<Tab title="权益卡">
 						<Text label="发送目的" value="违规通知"/>

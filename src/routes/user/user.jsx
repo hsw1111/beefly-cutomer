@@ -3,9 +3,7 @@ import {Box, Button, CitySelect, Content, DataTable, DateRange, Field, Form, Sel
 import {handleType, operateState, reportState} from '../../maps/illegalMap';
 import {userState, vagueState, depositState} from '../../maps/userMap';
 import ModifyModal from "./modals/ModifyModal";
-import tripProblemApi from "../../apis/tripProblemApi";
 import appUserApi from "../../apis/appUserApi";
-import orderApi from "../../apis/orderApi";
 import beefly from "../../js/beefly";
 
 /**
@@ -97,11 +95,6 @@ export default class Illegal extends React.Component {
 		this._dataTable.search(query);
 	}
 
-	async export() {
-		let {query} = this.state;
-		let result = await tripProblemApi.export(query);
-	}
-
 	// 查看详情
 	details(id) {
 		beefly.tabs.addTab({
@@ -122,11 +115,9 @@ export default class Illegal extends React.Component {
 		});
 	}
 	//查看订单
-	async seeOrder(id) {
-		// let result = await orderApi.page({appUserId:id});
-		// console.log(result,8787)
+	seeOrder(id) {
 		beefly.tabs.addTab({
-			name: '用户管理详情-' + id,
+			name: '用户管理订单-' + id,
 			path: '/user/order',
 			params: {
 				id

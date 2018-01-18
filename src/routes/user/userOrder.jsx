@@ -16,17 +16,17 @@ export default class IllegalDetails extends React.Component {
 		this.state = {
 			columns: [
 				{title: '订单编号', data: 'id'},
-				{title: '下单时间', data: 'id'},
-				{title: '结束时间', data: 'id'},
-				{title: '取车时续航里程', data: 'id'},
-				{title: '车辆编号', data: 'id'},
-				{title: '取车地点', data: 'id'},
-				{title: '骑行时间（m）', data: 'id'},
-				{title: '骑行里程（m）', data: 'id'},
-				{title: '订单费用（￥）', data: 'id'},
-				{title: '订单状态', data: 'id'},
+				{title: '下单时间', data: 'placeOrderTime'},
+				{title: '结束时间', data: 'endTime'},
+				{title: '取车时续航里程', data: 'leftMileage'},
+				{title: '车辆编号', data: 'bikeCode'},
+				{title: '取车地点', data: 'pickLocation'},
+				{title: '骑行时间（m）', data: 'timeInOrder'},
+				{title: '骑行里程（m）', data: 'mileage'},
+				{title: '订单费用（￥）', data: 'actualAmount'},
+				{title: '订单状态', data: 'state'},
 			],
-			detail: {},
+			orderData: {},
 			query: {
 				'appUserId': '',
 			},
@@ -35,24 +35,23 @@ export default class IllegalDetails extends React.Component {
 
 	async componentWillMount() {
 		let {id} = urlUtils.getParams();
-		// console.log(id,4444);
 		let {query} = this.state;
-		query.appUserId=id
+		query.appUserId=id;
 	}
 
 	render() {
-		let {detail,columns, query} = this.state;
+		let {orderData,columns, query} = this.state;
 			return (
 				<Box>
 					<Form className="form-label-150" horizontal>
 						<Row>
 							<Col md={5}>
-								<Text label="用户编号" value={detail.id}/>
-								<Text label="用户姓名" value={detail.id}/>
+								<Text label="用户编号" value={orderData.userId}/>
+								<Text label="用户姓名" value={orderData.userName}/>
 							</Col>
 							<Col md={7}>
-								<Text label="用户状态" value={detail.id}/>
-								<Text label="信用积分" value={detail.id}/>
+								<Text label="用户状态" value={orderData.id}/>
+								<Text label="信用积分" value={orderData.id}/>
 							</Col>
 						</Row>
 					</Form>

@@ -42,7 +42,7 @@ export default class IllegalDetails extends React.Component {
 		let {id} = urlUtils.getParams();
 		let result = await appUserApi.userDetail({id});
 		let detail = result.data;
-		console.log(detail,787878)
+		console.log(id,787878)
 		this.setState({
 			detail
 		});

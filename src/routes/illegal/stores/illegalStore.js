@@ -45,7 +45,7 @@ class IllegalStore {
 		});
 		if (result.resultCode === 1) {
 			this.orderDetail = result.data;
-
+			
 			if(this.orderDetail && this.orderDetail.mileage < 100){
 				 this.misreport = 1
 			}

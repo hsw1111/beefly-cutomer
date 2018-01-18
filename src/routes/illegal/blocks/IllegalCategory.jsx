@@ -28,7 +28,7 @@ export default class IllegalCategory extends React.Component {
 
     render() {
         let {detail, orderDetail, smsCount, buckleCount, misreport} = illegalStore;
-        name ='(订单里程<100米时，存在误报风险，需要处罚的有可能是上一次订单)';
+        name = '(订单里程<100米时，存在误报风险，需要处罚的有可能是上一次订单)';
         return (
             <Box>
                 <Form className={'form-label-150'} horizontal>
@@ -37,7 +37,7 @@ export default class IllegalCategory extends React.Component {
                         {orderDetail && <div>
                             <ul className="list-unstyled">
                                 <li><span className="margin-r-20">{orderDetail.id}</span>
-                                    <a href="javascript:" onClick={this.replace.bind(this)}>更换订单</a>{misreport=0?<span className="margin-l-20" style={{backgroundColor:'yellow'}}>{name}</span>:''}</li>
+                                    <a href="javascript:" onClick={this.replace.bind(this)}>更换订单</a>{misreport === 1 ? <span className="margin-l-20" style={{backgroundColor: 'yellow'}}>{name}</span> : ''}</li>
                                 <li>订单状态：{orderDetail.state || '无'}，里程：{orderDetail.mileage || 0}米，时长：{orderDetail.timeInOrder || 0}分，结束时间：{orderDetail.endTime || '-'}</li>
                                 <li>还车地点：{orderDetail.backLocation || '-'}</li>
                             </ul>

@@ -1,6 +1,5 @@
 import React from 'react';
 import {Box, Button, CitySelect, Content, DataTable, DateRange, Field, Form, Select, SelectInput, NumberRange} from "beefly-common";
-import {handleType, operateState, reportState} from '../../maps/illegalMap';
 import {userState, vagueState, depositState} from '../../maps/userMap';
 import ModifyModal from "./modals/ModifyModal";
 import tripProblemApi from "../../apis/tripProblemApi";
@@ -9,7 +8,7 @@ import orderApi from "../../apis/orderApi";
 import beefly from "../../js/beefly";
 
 /**
- * 违停上报
+ * 用户管理
  */
 export default class Illegal extends React.Component {
 

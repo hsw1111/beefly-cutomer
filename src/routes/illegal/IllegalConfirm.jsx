@@ -1,53 +1,33 @@
 import React from 'react';
+import {observer} from 'mobx-react';
 import {Content} from "beefly-common";
-import {urlUtils} from 'jeselvmo';
-import tripProblemApi from "../../apis/tripProblemApi";
 import UserAward from "./blocks/UserAward";
 import HandleSuggestion from "./blocks/HandleSuggestion";
 import IllegalCategory from "./blocks/IllegalCategory";
 import Detail from "./blocks/Detail";
+import illegalStore from "./stores/illegalStore";
 
 /**
  * 违停上报确认
  */
+@observer
 export default class IllegalConfirm extends React.Component {
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			detail: null,
-			orderDetail: null
-		}
-	}
-
-	async componentWillMount() {
-		let {id} = urlUtils.getParams();
-		let result = await tripProblemApi.detail({id});
-		let detail = result.data;
-		this.setState({
-			detail
-		});
+	componentWillMount() {
+		illegalStore.fetchDetail()
 	}
 
 	render() {
-		let {detail, orderDetail} = this.state;
+		let {detail} = illegalStore;
 		if (detail) {
 			return (
 				<Content>
-					<Detail detail={detail} simple/>
-					{detail.reportRole != 0 && <IllegalCategory detail={detail}
-																onOrderChange={this.orderChange.bind(this)}/>}
-					{detail.reportRole == 0 ? <UserAward detail={detail}/> :
-						<HandleSuggestion detail={detail} orderDetail={orderDetail}/>}
+					<Detail simple/>
+					{detail.reportRole != 0 && <IllegalCategory/>}
+					{detail.reportRole == 0 ? <UserAward/> : <HandleSuggestion/>}
 				</Content>
 			)
 		}
 		return null
-	}
-
-	orderChange(orderDetail) {
-		this.setState({
-			orderDetail
-		})
 	}
 }

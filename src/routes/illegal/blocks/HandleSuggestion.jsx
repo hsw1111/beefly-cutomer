@@ -1,22 +1,34 @@
 import React from 'react';
+import {observer} from 'mobx-react';
 import {Box, Button, Checkbox, Form, Input, Tab, Tabs, Text, Textarea, Select} from "beefly-common";
 import {noPunishType} from '../../../maps/illegalMap';
 import tripProblemApi from "../../../apis/tripProblemApi";
 import transRecordApi from "../../../apis/transRecordApi";
 import beefly from "../../../js/beefly";
+import creditScoreApi from "../../../apis/creditScoreApi";
+import illegalStore from "../stores/illegalStore";
+
+/**
+ * 违停上报 处理意见
+ */
+const opinionType = {
+	0: '扣积分',
+	1: '扣押金',
+	2: '不处罚',
+	3: '发短信',
+};
 
 /**
  * 处理意见
  */
+@observer
 export default class HandleSuggestion extends React.Component {
 
 	constructor(props) {
 		super(props);
 
-		let {detail} = this.props;
+		let {detail} = illegalStore;
 		this.state = {
-			type: 1,
-
 			deductScore: {
 				creditScoreCount: 5,
 				remark: '',
@@ -39,7 +51,7 @@ export default class HandleSuggestion extends React.Component {
 			},
 
 			noPunish: {
-				code:''
+				code: ''
 			},
 
 			sendSms: {
@@ -48,13 +60,13 @@ export default class HandleSuggestion extends React.Component {
 			},
 
 			data: {
-				text:'请选择原因', value: ''
+				text: '请选择原因', value: ''
 			}
 		}
 	}
 
-	async componentWillMount() {		
-		let {detail} = this.props;
+	async componentWillMount() {
+		let {detail} = illegalStore;
 		let result = await transRecordApi.getDepositState({
 			appUserId: detail.userId
 		});
@@ -68,39 +80,61 @@ export default class HandleSuggestion extends React.Component {
 		}
 	}
 
+	// 已扣信用分次数
+	async fetchBuckleCount() {
+		let {detail} = this.props;
+		let result = await creditScoreApi.count({
+			userId: detail.userId,
+			unit: 0
+		});
+		if (result.resultCode === 1) {
+			this.setState({
+				type: result.data == 0 ? 0 : 1,
+				proposal: result.data
+			})
+		}
+	}
+
 	render() {
-		let {deductScore, deductCashPledge,  data} = this.state;
-		let {orderDetail} = this.props;
+		let {deductScore, deductCashPledge, data, proposal} = this.state;
+		let {orderDetail, actualHandleType, suggestHandleType} = illegalStore;
 		return (
 			<Box title="处理意见" icon="fa-tag">
-				<p>鉴于订单的违规类别和信用积分，我们建议的处理意见为 扣积分 ，你也可以更改处理意见。</p>
+				<p>鉴于订单的违规类别和信用积分，我们建议的处理意见为 {opinionType[suggestHandleType]} ，你也可以更改处理意见。</p>
 				<Form className="form-label-150" horizontal>
-					<Tabs model="type">
+					<Tabs value={actualHandleType}
+						  onChange={(index)=> illegalStore.actualHandleType = index}>
 						<Tab title="扣积分">
-							<Input label="扣除积分" model={'deductScore.creditScoreCount'} width={250} validation={{required: true}}/>
+							<Input label="扣除积分" model={'deductScore.creditScoreCount'} width={250}
+								   validation={{required: true}}/>
 							<Textarea label="备注" model={'deductScore.remark'} width={'50%'}/>
 							<Checkbox model={'deductScore.smsFlag'} text="同时给违规人发送短信通知"/>
 							{deductScore.smsFlag == 1 && <div>
 								<Text label="手机号" model={'deductScore.mobile'}/>
 								<Text label="发送目的" value="违规通知"/>
-								<Textarea label="短信内容" model={'deductScore.content'} width={'50%'} validation={{required: true}}/>
+								<Textarea label="短信内容" model={'deductScore.content'} width={'50%'}
+										  validation={{required: true}}/>
 							</div>}
 						</Tab>
 						<Tab title="扣押金">
 							{deductCashPledge.depositState == 1 && <div>
 								<p className="text-red">*押金充值已经超过3个月了，暂时无法扣押金，先拉黑用户</p>
-								<Input label="扣除金额" model={'deductCashPledge.depositAmount'} type="number" width={250} validation={{required: true}}/>
-								<Textarea label="备注" model={'deductCashPledge.remark'} width={'50%'} validation={{required: true}}/>
+								<Input label="扣除金额" model={'deductCashPledge.depositAmount'} type="number" width={250}
+									   validation={{required: true}}/>
+								<Textarea label="备注" model={'deductCashPledge.remark'} width={'50%'}
+										  validation={{required: true}}/>
 								<Checkbox model={'deductCashPledge.smsFlag'} text="同时给违规人发送短信通知"/>
 								{deductCashPledge.smsFlag == 1 && <div>
 									<Text label="手机号" model={'deductCashPledge.mobile'}/>
 									<Text label="发送目的" value="违规通知"/>
-									<Textarea label="短信内容" model={'deductCashPledge.content'} width={'50%'} validation={{required: true}}/>
+									<Textarea label="短信内容" model={'deductCashPledge.content'} width={'50%'}
+											  validation={{required: true}}/>
 								</div>}
 							</div>}
 							{deductCashPledge.depositState == 2 && <div>
 								<p className="text-red">*押金充值已经超过3个月了，暂时无法扣押金，先拉黑用户</p>
-								<Textarea label="备注" model={'deductCashPledge.remark'} width={'50%'} validation={{required: true}}/>
+								<Textarea label="备注" model={'deductCashPledge.remark'} width={'50%'}
+										  validation={{required: true}}/>
 								<p>拉黑后，用户无法再租用小蜜蜂。</p>
 							</div>}
 							{deductCashPledge.depositState == 3 && <div>
@@ -119,13 +153,15 @@ export default class HandleSuggestion extends React.Component {
 								<li>订单状态是＂开锁失败＂，不处罚</li>
 							</ol>
 							<Form horizontal>
-							<Select width={250} label="请选择不处罚的原因"  wholeOption={data}  model="noPunish.code"  whole={true} options={noPunishType} validation={{required: true}}/>
+								<Select width={250} label="请选择不处罚的原因" wholeOption={data} model="noPunish.code"
+										whole={true} options={noPunishType} validation={{required: true}}/>
 							</Form>
 						</Tab>
 						<Tab title="发短信">
 							<Text label="手机号" value={orderDetail ? orderDetail.mobile : '-'}/>
 							<Text label="发送目的" value="违规通知"/>
-							<Textarea label="短信内容" model={'sendSms.content'} width={'50%'} validation={{required: true}}/>
+							<Textarea label="短信内容" model={'sendSms.content'} width={'50%'}
+									  validation={{required: true}}/>
 						</Tab>
 					</Tabs>
 				</Form>
@@ -140,11 +176,11 @@ export default class HandleSuggestion extends React.Component {
 
 	// 确认处理
 	confirmHandle() {
-		let {detail, orderDetail} = this.props;
-		let type = this.state.type + 1;
+		let {detail, orderDetail,actualHandleType} = illegalStore;
+		let type = actualHandleType + 1;
 
 		if (!orderDetail) {
-			beefly.gritter.error('该车辆无订单数据')
+			beefly.gritter.error('该车辆无订单数据');
 			return;
 		}
 
@@ -179,11 +215,11 @@ export default class HandleSuggestion extends React.Component {
 	async confirmHandle_deductScore(params) {
 		let {deductScore} = this.state;
 
-		if(deductScore.creditScoreCount == ''){
+		if (deductScore.creditScoreCount == '') {
 			beefly.gritter.warning("扣除积分不能为空");
 			return
 		}
-		if(deductScore.smsFlag == 1&&deductScore.content == ''){
+		if (deductScore.smsFlag == 1 && deductScore.content == '') {
 			beefly.gritter.warning("短信内容不能为空");
 			return
 		}
@@ -204,7 +240,7 @@ export default class HandleSuggestion extends React.Component {
 	async confirmHandle_deductCashPledge(params) {
 		let {deductCashPledge} = this.state;
 
-		if(deductCashPledge.remark == ''){
+		if (deductCashPledge.remark == '') {
 			beefly.gritter.warning("备注不能为空");
 			return
 		}
@@ -223,7 +259,7 @@ export default class HandleSuggestion extends React.Component {
 	// 确认处理-不处罚
 	async confirmHandle_noPunish(params) {
 		let {noPunish} = this.state;
-		if(noPunish.code == ''){
+		if (noPunish.code == '') {
 			beefly.gritter.warning("请选择原因");
 			return
 		}
@@ -243,7 +279,7 @@ export default class HandleSuggestion extends React.Component {
 	async confirmHandle_sendSms(params) {
 		let {sendSms} = this.state;
 
-		if(sendSms.content == ''){
+		if (sendSms.content == '') {
 			beefly.gritter.warning("短信内容不能为空");
 			return
 		}

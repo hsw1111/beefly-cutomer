@@ -1,14 +1,18 @@
 import React from 'react';
+import {observer} from 'mobx-react';
 import {Box, Field, Form, Text, Row, Col} from "beefly-common";
 import {reportState,handleType} from '../../../maps/illegalMap';
+import illegalStore from "../stores/illegalStore";
 
 /**
  * 详情
  */
+@observer
 export default class Detail extends React.Component {
 
 	render() {
-		let {detail, showHandle, showRemarks} = this.props;
+		let {showHandle, showRemarks} = this.props;
+		let {detail} = illegalStore;
 		return (
 			<Box>
 				<Form className="form-label-150" horizontal>

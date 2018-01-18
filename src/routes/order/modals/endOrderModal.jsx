@@ -24,6 +24,13 @@ export default class endOrderModal extends React.Component{
 						<div>
               <p>你确定结束“8580936”的订单么？</p>
               <p className='text-red'>该订单的车辆34556678当前位于违停区域内</p>
+              <div className="margin-t-20">
+                <span className='text-red'>*</span>请选择该订单是否计费：
+                <input name='radio' type="radio" value="0"/> <span className='margin-r-20'>计费</span>    
+                <input name='radio' type="radio" value="1"/> <span>不计费</span> 
+              </div>
+              
+
 						</div>
 				</Modal.Body>
 				<Modal.Footer>

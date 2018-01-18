@@ -2,8 +2,8 @@ import React from 'react';
 import {Box, Button,  Content, DataTable, DateRange, Field, Form, Select, SelectInput} from "beefly-common";
 import {orderState, orderType, vagueState, timeType} from '../../maps/orderMap';
 import orderApi from "../../apis/orderApi";
-import endOrderModal from './modals/endOrderModal' 
-import detailModal from './modals/detailModal' 
+import EndOrderModal from './modals/EndOrderModal' 
+import DetailModal from './modals/DetailModal' 
 import beefly from "../../js/beefly";
 
 /**
@@ -68,8 +68,8 @@ export default class Order extends React.Component{
 							   columns={columns} api={orderApi.listPage} query={query}/>
         </Box>
 
-        <endOrderModal ref={(e) => this._endOrderModal = e}/>
-        <detailModal ref={(e) => this._detailModal = e}/>
+        <EndOrderModal ref={(e) => this._endOrderModal = e}/>
+        <DetailModal ref={(e) => this._detailModal = e}/>
       </Content>
     )
   }
@@ -95,7 +95,7 @@ export default class Order extends React.Component{
   }
 
   // 查看详情
-  details(id){
+  details({id}){
     this._detailModal.show({
       id
     })

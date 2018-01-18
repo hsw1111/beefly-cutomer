@@ -18,6 +18,10 @@ const RejectModal = asyncComponent(() => import(/* webpackChunkName: "illegal/mo
 const ReplaceOrderModal = asyncComponent(() => import(/* webpackChunkName: "illegal/modals/ReplaceOrderModal" */'./routes/illegal/modals/ReplaceOrderModal'));
 const SymsModal = asyncComponent(() => import(/* webpackChunkName: "illegal/modals/SymsModal" */'./routes/illegal/modals/SymsModal'));
 const illegalStore = asyncComponent(() => import(/* webpackChunkName: "illegal/stores/illegalStore" */'./routes/illegal/stores/illegalStore'));
+const detailModal = asyncComponent(() => import(/* webpackChunkName: "order/modals/detailModal" */'./routes/order/modals/detailModal'));
+const endOrderModal = asyncComponent(() => import(/* webpackChunkName: "order/modals/endOrderModal" */'./routes/order/modals/endOrderModal'));
+const lockModal = asyncComponent(() => import(/* webpackChunkName: "order/modals/lockModal" */'./routes/order/modals/lockModal'));
+const unlockModal = asyncComponent(() => import(/* webpackChunkName: "order/modals/unlockModal" */'./routes/order/modals/unlockModal'));
 const order = asyncComponent(() => import(/* webpackChunkName: "order/index" */'./routes/order/order'));
 const Details = asyncComponent(() => import(/* webpackChunkName: "user/blocks/Details" */'./routes/user/blocks/Details'));
 const ModifyModal = asyncComponent(() => import(/* webpackChunkName: "user/modals/ModifyModal" */'./routes/user/modals/ModifyModal'));
@@ -47,6 +51,10 @@ export default () => (
 			<Route exact path="/illegal/modals/ReplaceOrderModal" component={ReplaceOrderModal}/>
 			<Route exact path="/illegal/modals/SymsModal" component={SymsModal}/>
 			<Route exact path="/illegal/stores/illegalStore" component={illegalStore}/>
+			<Route exact path="/order/modals/detailModal" component={detailModal}/>
+			<Route exact path="/order/modals/endOrderModal" component={endOrderModal}/>
+			<Route exact path="/order/modals/lockModal" component={lockModal}/>
+			<Route exact path="/order/modals/unlockModal" component={unlockModal}/>
 			<Route exact path="/order" component={order}/>
 			<Route exact path="/user/blocks/Details" component={Details}/>
 			<Route exact path="/user/modals/ModifyModal" component={ModifyModal}/>

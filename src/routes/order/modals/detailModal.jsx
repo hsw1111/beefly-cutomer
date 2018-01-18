@@ -1,5 +1,9 @@
 import React from 'react';
 import {Modal, Button, Form, Row, Col, Text} from "beefly-common";
+import Detail from '../blocks/Detail'
+import OrderCost from '../blocks/OrderCost'
+import VehicleOperationLog from '../blocks/VehicleOperationLog'
+import OrderReportLog from '../blocks/OrderReportLog'
 import orderApi from "../../../apis/orderApi";
 import beefly from "../../../js/beefly";
 
@@ -7,7 +11,7 @@ import beefly from "../../../js/beefly";
  * 订单详情 弹框
  */
 
-export default class endOrderModal extends React.Component{
+export default class detailModal extends React.Component{
   constructor(props){
     super(props)
     this.state = {
@@ -17,23 +21,18 @@ export default class endOrderModal extends React.Component{
   }
 
   render(){
-    let {show, id} = this.state
+    let {show} = this.state
     return (
       <Modal show={show} title="订单详情" size='lg' onHide={this.hide.bind(this)}>
         <Modal.Body>
-          <Form className="form-label-150" horizontal>
-            <Row>
-              <Col md={6}>
-                <Text label="订单编号" value={show}/>
-                <Text label="订单状态" value={id}/>
-              </Col>
-              <Col md={6}>
-                <Text label="取车方式" value={show}/>
-                <Text label="订单创建时间" value={show}/>
-              </Col>
-            </Row>
-          </Form>
+          
+          <Detail />
+          <OrderCost />
+          <VehicleOperationLog />
+          <OrderReportLog />
+
 				</Modal.Body>
+        
 				<Modal.Footer>
 					<Button value={'取消'} theme={'default'} onClick={this.hide.bind(this)}/>
 					<Button value={'确定'} onClick={this.ok.bind(this)}/>
@@ -42,9 +41,10 @@ export default class endOrderModal extends React.Component{
     )
   }
 
-  show(){
+  show({id}) {
     this.setState({
-			show: true
+      show: true,
+      id
 		})
   }
 
@@ -55,9 +55,8 @@ export default class endOrderModal extends React.Component{
 		})
   }
 
- async ok(){
-    
-    
-  }
+  async ok() {
+   
+ }
 
 }

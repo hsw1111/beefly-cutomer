@@ -50,7 +50,7 @@ class IllegalStore {
 				 this.misreport = 1
 			}
 
-			if(this.orderDetail && this.orderDetail.mileage < 500 && this.orderDetail.timeInOrder < 5){
+			if(this.orderDetail && this.orderDetail.mileage < 500 || this.orderDetail.timeInOrder < 5){
 				this.suggestHandleType = 2;
 				this.actualHandleType = this.suggestHandleType;
 			}

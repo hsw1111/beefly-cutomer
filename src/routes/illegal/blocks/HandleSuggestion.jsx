@@ -73,7 +73,7 @@ export default class HandleSuggestion extends React.Component {
 
 		if (result.resultCode == 1) {
 			let {deductCashPledge} = this.state;
-			deductCashPledge.depositState = 3; //result.data.depositState;
+			deductCashPledge.depositState = result.data.depositState;
 			this.setState({
 				deductCashPledge
 			})

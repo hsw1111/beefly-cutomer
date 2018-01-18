@@ -19,10 +19,6 @@ export default class IllegalCategory extends React.Component {
 	componentWillMount() {
         // 获取订单详情
         illegalStore.fetchOrderDetail();
-        // 获取收到违停短信次数
-		illegalStore.fetchSmsCount();
-        // 获取已扣信用分次数
-		illegalStore.fetchBuckleCount();
     }
 
 
@@ -92,7 +88,7 @@ export default class IllegalCategory extends React.Component {
     }
 
     changeOrder(orderId) {
-		illegalStore.fetchOrderDetail(orderId)
+		illegalStore.fetchOrderDetail(orderId);
     }
 
 }

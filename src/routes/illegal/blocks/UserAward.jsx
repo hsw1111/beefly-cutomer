@@ -1,6 +1,6 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import {Box, Button, Form, Input, Tab, Tabs, Text, Textarea} from "beefly-common";
+import {Box, Button, Form, Input, Tab, Tabs, Text, Textarea, tabUtils, msgBox} from "beefly-common";
 import tripProblemApi from "../../../apis/tripProblemApi";
 import appUserApi from "../../../apis/appUserApi";
 import beefly from "../../../js/beefly";
@@ -89,7 +89,7 @@ export default class UserAward extends React.Component {
 					</Tabs>
 				</Form>
 				<div className="pull-right buttons">
-					<Button value="取消" theme="default" onClick={() => beefly.tabs.closeTab()}/>
+					<Button value="取消" theme="default" onClick={() => tabUtils.closeTab()}/>
 					<Button value="确定" onClick={this.confirmHandle.bind(this)}/>
 				</div>
 			</Box>
@@ -131,7 +131,7 @@ export default class UserAward extends React.Component {
 		let {rewardScore} = this.state;
 
 		if(rewardScore.creditScoreCount == ''){
-			beefly.gritter.warning("奖励积分不能为空");
+			msgBox.warning("奖励积分不能为空");
 			return
 		}
 
@@ -141,8 +141,8 @@ export default class UserAward extends React.Component {
 		});
 
 		if (result.resultCode == 1) {
-			beefly.gritter.success(result.message, () => {
-				beefly.tabs.closeTab()
+			msgBox.success(result.message, () => {
+				tabUtils.closeTab()
 			});
 		}
 	}
@@ -152,15 +152,15 @@ export default class UserAward extends React.Component {
 		let {rewardCoupon} = this.state;
 
 		if(rewardCoupon.couponAmout == ''){
-			beefly.gritter.warning("出行券金额不能为空");
+			msgBox.warning("出行券金额不能为空");
 			return
 		}
 		if(rewardCoupon.num == ''){
-			beefly.gritter.warning("出行券张数不能为空");
+			msgBox.warning("出行券张数不能为空");
 			return
 		}
 		if(rewardCoupon.expireTime == ''){
-			beefly.gritter.warning("过期时间不能为空");
+			msgBox.warning("过期时间不能为空");
 			return
 		}
 		let result = await tripProblemApi.confirmHandle({
@@ -169,8 +169,8 @@ export default class UserAward extends React.Component {
 		});
 
 		if (result.resultCode == 1) {
-			beefly.gritter.success(result.message, () => {
-				beefly.tabs.closeTab()
+			msgBox.success(result.message, () => {
+				tabUtils.closeTab()
 			});
 		}
 	}
@@ -180,7 +180,7 @@ export default class UserAward extends React.Component {
 		let {rewardBlance} = this.state;
 
 		if(rewardBlance.amount == ''){
-			beefly.gritter.warning("金额不能为空");
+			msgBox.warning("金额不能为空");
 			return
 		}
 
@@ -190,8 +190,8 @@ export default class UserAward extends React.Component {
 		});
 
 		if (result.resultCode == 1) {
-			beefly.gritter.success(result.message, () => {
-				beefly.tabs.closeTab()
+			msgBox.success(result.message, () => {
+				tabUtils.closeTab()
 			});
 		}
 	}
@@ -206,8 +206,8 @@ export default class UserAward extends React.Component {
 		});
 
 		if (result.resultCode == 1) {
-			beefly.gritter.success(result.message, () => {
-				beefly.tabs.closeTab()
+			msgBox.success(result.message, () => {
+				tabUtils.closeTab()
 			});
 		}
 	}

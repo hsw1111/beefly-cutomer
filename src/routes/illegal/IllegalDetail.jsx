@@ -1,6 +1,6 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import {Button, Content} from "beefly-common";
+import {Button, Content, tabUtils} from "beefly-common";
 import {urlUtils} from 'jeselvmo';
 import tripProblemApi from "../../apis/tripProblemApi";
 import RejectModal from "./modals/RejectModal";
@@ -47,7 +47,7 @@ export default class IllegalDetails extends React.Component {
 
 	// 确认处理
 	confirm() {
-		beefly.tabs.addTab({
+		tabUtils.addTab({
 			name: '确认处理-' + illegalStore.detail.id,
 			path: '/illegal/confirm',
 			params: {
@@ -58,7 +58,7 @@ export default class IllegalDetails extends React.Component {
 
 	//关闭详情
 	closed() {
-		beefly.tabs.closeTab();
+		tabUtils.closeTab();
 	}
 
 	renderPrize() {

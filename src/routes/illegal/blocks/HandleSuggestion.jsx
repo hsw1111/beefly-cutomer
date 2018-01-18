@@ -1,6 +1,6 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import {Box, Button, Checkbox, Form, Input, Tab, Tabs, Text, Textarea, Select} from "beefly-common";
+import {Box, Button, Checkbox, Form, Input, Tab, Tabs, Text, Textarea, Select, tabUtils, msgBox} from "beefly-common";
 import {noPunishType} from '../../../maps/illegalMap';
 import tripProblemApi from "../../../apis/tripProblemApi";
 import transRecordApi from "../../../apis/transRecordApi";
@@ -118,7 +118,7 @@ export default class HandleSuggestion extends React.Component {
 						</Tab>
 						<Tab title="扣押金">
 							{deductCashPledge.depositState == 1 && <div>
-								<p className="text-red">*押金充值已经超过3个月了，暂时无法扣押金，先拉黑用户</p>
+								<p className="text-red">*押金充值在3个月内：直接扣</p>
 								<Input label="扣除金额" model={'deductCashPledge.depositAmount'} type="number" width={250}
 									   validation={{required: true}}/>
 								<Textarea label="备注" model={'deductCashPledge.remark'} width={'50%'}
@@ -132,13 +132,13 @@ export default class HandleSuggestion extends React.Component {
 								</div>}
 							</div>}
 							{deductCashPledge.depositState == 2 && <div>
-								<p className="text-red">*押金充值已经超过3个月了，暂时无法扣押金，先拉黑用户</p>
+								<p className="text-red">*押金充值超过3各个月：先拉黑</p>
 								<Textarea label="备注" model={'deductCashPledge.remark'} width={'50%'}
 										  validation={{required: true}}/>
 								<p>拉黑后，用户无法再租用小蜜蜂。</p>
 							</div>}
 							{deductCashPledge.depositState == 3 && <div>
-								<p className="text-red">*该用户押金已经提现，暂时无法扣押金，先冻结用户押金</p>
+								<p className="text-red">*押金已经被提现：冻结用户押金押金状态 </p>
 								<Textarea label="备注" model={'deductCashPledge.remark'} validation={{required: true}}
 										  width={'50%'}/>
 								<p>押金冻结后，用户无法自行提现。</p>
@@ -166,7 +166,7 @@ export default class HandleSuggestion extends React.Component {
 					</Tabs>
 				</Form>
 				<div className="pull-right buttons">
-					<Button value="取消" theme="default" onClick={() => beefly.tabs.closeTab()}/>
+					<Button value="取消" theme="default" onClick={() => tabUtils.closeTab()}/>
 					<Button value="确定" onClick={this.confirmHandle.bind(this)}/>
 				</div>
 			</Box>
@@ -180,7 +180,7 @@ export default class HandleSuggestion extends React.Component {
 		let type = actualHandleType + 1;
 
 		if (!orderDetail) {
-			beefly.gritter.error('该车辆无订单数据');
+			msgBox.error('该车辆无订单数据');
 			return;
 		}
 
@@ -216,11 +216,11 @@ export default class HandleSuggestion extends React.Component {
 		let {deductScore} = this.state;
 
 		if (deductScore.creditScoreCount == '') {
-			beefly.gritter.warning("扣除积分不能为空");
+			msgBox.warning("扣除积分不能为空");
 			return
 		}
 		if (deductScore.smsFlag == 1 && deductScore.content == '') {
-			beefly.gritter.warning("短信内容不能为空");
+			msgBox.warning("短信内容不能为空");
 			return
 		}
 
@@ -230,8 +230,8 @@ export default class HandleSuggestion extends React.Component {
 		});
 
 		if (result.resultCode == 1) {
-			beefly.gritter.success(result.message, () => {
-				beefly.tabs.closeTab()
+			msgBox.success(result.message, () => {
+				tabUtils.closeTab()
 			});
 		}
 	}
@@ -241,7 +241,7 @@ export default class HandleSuggestion extends React.Component {
 		let {deductCashPledge} = this.state;
 
 		if (deductCashPledge.remark == '') {
-			beefly.gritter.warning("备注不能为空");
+			msgBox.warning("备注不能为空");
 			return
 		}
 		let result = await tripProblemApi.confirmHandleDq({
@@ -250,8 +250,8 @@ export default class HandleSuggestion extends React.Component {
 		});
 
 		if (result.resultCode == 1) {
-			beefly.gritter.success(result.message, () => {
-				beefly.tabs.closeTab()
+			msgBox.success(result.message, () => {
+				tabUtils.closeTab()
 			});
 		}
 	}
@@ -260,7 +260,7 @@ export default class HandleSuggestion extends React.Component {
 	async confirmHandle_noPunish(params) {
 		let {noPunish} = this.state;
 		if (noPunish.code == '') {
-			beefly.gritter.warning("请选择原因");
+			msgBox.warning("请选择原因");
 			return
 		}
 		let result = await tripProblemApi.confirmHandleDq({
@@ -269,8 +269,8 @@ export default class HandleSuggestion extends React.Component {
 		});
 
 		if (result.resultCode == 1) {
-			beefly.gritter.success(result.message, () => {
-				beefly.tabs.closeTab()
+			msgBox.success(result.message, () => {
+				tabUtils.closeTab()
 			});
 		}
 	}
@@ -280,7 +280,7 @@ export default class HandleSuggestion extends React.Component {
 		let {sendSms} = this.state;
 
 		if (sendSms.content == '') {
-			beefly.gritter.warning("短信内容不能为空");
+			msgBox.warning("短信内容不能为空");
 			return
 		}
 		let result = await tripProblemApi.confirmHandleDq({
@@ -289,8 +289,8 @@ export default class HandleSuggestion extends React.Component {
 		});
 
 		if (result.resultCode == 1) {
-			beefly.gritter.success(result.message, () => {
-				beefly.tabs.closeTab()
+			msgBox.success(result.message, () => {
+				tabUtils.closeTab()
 			});
 		}
 	}

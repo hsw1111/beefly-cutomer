@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, Modal, Textarea, Button, utils} from "beefly-common";
+import {Form, Modal, Textarea, Button, utils, msgBox} from "beefly-common";
 import tripProblemApi from "../../../apis/tripProblemApi";
 import beefly from "../../../js/beefly";
 
@@ -55,13 +55,13 @@ export default class RejectModal extends React.Component {
 		let {id, remark} = this.state;
 		let {onClose} = this.props;
 		if(remark==''){
-			beefly.gritter.warning("备注不能为空");
+			msgBox.warning("备注不能为空");
 			return
 		}
 		let result = await tripProblemApi.reject({id, remark});
 		if (result.resultCode == 1) {
 			this.hide();
-			beefly.gritter.success('驳回成功');
+			msgBox.success('驳回成功');
 			onClose && onClose()
 		}
 	}

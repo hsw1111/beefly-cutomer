@@ -45,36 +45,38 @@ class IllegalStore {
 		});
 		if (result.resultCode === 1) {
 			this.orderDetail = result.data;
-
-			if(this.orderDetail && this.orderDetail.mileage < 100){
-				 this.misreport = 1
+			//误报风险提示
+			if(this.orderDetail.mileage < 100){
+				 this.misreport = 1;
 			}
 
 			if(this.orderDetail && this.orderDetail.mileage < 500 || this.orderDetail.timeInOrder < 5){
 				this.suggestHandleType = 2;
 				this.actualHandleType = this.suggestHandleType;
 			}
-
+            this.fetchBuckleCount();
+            this.fetchSmsCount()
 		}
+
 	}
 
 	// 已扣信用分次数
 	async fetchBuckleCount() {
 		let result = await creditScoreApi.count({
-			userId: this.detail.userId,
+			userId: this.orderDetail.userId,
 			unit: 1
 		});
 		if (result.resultCode === 1) {
-			this.buckleCount = result.data
+			this.buckleCount = result.data;
 			this.suggestHandleType = this.buckleCount === 0 ? 0 : 1;
 			this.actualHandleType = this.suggestHandleType;
 		}
 	}
 
-	// 已扣信用分次数
+	// 收到违停短信次数
 	async fetchSmsCount() {
 		let result = await symsApi.countSms({
-			userId: this.detail.userId
+			userId: this.orderDetail.userId
 		});
 		if (result.resultCode === 1) {
 			this.smsCount = result.data

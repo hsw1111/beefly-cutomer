@@ -73,7 +73,7 @@ export default class HandleSuggestion extends React.Component {
 
 		if (result.resultCode == 1) {
 			let {deductCashPledge} = this.state;
-			deductCashPledge.depositState = 3; //result.data.depositState;
+			deductCashPledge.depositState = result.data.depositState;
 			this.setState({
 				deductCashPledge
 			})
@@ -110,7 +110,7 @@ export default class HandleSuggestion extends React.Component {
 							<Textarea label="备注" model={'deductScore.remark'} width={'50%'}/>
 							<Checkbox model={'deductScore.smsFlag'} text="同时给违规人发送短信通知"/>
 							{deductScore.smsFlag == 1 && <div>
-								<Text label="手机号" model={'deductScore.mobile'}/>
+								<Text label="手机号" value={orderDetail ? orderDetail.mobile : '-'}/>
 								<Text label="发送目的" value="违规通知"/>
 								<Textarea label="短信内容" model={'deductScore.content'} width={'50%'}
 										  validation={{required: true}}/>
@@ -125,7 +125,7 @@ export default class HandleSuggestion extends React.Component {
 										  validation={{required: true}}/>
 								<Checkbox model={'deductCashPledge.smsFlag'} text="同时给违规人发送短信通知"/>
 								{deductCashPledge.smsFlag == 1 && <div>
-									<Text label="手机号" model={'deductCashPledge.mobile'}/>
+									<Text label="手机号" value={orderDetail ? orderDetail.mobile : '-'}/>
 									<Text label="发送目的" value="违规通知"/>
 									<Textarea label="短信内容" model={'deductCashPledge.content'} width={'50%'}
 											  validation={{required: true}}/>

@@ -45,9 +45,9 @@ class IllegalStore {
 		});
 		if (result.resultCode === 1) {
 			this.orderDetail = result.data;
-
-			if(this.orderDetail && this.orderDetail.mileage < 100){
-				 this.misreport = 1
+			//误报风险提示
+			if(this.orderDetail.mileage < 100){
+				 this.misreport = 1;
 			}
 
 			if(this.orderDetail && this.orderDetail.mileage < 500 || this.orderDetail.timeInOrder < 5){

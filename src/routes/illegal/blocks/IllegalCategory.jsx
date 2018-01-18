@@ -37,7 +37,7 @@ export default class IllegalCategory extends React.Component {
                         {orderDetail && <div>
                             <ul className="list-unstyled">
                                 <li><span className="margin-r-20">{orderDetail.id}</span>
-                                    <a href="javascript:" onClick={this.replace.bind(this)}>更换订单</a>{misreport=0?<span className="margin-l-20" style={{backgroundColor:'yellow'}}>{name}</span>:''}</li>
+                                    <a href="javascript:" onClick={this.replace.bind(this)}>更换订单</a>{misreport==0?'':<span className="margin-l-20" style={{backgroundColor:'yellow'}}>{name}</span>}</li>
                                 <li>订单状态：{orderDetail.state || '无'}，里程：{orderDetail.mileage || 0}米，时长：{orderDetail.timeInOrder || 0}分，结束时间：{orderDetail.endTime || '-'}</li>
                                 <li>还车地点：{orderDetail.backLocation || '-'}</li>
                             </ul>

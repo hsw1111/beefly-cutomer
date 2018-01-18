@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Button, Form, Modal, Textarea} from "beefly-common";
+import {Button, Form, Modal, Textarea, msgBox} from "beefly-common";
 import tripProblemApi from "../../../apis/tripProblemApi";
 import beefly from "../../../js/beefly";
 
@@ -52,13 +52,13 @@ export default class AddRemarkModal extends React.Component {
 	async ok() {
 		let {id, remark} = this.state;
         if(remark==''){
-        	beefly.gritter.warning("备注不能为空");
+        	msgBox.warning("备注不能为空");
 			return
 		}
 		let result = await tripProblemApi.addRemark({id, remark});
 		if (result.resultCode == 1) {
 			this.hide();
-			beefly.gritter.success('添加备注成功！');
+			msgBox.success('添加备注成功！');
 		}
 	}
 

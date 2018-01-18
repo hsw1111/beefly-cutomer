@@ -73,8 +73,6 @@ export default class IllegalCategory extends React.Component {
                 userId: orderDetail.userId,
                 mobile: orderDetail.mobile
             })
-        } else {
-            beefly.bootbox.alert('')
         }
     }
 

@@ -5,6 +5,7 @@ import orderApi from "../../../apis/orderApi";
 import symsApi from "../../../apis/symsApi";
 import creditScoreApi from "../../../apis/creditScoreApi";
 import beefly from "../../../js/beefly";
+import {msgBox} from 'beefly-common';
 
 /**
  *
@@ -35,7 +36,7 @@ class IllegalStore {
 				if (result.data && result.data.length > 0) {
 					orderId = result.data[0].id
 				} else {
-					beefly.gritter.warning('该车辆无订单数据')
+					msgBox.warning('该车辆无订单数据')
 				}
 			}
 		}

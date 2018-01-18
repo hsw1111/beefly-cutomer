@@ -1,17 +1,21 @@
 import React from 'react';
+import {observer} from 'mobx-react';
 import {Box, Field, Form, Text, Row, Col, Tab, Tabs,DataTable} from "beefly-common";
 import {reportState,handleType} from '../../../maps/illegalMap';
 import couponApi from "../../../apis/couponApi";
+import userStore from "../../../stores/userStore";
+
 
 /**
  * 详情
  */
+@observer
 export default class Detail extends React.Component {
 
 	constructor(props) {
 		super(props);
 
-		let {detail} = this.props;
+		let {detail} = userStore;
 		this.state = {
 			type:0,
 			columns: [
@@ -26,9 +30,10 @@ export default class Detail extends React.Component {
 
 	}
 	async componentWillMount() {
-		let {detail} = this.props;
+		let {detail} = userStore;
 		let {query} = this.state;
 		query.appUserId=detail.id;
+		userStore.fetchDetail()
 		// let result = await couponApi.page({appUserId:detail.id});
 		// console.log(result,123)
 		// console.log(detail.id,888)
@@ -36,7 +41,8 @@ export default class Detail extends React.Component {
 	}
 
 	render() {
-		let {detail, showHandle, showRemarks,columns,query} = this.props;
+		let {showHandle, showRemarks,columns,query} = this.props;
+		let {detail} = userStore;
 		return (
 			<Box>
 				<Form className="form-label-150" horizontal>

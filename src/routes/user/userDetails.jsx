@@ -1,32 +1,29 @@
 import React from 'react';
+import {observer} from 'mobx-react';
 import {Button, Content} from "beefly-common";
 import {urlUtils} from 'jeselvmo';
 import appUserApi from "../../apis/appUserApi";
 import beefly from "../../js/beefly";
 import Detail from "./blocks/Details";
+import userStore from "../../stores/userStore";
 
 /**
- * 违停上报详情
+ * 用户管理详情
  */
+@observer
 export default class IllegalDetails extends React.Component {
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			detail: null
-		}
-	}
 
-	async componentWillMount() {
-		this.fetchDetail()
+	componentWillMount() {
+		userStore.fetchDetail()
 	}
 
 	render() {
-		let {detail} = this.state;
+		let {detail} = userStore;
 		if (detail) {
 			return (
 				<Content>
-					<Detail detail={detail} showHandle showRemarks/>
+					<Detail showHandle showRemarks/>
 				</Content>
 			)
 		}
@@ -36,16 +33,6 @@ export default class IllegalDetails extends React.Component {
 	//关闭详情
 	closed() {
 		beefly.tabs.closeTab();
-	}
-
-	async fetchDetail() {
-		let {id} = urlUtils.getParams();
-		let result = await appUserApi.userDetail({id});
-		let detail = result.data;
-		console.log(id,787878)
-		this.setState({
-			detail
-		});
 	}
 
 }

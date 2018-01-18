@@ -70,7 +70,7 @@ export default class IllegalCategory extends React.Component {
         let {detail, orderDetail} = illegalStore;
         if (orderDetail) {
             this._integralModal.show({
-                userId: detail.userId,
+                userId: orderDetail.userId,
                 mobile: orderDetail.mobile
             })
         } else {
@@ -80,10 +80,10 @@ export default class IllegalCategory extends React.Component {
 
     //违停短信
     syms() {
-        let {detail} = illegalStore;
+        let {detail,orderDetail} = illegalStore;
         this._symesModal.show({
-            mobile: detail.mobile,
-            userId: detail.userId,
+            mobile: orderDetail.mobile,
+            userId: orderDetail.userId,
         })
     }
 

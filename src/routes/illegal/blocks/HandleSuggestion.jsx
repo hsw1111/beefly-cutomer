@@ -33,7 +33,7 @@ export default class HandleSuggestion extends React.Component {
 				creditScoreCount: 5,
 				remark: '',
 				smsFlag: 1,
-				mobile: detail.mobile,
+				// mobile: detail.mobile,
 				content: ''
 			},
 
@@ -42,11 +42,11 @@ export default class HandleSuggestion extends React.Component {
 			// 2.押金充值超过3各个月：先拉黑；
 			// 3.押金已经被提现：冻结用户押金(原来叫：设为失信用户)
 			deductCashPledge: {
-				depositState: 1,	// 押金状态
+				// depositState: 1,	// 押金状态
 				depositAmount: '',
 				remark: '',
 				smsFlag: 1,
-				mobile: detail.mobile,
+				// mobile: detail.mobile,
 				content: ''
 			},
 
@@ -55,7 +55,7 @@ export default class HandleSuggestion extends React.Component {
 			},
 
 			sendSms: {
-				mobile: detail.mobile,
+				// mobile: detail.mobile,
 				content: ''
 			},
 
@@ -65,39 +65,10 @@ export default class HandleSuggestion extends React.Component {
 		}
 	}
 
-	async componentWillMount() {
-		let {detail} = illegalStore;
-		let result = await transRecordApi.getDepositState({
-			appUserId: detail.userId
-		});
-
-		if (result.resultCode == 1) {
-			let {deductCashPledge} = this.state;
-			deductCashPledge.depositState = result.data.depositState;
-			this.setState({
-				deductCashPledge
-			})
-		}
-	}
-
-	// 已扣信用分次数
-	async fetchBuckleCount() {
-		let {detail} = this.props;
-		let result = await creditScoreApi.count({
-			userId: detail.userId,
-			unit: 0
-		});
-		if (result.resultCode === 1) {
-			this.setState({
-				type: result.data == 0 ? 0 : 1,
-				proposal: result.data
-			})
-		}
-	}
-
 	render() {
 		let {deductScore, deductCashPledge, data, proposal} = this.state;
-		let {orderDetail, actualHandleType, suggestHandleType} = illegalStore;
+		let {orderDetail, actualHandleType, suggestHandleType, depositState} = illegalStore;
+		let mobile = illegalStore.orderDetail ? illegalStore.orderDetail.mobile : '-';
 		return (
 			<Box title="处理意见" icon="fa-tag">
 				<p>鉴于订单的违规类别和信用积分，我们建议的处理意见为 {opinionType[suggestHandleType]} ，你也可以更改处理意见。</p>
@@ -110,14 +81,14 @@ export default class HandleSuggestion extends React.Component {
 							<Textarea label="备注" model={'deductScore.remark'} width={'50%'}/>
 							<Checkbox model={'deductScore.smsFlag'} text="同时给违规人发送短信通知"/>
 							{deductScore.smsFlag == 1 && <div>
-								<Text label="手机号" value={orderDetail ? orderDetail.mobile : '-'}/>
+								<Text label="手机号" value={mobile}/>
 								<Text label="发送目的" value="违规通知"/>
 								<Textarea label="短信内容" model={'deductScore.content'} width={'50%'}
 										  validation={{required: true}}/>
 							</div>}
 						</Tab>
 						<Tab title="扣押金">
-							{deductCashPledge.depositState == 1 && <div>
+							{depositState == 1 && <div>
 								<p className="text-red">*押金充值在3个月内：直接扣</p>
 								<Input label="扣除金额" model={'deductCashPledge.depositAmount'} type="number" width={250}
 									   validation={{required: true}}/>
@@ -125,19 +96,19 @@ export default class HandleSuggestion extends React.Component {
 										  validation={{required: true}}/>
 								<Checkbox model={'deductCashPledge.smsFlag'} text="同时给违规人发送短信通知"/>
 								{deductCashPledge.smsFlag == 1 && <div>
-									<Text label="手机号" value={orderDetail ? orderDetail.mobile : '-'}/>
+									<Text label="手机号" value={mobile}/>
 									<Text label="发送目的" value="违规通知"/>
 									<Textarea label="短信内容" model={'deductCashPledge.content'} width={'50%'}
 											  validation={{required: true}}/>
 								</div>}
 							</div>}
-							{deductCashPledge.depositState == 2 && <div>
+							{depositState == 2 && <div>
 								<p className="text-red">*押金充值超过3各个月：先拉黑</p>
 								<Textarea label="备注" model={'deductCashPledge.remark'} width={'50%'}
 										  validation={{required: true}}/>
 								<p>拉黑后，用户无法再租用小蜜蜂。</p>
 							</div>}
-							{deductCashPledge.depositState == 3 && <div>
+							{depositState == 3 && <div>
 								<p className="text-red">*押金已经被提现：冻结用户押金押金状态 </p>
 								<Textarea label="备注" model={'deductCashPledge.remark'} validation={{required: true}}
 										  width={'50%'}/>
@@ -158,7 +129,7 @@ export default class HandleSuggestion extends React.Component {
 							</Form>
 						</Tab>
 						<Tab title="发短信">
-							<Text label="手机号" value={orderDetail ? orderDetail.mobile : '-'}/>
+							<Text label="手机号" value={mobile}/>
 							<Text label="发送目的" value="违规通知"/>
 							<Textarea label="短信内容" model={'sendSms.content'} width={'50%'}
 									  validation={{required: true}}/>
@@ -226,7 +197,8 @@ export default class HandleSuggestion extends React.Component {
 
 		let result = await tripProblemApi.confirmHandleDq({
 			...params,
-			...deductScore
+			...deductScore,
+			mobile: illegalStore.orderDetail.mobile
 		});
 
 		if (result.resultCode == 1) {
@@ -246,7 +218,9 @@ export default class HandleSuggestion extends React.Component {
 		}
 		let result = await tripProblemApi.confirmHandleDq({
 			...params,
-			...deductCashPledge
+			...deductCashPledge,
+			depositState: illegalStore.depositState,
+			mobile: illegalStore.orderDetail.mobile
 		});
 
 		if (result.resultCode == 1) {
@@ -285,7 +259,8 @@ export default class HandleSuggestion extends React.Component {
 		}
 		let result = await tripProblemApi.confirmHandleDq({
 			...params,
-			...sendSms
+			...sendSms,
+			mobile: illegalStore.orderDetail.mobile
 		});
 
 		if (result.resultCode == 1) {

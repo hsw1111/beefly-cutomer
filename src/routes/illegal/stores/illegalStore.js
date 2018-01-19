@@ -6,6 +6,7 @@ import symsApi from "../../../apis/symsApi";
 import creditScoreApi from "../../../apis/creditScoreApi";
 import beefly from "../../../js/beefly";
 import {msgBox} from 'beefly-common';
+import transRecordApi from "../../../apis/transRecordApi";
 
 /**
  *
@@ -18,6 +19,7 @@ class IllegalStore {
 	@observable misreport = 0;        // 误报风险
 	@observable suggestHandleType = 0;		// 建议的处理意见
 	@observable actualHandleType = 0;		// 实际的处理意见
+	@observable depositState = 0; 			// 押金状态
 
 	async fetchDetail() {
 		let {id} = urlUtils.getParams();
@@ -55,8 +57,9 @@ class IllegalStore {
 				this.suggestHandleType = 2;
 				this.actualHandleType = this.suggestHandleType;
 			}
-            this.fetchBuckleCount();
-            this.fetchSmsCount()
+			this.fetchBuckleCount();
+			this.fetchSmsCount();
+			this.fetchDepositState();
 		}
 
 	}
@@ -84,6 +87,15 @@ class IllegalStore {
 		}
 	}
 
+	async fetchDepositState() {
+		let result = await transRecordApi.getDepositState({
+			appUserId: this.orderDetail.userId
+		});
+
+		if (result.resultCode == 1) {
+			this.depositState = result.data.depositState
+		}
+	}
 
 }
 

@@ -14,7 +14,7 @@ import beefly from "../../js/beefly";
 export default class Order extends React.Component{
   constructor(props){
 
-    super(props)
+    super(props);
 
     this.state = {
       columns: [
@@ -41,7 +41,7 @@ export default class Order extends React.Component{
 				'searchType': '',
         'keywords': '',
 			},
-    }
+    };
 
     beefly.details = this.details.bind(this);
     beefly.endOrder = this.endOrder.bind(this);
@@ -50,7 +50,7 @@ export default class Order extends React.Component{
   }
 
   render(){
-    let {columns, query} = this.state
+    let {columns, query} = this.state;
     return (
       <Content>
         <Box>
@@ -86,19 +86,19 @@ export default class Order extends React.Component{
   }
 
   renderActions(data, type, row){
-    console.log(row)
+    console.log(row);
     if(row.orderFlow === 0 || row.orderFlow === 3 || row.orderFlow === 4 || row.orderFlow === 10){
       let actions = [
         {text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
         {text: '车辆开锁', icon: 'user-plus', onclick: `beefly.unlock('${row.id}')`},
         {text: '车辆关锁', icon: 'user-plus', onclick: `beefly.lock('${row.id}')`},
-      ]
+      ];
       return dtUtils.renderActions(actions, 'dropdown')
     }else if(row.orderFlow === 1 ){
       let actions = [
         {text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
         {text: '结束订单', icon: 'user-plus', onclick: `beefly.endOrder('${row.id}')`},
-      ]
+      ];
       return dtUtils.renderActions(actions, 'dropdown')
     }else if(row.orderFlow === 2 || row.orderFlow === 9){
       let actions = [
@@ -106,7 +106,7 @@ export default class Order extends React.Component{
         {text: '结束订单', icon: 'user-plus', onclick: `beefly.endOrder('${row.id}')`},
         {text: '车辆开锁', icon: 'user-plus', onclick: `beefly.unlock('${row.id}')`},
         {text: '车辆关锁', icon: 'user-plus', onclick: `beefly.lock('${row.id}')`},
-      ]
+      ];
       return dtUtils.renderActions(actions, 'dropdown')
     }
 

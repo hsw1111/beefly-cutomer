@@ -9,7 +9,7 @@ import beefly from "../../../js/beefly";
 
 export default class endOrderModal extends React.Component{
   constructor(props){
-    super(props)
+    super(props);
     this.state = {
       show: false,
       id: ''
@@ -17,7 +17,7 @@ export default class endOrderModal extends React.Component{
   }
 
   render(){
-    let {show} = this.state
+    let {show} = this.state;
     return (
       <Modal show={show} title="车辆开锁" onHide={this.hide.bind(this)}>
         <Modal.Body>
@@ -47,8 +47,8 @@ export default class endOrderModal extends React.Component{
   }
 
  async ok(){
-    
-    
+
+
   }
 
 }

@@ -4,11 +4,11 @@ import {Box, Form, Row, Col, Text} from "beefly-common";
 export default class OrderCost extends React.Component{
   constructor(props){
     super(props)
-    
+
   }
 
   render(){
-    let {detail} = this.props
+    let {detail} = this.props;
     return(
       <Box title="订单费用">
         <Form className="form-label-150" horizontal>

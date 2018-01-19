@@ -1,29 +1,44 @@
 import React from 'react';
-import {Box, Field, Form, Text, Row, Col, Tab, Tabs,} from "beefly-common";
+import {observer} from 'mobx-react';
+import {Box, Field, Form, Text, Row, Col, Tab, Tabs,DataTable} from "beefly-common";
 import {reportState,handleType} from '../../../maps/illegalMap';
+import couponApi from "../../../apis/couponApi";
+import userStore from "../../../stores/userStore";
+
 
 /**
  * 详情
  */
+@observer
 export default class Detail extends React.Component {
 
 	constructor(props) {
 		super(props);
 
-		let {detail} = this.props;
+		let {detail} = userStore;
 		this.state = {
 			type:0,
+			columns: [
+				{title: '用户编号', data: 'userId'},
+				{title: '用户姓名', data: 'userId'},
+			],
+
+			query: {
+				'appUserId': '',
+			},
 		}
 
 	}
 	async componentWillMount() {
-		let {detail} = this.props;
-		console.log(detail.id,88888888888888)
-
+		let {detail} = userStore;
+		let {query} = this.state;
+		query.appUserId=detail.id;
+		userStore.fetchDetail()
 	}
 
 	render() {
-		let {detail, showHandle, showRemarks} = this.props;
+		let {showHandle, showRemarks,columns,query} = this.props;
+		let {detail} = userStore;
 		return (
 			<Box>
 				<Form className="form-label-150" horizontal>
@@ -53,7 +68,8 @@ export default class Detail extends React.Component {
 						<Text label="发送目的" value="违规通知"/>
 					</Tab>
 					<Tab title="出行券">
-						<Text label="发送目的" value="违规通知"/>
+						<DataTable ref={(e) => this._dataTable = e}
+								   columns={columns} api={couponApi.page} query={query}/>
 					</Tab>
 					<Tab title="权益卡">
 						<Text label="发送目的" value="违规通知"/>

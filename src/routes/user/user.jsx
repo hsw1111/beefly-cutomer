@@ -1,10 +1,13 @@
 import React from 'react';
+<<<<<<< HEAD
 import {Box, Button, CitySelect, Content, DataTable, DateRange, Field, Form, Select, SelectInput, NumberRange} from "beefly-common";
+=======
+import {Box, Button, CitySelect, Content, DataTable, DateRange, Field, Form, Select, SelectInput, NumberRange, dtUtils ,tabUtils} from "beefly-common";
+import {handleType, operateState, reportState} from '../../maps/illegalMap';
+>>>>>>> 5a1ffa09572215a90d991dcb0c2d72ee0995c2f1
 import {userState, vagueState, depositState} from '../../maps/userMap';
 import ModifyModal from "./modals/ModifyModal";
-import tripProblemApi from "../../apis/tripProblemApi";
 import appUserApi from "../../apis/appUserApi";
-import orderApi from "../../apis/orderApi";
 import beefly from "../../js/beefly";
 
 /**
@@ -22,10 +25,14 @@ export default class Illegal extends React.Component {
 				{title: '手机号', data: 'mobile'},
 				{title: '登录城市', data: 'cityName'},
 				{title: '用户状态', data: 'userStatusName'},
-				{title: '注册时间', data: 'registerTime', render: beefly.dtUtils.renderDateTime},
+				{title: '注册时间', data: 'registerTime', render:dtUtils.renderDateTime},
 				{title: '账户余额（￥）', data: 'grantBalance'},
 				{title: '信用积分', data: 'credScore'},
+<<<<<<< HEAD
 				{title: '押金状态', data: 'depositState', render: (data) => beefly.dtUtils.renderMap(data, depositState)},
+=======
+				{title: '押金状态', data: 'certState', render: (data) => dtUtils.renderMap(data, depositState)},
+>>>>>>> 5a1ffa09572215a90d991dcb0c2d72ee0995c2f1
 				{title: '操作', type: 'object', render: this.renderActions},
 			],
 
@@ -45,22 +52,22 @@ export default class Illegal extends React.Component {
 		beefly.details = this.details.bind(this);
 		beefly.modify = this.modify.bind(this);
 		beefly.seeOrder = this.seeOrder.bind(this);
-		// beefly.black = this.black.bind(this);
+		beefly.black = this.black.bind(this);
 	}
 
 	renderActions(data, type, row) {
 			let actions = [
 				{text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
 				{text: '查看订单', icon: 'user-plus', onclick: `beefly.seeOrder('${row.id}')`},
-				// {text: '拉黑', icon: 'user-plus', onclick: `beefly.black('${row.id}')`},
+				{text: '拉黑', icon: 'user-plus', onclick: `beefly.black('${row.id}')`},
 				// {text: '余额管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
 				// {text: '出行券管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
 				// {text: '信用积分管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
 				// {text: '冻结用户押金', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
-				{text: '修改手机号', icon: 'user-plus', onclick: `beefly.modify('${row.appUserId},${row.mobile}')`},
+				{text: '修改手机号', icon: 'user-plus', onclick: `beefly.modify('${row.id},${row.mobile}')`},
 				// {text: '清除验证码限制', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
 			];
-			return beefly.dtUtils.renderActions(actions, 'dropdown')
+		return dtUtils.renderActions(actions, 'dropdown')
 	}
 
 	render() {
@@ -96,14 +103,9 @@ export default class Illegal extends React.Component {
 		this._dataTable.search(query);
 	}
 
-	async export() {
-		let {query} = this.state;
-		let result = await tripProblemApi.export(query);
-	}
-
 	// 查看详情
 	details(id) {
-		beefly.tabs.addTab({
+		tabUtils.addTab({
 			name: '用户管理详情-' + id,
 			path: '/user/details',
 			params: {
@@ -116,26 +118,25 @@ export default class Illegal extends React.Component {
 	modify(data) {
 		let m = data.split(",");
 		this._modifyModal.show({
-			appUserId: m[0],
+			id: m[0],
 			mmobile: m[1]
 		});
 	}
 	//查看订单
-	async seeOrder(id) {
-		// let result = await orderApi.page({appUserId:id});
-		// console.log(result,8787)
-		beefly.tabs.addTab({
-			name: '用户管理详情-' + id,
+	seeOrder(id) {
+		tabUtils.addTab({
+			name: '用户管理订单-' + id,
 			path: '/user/order',
 			params: {
 				id
 			}
 		})
 	}
+
 	//拉黑
-	// block(id){
-	// 	console.log(id,6666)
-	// }
+	black(id){
+		console.log(id,6666)
+	}
 
 
 }

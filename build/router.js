@@ -3,7 +3,7 @@ const fs = require('fs');// 加载File System读写模块
 const _ = require('lodash');
 
 // 遍历目录中所有文件
-const listNativeFiles = (dir) => {
+const listNativeFiles = (dir, depth) => {
 	let children = [];
 	try {
 		let result = fs.readdirSync(dir);
@@ -11,8 +11,8 @@ const listNativeFiles = (dir) => {
 			result.forEach(function (filename) {
 				let file = path.join(dir, filename);
 				let stat = fs.statSync(file);
-				if (stat && stat.isDirectory()) {
-					children = children.concat(listNativeFiles(file))
+				if (stat && stat.isDirectory() && depth < 1) {
+					children = children.concat(listNativeFiles(file, depth + 1))
 				} else {
 					if (file.endsWith('.js') || file.endsWith('.jsx')) {
 						children.push(file)
@@ -28,7 +28,7 @@ const listNativeFiles = (dir) => {
 };
 
 // router files
-let files = listNativeFiles('./src/routes');
+let files = listNativeFiles('./src/routes', 0);
 
 let components = files.map((f) => {
 	f = path.relative(path.join(__dirname, 'src'), path.join(__dirname, f));

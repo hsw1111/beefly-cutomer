@@ -3,7 +3,7 @@ import beefly from './js/beefly';
 import Router from './router';
 import {localStore} from 'jeselvmo';
 import './styles/index.scss';
-import {DataTable} from 'beefly-common'
+import {DataTable, msgBox} from 'beefly-common'
 import $ from 'jquery';
 import {regexp} from 'jeselvmo';
 
@@ -26,7 +26,7 @@ $.ajaxSetup({
 			// var json = $.parseJSON(XMLHttpRequest.responseText);
 			let json = XMLHttpRequest.responseJSON;
 			if (json.resultCode === -1) {
-				beefly.gritter.error(json.message);
+				msgBox.error(json.message);
 				if (json.data === 0) {
 					setTimeout(()=>{
 						parent.location = '../login.html'

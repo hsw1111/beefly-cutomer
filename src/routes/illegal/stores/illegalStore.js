@@ -5,6 +5,8 @@ import orderApi from "../../../apis/orderApi";
 import symsApi from "../../../apis/symsApi";
 import creditScoreApi from "../../../apis/creditScoreApi";
 import beefly from "../../../js/beefly";
+import {msgBox} from 'beefly-common';
+import transRecordApi from "../../../apis/transRecordApi";
 
 /**
  *
@@ -17,6 +19,7 @@ class IllegalStore {
 	@observable misreport = 0;        // 误报风险
 	@observable suggestHandleType = 0;		// 建议的处理意见
 	@observable actualHandleType = 0;		// 实际的处理意见
+	@observable depositState = 0; 			// 押金状态
 
 	async fetchDetail() {
 		let {id} = urlUtils.getParams();
@@ -35,7 +38,7 @@ class IllegalStore {
 				if (result.data && result.data.length > 0) {
 					orderId = result.data[0].id
 				} else {
-					beefly.gritter.warning('该车辆无订单数据')
+					msgBox.warning('该车辆无订单数据')
 				}
 			}
 		}
@@ -45,42 +48,60 @@ class IllegalStore {
 		});
 		if (result.resultCode === 1) {
 			this.orderDetail = result.data;
+<<<<<<< HEAD
 			
 			if(this.orderDetail && this.orderDetail.mileage < 100){
 				 this.misreport = 1
+=======
+			//误报风险提示
+			if(this.orderDetail.mileage < 100){
+				 this.misreport = 1;
+>>>>>>> 5a1ffa09572215a90d991dcb0c2d72ee0995c2f1
 			}
 
-			if(this.orderDetail && this.orderDetail.mileage < 500 && this.orderDetail.timeInOrder < 5){
+			if(this.orderDetail && this.orderDetail.mileage < 500 || this.orderDetail.timeInOrder < 5){
 				this.suggestHandleType = 2;
 				this.actualHandleType = this.suggestHandleType;
 			}
-
+			this.fetchBuckleCount();
+			this.fetchSmsCount();
+			this.fetchDepositState();
 		}
+
 	}
 
 	// 已扣信用分次数
 	async fetchBuckleCount() {
 		let result = await creditScoreApi.count({
-			userId: this.detail.userId,
+			userId: this.orderDetail.userId,
 			unit: 1
 		});
 		if (result.resultCode === 1) {
-			this.buckleCount = result.data
+			this.buckleCount = result.data;
 			this.suggestHandleType = this.buckleCount === 0 ? 0 : 1;
 			this.actualHandleType = this.suggestHandleType;
 		}
 	}
 
-	// 已扣信用分次数
+	// 收到违停短信次数
 	async fetchSmsCount() {
 		let result = await symsApi.countSms({
-			userId: this.detail.userId
+			userId: this.orderDetail.userId
 		});
 		if (result.resultCode === 1) {
 			this.smsCount = result.data
 		}
 	}
 
+	async fetchDepositState() {
+		let result = await transRecordApi.getDepositState({
+			appUserId: this.orderDetail.userId
+		});
+
+		if (result.resultCode == 1) {
+			this.depositState = result.data.depositState
+		}
+	}
 
 }
 

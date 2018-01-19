@@ -19,10 +19,6 @@ export default class IllegalCategory extends React.Component {
 	componentWillMount() {
         // 获取订单详情
         illegalStore.fetchOrderDetail();
-        // 获取收到违停短信次数
-		illegalStore.fetchSmsCount();
-        // 获取已扣信用分次数
-		illegalStore.fetchBuckleCount();
     }
 
 
@@ -37,7 +33,11 @@ export default class IllegalCategory extends React.Component {
                         {orderDetail && <div>
                             <ul className="list-unstyled">
                                 <li><span className="margin-r-20">{orderDetail.id}</span>
+<<<<<<< HEAD
                                     <a href="javascript:" onClick={this.replace.bind(this)}>更换订单</a>{misreport === 1 ? <span className="margin-l-20" style={{backgroundColor: 'yellow'}}>{name}</span> : ''}</li>
+=======
+                                    <a href="javascript:" onClick={this.replace.bind(this)}>更换订单</a>{misreport==0?'':<span className="margin-l-20" style={{backgroundColor:'yellow'}}>{name}</span>}</li>
+>>>>>>> 5a1ffa09572215a90d991dcb0c2d72ee0995c2f1
                                 <li>订单状态：{orderDetail.state || '无'}，里程：{orderDetail.mileage || 0}米，时长：{orderDetail.timeInOrder || 0}分，结束时间：{orderDetail.endTime || '-'}</li>
                                 <li>还车地点：{orderDetail.backLocation || '-'}</li>
                             </ul>
@@ -74,25 +74,23 @@ export default class IllegalCategory extends React.Component {
         let {detail, orderDetail} = illegalStore;
         if (orderDetail) {
             this._integralModal.show({
-                userId: detail.userId,
+                userId: orderDetail.userId,
                 mobile: orderDetail.mobile
             })
-        } else {
-            beefly.bootbox.alert('')
         }
     }
 
     //违停短信
     syms() {
-        let {detail} = illegalStore;
+        let {detail,orderDetail} = illegalStore;
         this._symesModal.show({
-            mobile: detail.mobile,
-            userId: detail.userId,
+            mobile: orderDetail.mobile,
+            userId: orderDetail.userId,
         })
     }
 
     changeOrder(orderId) {
-		illegalStore.fetchOrderDetail(orderId)
+		illegalStore.fetchOrderDetail(orderId);
     }
 
 }

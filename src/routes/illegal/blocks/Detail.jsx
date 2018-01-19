@@ -28,7 +28,6 @@ export default class Detail extends React.Component {
 					</Field>
 					<Text label="上报人员角色" value={reportState[detail.reportRole]}/>
 					<Text label="处理进度" value={handleType[detail.state]}/>
-
 				</Form>
 				{showHandle && (
 					<Form className="form-label-150" horizontal>

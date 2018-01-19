@@ -69,16 +69,43 @@ export default class HandleSuggestion extends React.Component {
 	render() {
 		let {deductScore, deductCashPledge, data, proposal} = this.state;
 		let {detail, orderDetail, actualHandleType, suggestHandleType, depositState} = illegalStore;
-		if(!orderDetail){
+		if (!orderDetail) {
 			return null;
 		}
 		let mobile = orderDetail.mobile || '-';
+
+		//
+		let noPunishLis = [
+			{
+				value: orderDetail.endTime > detail.lastReportTime || '',
+				text: '违停上报的时间点 处理订单未结束状态，不处罚'
+			},
+			{
+				value: orderDetail.mileage < 500 || orderDetail.timeInOrder < 5,
+				text: '最近一次订单状态是已结束，里程＜500米，时长＜5分钟，不处罚'
+			},
+			{
+				value: beefly.DateMinus(orderDetail.placeOrderTime, detail.lastReportTime) > 5,
+				text: '最近一次订单与违停上报时间点相差超过5天，不处罚'
+			},
+			{
+				value: orderDetail.orderFlow == 10,
+				text: '订单状态是＂开锁失败＂，不处罚'
+			},
+		];
+		let noPunishActiveLis = [];
+		noPunishLis.forEach((d, i)=>{
+			if(d.value){
+				noPunishActiveLis.push(i + 1);
+			}
+		});
+
 		return (
 			<Box title="处理意见" icon="fa-tag">
 				<p>鉴于订单的违规类别和信用积分，我们建议的处理意见为 {opinionType[suggestHandleType]} ，你也可以更改处理意见。</p>
 				<Form className="form-label-150" horizontal>
 					<Tabs value={actualHandleType}
-						  onChange={(index)=> illegalStore.actualHandleType = index}>
+						  onChange={(index) => illegalStore.actualHandleType = index}>
 						<Tab title="扣积分">
 							<Input label="扣除积分" model={'deductScore.creditScoreCount'} width={250}
 								   validation={{required: true}}/>
@@ -120,12 +147,11 @@ export default class HandleSuggestion extends React.Component {
 							</div>}
 						</Tab>
 						<Tab title="不处罚">
-							<p>订单（编号：<span>{orderDetail.id}</span>）符合如下第2点不处罚的情况，该违规人不不处罚。</p>
+							<p>订单（编号：<span>{orderDetail.id}</span>）符合如下第{noPunishActiveLis.join('、')}点不处罚的情况，该违规人不不处罚。</p>
 							<ol>
-								<li className={cs({'text-red':orderDetail.endTime > detail.lastReportTime ||''})}>违停上报的时间点 处理订单未结束状态，不处罚</li>
-								<li className={cs({'text-red':(orderDetail.mileage < 500 || orderDetail.timeInOrder < 5)})}>最近一次订单状态是已结束，里程＜500米，时长＜5分钟，不处罚</li>
-								<li className={cs({'text-red':beefly.DateMinus(orderDetail.placeOrderTime,detail.lastReportTime)>5})}>最近一次订单与违停上报时间点相差超过5天，不处罚</li>
-								<li className={cs({'text-red':orderDetail.orderFlow == 10})}>订单状态是＂开锁失败＂，不处罚</li>
+								{noPunishLis.map((d) => (
+									<li className={cs({'text-red': d.value})}>{d.text}</li>
+								))}
 							</ol>
 							<Form horizontal>
 								<Select width={250} label="请选择不处罚的原因" wholeOption={data} model="noPunish.code"
@@ -151,7 +177,7 @@ export default class HandleSuggestion extends React.Component {
 
 	// 确认处理
 	confirmHandle() {
-		let {detail, orderDetail,actualHandleType} = illegalStore;
+		let {detail, orderDetail, actualHandleType} = illegalStore;
 		let type = actualHandleType + 1;
 
 		if (!orderDetail) {

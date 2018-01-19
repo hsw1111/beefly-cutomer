@@ -158,8 +158,8 @@ export default class HandleSuggestion extends React.Component {
 
 		let params = {
 			type,
-			id: detail.id,
-			appUserId: detail.userId,
+			id: orderDetail.id,
+			appUserId: orderDetail.userId,
 			orderId: orderDetail.id,
 		};
 

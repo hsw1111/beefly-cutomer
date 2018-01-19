@@ -1,7 +1,8 @@
 import React from 'react';
+import orderApi from "../../apis/orderApi";
 import {Box, Button,  Content, DataTable, DateRange, Field, Form, Select, SelectInput} from "beefly-common";
 import {orderState, orderType, vagueState, timeType} from '../../maps/orderMap';
-import orderApi from "../../apis/orderApi";
+
 import EndOrderModal from './modals/EndOrderModal' 
 import DetailModal from './modals/DetailModal' 
 import beefly from "../../js/beefly";
@@ -85,17 +86,34 @@ export default class Order extends React.Component{
   }
 
   renderActions(data, type, row){
-    let actions = [
-      {text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
-      {text: '结束订单', icon: 'user-plus', onclick: `beefly.endOrder('${row.id}')`},
-      {text: '车辆开锁', icon: 'user-plus', onclick: `beefly.unlock('${row.id}')`},
-      {text: '车辆关锁', icon: 'user-plus', onclick: `beefly.lock('${row.id}')`},
-    ]
-    return beefly.dtUtils.renderActions(actions, 'dropdown')
+    console.log(row)
+    if(row.orderFlow === 0 || row.orderFlow === 3 || row.orderFlow === 4 || row.orderFlow === 10){
+      let actions = [
+        {text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
+        {text: '车辆开锁', icon: 'user-plus', onclick: `beefly.unlock('${row.id}')`},
+        {text: '车辆关锁', icon: 'user-plus', onclick: `beefly.lock('${row.id}')`},
+      ]
+      return beefly.dtUtils.renderActions(actions, 'dropdown')
+    }else if(row.orderFlow === 1 ){
+      let actions = [
+        {text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
+        {text: '结束订单', icon: 'user-plus', onclick: `beefly.endOrder('${row.id}')`},
+      ]
+      return beefly.dtUtils.renderActions(actions, 'dropdown')
+    }else if(row.orderFlow === 2 || row.orderFlow === 9){
+      let actions = [
+        {text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
+        {text: '结束订单', icon: 'user-plus', onclick: `beefly.endOrder('${row.id}')`},
+        {text: '车辆开锁', icon: 'user-plus', onclick: `beefly.unlock('${row.id}')`},
+        {text: '车辆关锁', icon: 'user-plus', onclick: `beefly.lock('${row.id}')`},
+      ]
+      return beefly.dtUtils.renderActions(actions, 'dropdown')
+    }
+    
   }
 
   // 查看详情
-  details({id}){
+  details(id){
     this._detailModal.show({
       id
     })

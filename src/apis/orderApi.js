@@ -15,6 +15,9 @@ const orderApi = {
 	// 订单列表分页数据
 	listPage: (params) => request.get(env.apiPath_customer + 'order/listPage', params),
 
+	// 订单上报日志
+	orderLog: (params) => request.get(env.apiPath_customer + 'order/orderLog', params),
+
 };
 
 export default orderApi

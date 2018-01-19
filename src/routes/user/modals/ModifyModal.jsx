@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Button, Form, Modal,Input} from "beefly-common";
+import {Button, Form, Modal,Input, msgBox} from "beefly-common";
 import tripProblemApi from "../../../apis/tripProblemApi";
 import beefly from "../../../js/beefly";
+import appUserApi from "../../../apis/appUserApi";
 
 /**
  * 修改手机号
@@ -25,7 +26,8 @@ export default class ModifyModal extends React.Component {
 				<Modal.Body>
 					    <p>原手机号：{data.mmobile}</p>
 					    <p><Input label="新手机号" model={'remark'} type="number" width={200} validation={{required: true}}/></p>
-					     <p>*修改手机号后，原手机号所有数据被变更到新手机号下，如订单、车辆、积分、出行券等，原手机号所有数据不再保存。</p>
+					    <p>*修改手机号后，原手机号所有数据被变更到新手机号下，如订单、</p>
+					    <p>车辆、积分、出行券等，原手机号所有数据不再保存。</p>
 				</Modal.Body>
 				<Modal.Footer>
 					<Button value={'取消'} theme={'default'} onClick={this.hide.bind(this)}/>
@@ -41,6 +43,7 @@ export default class ModifyModal extends React.Component {
 			data,
 			remark: ''
 		})
+		console.log(data)
 	}
 
 	hide() {
@@ -50,8 +53,15 @@ export default class ModifyModal extends React.Component {
 	}
 
 	async ok() {
-		let {id, remark} = this.state;
-		console.log(remark,878787)
+		let {remark,data} = this.state;
+		let parms={
+			appUserId:data.id,
+			mobile:remark
+		};
+		let result = await appUserApi.modifyMobile(parms);
+		this.hide();
+		msgBox.warning(result.message);
+
 	}
 
 }

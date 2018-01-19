@@ -44,19 +44,19 @@ export default class Illegal extends React.Component {
 		beefly.details = this.details.bind(this);
 		beefly.modify = this.modify.bind(this);
 		beefly.seeOrder = this.seeOrder.bind(this);
-		// beefly.black = this.black.bind(this);
+		beefly.black = this.black.bind(this);
 	}
 
 	renderActions(data, type, row) {
 			let actions = [
 				{text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
 				{text: '查看订单', icon: 'user-plus', onclick: `beefly.seeOrder('${row.id}')`},
-				// {text: '拉黑', icon: 'user-plus', onclick: `beefly.black('${row.id}')`},
+				{text: '拉黑', icon: 'user-plus', onclick: `beefly.black('${row.id}')`},
 				// {text: '余额管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
 				// {text: '出行券管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
 				// {text: '信用积分管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
 				// {text: '冻结用户押金', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
-				{text: '修改手机号', icon: 'user-plus', onclick: `beefly.modify('${row.appUserId},${row.mobile}')`},
+				{text: '修改手机号', icon: 'user-plus', onclick: `beefly.modify('${row.id},${row.mobile}')`},
 				// {text: '清除验证码限制', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
 			];
 		return dtUtils.renderActions(actions, 'dropdown')
@@ -110,13 +110,12 @@ export default class Illegal extends React.Component {
 	modify(data) {
 		let m = data.split(",");
 		this._modifyModal.show({
-			appUserId: m[0],
+			id: m[0],
 			mmobile: m[1]
 		});
 	}
 	//查看订单
 	seeOrder(id) {
-		console.log(id,123)
 		tabUtils.addTab({
 			name: '用户管理订单-' + id,
 			path: '/user/order',
@@ -125,10 +124,11 @@ export default class Illegal extends React.Component {
 			}
 		})
 	}
+
 	//拉黑
-	// block(id){
-	// 	console.log(id,6666)
-	// }
+	black(id){
+		console.log(id,6666)
+	}
 
 
 }

@@ -37,14 +37,16 @@ export default class IllegalDetails extends React.Component {
 
 	async componentWillMount() {
 		userStore.fetchDetail();
-		let {id} = urlUtils.getParams();
-		let {query} = this.state;
-		query.appUserId=id;
+		// let {detail} = userStore;
+		// let {id} = urlUtils.getParams();
+		// let {query} = this.state;
+		// query.appUserId=id;
 	}
 
 	render() {
-		let {orderData,columns, query} = this.state;
+		let {columns, query} = this.state;
 		let {detail} = userStore;
+		console.log(detail);
 			return (
 				<Box>
 					<Form className="form-label-150" horizontal>

@@ -8,7 +8,6 @@ const Home = asyncComponent(() => import(/* webpackChunkName: "home/index" */'./
 const Illegal = asyncComponent(() => import(/* webpackChunkName: "illegal/index" */'./routes/illegal/Illegal'));
 const IllegalConfirm = asyncComponent(() => import(/* webpackChunkName: "illegal/confirm" */'./routes/illegal/IllegalConfirm'));
 const IllegalDetail = asyncComponent(() => import(/* webpackChunkName: "illegal/detail" */'./routes/illegal/IllegalDetail'));
-<<<<<<< HEAD
 const AddRemarkModal = asyncComponent(() => import(/* webpackChunkName: "illegal/modals/AddRemarkModal" */'./routes/illegal/modals/AddRemarkModal'));
 const IntegralModal = asyncComponent(() => import(/* webpackChunkName: "illegal/modals/IntegralModal" */'./routes/illegal/modals/IntegralModal'));
 const RejectModal = asyncComponent(() => import(/* webpackChunkName: "illegal/modals/RejectModal" */'./routes/illegal/modals/RejectModal'));
@@ -22,8 +21,6 @@ const unlockModal = asyncComponent(() => import(/* webpackChunkName: "order/moda
 const order = asyncComponent(() => import(/* webpackChunkName: "order/index" */'./routes/order/order'));
 const Details = asyncComponent(() => import(/* webpackChunkName: "user/blocks/Details" */'./routes/user/blocks/Details'));
 const ModifyModal = asyncComponent(() => import(/* webpackChunkName: "user/modals/ModifyModal" */'./routes/user/modals/ModifyModal'));
-=======
->>>>>>> 5a1ffa09572215a90d991dcb0c2d72ee0995c2f1
 const user = asyncComponent(() => import(/* webpackChunkName: "user/index" */'./routes/user/user'));
 const userDetails = asyncComponent(() => import(/* webpackChunkName: "user/details" */'./routes/user/userDetails'));
 const userOrder = asyncComponent(() => import(/* webpackChunkName: "user/order" */'./routes/user/userOrder'));
@@ -40,7 +37,6 @@ export default () => (
 			<Route exact path="/illegal" component={Illegal}/>
 			<Route exact path="/illegal/confirm" component={IllegalConfirm}/>
 			<Route exact path="/illegal/detail" component={IllegalDetail}/>
-<<<<<<< HEAD
 			<Route exact path="/illegal/modals/AddRemarkModal" component={AddRemarkModal}/>
 			<Route exact path="/illegal/modals/IntegralModal" component={IntegralModal}/>
 			<Route exact path="/illegal/modals/RejectModal" component={RejectModal}/>
@@ -54,8 +50,6 @@ export default () => (
 			<Route exact path="/order" component={order}/>
 			<Route exact path="/user/blocks/Details" component={Details}/>
 			<Route exact path="/user/modals/ModifyModal" component={ModifyModal}/>
-=======
->>>>>>> 5a1ffa09572215a90d991dcb0c2d72ee0995c2f1
 			<Route exact path="/user" component={user}/>
 			<Route exact path="/user/details" component={userDetails}/>
 			<Route exact path="/user/order" component={userOrder}/>

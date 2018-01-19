@@ -1,10 +1,6 @@
 import React from 'react';
-<<<<<<< HEAD
-import {Box, Button, CitySelect, Content, DataTable, DateRange, Field, Form, Select, SelectInput, NumberRange} from "beefly-common";
-=======
 import {Box, Button, CitySelect, Content, DataTable, DateRange, Field, Form, Select, SelectInput, NumberRange, dtUtils ,tabUtils} from "beefly-common";
 import {handleType, operateState, reportState} from '../../maps/illegalMap';
->>>>>>> 5a1ffa09572215a90d991dcb0c2d72ee0995c2f1
 import {userState, vagueState, depositState} from '../../maps/userMap';
 import ModifyModal from "./modals/ModifyModal";
 import appUserApi from "../../apis/appUserApi";
@@ -28,11 +24,7 @@ export default class Illegal extends React.Component {
 				{title: '注册时间', data: 'registerTime', render:dtUtils.renderDateTime},
 				{title: '账户余额（￥）', data: 'grantBalance'},
 				{title: '信用积分', data: 'credScore'},
-<<<<<<< HEAD
-				{title: '押金状态', data: 'depositState', render: (data) => beefly.dtUtils.renderMap(data, depositState)},
-=======
 				{title: '押金状态', data: 'certState', render: (data) => dtUtils.renderMap(data, depositState)},
->>>>>>> 5a1ffa09572215a90d991dcb0c2d72ee0995c2f1
 				{title: '操作', type: 'object', render: this.renderActions},
 			],
 

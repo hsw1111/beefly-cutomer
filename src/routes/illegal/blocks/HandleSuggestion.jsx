@@ -7,6 +7,7 @@ import transRecordApi from "../../../apis/transRecordApi";
 import beefly from "../../../js/beefly";
 import creditScoreApi from "../../../apis/creditScoreApi";
 import illegalStore from "../stores/illegalStore";
+import cs from "classnames"
 
 /**
  * 违停上报 处理意见
@@ -67,8 +68,11 @@ export default class HandleSuggestion extends React.Component {
 
 	render() {
 		let {deductScore, deductCashPledge, data, proposal} = this.state;
-		let {orderDetail, actualHandleType, suggestHandleType, depositState} = illegalStore;
-		let mobile = illegalStore.orderDetail ? illegalStore.orderDetail.mobile : '-';
+		let {detail, orderDetail, actualHandleType, suggestHandleType, depositState} = illegalStore;
+		if(!orderDetail){
+			return null;
+		}
+		let mobile = orderDetail.mobile || '-';
 		return (
 			<Box title="处理意见" icon="fa-tag">
 				<p>鉴于订单的违规类别和信用积分，我们建议的处理意见为 {opinionType[suggestHandleType]} ，你也可以更改处理意见。</p>
@@ -116,12 +120,12 @@ export default class HandleSuggestion extends React.Component {
 							</div>}
 						</Tab>
 						<Tab title="不处罚">
-							<p>订单（编号：1213）符合如下第2点不处罚的情况，该违规人不不处罚。</p>
+							<p>订单（编号：<span>{orderDetail.id}</span>）符合如下第2点不处罚的情况，该违规人不不处罚。</p>
 							<ol>
-								<li>违停上报的时间点 处理订单未结束状态，不处罚</li>
-								<li className="text-red">最近一次订单状态是已结束，里程＜500米，时长＜5分钟，不处罚</li>
-								<li>最近一次订单与违停上报时间点相差超过5天，不处罚</li>
-								<li>订单状态是＂开锁失败＂，不处罚</li>
+								<li className={cs({'text-red':orderDetail.endTime > detail.lastReportTime ||''})}>违停上报的时间点 处理订单未结束状态，不处罚</li>
+								<li className={cs({'text-red':(orderDetail.mileage < 500 || orderDetail.timeInOrder < 5)})}>最近一次订单状态是已结束，里程＜500米，时长＜5分钟，不处罚</li>
+								<li className={cs({'text-red':beefly.DateMinus(orderDetail.placeOrderTime,detail.lastReportTime)>5})}>最近一次订单与违停上报时间点相差超过5天，不处罚</li>
+								<li className={cs({'text-red':orderDetail.orderFlow == 10})}>订单状态是＂开锁失败＂，不处罚</li>
 							</ol>
 							<Form horizontal>
 								<Select width={250} label="请选择不处罚的原因" wholeOption={data} model="noPunish.code"
@@ -158,7 +162,7 @@ export default class HandleSuggestion extends React.Component {
 
 		let params = {
 			type,
-			id: orderDetail.id,
+			id: detail.id,
 			appUserId: orderDetail.userId,
 			orderId: orderDetail.id,
 		};

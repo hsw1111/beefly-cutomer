@@ -16,8 +16,8 @@ export const handleType = {
  */
 
 export const operateState = {
-	1: '运营中',
-	2: '非运营中',
+	0: '运营中',
+	1: '非运营中',
 };
 
 

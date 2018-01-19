@@ -1,10 +1,10 @@
 import React from 'react';
 import orderApi from "../../apis/orderApi";
-import {Box, Button,  Content, DataTable, DateRange, Field, Form, Select, SelectInput} from "beefly-common";
+import {Box, Button,  Content, DataTable, DateRange, Field, Form, Select, SelectInput, dtUtils} from "beefly-common";
 import {orderState, orderType, vagueState, timeType} from '../../maps/orderMap';
 
-import EndOrderModal from './modals/EndOrderModal' 
-import DetailModal from './modals/DetailModal' 
+import EndOrderModal from './modals/EndOrderModal'
+import DetailModal from './modals/DetailModal'
 import beefly from "../../js/beefly";
 
 /**
@@ -15,14 +15,14 @@ export default class Order extends React.Component{
   constructor(props){
 
     super(props)
-    
+
     this.state = {
       columns: [
         {title: '订单编号', data: 'id'},
 				{title: '用户编号', data: 'userId'},
 				{title: '手机号', data: 'mobile'},
-				{title: '下单时间', data: 'placeOrderTime', render: beefly.dtUtils.renderDateTime},
-				{title: '结束时间', data: 'endTime', render: beefly.dtUtils.renderDateTime},
+				{title: '下单时间', data: 'placeOrderTime', render: dtUtils.renderDateTime},
+				{title: '结束时间', data: 'endTime', render:dtUtils.renderDateTime},
 				{title: '取车时续航里程（m）', data: 'leftMileage', width:75},
 				{title: '车辆编号', data: 'bikeCode'},
 				{title: '取车地点', data: 'pickLocation', width:150},
@@ -93,7 +93,7 @@ export default class Order extends React.Component{
         {text: '车辆开锁', icon: 'user-plus', onclick: `beefly.unlock('${row.id}')`},
         {text: '车辆关锁', icon: 'user-plus', onclick: `beefly.lock('${row.id}')`},
       ]
-      return beefly.dtUtils.renderActions(actions, 'dropdown')
+      return dtUtils.renderActions(actions, 'dropdown')
     }else if(row.orderFlow === 1 ){
       let actions = [
         {text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
@@ -109,7 +109,7 @@ export default class Order extends React.Component{
       ]
       return beefly.dtUtils.renderActions(actions, 'dropdown')
     }
-    
+
   }
 
   // 查看详情

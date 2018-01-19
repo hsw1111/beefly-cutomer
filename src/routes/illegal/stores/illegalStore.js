@@ -53,13 +53,18 @@ class IllegalStore {
 				 this.misreport = 1;
 			}
 
-			if(this.orderDetail && this.orderDetail.mileage < 500 || this.orderDetail.timeInOrder < 5){
-				this.suggestHandleType = 2;
-				this.actualHandleType = this.suggestHandleType;
-			}
-			this.fetchBuckleCount();
-			this.fetchSmsCount();
-			this.fetchDepositState();
+
+			await this.fetchBuckleCount();
+			await this.fetchSmsCount();
+			await this.fetchDepositState();
+
+			setTimeout(()=>{
+				if(this.orderDetail && this.orderDetail.mileage < 500 || this.orderDetail.timeInOrder < 5 ||(this.orderDetail.endTime > this.detail.lastReportTime ||'')||
+					(beefly.DateMinus(this.orderDetail.placeOrderTime,this.detail.lastReportTime)>5)||(this.orderDetail.orderFlow == 10)){
+					this.suggestHandleType = 2;
+					this.actualHandleType = this.suggestHandleType;
+				}
+			}, 300)
 		}
 
 	}

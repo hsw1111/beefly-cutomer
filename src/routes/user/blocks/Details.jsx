@@ -34,10 +34,6 @@ export default class Detail extends React.Component {
 		let {query} = this.state;
 		query.appUserId=detail.id;
 		userStore.fetchDetail()
-		// let result = await couponApi.page({appUserId:detail.id});
-		// console.log(result,123)
-		// console.log(detail.id,888)
-
 	}
 
 	render() {

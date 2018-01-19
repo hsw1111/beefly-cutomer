@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Button, CitySelect, Content, DataTable, DateRange, Field, Form, Select, SelectInput, NumberRange} from "beefly-common";
+import {Box, Button, CitySelect, Content, DataTable, DateRange, Field, Form, Select, SelectInput, NumberRange, dtUtils ,tabUtils} from "beefly-common";
 import {handleType, operateState, reportState} from '../../maps/illegalMap';
 import {userState, vagueState, depositState} from '../../maps/userMap';
 import ModifyModal from "./modals/ModifyModal";
@@ -21,10 +21,10 @@ export default class Illegal extends React.Component {
 				{title: '手机号', data: 'mobile'},
 				{title: '登录城市', data: 'cityName'},
 				{title: '用户状态', data: 'userStatusName'},
-				{title: '注册时间', data: 'registerTime', render: beefly.dtUtils.renderDateTime},
+				{title: '注册时间', data: 'registerTime', render:dtUtils.renderDateTime},
 				{title: '账户余额（￥）', data: 'grantBalance'},
 				{title: '信用积分', data: 'credScore'},
-				{title: '押金状态', data: 'certState', render: (data) => beefly.dtUtils.renderMap(data, depositState)},
+				{title: '押金状态', data: 'certState', render: (data) => dtUtils.renderMap(data, depositState)},
 				{title: '操作', type: 'object', render: this.renderActions},
 			],
 
@@ -59,7 +59,7 @@ export default class Illegal extends React.Component {
 				{text: '修改手机号', icon: 'user-plus', onclick: `beefly.modify('${row.appUserId},${row.mobile}')`},
 				// {text: '清除验证码限制', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
 			];
-			return beefly.dtUtils.renderActions(actions, 'dropdown')
+		return dtUtils.renderActions(actions, 'dropdown')
 	}
 
 	render() {
@@ -97,7 +97,7 @@ export default class Illegal extends React.Component {
 
 	// 查看详情
 	details(id) {
-		beefly.tabs.addTab({
+		tabUtils.addTab({
 			name: '用户管理详情-' + id,
 			path: '/user/details',
 			params: {
@@ -116,7 +116,8 @@ export default class Illegal extends React.Component {
 	}
 	//查看订单
 	seeOrder(id) {
-		beefly.tabs.addTab({
+		console.log(id,123)
+		tabUtils.addTab({
 			name: '用户管理订单-' + id,
 			path: '/user/order',
 			params: {

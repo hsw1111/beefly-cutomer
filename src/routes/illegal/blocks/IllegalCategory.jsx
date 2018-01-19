@@ -24,7 +24,7 @@ export default class IllegalCategory extends React.Component {
 
     render() {
         let {detail, orderDetail, smsCount, buckleCount, misreport} = illegalStore;
-        name ='(订单里程<100米时，存在误报风险，需要处罚的有可能是上一次订单)';
+        name = '(订单里程<100米时，存在误报风险，需要处罚的有可能是上一次订单)';
         return (
             <Box>
                 <Form className={'form-label-150'} horizontal>

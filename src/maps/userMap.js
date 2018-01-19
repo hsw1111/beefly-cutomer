@@ -17,7 +17,7 @@ export const userState = {
 
 export const vagueState = {
 	'mobile': '手机号',
-	'id':'用户编号',
+	'id': '用户编号',
 	'name': '用户姓名',
 };
 
@@ -27,7 +27,7 @@ export const vagueState = {
 
 export const depositState = {
 	0: '未缴纳',
-	1:'正常',
+	1: '正常',
 	2: '退款中',
 	3: '冻结',
 };

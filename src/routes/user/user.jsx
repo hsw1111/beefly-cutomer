@@ -7,7 +7,7 @@ import appUserApi from "../../apis/appUserApi";
 import beefly from "../../js/beefly";
 
 /**
- * 违停上报
+ * 用户管理
  */
 export default class Illegal extends React.Component {
 

@@ -99,7 +99,7 @@ export default class Order extends React.Component{
         {text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
         {text: '结束订单', icon: 'user-plus', onclick: `beefly.endOrder('${row.id}')`},
       ]
-      return beefly.dtUtils.renderActions(actions, 'dropdown')
+      return dtUtils.renderActions(actions, 'dropdown')
     }else if(row.orderFlow === 2 || row.orderFlow === 9){
       let actions = [
         {text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
@@ -107,7 +107,7 @@ export default class Order extends React.Component{
         {text: '车辆开锁', icon: 'user-plus', onclick: `beefly.unlock('${row.id}')`},
         {text: '车辆关锁', icon: 'user-plus', onclick: `beefly.lock('${row.id}')`},
       ]
-      return beefly.dtUtils.renderActions(actions, 'dropdown')
+      return dtUtils.renderActions(actions, 'dropdown')
     }
 
   }

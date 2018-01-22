@@ -35,7 +35,7 @@ export default class IllegalDetails extends React.Component {
 		}
 	}
 
-	async componentWillMount() {
+	 componentWillMount() {
 		userStore.fetchDetail();
 		// let {detail} = userStore;
 		// let {id} = urlUtils.getParams();
@@ -44,8 +44,8 @@ export default class IllegalDetails extends React.Component {
 	}
 
 	render() {
-		let {columns, query} = this.state;
 		let {detail} = userStore;
+		let {columns, query} = this.state;
 		console.log(detail);
 			return (
 				<Box>

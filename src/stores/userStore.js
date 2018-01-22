@@ -13,6 +13,7 @@ class UserStore {
 		let {id} = urlUtils.getParams();
 		let result = await appUserApi.userDetail({id});
 		this.detail = result.data;
+		console.log(this.detail,45664646)
 	}
 
 }

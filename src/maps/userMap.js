@@ -32,9 +32,13 @@ export const depositState = {
 	3: '冻结',
 };
 
-export const sendTarget = {
-	0: '用户回访',
-	1: '用户通知',
-	2: '违规通知',
+/**
+ *  用户管理  发送目的
+ */
+export const purposeType = {
+	0: '验证码',
+	1: '用户回访',
+	2: '用户通知',
 	3: '其他',
+	4: '违规通知'
 };

@@ -1,9 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {Button, Form, Modal, Input, msgBox, Select, Textarea} from "beefly-common";
-import {sendTarget} from '../../../maps/userMap'
-import tripProblemApi from "../../../apis/tripProblemApi";
-import beefly from "../../../js/beefly";
+import {purposeType} from '../../../maps/userMap'
 import appUserApi from "../../../apis/appUserApi";
 
 /**
@@ -17,7 +14,7 @@ export default class SendMessageModal extends React.Component {
       show: false,
       query: {
         'mobile': '',
-        'target': '',
+        'serviceType': 1,
         'content': ''
       }
     }
@@ -32,7 +29,7 @@ export default class SendMessageModal extends React.Component {
 					  <Form inline>
               <Input label="手机号" model='query.mobile' width={250}
                     validation={{required: true}}/>
-              <Select label="发送目的" model="query.target" options={sendTarget}  validation={{required: true}} width={200}/>
+              <Select label="发送目的" model="query.serviceType" options={purposeType}  validation={{required: true}} width={200} whole={false}/>
               <Textarea label="短信内容" model='query.content'   validation={{required: true}} width={400}/>
             </Form>
 				</Modal.Body>
@@ -47,7 +44,11 @@ export default class SendMessageModal extends React.Component {
 	show() {
 		this.setState({
 			show: true,
-
+			query: {
+        'mobile': '',
+        'serviceType': 1,
+        'content': ''
+      }
 		})
 	}
 
@@ -59,10 +60,12 @@ export default class SendMessageModal extends React.Component {
 
 	async ok() {
     let {query} = this.state
-    console.log(query)
-    this.setState({
-			show: false
-		})
+		console.log(query)
+		let result = await appUserApi.sendMessage(query)
+		if (result.resultCode == 1) {
+			this.hide();
+			msgBox.success('发送短信成功！');
+		}
 
 	}
 

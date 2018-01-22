@@ -11,6 +11,7 @@ const IllegalDetail = asyncComponent(() => import(/* webpackChunkName: "illegal/
 const order = asyncComponent(() => import(/* webpackChunkName: "order/index" */'./routes/order/order'));
 const user = asyncComponent(() => import(/* webpackChunkName: "user/index" */'./routes/user/user'));
 const userDetails = asyncComponent(() => import(/* webpackChunkName: "user/details" */'./routes/user/userDetails'));
+const userMessage = asyncComponent(() => import(/* webpackChunkName: "user/message" */'./routes/user/userMessage'));
 const userOrder = asyncComponent(() => import(/* webpackChunkName: "user/order" */'./routes/user/userOrder'));
 
 /**
@@ -28,6 +29,7 @@ export default () => (
 			<Route exact path="/order" component={order}/>
 			<Route exact path="/user" component={user}/>
 			<Route exact path="/user/details" component={userDetails}/>
+			<Route exact path="/user/message" component={userMessage}/>
 			<Route exact path="/user/order" component={userOrder}/>
 			<Route path="*" component={Error404}/>
 		</Switch>

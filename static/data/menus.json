@@ -9,7 +9,7 @@
 			},
 			{
 				"name": "短信管理",
-				"path": "/"
+				"path": "/user/message"
 			},
 			{
 				"name": "验证码信息",

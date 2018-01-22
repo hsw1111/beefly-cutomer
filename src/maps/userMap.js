@@ -31,3 +31,10 @@ export const depositState = {
 	2: '退款中',
 	3: '冻结',
 };
+
+export const sendTarget = {
+	0: '用户回访',
+	1: '用户通知',
+	2: '违规通知',
+	3: '其他',
+};

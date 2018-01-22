@@ -4,15 +4,15 @@ import {Box, Form, Text, Row, Col, Button, Content, DataTable} from "beefly-comm
 import {urlUtils} from 'jeselvmo';
 import appUserApi from "../../apis/appUserApi";
 import beefly from "../../js/beefly";
-import Detail from "./blocks/Details";
 import orderApi from "../../apis/orderApi";
 import userStore from "../../stores/userStore";
 /**
  * 查看订单
  */
-export default class IllegalDetails extends React.Component {
+@observer
+export default class userOrder extends React.Component {
 
-	constructor(props) {
+	constructor(props){
 		super(props);
 		this.state = {
 			columns: [
@@ -34,37 +34,41 @@ export default class IllegalDetails extends React.Component {
 	}
 
 	componentWillMount() {
-		userStore.fetchDetail();
 		let {id} = urlUtils.getParams();
 		let {query} = this.state;
 		query.appUserId=id;
+		userStore.fetchDetail()
 	}
 
 	render() {
 		let {columns, query} = this.state;
+		let {detail} = userStore;
+		if(detail){
 			return (
 				<Box>
-					{/*<Form className="form-label-150" horizontal>*/}
-						{/*<Row>*/}
-							{/*<Col md={5}>*/}
-								{/*<Text label="用户编号" value={detail.id}/>*/}
-								{/*<Text label="手机号" value={detail.mobile}/>*/}
-							{/*</Col>*/}
-							{/*<Col md={7}>*/}
-								{/*<Text label="用户姓名" value={detail.name}/>*/}
-								{/*<Text label="所属城市" value={detail.cityName}/>*/}
-							{/*</Col>*/}
-						{/*</Row>*/}
-					{/*</Form>*/}
+					<Form className="form-label-150" horizontal>
+						<Row>
+							<Col md={5}>
+								<Text label="用户编号" value={detail.id}/>
+								<Text label="手机号" value={detail.mobile}/>
+							</Col>
+							<Col md={7}>
+								<Text label="用户姓名" value={detail.name}/>
+								<Text label="所属城市" value={detail.cityName}/>
+							</Col>
+						</Row>
+					</Form>
+					<hr/>
+					<p className="margin-t-10">
+						<h4><b>订单信息</b></h4>
+					</p>
 					<DataTable ref={(e) => this._dataTable = e}
-							   columns={columns} api={orderApi.page} query={query}/>
+					columns={columns} api={orderApi.page} query={query}/>
 				</Box>
 			)
-	}
 
-	//关闭详情
-	closed() {
-		beefly.tabs.closeTab();
+		}
+		return null
 	}
-
 }
+

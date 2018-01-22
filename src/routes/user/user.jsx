@@ -3,6 +3,8 @@ import {Box, Button, CitySelect, Content, DataTable, DateRange, Field, Form, Sel
 import {handleType, operateState, reportState} from '../../maps/illegalMap';
 import {userState, vagueState, depositState} from '../../maps/userMap';
 import ModifyModal from "./modals/ModifyModal";
+import BlackModal from "./modals/BlackModal";
+import CancelBlackModal from "./modals/CancelBlackModal";
 import appUserApi from "../../apis/appUserApi";
 import beefly from "../../js/beefly";
 
@@ -45,13 +47,16 @@ export default class Illegal extends React.Component {
 		beefly.modify = this.modify.bind(this);
 		beefly.seeOrder = this.seeOrder.bind(this);
 		beefly.black = this.black.bind(this);
+		beefly.cancelBlack = this.cancelBlack.bind(this);
 	}
 
 	renderActions(data, type, row) {
+		if(row.isFrozen == 0){
 			let actions = [
 				{text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
 				{text: '查看订单', icon: 'user-plus', onclick: `beefly.seeOrder('${row.id}')`},
-				{text: '拉黑', icon: 'user-plus', onclick: `beefly.black('${row.id}')`},
+				{text: '拉黑', icon: 'user-plus', onclick: `beefly.black('${row.id},${row.mobile}')`},
+				// {text: '取消拉黑', icon: 'user-plus', onclick: `beefly.cancelBlack('${row.id},${row.mobile}')`},
 				// {text: '余额管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
 				// {text: '出行券管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
 				// {text: '信用积分管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
@@ -59,7 +64,23 @@ export default class Illegal extends React.Component {
 				{text: '修改手机号', icon: 'user-plus', onclick: `beefly.modify('${row.id},${row.mobile}')`},
 				// {text: '清除验证码限制', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
 			];
-		return dtUtils.renderActions(actions, 'dropdown')
+			return dtUtils.renderActions(actions, 'dropdown')
+		}
+		if(row.isFrozen == 1){
+			let actions = [
+				{text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
+				{text: '查看订单', icon: 'user-plus', onclick: `beefly.seeOrder('${row.id}')`},
+				// {text: '拉黑', icon: 'user-plus', onclick: `beefly.black('${row.id},${row.mobile}')`},
+				{text: '取消拉黑', icon: 'user-plus', onclick: `beefly.cancelBlack('${row.id},${row.mobile}')`},
+				// {text: '余额管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
+				// {text: '出行券管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
+				// {text: '信用积分管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
+				// {text: '冻结用户押金', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
+				{text: '修改手机号', icon: 'user-plus', onclick: `beefly.modify('${row.id},${row.mobile}')`},
+				// {text: '清除验证码限制', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
+			];
+			return dtUtils.renderActions(actions, 'dropdown')
+		}
 	}
 
 	render() {
@@ -81,6 +102,8 @@ export default class Illegal extends React.Component {
 							   columns={columns} api={appUserApi.page} query={query}/>
 				</Box>
 				<ModifyModal ref={(e) => this._modifyModal = e}/>
+				<BlackModal ref={(e) => this._blackModal = e}/>
+				<CancelBlackModal ref={(e) => this._cancelModal = e}/>
 			</Content>
 		)
 	}
@@ -126,8 +149,21 @@ export default class Illegal extends React.Component {
 	}
 
 	//拉黑
-	black(id){
-		console.log(id,6666)
+	black(data){
+		let m = data.split(",");
+		this._blackModal.show({
+			id: m[0],
+			mmobile: m[1]
+		});
+	}
+
+	//取消拉黑
+	cancelBlack(data){
+		let m = data.split(",");
+		this._cancelModal.show({
+			id: m[0],
+			mmobile: m[1]
+		});
 	}
 
 

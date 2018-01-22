@@ -80,6 +80,11 @@ export default class HandleSuggestion extends React.Component {
 		}
 		let mobile = orderDetail.mobile || '-';
 
+		// if(!detail.content.includes('双人骑行')){
+        //
+		// }
+		console.log(detail.content.includes('双人骑行'));
+
 		//
 		let noPunishLis = [
 			{
@@ -153,12 +158,12 @@ export default class HandleSuggestion extends React.Component {
 							</div>}
 						</Tab>
 						<Tab title="不处罚">
-							<p>订单（编号：<span>{orderDetail.id}</span>）符合如下第{noPunishActiveLis.join('、')}点不处罚的情况，该违规人不不处罚。</p>
+							{!detail.content.includes('双人骑行')&& <div><p>订单（编号：<span>{orderDetail.id}</span>）符合如下第{noPunishActiveLis.join('、')}点不处罚的情况，该违规人不不处罚。</p>
 							<ol>
 								{noPunishLis.map((d) => (
 									<li className={cs({'text-red': d.value})}>{d.text}</li>
 								))}
-							</ol>
+							</ol></div>}
 							<Form horizontal>
 								<Select width={250} label="请选择不处罚的原因" wholeOption={data} model="noPunish.code"
 										whole={true} options={noPunishType} validation={{required: true}}/>

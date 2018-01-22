@@ -87,6 +87,10 @@ export default class IllegalCategory extends React.Component {
 
     changeOrder(orderId) {
 		illegalStore.fetchOrderDetail(orderId);
+
+		//
+		let {onOrderChange} = this.props;
+		onOrderChange && onOrderChange(orderId);
     }
 
 }

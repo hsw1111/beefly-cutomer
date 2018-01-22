@@ -10,7 +10,6 @@ import userStore from "../../stores/userStore";
 /**
  * 查看订单
  */
-@observer
 export default class IllegalDetails extends React.Component {
 
 	constructor(props) {
@@ -32,35 +31,32 @@ export default class IllegalDetails extends React.Component {
 			query: {
 				'appUserId': '',
 			},
+			detail:null
 		}
 	}
 
-	 componentWillMount() {
-		userStore.fetchDetail();
-		// let {detail} = userStore;
-		// let {id} = urlUtils.getParams();
-		// let {query} = this.state;
-		// query.appUserId=id;
+	componentWillMount() {
+		let {id} = urlUtils.getParams();
+		let {query} = this.state;
+		query.appUserId=id;
 	}
 
 	render() {
-		let {detail} = userStore;
-		let {columns, query} = this.state;
-		console.log(detail);
+		let {detail,columns, query} = this.state;
 			return (
 				<Box>
-					<Form className="form-label-150" horizontal>
-						<Row>
-							<Col md={5}>
-								<Text label="用户编号" value={detail.id}/>
-								<Text label="手机号" value={detail.mobile}/>
-							</Col>
-							<Col md={7}>
-								<Text label="用户姓名" value={detail.name}/>
-								<Text label="所属城市" value={detail.cityName}/>
-							</Col>
-						</Row>
-					</Form>
+					{/*<Form className="form-label-150" horizontal>*/}
+						{/*<Row>*/}
+							{/*<Col md={5}>*/}
+								{/*<Text label="用户编号" value={detail.id}/>*/}
+								{/*<Text label="手机号" value={detail.mobile}/>*/}
+							{/*</Col>*/}
+							{/*<Col md={7}>*/}
+								{/*<Text label="用户姓名" value={detail.name}/>*/}
+								{/*<Text label="所属城市" value={detail.cityName}/>*/}
+							{/*</Col>*/}
+						{/*</Row>*/}
+					{/*</Form>*/}
 					<DataTable ref={(e) => this._dataTable = e}
 							   columns={columns} api={orderApi.page} query={query}/>
 				</Box>
@@ -71,4 +67,5 @@ export default class IllegalDetails extends React.Component {
 	closed() {
 		beefly.tabs.closeTab();
 	}
+
 }

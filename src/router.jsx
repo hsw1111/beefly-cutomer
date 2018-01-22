@@ -8,6 +8,10 @@ const Home = asyncComponent(() => import(/* webpackChunkName: "home/index" */'./
 const Illegal = asyncComponent(() => import(/* webpackChunkName: "illegal/index" */'./routes/illegal/Illegal'));
 const IllegalConfirm = asyncComponent(() => import(/* webpackChunkName: "illegal/confirm" */'./routes/illegal/IllegalConfirm'));
 const IllegalDetail = asyncComponent(() => import(/* webpackChunkName: "illegal/detail" */'./routes/illegal/IllegalDetail'));
+const order = asyncComponent(() => import(/* webpackChunkName: "order/index" */'./routes/order/order'));
+const user = asyncComponent(() => import(/* webpackChunkName: "user/index" */'./routes/user/user'));
+const userDetails = asyncComponent(() => import(/* webpackChunkName: "user/details" */'./routes/user/userDetails'));
+const userOrder = asyncComponent(() => import(/* webpackChunkName: "user/order" */'./routes/user/userOrder'));
 
 /**
  * 模块路由
@@ -21,6 +25,10 @@ export default () => (
 			<Route exact path="/illegal" component={Illegal}/>
 			<Route exact path="/illegal/confirm" component={IllegalConfirm}/>
 			<Route exact path="/illegal/detail" component={IllegalDetail}/>
+			<Route exact path="/order" component={order}/>
+			<Route exact path="/user" component={user}/>
+			<Route exact path="/user/details" component={userDetails}/>
+			<Route exact path="/user/order" component={userOrder}/>
 			<Route path="*" component={Error404}/>
 		</Switch>
 	</Router>

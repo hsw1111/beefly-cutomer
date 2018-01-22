@@ -2,6 +2,8 @@ import React from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import { asyncComponent } from 'beefly-common';
 
+const bike = asyncComponent(() => import(/* webpackChunkName: "bike/index" */'./routes/bike/bike'));
+const bikeLog = asyncComponent(() => import(/* webpackChunkName: "bike/log" */'./routes/bike/bikeLog'));
 const Error404 = asyncComponent(() => import(/* webpackChunkName: "error/404" */'./routes/error/Error404'));
 const Error500 = asyncComponent(() => import(/* webpackChunkName: "error/500" */'./routes/error/Error500'));
 const Home = asyncComponent(() => import(/* webpackChunkName: "home/index" */'./routes/home/Home'));
@@ -19,6 +21,8 @@ const userOrder = asyncComponent(() => import(/* webpackChunkName: "user/order" 
 export default () => (
 	<Router>
 		<Switch>
+			<Route exact path="/bike" component={bike}/>
+			<Route exact path="/bike/bikeLog" component={bikeLog}/>
 			<Route exact path="/error/404" component={Error404}/>
 			<Route exact path="/error/500" component={Error500}/>
 			<Route exact path="/home" component={Home}/>

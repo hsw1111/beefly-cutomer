@@ -34,6 +34,7 @@ export default class IllegalDetails extends React.Component {
 	}
 
 	componentWillMount() {
+		userStore.fetchDetail();
 		let {id} = urlUtils.getParams();
 		let {query} = this.state;
 		query.appUserId=id;

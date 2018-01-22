@@ -174,6 +174,37 @@ export default class HandleSuggestion extends React.Component {
 		)
 	}
 
+	componentWillReceiveProps(nextProps){
+		if(this.props.orderId !== nextProps.orderId){
+			this.reset();
+		}
+	}
+
+	reset(){
+		this.setState({
+			deductScore: {
+				creditScoreCount: 5,
+				remark: '',
+				content: ''
+			},
+
+			// 扣押金有三种可能:
+			// 1.押金充值在	3个月内：直接扣；
+			// 2.押金充值超过3各个月：先拉黑；
+			// 3.押金已经被提现：冻结用户押金(原来叫：设为失信用户)
+			deductCashPledge: {
+				// depositState: 1,	// 押金状态
+				depositAmount: '',
+				remark: '',
+				content: ''
+			},
+
+			sendSms: {
+				content: ''
+			},
+		})
+	}
+
 
 	// 确认处理
 	confirmHandle() {

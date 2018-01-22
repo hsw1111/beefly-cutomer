@@ -63,6 +63,7 @@ export default class Illegal extends React.Component {
 		beefly.black = this.black.bind(this);
 		beefly.cancelBlack = this.cancelBlack.bind(this);
 		beefly.frozen = this.frozen.bind(this);
+		beefly.unfreeze = this.unfreeze.bind(this);
 	}
 
 	renderActions(data, type, row) {
@@ -74,6 +75,7 @@ export default class Illegal extends React.Component {
 			{text: '拉黑', icon: 'user-plus', onclick: `beefly.black('${row.id},${row.mobile}')`, visible: row.isFrozen == 0},
 			{text: '取消拉黑', icon: 'user-plus', onclick: `beefly.cancelBlack('${row.id},${row.mobile}')`, visible: row.isFrozen == 1},
 			{text: '冻结用户押金', icon: 'user-plus', onclick: `beefly.frozen('${row.id}')`},
+			{text: '取消冻结用户押金', icon: 'user-plus', onclick: `beefly.unfreeze('${row.id}')`},
 			// {text: '余额管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
 			// {text: '出行券管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
 			// {text: '信用积分管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
@@ -167,9 +169,15 @@ export default class Illegal extends React.Component {
 			mmobile: m[1]
 		});
 	}
+
     //冻结押金用户
 	frozen(){
 		console.log(546464564)
+	}
+
+	//取消冻结押金用户
+	unfreeze(){
+		console.log(4331313)
 	}
 
 

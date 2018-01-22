@@ -56,10 +56,15 @@ export default class CancelBlackModal extends React.Component {
 		console.log(result,4561323)
 	}
 
-	hide() {
+	hide(isCallback) {
 		this.setState({
 			show: false
-		})
+		});
+
+		if(isCallback){
+			let {onSuccess} = this.props;
+			onSuccess && onSuccess();
+		}
 	}
 
 	async ok() {
@@ -69,7 +74,7 @@ export default class CancelBlackModal extends React.Component {
 			remark:remark
 		};
 		let result = await appUserApi.unBlack(parms);
-		this.hide();
+		this.hide(true);
 		msgBox.warning(result.message);
 
 	}

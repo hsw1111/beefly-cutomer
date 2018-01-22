@@ -47,10 +47,15 @@ export default class BlackModal extends React.Component {
 		console.log(data)
 	}
 
-	hide() {
+	hide(isCallback) {
 		this.setState({
 			show: false
-		})
+		});
+
+		if(isCallback){
+			let {onSuccess} = this.props;
+			onSuccess && onSuccess();
+		}
 	}
 
 	async ok() {
@@ -64,9 +69,8 @@ export default class BlackModal extends React.Component {
 			remark:remark
 		};
 		let result = await appUserApi.black(parms);
-		this.hide();
+		this.hide(true);
 		msgBox.warning(result.message);
-
 	}
 
 }

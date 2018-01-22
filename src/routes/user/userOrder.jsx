@@ -27,11 +27,9 @@ export default class IllegalDetails extends React.Component {
 				{title: '订单费用（￥）', data: 'actualAmount'},
 				{title: '订单状态', data: 'state'},
 			],
-			orderData: {},
 			query: {
 				'appUserId': '',
 			},
-			detail:null
 		}
 	}
 
@@ -42,7 +40,7 @@ export default class IllegalDetails extends React.Component {
 	}
 
 	render() {
-		let {detail,columns, query} = this.state;
+		let {columns, query} = this.state;
 			return (
 				<Box>
 					{/*<Form className="form-label-150" horizontal>*/}

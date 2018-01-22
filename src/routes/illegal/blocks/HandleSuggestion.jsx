@@ -19,6 +19,12 @@ const opinionType = {
 	3: '发短信',
 };
 
+const commitType = {
+	1: 1,
+	2: 5,
+	3: 4,
+	4: 6,
+};
 /**
  * 处理意见
  */
@@ -125,7 +131,7 @@ export default class HandleSuggestion extends React.Component {
 									   validation={{required: true}}/>
 								<Textarea label="备注" model={'deductCashPledge.remark'} width={'50%'}
 										  validation={{required: true}}/>
-								<Checkbox model={'deductCashPledge.smsFlag'} text="同时给违规人发送短信通知"/>
+								<Checkbox model={'deductCashPledge.smsFlag'} text="同时给违规人发送短信通知" onChange={(e)=>console.log(e, '............................')}/>
 								{deductCashPledge.smsFlag == 1 && <div>
 									<Text label="手机号" value={mobile}/>
 									<Text label="发送目的" value="违规通知"/>
@@ -185,6 +191,7 @@ export default class HandleSuggestion extends React.Component {
 			deductScore: {
 				creditScoreCount: 5,
 				remark: '',
+				smsFlag: 1,
 				content: ''
 			},
 
@@ -196,6 +203,7 @@ export default class HandleSuggestion extends React.Component {
 				// depositState: 1,	// 押金状态
 				depositAmount: '',
 				remark: '',
+				smsFlag: 1,
 				content: ''
 			},
 
@@ -208,9 +216,9 @@ export default class HandleSuggestion extends React.Component {
 
 	// 确认处理
 	confirmHandle() {
-		let {detail, orderDetail, actualHandleType} = illegalStore;
-		let type = actualHandleType + 1;
+		let {detail, orderDetail, actualHandleType,transId} = illegalStore;
 
+		let type = commitType[actualHandleType + 1];
 		if (!orderDetail) {
 			msgBox.error('该车辆无订单数据');
 			return;
@@ -222,19 +230,20 @@ export default class HandleSuggestion extends React.Component {
 			id: detail.id,
 			appUserId: orderDetail.userId,
 			orderId: orderDetail.id,
+			transId:transId
 		};
 
 		switch (type) {
 			case 1:
 				this.confirmHandle_deductScore(params);
 				break;
-			case 2:
+			case 5:
 				this.confirmHandle_deductCashPledge(params);
 				break;
-			case 3:
+			case 4:
 				this.confirmHandle_noPunish(params);
 				break;
-			case 4:
+			case 6:
 				this.confirmHandle_sendSms(params);
 				break;
 			default:

@@ -86,7 +86,8 @@ class IllegalStore {
 	// 收到违停短信次数
 	async fetchSmsCount() {
 		let result = await symsApi.countSms({
-			userId: this.orderDetail.userId
+			mobile: this.orderDetail.mobile,
+			serviceType:4
 		});
 		if (result.resultCode === 1) {
 			this.smsCount = result.data

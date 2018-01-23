@@ -12,6 +12,7 @@ const order = asyncComponent(() => import(/* webpackChunkName: "order/index" */'
 const user = asyncComponent(() => import(/* webpackChunkName: "user/index" */'./routes/user/user'));
 const userAuthCode = asyncComponent(() => import(/* webpackChunkName: "user/authCode" */'./routes/user/userAuthCode'));
 const userDetails = asyncComponent(() => import(/* webpackChunkName: "user/details" */'./routes/user/userDetails'));
+const userInfo = asyncComponent(() => import(/* webpackChunkName: "user/info" */'./routes/user/userInfo'));
 const userMessage = asyncComponent(() => import(/* webpackChunkName: "user/message" */'./routes/user/userMessage'));
 const userOrder = asyncComponent(() => import(/* webpackChunkName: "user/order" */'./routes/user/userOrder'));
 
@@ -31,8 +32,8 @@ export default () => (
 			<Route exact path="/user" component={user}/>
 			<Route exact path="/user/authCode" component={userAuthCode}/>
 			<Route exact path="/user/details" component={userDetails}/>
+			<Route exact path="/user/info" component={userInfo}/>
 			<Route exact path="/user/message" component={userMessage}/>
-			<Route exact path="/user/details" component={userDetails}/>
 			<Route exact path="/user/order" component={userOrder}/>
 			<Route path="*" component={Error404}/>
 		</Switch>

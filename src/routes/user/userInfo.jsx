@@ -100,10 +100,6 @@ export default class Illegal extends React.Component {
 			<Content>
 				<Box>
 					<Form inline>
-						<Select label="用户状态" model="query.state" options={userState} whole={false}/>
-						<CitySelect label='城市' model="query.cityCode"/>
-						<NumberRange model="query.minBalance,query.maxBalance" label="账户余额"/>
-						<DateRange label="注册时间" model="query.beginRegisterTime,query.endRegisterTime"/>
 						<SelectInput label="精确搜索" model="query.category,query.keyword" selectOptions={vagueState}/>
 						<Field>
 							<Button icon="search" onClick={this.search.bind(this)}>查询</Button>

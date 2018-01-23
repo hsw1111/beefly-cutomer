@@ -2,6 +2,7 @@ import React from 'react';
 import beefly from "../../../js/beefly";
 import {Button, DataTable, Form, Modal, dtUtils, msgBox} from "beefly-common";
 import orderApi from "../../../apis/orderApi";
+import DetailModal from "../modals/DetailModal"
 
 /**
  * 更换订单弹框
@@ -15,7 +16,7 @@ export default class ReplaceOrderModal extends React.Component {
 			bikeCode: '',
 			columns: [
 				{title: '#', data: 'id', render: this.renderRadio.bind(this)},
-				{title: '订单编号', data: 'id'},
+				{title: '订单编号', data: 'id',render: this.renderId.bind(this)},
 				{title: '用户编号', data: 'userId'},
 				{title: '手机号码', data: 'mobile'},
 				{title: '下单时间', data: 'placeOrderTime', render: dtUtils.renderDateTime},
@@ -36,6 +37,11 @@ export default class ReplaceOrderModal extends React.Component {
 			orderId: '',
 		};
 		beefly.selectOrder = this.selectOrder.bind(this);
+		beefly.order111 = this.order111.bind(this)
+	}
+
+	renderId(data, type, row){
+		return `<a href="javascript:beefly.order111('${data}')">${data}</a>`
 	}
 
 	renderRadio(data, type, row) {
@@ -45,22 +51,31 @@ export default class ReplaceOrderModal extends React.Component {
 	render() {
 		let {show, columns, query, bikeCode} = this.state;
 		return (
-			<Modal show={show} title="更改订单" size="lg" onHide={this.hide.bind(this)}>
-				<Modal.Body style={{height: 600}}>
-					<Form>
-						<div>车辆编号：{bikeCode}</div>
-						<hr/>
-						<h5><b>订单记录</b></h5>
-						<DataTable ref={(e) => this._dataTable = e}
-								   columns={columns} api={orderApi.page} query={query}/>
-					</Form>
-				</Modal.Body>
-				<Modal.Footer>
-					<Button value={'取消'} theme={'default'} onClick={this.hide.bind(this)}/>
-					<Button value={'确定'} onClick={this.ok.bind(this)}/>
-				</Modal.Footer>
-			</Modal>
+			<div>
+				<Modal show={show} title="更改订单" size="lg" onHide={this.hide.bind(this)}>
+					<Modal.Body style={{height: 600}}>
+						<Form>
+							<div>车辆编号：{bikeCode}</div>
+							<hr/>
+							<h5><b>订单记录</b></h5>
+							<DataTable ref={(e) => this._dataTable = e}
+									   columns={columns} api={orderApi.page} query={query}/>
+						</Form>
+					</Modal.Body>
+					<Modal.Footer>
+						<Button value={'取消'} theme={'default'} onClick={this.hide.bind(this)}/>
+						<Button value={'确定'} onClick={this.ok.bind(this)}/>
+					</Modal.Footer>
+				</Modal>
+				<DetailModal ref={(e) => this._detailModal = e}/>
+			</div>
 		)
+	}
+
+	order111(data){
+		this._detailModal.show({
+			id:data
+		})
 	}
 
 	show(data) {

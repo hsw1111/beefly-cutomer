@@ -11,6 +11,9 @@ const orderApi = {
 
 	// 订单详情接口
 	detail: (params) => request.get(env.apiPath_customer + 'order/detail', params),
+
+	// 订单详情接口
+	orderLog: (params) => request.get(env.apiPath_customer + 'order/orderLog', params),
 };
 
 export default orderApi

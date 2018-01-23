@@ -113,7 +113,7 @@ export default class HandleSuggestion extends React.Component {
 
 		return (
 			<Box title="处理意见" icon="fa-tag">
-				<p>鉴于订单的违规类别和信用积分，我们建议的处理意见为 {opinionType[suggestHandleType]} ，你也可以更改处理意见。</p>
+				<p>鉴于订单的违规类别和信用积分，我们建议的处理意见为 <span className="text-orange h5">{opinionType[suggestHandleType]}</span> ，你也可以更改处理意见。</p>
 				<Form className="form-label-150" horizontal>
 					<Tabs value={actualHandleType}
 						  onChange={(index) => illegalStore.actualHandleType = index}>

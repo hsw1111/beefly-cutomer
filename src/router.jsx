@@ -22,7 +22,7 @@ export default () => (
 	<Router>
 		<Switch>
 			<Route exact path="/bike" component={bike}/>
-			<Route exact path="/bike/bikeLog" component={bikeLog}/>
+			<Route exact path="/bike/log" component={bikeLog}/>
 			<Route exact path="/error/404" component={Error404}/>
 			<Route exact path="/error/500" component={Error500}/>
 			<Route exact path="/home" component={Home}/>

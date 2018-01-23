@@ -93,7 +93,7 @@ export default class bike extends React.Component {
   bikeLog(code){
     tabUtils.addTab({
 			name: '车辆日志-' + code,
-			path: '/bike/bikeLog',
+			path: '/bike/log',
 			params: {
 				bikeCode: code
 			}

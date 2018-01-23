@@ -46,7 +46,8 @@ export default class EditStateModal extends React.Component {
     this.setState({
       show: true,
       bikeCode,
-      batteryCode
+			batteryCode,
+			state: ''
 		})
 	}
 
@@ -58,12 +59,11 @@ export default class EditStateModal extends React.Component {
 
 	async ok() {
     let {bikeCode, batteryCode, state} = this.state;
-    console.log(state)
-      let result = await bikeApi.editState({
-        bikeCode,
-        state,
-        batteryCode: state === 4 ? batteryCode : ''
-      })
+		let result = await bikeApi.editState({
+			bikeCode,
+			state,
+			batteryCode: state === 4 ? batteryCode : ''
+		})
     
     if (result.resultCode === 1) {
 			this.hide();

@@ -3,8 +3,10 @@ import orderApi from "../../apis/orderApi";
 import {Box, Button, Content, DataTable, DateRange, Field, Form, Select, SelectInput, dtUtils} from "beefly-common";
 import {orderState, orderType, vagueState, timeType} from '../../maps/orderMap';
 
-import EndOrderModal from './modals/EndOrderModal'
-import DetailModal from './modals/DetailModal'
+import EndOrderModal from './modals/EndOrderModal' 
+import DetailModal from './modals/DetailModal' 
+import LockModal from './modals/LockModal' 
+import UnlockModal from './modals/UnlockModal' 
 import beefly from "../../js/beefly";
 
 /**
@@ -34,12 +36,12 @@ export default class Order extends React.Component {
 			],
 			query: {
 				'addType': '',
-				'orderFlow': '',
-				'timeType': '',
+        'orderFlow': '',
+        'timeType': 1,
 				'beginDate': '',
 				'endDate': '',
-				'searchType': '',
-				'keywords': '',
+				'searchType': 1,
+        'keywords': '',
 			},
 		};
 
@@ -67,73 +69,76 @@ export default class Order extends React.Component {
 					<p className="text-gray margin-t-10">*只显示近3个月以内的订单数据</p>
 					<DataTable ref={(e) => this._dataTable = e}
 							   columns={columns} api={orderApi.listPage} query={query}/>
-				</Box>
+        </Box>
 
-				<EndOrderModal ref={(e) => this._endOrderModal = e}/>
-				<DetailModal ref={(e) => this._detailModal = e}/>
-			</Content>
-		)
-	}
+        <EndOrderModal ref={(e) => this._endOrderModal = e}/>
+        <DetailModal ref={(e) => this._detailModal = e}/>
+        <LockModal ref={(e) => this._lockModal = e}/>
+        <UnlockModal ref={(e) => this._unlockModal = e}/>
+      </Content>
+    )
+  }
 
-	search() {
-		let {query} = this.state;
+  search(){
+    let {query} = this.state;
 
-		// 多选一个字段处理
-		query.mobile = query.id = query.name = '';
-		query[query.category] = query.keyword;
+    // 多选一个字段处理
+    query.mobile = query.id = query.name = '';
+    query[query.category] = query.keyword;
 
-		this._dataTable.search(query);
-	}
+    this._dataTable.search(query);
+  }
 
-	renderActions(data, type, row) {
-		console.log(row);
-		if (row.orderFlow === 0 || row.orderFlow === 3 || row.orderFlow === 4 || row.orderFlow === 10) {
-			let actions = [
-				{text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
-				{text: '车辆开锁', icon: 'user-plus', onclick: `beefly.unlock('${row.id}')`},
-				{text: '车辆关锁', icon: 'user-plus', onclick: `beefly.lock('${row.id}')`},
-			];
-			return dtUtils.renderActions(actions, 'dropdown')
-		} else if (row.orderFlow === 1) {
-			let actions = [
-				{text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
-				{text: '结束订单', icon: 'user-plus', onclick: `beefly.endOrder('${row.id}')`},
-			];
-			return dtUtils.renderActions(actions, 'dropdown')
-		} else if (row.orderFlow === 2 || row.orderFlow === 9) {
-			let actions = [
-				{text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
-				{text: '结束订单', icon: 'user-plus', onclick: `beefly.endOrder('${row.id}')`},
-				{text: '车辆开锁', icon: 'user-plus', onclick: `beefly.unlock('${row.id}')`},
-				{text: '车辆关锁', icon: 'user-plus', onclick: `beefly.lock('${row.id}')`},
-			];
-			return dtUtils.renderActions(actions, 'dropdown')
-		}
+  renderActions(data, type, row){
+    console.log(row)
+    if(row.orderFlow === 0 || row.orderFlow === 3 || row.orderFlow === 4 || row.orderFlow === 10){
+      let actions = [
+        {text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
+        {text: '车辆开锁', icon: 'user-plus', onclick: `beefly.unlock('${row.id}')`},
+        {text: '车辆关锁', icon: 'user-plus', onclick: `beefly.lock('${row.id}')`},
+      ]
+      return dtUtils.renderActions(actions, 'dropdown')
+    }else if(row.orderFlow === 1 ){
+      let actions = [
+        {text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
+        {text: '结束订单', icon: 'user-plus', onclick: `beefly.endOrder('${row.id}')`},
+      ]
+      return dtUtils.renderActions(actions, 'dropdown')
+    }else if(row.orderFlow === 2 || row.orderFlow === 9){
+      let actions = [
+        {text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
+        {text: '结束订单', icon: 'user-plus', onclick: `beefly.endOrder('${row.id}')`},
+        {text: '车辆开锁', icon: 'user-plus', onclick: `beefly.unlock('${row.id}')`},
+        {text: '车辆关锁', icon: 'user-plus', onclick: `beefly.lock('${row.id}')`},
+      ]
+      return dtUtils.renderActions(actions, 'dropdown')
+    }
+    
+  }
 
-	}
-
-	// 查看详情
-	details(id) {
-		this._detailModal.show({
-			id
-		})
-	}
-
-	// 结束订单
-	endOrder(id) {
-		this._endOrderModal.show({
-			id
-		})
-	}
-
-	// 车辆开锁
-	unlock() {
-
-	}
-
-	// 车辆关锁
-	lock() {
-
-	}
+  // 查看详情
+  details(id){
+    this._detailModal.show({
+      id
+    })
+  }
+  // 结束订单
+  endOrder(id){
+    this._endOrderModal.show({
+      id
+    })
+  }
+  // 车辆开锁
+  unlock(id){
+    this._unlockModal.show({
+      id
+    })
+  }
+  // 车辆关锁
+  lock(id){
+    this._lockModal.show({
+      id
+    })
+  }
 
 }

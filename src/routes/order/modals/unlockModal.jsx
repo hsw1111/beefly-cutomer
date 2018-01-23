@@ -33,9 +33,10 @@ export default class endOrderModal extends React.Component{
     )
   }
 
-  show(){
+  show({id}){
     this.setState({
-			show: true
+      show: true,
+      id
 		})
   }
 

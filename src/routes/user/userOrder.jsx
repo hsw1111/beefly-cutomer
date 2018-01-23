@@ -4,6 +4,7 @@ import {Box, Form, Text, Row, Col, Button, Content, DataTable} from "beefly-comm
 import {urlUtils} from 'jeselvmo';
 import appUserApi from "../../apis/appUserApi";
 import beefly from "../../js/beefly";
+import Detail from "./blocks/Details";
 import orderApi from "../../apis/orderApi";
 import userStore from "../../stores/userStore";
 /**
@@ -27,6 +28,7 @@ export default class userOrder extends React.Component {
 				{title: '订单费用（￥）', data: 'actualAmount'},
 				{title: '订单状态', data: 'state'},
 			],
+			orderData: {},
 			query: {
 				'appUserId': '',
 			},

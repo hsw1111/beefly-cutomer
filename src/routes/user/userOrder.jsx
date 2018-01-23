@@ -4,16 +4,25 @@ import {Box, Form, Text, Row, Col, Button, Content, DataTable} from "beefly-comm
 import {urlUtils} from 'jeselvmo';
 import appUserApi from "../../apis/appUserApi";
 import beefly from "../../js/beefly";
+<<<<<<< HEAD
 import Detail from "./blocks/Details";
+=======
+>>>>>>> 89c5ba43d0e75cdba67d33c9b094b3eefbf8b8e6
 import orderApi from "../../apis/orderApi";
 import userStore from "../../stores/userStore";
 /**
  * 查看订单
  */
 @observer
+<<<<<<< HEAD
 export default class IllegalDetails extends React.Component {
 
 	constructor(props) {
+=======
+export default class userOrder extends React.Component {
+
+	constructor(props){
+>>>>>>> 89c5ba43d0e75cdba67d33c9b094b3eefbf8b8e6
 		super(props);
 		this.state = {
 			columns: [
@@ -28,25 +37,40 @@ export default class IllegalDetails extends React.Component {
 				{title: '订单费用（￥）', data: 'actualAmount'},
 				{title: '订单状态', data: 'state'},
 			],
+<<<<<<< HEAD
 			orderData: {},
+=======
+>>>>>>> 89c5ba43d0e75cdba67d33c9b094b3eefbf8b8e6
 			query: {
 				'appUserId': '',
 			},
 		}
 	}
 
+<<<<<<< HEAD
 	async componentWillMount() {
 		userStore.fetchDetail();
 		// let {detail} = userStore;
 		// let {id} = urlUtils.getParams();
 		// let {query} = this.state;
 		// query.appUserId=id;
+=======
+	componentWillMount() {
+		let {id} = urlUtils.getParams();
+		let {query} = this.state;
+		query.appUserId=id;
+		userStore.fetchDetail()
+>>>>>>> 89c5ba43d0e75cdba67d33c9b094b3eefbf8b8e6
 	}
 
 	render() {
 		let {columns, query} = this.state;
 		let {detail} = userStore;
+<<<<<<< HEAD
 		console.log(detail);
+=======
+		if(detail){
+>>>>>>> 89c5ba43d0e75cdba67d33c9b094b3eefbf8b8e6
 			return (
 				<Box>
 					<Form className="form-label-150" horizontal>
@@ -61,6 +85,7 @@ export default class IllegalDetails extends React.Component {
 							</Col>
 						</Row>
 					</Form>
+<<<<<<< HEAD
 					<DataTable ref={(e) => this._dataTable = e}
 							   columns={columns} api={orderApi.page} query={query}/>
 				</Box>
@@ -72,3 +97,19 @@ export default class IllegalDetails extends React.Component {
 		beefly.tabs.closeTab();
 	}
 }
+=======
+					<hr/>
+					<p className="margin-t-10">
+						<h4><b>订单信息</b></h4>
+					</p>
+					<DataTable ref={(e) => this._dataTable = e}
+					columns={columns} api={orderApi.page} query={query}/>
+				</Box>
+			)
+
+		}
+		return null
+	}
+}
+
+>>>>>>> 89c5ba43d0e75cdba67d33c9b094b3eefbf8b8e6

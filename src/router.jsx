@@ -10,9 +10,13 @@ const IllegalConfirm = asyncComponent(() => import(/* webpackChunkName: "illegal
 const IllegalDetail = asyncComponent(() => import(/* webpackChunkName: "illegal/detail" */'./routes/illegal/IllegalDetail'));
 const order = asyncComponent(() => import(/* webpackChunkName: "order/index" */'./routes/order/order'));
 const user = asyncComponent(() => import(/* webpackChunkName: "user/index" */'./routes/user/user'));
+<<<<<<< HEAD
 const userAuthCode = asyncComponent(() => import(/* webpackChunkName: "user/authCode" */'./routes/user/userAuthCode'));
 const userDetails = asyncComponent(() => import(/* webpackChunkName: "user/details" */'./routes/user/userDetails'));
 const userMessage = asyncComponent(() => import(/* webpackChunkName: "user/message" */'./routes/user/userMessage'));
+=======
+const userDetails = asyncComponent(() => import(/* webpackChunkName: "user/details" */'./routes/user/userDetails'));
+>>>>>>> 89c5ba43d0e75cdba67d33c9b094b3eefbf8b8e6
 const userOrder = asyncComponent(() => import(/* webpackChunkName: "user/order" */'./routes/user/userOrder'));
 
 /**
@@ -29,9 +33,13 @@ export default () => (
 			<Route exact path="/illegal/detail" component={IllegalDetail}/>
 			<Route exact path="/order" component={order}/>
 			<Route exact path="/user" component={user}/>
+<<<<<<< HEAD
 			<Route exact path="/user/authCode" component={userAuthCode}/>
 			<Route exact path="/user/details" component={userDetails}/>
 			<Route exact path="/user/message" component={userMessage}/>
+=======
+			<Route exact path="/user/details" component={userDetails}/>
+>>>>>>> 89c5ba43d0e75cdba67d33c9b094b3eefbf8b8e6
 			<Route exact path="/user/order" component={userOrder}/>
 			<Route path="*" component={Error404}/>
 		</Switch>

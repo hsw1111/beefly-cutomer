@@ -19,6 +19,12 @@ const opinionType = {
 	3: '发短信',
 };
 
+const commitType = {
+	1: 1,
+	2: 5,
+	3: 4,
+	4: 6,
+};
 /**
  * 处理意见
  */
@@ -74,6 +80,11 @@ export default class HandleSuggestion extends React.Component {
 		}
 		let mobile = orderDetail.mobile || '-';
 
+		// if(!detail.content.includes('双人骑行')){
+        //
+		// }
+		console.log(detail.content.includes('双人骑行'));
+
 		//
 		let noPunishLis = [
 			{
@@ -125,7 +136,7 @@ export default class HandleSuggestion extends React.Component {
 									   validation={{required: true}}/>
 								<Textarea label="备注" model={'deductCashPledge.remark'} width={'50%'}
 										  validation={{required: true}}/>
-								<Checkbox model={'deductCashPledge.smsFlag'} text="同时给违规人发送短信通知"/>
+								<Checkbox model={'deductCashPledge.smsFlag'} text="同时给违规人发送短信通知" onChange={(e)=>console.log(e, '............................')}/>
 								{deductCashPledge.smsFlag == 1 && <div>
 									<Text label="手机号" value={mobile}/>
 									<Text label="发送目的" value="违规通知"/>
@@ -147,12 +158,12 @@ export default class HandleSuggestion extends React.Component {
 							</div>}
 						</Tab>
 						<Tab title="不处罚">
-							<p>订单（编号：<span>{orderDetail.id}</span>）符合如下第{noPunishActiveLis.join('、')}点不处罚的情况，该违规人不不处罚。</p>
+							{!detail.content.includes('双人骑行')&& <div><p>订单（编号：<span>{orderDetail.id}</span>）符合如下第{noPunishActiveLis.join('、')}点不处罚的情况，该违规人不不处罚。</p>
 							<ol>
 								{noPunishLis.map((d) => (
 									<li className={cs({'text-red': d.value})}>{d.text}</li>
 								))}
-							</ol>
+							</ol></div>}
 							<Form horizontal>
 								<Select width={250} label="请选择不处罚的原因" wholeOption={data} model="noPunish.code"
 										whole={true} options={noPunishType} validation={{required: true}}/>
@@ -174,12 +185,45 @@ export default class HandleSuggestion extends React.Component {
 		)
 	}
 
+	componentWillReceiveProps(nextProps){
+		if(this.props.orderId !== nextProps.orderId){
+			this.reset();
+		}
+	}
+
+	reset(){
+		this.setState({
+			deductScore: {
+				creditScoreCount: 5,
+				remark: '',
+				smsFlag: 1,
+				content: ''
+			},
+
+			// 扣押金有三种可能:
+			// 1.押金充值在	3个月内：直接扣；
+			// 2.押金充值超过3各个月：先拉黑；
+			// 3.押金已经被提现：冻结用户押金(原来叫：设为失信用户)
+			deductCashPledge: {
+				// depositState: 1,	// 押金状态
+				depositAmount: '',
+				remark: '',
+				smsFlag: 1,
+				content: ''
+			},
+
+			sendSms: {
+				content: ''
+			},
+		})
+	}
+
 
 	// 确认处理
 	confirmHandle() {
-		let {detail, orderDetail, actualHandleType} = illegalStore;
-		let type = actualHandleType + 1;
+		let {detail, orderDetail, actualHandleType,transId} = illegalStore;
 
+		let type = commitType[actualHandleType + 1];
 		if (!orderDetail) {
 			msgBox.error('该车辆无订单数据');
 			return;
@@ -191,19 +235,20 @@ export default class HandleSuggestion extends React.Component {
 			id: detail.id,
 			appUserId: orderDetail.userId,
 			orderId: orderDetail.id,
+			transId:transId
 		};
 
 		switch (type) {
 			case 1:
 				this.confirmHandle_deductScore(params);
 				break;
-			case 2:
+			case 5:
 				this.confirmHandle_deductCashPledge(params);
 				break;
-			case 3:
+			case 4:
 				this.confirmHandle_noPunish(params);
 				break;
-			case 4:
+			case 6:
 				this.confirmHandle_sendSms(params);
 				break;
 			default:

@@ -50,7 +50,6 @@ export default class Illegal extends React.Component {
 	}
 
 	renderActions(data, type, row) {
-
 		if (row.state == 5) {
 			let actions = [
 				{text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},

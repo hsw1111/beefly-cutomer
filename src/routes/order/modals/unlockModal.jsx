@@ -33,10 +33,16 @@ export default class endOrderModal extends React.Component{
     )
   }
 
+<<<<<<< HEAD
   show({id}){
     this.setState({
       show: true,
       id
+=======
+  show(){
+    this.setState({
+			show: true
+>>>>>>> 89c5ba43d0e75cdba67d33c9b094b3eefbf8b8e6
 		})
   }
 

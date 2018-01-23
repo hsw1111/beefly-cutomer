@@ -31,6 +31,7 @@ export const depositState = {
 	2: '退款中',
 	3: '冻结',
 };
+<<<<<<< HEAD
 
 /**
  *  用户管理  发送目的
@@ -49,3 +50,5 @@ export const purpose = {
 	4: '违规通知',
 	3: '其他',
 };
+=======
+>>>>>>> 89c5ba43d0e75cdba67d33c9b094b3eefbf8b8e6

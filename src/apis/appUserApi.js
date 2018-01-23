@@ -15,8 +15,7 @@ const appUserApi = {
 	//修改手机号
 	modifyMobile: (params) => request.get(env.apiPath_customer + 'appUser/modifyMobile', params),
 
-	//发送新短信接口
-	sendMessage: (params) => request.get(env.apiPath_customer + 'appUser/modifyMobile', params),
+	
 
 };
 

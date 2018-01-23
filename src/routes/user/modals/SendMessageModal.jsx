@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, Form, Modal, Input, msgBox, Select, Textarea} from "beefly-common";
-import {purposeType} from '../../../maps/userMap'
-import appUserApi from "../../../apis/appUserApi";
+import {purpose} from '../../../maps/userMap'
+import symsApi from "../../../apis/symsApi";
 
 /**
  * 发送新短信
@@ -15,7 +15,7 @@ export default class SendMessageModal extends React.Component {
       query: {
         'mobile': '',
         'serviceType': 1,
-        'content': ''
+				'content': '',
       }
     }
     
@@ -29,7 +29,7 @@ export default class SendMessageModal extends React.Component {
 					  <Form inline>
               <Input label="手机号" model='query.mobile' width={250}
                     validation={{required: true}}/>
-              <Select label="发送目的" model="query.serviceType" options={purposeType}  validation={{required: true}} width={200} whole={false}/>
+              <Select label="发送目的" model="query.serviceType" options={purpose}  validation={{required: true}} width={200} whole={false}/>
               <Textarea label="短信内容" model='query.content'   validation={{required: true}} width={400}/>
             </Form>
 				</Modal.Body>
@@ -59,9 +59,11 @@ export default class SendMessageModal extends React.Component {
 	}
 
 	async ok() {
-    let {query} = this.state
-		console.log(query)
-		let result = await appUserApi.sendMessage(query)
+		let {query} = this.state
+		let result = await symsApi.sendSms({
+			...query,
+			serviceTypeName: purpose[query.serviceType]
+		})
 		if (result.resultCode == 1) {
 			this.hide();
 			msgBox.success('发送短信成功！');

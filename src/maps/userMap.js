@@ -42,3 +42,10 @@ export const purposeType = {
 	3: '其他',
 	4: '违规通知'
 };
+
+export const purpose = {
+	1: '用户回访',
+	2: '用户通知',
+	4: '违规通知',
+	3: '其他',
+};

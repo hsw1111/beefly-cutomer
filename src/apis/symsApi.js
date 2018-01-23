@@ -12,6 +12,9 @@ const symsApi = {
 
 	// 违规人收到违停短信次数
 	countSms: (params) => request.get(env.apiPath_customer + 'syms/countSms', params),
+
+	//发送短信接口
+	sendSms: (params) => request.get(env.apiPath_customer + 'syms/sendSms', params),
 };
 
 export default symsApi

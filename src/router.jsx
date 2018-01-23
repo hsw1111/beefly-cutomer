@@ -32,7 +32,6 @@ export default () => (
 			<Route exact path="/user/authCode" component={userAuthCode}/>
 			<Route exact path="/user/details" component={userDetails}/>
 			<Route exact path="/user/message" component={userMessage}/>
-			<Route exact path="/user/details" component={userDetails}/>
 			<Route exact path="/user/order" component={userOrder}/>
 			<Route path="*" component={Error404}/>
 		</Switch>

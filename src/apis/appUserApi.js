@@ -24,6 +24,7 @@ const appUserApi = {
 	//取消拉黑
 	unBlack: (params) => request.get(env.apiPath_customer + 'appUser/unBlack', params),
 
+
 };
 
 export default appUserApi

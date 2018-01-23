@@ -16,7 +16,7 @@ export default class Illegal extends React.Component {
 
 		this.state = {
 			columns: [
-				{title: '上报编号', data: 'id'},
+				{title: '上报编号', data: 'id',render: this.renderId.bind(this)},
 				{title: '城市', data: 'cityName'},
 				{title: '上报姓名', data: 'userName'},
 				{title: '上报角色', data: 'reportRole', render: (data) => dtUtils.renderMap(data, reportState)},
@@ -47,6 +47,10 @@ export default class Illegal extends React.Component {
 		beefly.addRemark = this.addRemark.bind(this);
 		beefly.reject = this.reject.bind(this);
 		beefly.confirm = this.confirm.bind(this);
+	}
+
+	renderId(data, type, row){
+		return `<a href="javascript:beefly.details('${data}')">${data}</a>`
 	}
 
 	renderActions(data, type, row) {

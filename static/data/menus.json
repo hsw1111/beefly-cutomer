@@ -1,97 +1,11 @@
 [
 	{
-		"name": "用户管理",
-		"icon": "fa-user",
-		"child": [
-			{
-				"name": "用户管理",
-				"path": "/user"
-			},
-			{
-				"name": "短信管理",
-				"path": "/"
-			},
-			{
-				"name": "验证码信息",
-				"path": "/"
-			}
-		]
-	},
-	{
-		"name": "订单管理",
-		"icon": "fa-file-text-o",
-		"child": [
-			{
-				"name": "订单管理",
-				"path": "/order"
-			}
-		]
-	},
-	{
-		"name": "押金管理",
-		"icon": "fa-money",
-		"child": [
-			{
-				"name": "押金管理",
-				"path": "/deposit"
-			}
-		]
-	},
-	{
-		"name": "余额管理",
-		"icon": "fa-yen",
-		"child": [
-			{
-				"name": "余额信息",
-				"path": "/"
-			},
-			{
-				"name": "提现信息",
-				"path": "/"
-			}
-		]
-	},
-	{
-		"name": "车辆管理",
-		"icon": "fa-car",
-		"child": [
-			{
-				"name": "车辆信息",
-				"path": "/"
-			},
-			{
-				"name": "车辆电池监控",
-				"path": "/"
-			}
-		]
-	},
-	{
 		"name": "违停上报",
 		"icon": "fa-exclamation-triangle",
 		"child": [
 			{
 				"name": "违停上报",
 				"path": "/illegal"
-			}
-		]
-	},
-	{
-		"name": "活动信息",
-		"icon": "fa-vimeo",
-		"child": [
-			{
-				"name": "活动信息",
-				"path": "/activity"
-			}
-		]
-	},
-	{
-		"name": "系统日志",
-		"icon": "fa-book",
-		"child": [
-			{
-				"name": "系统日志",
-				"path": "/system"
 			}
 		]
 	}

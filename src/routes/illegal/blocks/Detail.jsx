@@ -26,7 +26,9 @@ export default class Detail extends React.Component {
 					<Field label="车辆故障图片">
 						{detail.picUrls.map((r) => <img key={r} src={r} width={200} className="margin-r-10"/>)}
 					</Field>
-					<Text label="上报人员角色" value={reportState[detail.reportRole]}/>
+					<Text label="上报人员角色">
+						<span className="text-orange h4">{reportState[detail.reportRole]}</span>
+					</Text>
 					<Text label="处理进度" value={handleType[detail.state]}/>
 				</Form>
 				{showHandle && (

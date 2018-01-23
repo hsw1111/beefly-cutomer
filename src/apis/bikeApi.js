@@ -3,11 +3,11 @@ import env from '../js/env';
 
 
 /**
- * bike
+ * 车辆
  */
 const bikeApi = {
-	// 车辆操作日志接口
-	bikeLogPage: (params) => request.get(env.apiPath_customer + 'bikeLog/page', params),
+	// 用户详情接口
+	page: (params) => request.get(env.apiPath_customer + 'bikeLog/page', params),
 };
 
 export default bikeApi

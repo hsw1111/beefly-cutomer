@@ -4,6 +4,7 @@ import {Button, Content, Box, DateRange, Input, Form, Field, DataTable, dtUtils}
 import userStore from "../../stores/userStore";
 import symsApi from '../../apis/symsApi'
 import SendMessageModal from './modals/SendMessageModal'
+import $ from 'jquery'
 
 
 /**
@@ -40,14 +41,17 @@ export default class UserMessage extends React.Component {
 							<Button icon="search" onClick={this.search.bind(this)}>查询</Button>
 					  </Field>
           </Form>
-          <DataTable ref={(e) => this._dataTable = e}
+          <div className='isShow' style={{display: 'none'}}>
+            <DataTable ref={(e) => this._dataTable = e}
 							   columns={columns} api={symsApi.pageSms} query={query}/>
+          </div>
         </Box>
       </Content>
     )
   }
 
   search(){
+    $(".isShow").css({display: 'block'})
     let {query} = this.state
     this._dataTable.search(query)
   }

@@ -4,7 +4,8 @@ import {Button, Content, Box, DateRange, Input, Form, Field, DataTable, dtUtils}
 import userStore from "../../stores/userStore";
 import symsApi from '../../apis/symsApi';
 import SendMessageModal from './modals/SendMessageModal';
-import {purposeType} from '../../maps/userMap'
+import {purposeType} from '../../maps/userMap';
+import $ from 'jquery';
 
 
 /**
@@ -30,7 +31,7 @@ export default class UserMessage extends React.Component {
         qSendTimeStart: '',
         qSendTimeEnd: '',
         mobiles: ''
-      }
+      },
     }
   }
 
@@ -47,8 +48,11 @@ export default class UserMessage extends React.Component {
 					  </Field>
           </Form>
 					<Button onClick={this.sendNewMessage.bind(this)}>发送新短信</Button>
-          <DataTable ref={(e) => this._dataTable = e}
+          <div className='isShow' style={{display: 'none'}}>
+            <DataTable ref={(e) => this._dataTable = e}
 							   columns={columns} api={symsApi.pageSms} query={query}/>
+          </div>
+          
         </Box>
         <SendMessageModal ref={(e) => this._sendMessageModal = e}/>
       </Content>
@@ -56,8 +60,10 @@ export default class UserMessage extends React.Component {
   }
 
   search(){
+    $(".isShow").css({display: 'block'})
     let {query} = this.state
     this._dataTable.search(query)
+
   }
 
   sendNewMessage(){

@@ -88,7 +88,7 @@ export default class HandleSuggestion extends React.Component {
 		//
 		let noPunishLis = [
 			{
-				value: orderDetail.endTime > detail.lastReportTime || '',
+				value: orderDetail.endTime > detail.createTime || '',
 				text: '违停上报的时间点 处理订单未结束状态，不处罚'
 			},
 			{
@@ -96,7 +96,7 @@ export default class HandleSuggestion extends React.Component {
 				text: '最近一次订单状态是已结束，里程＜500米，时长＜5分钟，不处罚'
 			},
 			{
-				value: beefly.DateMinus(orderDetail.placeOrderTime, detail.lastReportTime) > 5,
+				value: beefly.DateMinus(orderDetail.placeOrderTime, detail.createTime) > 5,
 				text: '最近一次订单与违停上报时间点相差超过5天，不处罚'
 			},
 			{

@@ -22,7 +22,7 @@ export default class Illegal extends React.Component {
 				{title: '上报角色', data: 'reportRole', render: (data) => dtUtils.renderMap(data, reportState)},
 				{title: '手机号', data: 'mobile'},
 				{title: '车辆编号', data: 'bikeCode'},
-				{title: '上报时间', data: 'lastReportTime', render: dtUtils.renderDateTime},
+				{title: '上报时间', data: 'createTime', render: dtUtils.renderDateTime},
 				{title: '处理进度', data: 'state', render: (data) => dtUtils.renderMap(data, handleType)},
 				{title: '操作', type: 'object', render: this.renderActions},
 			],

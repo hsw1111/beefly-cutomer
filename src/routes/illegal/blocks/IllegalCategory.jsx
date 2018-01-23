@@ -71,7 +71,7 @@ export default class IllegalCategory extends React.Component {
         let {detail} = illegalStore;
         this._replaceModal.show({
             bikeCode: detail.bikeCode,
-            beginDate: detail.lastReportTime
+            beginDate: detail.createTime
         });
     }
 

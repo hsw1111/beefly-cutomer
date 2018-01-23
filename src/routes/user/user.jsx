@@ -1,10 +1,4 @@
 import React from 'react';
-<<<<<<< HEAD
-import {Box, Button, CitySelect, Content, DataTable, DateRange, Field, Form, Select, SelectInput, NumberRange, dtUtils ,tabUtils} from "beefly-common";
-import {handleType, operateState, reportState} from '../../maps/illegalMap';
-import {userState, vagueState, depositState} from '../../maps/userMap';
-import ModifyModal from "./modals/ModifyModal";
-=======
 import {
 	Box,
 	Button,
@@ -25,7 +19,6 @@ import {userState, vagueState, depositState} from '../../maps/userMap';
 import ModifyModal from "./modals/ModifyModal";
 import BlackModal from "./modals/BlackModal";
 import CancelBlackModal from "./modals/CancelBlackModal";
->>>>>>> 89c5ba43d0e75cdba67d33c9b094b3eefbf8b8e6
 import appUserApi from "../../apis/appUserApi";
 import beefly from "../../js/beefly";
 
@@ -44,11 +37,7 @@ export default class Illegal extends React.Component {
 				{title: '手机号', data: 'mobile'},
 				{title: '登录城市', data: 'cityName'},
 				{title: '用户状态', data: 'userStatusName'},
-<<<<<<< HEAD
-				{title: '注册时间', data: 'registerTime', render:dtUtils.renderDateTime},
-=======
 				{title: '注册时间', data: 'registerTime', render: dtUtils.renderDateTime},
->>>>>>> 89c5ba43d0e75cdba67d33c9b094b3eefbf8b8e6
 				{title: '账户余额（￥）', data: 'grantBalance'},
 				{title: '信用积分', data: 'credScore'},
 				{title: '押金状态', data: 'certState', render: (data) => dtUtils.renderMap(data, depositState)},
@@ -72,22 +61,6 @@ export default class Illegal extends React.Component {
 		beefly.modify = this.modify.bind(this);
 		beefly.seeOrder = this.seeOrder.bind(this);
 		beefly.black = this.black.bind(this);
-<<<<<<< HEAD
-	}
-
-	renderActions(data, type, row) {
-			let actions = [
-				{text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
-				{text: '查看订单', icon: 'user-plus', onclick: `beefly.seeOrder('${row.id}')`},
-				{text: '拉黑', icon: 'user-plus', onclick: `beefly.black('${row.id}')`},
-				// {text: '余额管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
-				// {text: '出行券管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
-				// {text: '信用积分管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
-				// {text: '冻结用户押金', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
-				{text: '修改手机号', icon: 'user-plus', onclick: `beefly.modify('${row.id},${row.mobile}')`},
-				// {text: '清除验证码限制', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
-			];
-=======
 		beefly.cancelBlack = this.cancelBlack.bind(this);
 		beefly.frozen = this.frozen.bind(this);
 		beefly.unfreeze = this.unfreeze.bind(this);
@@ -110,7 +83,6 @@ export default class Illegal extends React.Component {
 			// {text: '清除验证码限制', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
 		];
 
->>>>>>> 89c5ba43d0e75cdba67d33c9b094b3eefbf8b8e6
 		return dtUtils.renderActions(actions, 'dropdown')
 	}
 
@@ -133,11 +105,8 @@ export default class Illegal extends React.Component {
 							   columns={columns} api={appUserApi.page} query={query}/>
 				</Box>
 				<ModifyModal ref={(e) => this._modifyModal = e}/>
-<<<<<<< HEAD
-=======
 				<BlackModal ref={(e) => this._blackModal = e} onSuccess={this.search.bind(this)}/>
 				<CancelBlackModal ref={(e) => this._cancelModal = e} onSuccess={this.search.bind(this)}/>
->>>>>>> 89c5ba43d0e75cdba67d33c9b094b3eefbf8b8e6
 			</Content>
 		)
 	}
@@ -171,10 +140,6 @@ export default class Illegal extends React.Component {
 			mmobile: m[1]
 		});
 	}
-<<<<<<< HEAD
-=======
-
->>>>>>> 89c5ba43d0e75cdba67d33c9b094b3eefbf8b8e6
 	//查看订单
 	seeOrder(id) {
 		tabUtils.addTab({
@@ -187,10 +152,6 @@ export default class Illegal extends React.Component {
 	}
 
 	//拉黑
-<<<<<<< HEAD
-	black(id){
-		console.log(id,6666)
-=======
 	black(data) {
 		let m = data.split(",");
 		this._blackModal.show({
@@ -216,7 +177,6 @@ export default class Illegal extends React.Component {
 	//取消冻结押金用户
 	unfreeze(){
 		console.log(4331313)
->>>>>>> 89c5ba43d0e75cdba67d33c9b094b3eefbf8b8e6
 	}
 
 

@@ -5,6 +5,7 @@ import tripProblemApi from "../../../apis/tripProblemApi";
 import appUserApi from "../../../apis/appUserApi";
 import beefly from "../../../js/beefly";
 import illegalStore from "../stores/illegalStore";
+import {localStore} from 'jeselvmo';
 
 /**
  * 用户奖励
@@ -149,8 +150,9 @@ export default class UserAward extends React.Component {
 		});
 
 		if (result.resultCode == 1) {
+			localStore.set('illegalState',5);
 			msgBox.success(result.message, () => {
-				tabUtils.closeTab()
+				tabUtils.closeTab();
 			});
 		}
 	}
@@ -177,8 +179,9 @@ export default class UserAward extends React.Component {
 		});
 
 		if (result.resultCode == 1) {
+			localStore.set('illegalState',5);
 			msgBox.success(result.message, () => {
-				tabUtils.closeTab()
+				tabUtils.closeTab();
 			});
 		}
 	}
@@ -198,8 +201,9 @@ export default class UserAward extends React.Component {
 		});
 
 		if (result.resultCode == 1) {
+			localStore.set('illegalState',5);
 			msgBox.success(result.message, () => {
-				tabUtils.closeTab()
+				tabUtils.closeTab();
 			});
 		}
 	}
@@ -214,8 +218,9 @@ export default class UserAward extends React.Component {
 		});
 
 		if (result.resultCode == 1) {
+			localStore.set('illegalState',5);
 			msgBox.success(result.message, () => {
-				tabUtils.closeTab()
+				tabUtils.closeTab();
 			});
 		}
 	}

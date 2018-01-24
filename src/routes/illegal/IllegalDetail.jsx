@@ -50,7 +50,8 @@ export default class IllegalDetails extends React.Component {
 		localStore.set('illegalState',0);
 		this.timer = setInterval(() => {
 			if(localStore.get('illegalState')==5){
-				illegalStore.fetchDetail()
+				illegalStore.fetchDetail();
+				clearInterval(this.timer);
 			}
 		}, 1000);
 		tabUtils.addTab({

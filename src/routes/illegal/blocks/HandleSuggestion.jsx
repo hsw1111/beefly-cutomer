@@ -93,7 +93,7 @@ export default class HandleSuggestion extends React.Component {
 				text: '违停上报的时间点 处理订单未结束状态，不处罚'
 			},
 			{
-				value: orderDetail.orderFlow == 3 && (orderDetail.mileage < 500 || orderDetail.timeInOrder < 5),
+				value: orderDetail.orderFlow ==3 && (orderDetail.mileage < 500 || orderDetail.timeInOrder < 5),
 				text: '最近一次订单状态是已结束，里程＜500米，时长＜5分钟，不处罚'
 			},
 			{
@@ -121,7 +121,7 @@ export default class HandleSuggestion extends React.Component {
 						<Tab title="扣积分">
 							<Input label="扣除积分" model={'deductScore.creditScoreCount'} width={250}
 								   validation={{required: true}}/>
-							<Textarea label="备注" model={'deductScore.remark'} width={'50%'}/>
+							<Textarea label="备注" model={'deductScore.remark||""'} width={'50%'}/>
 							<Checkbox model={'deductScore.smsFlag'} text="同时给违规人发送短信通知"/>
 							{deductScore.smsFlag == 1 && <div>
 								<Text label="手机号" value={mobile}/>

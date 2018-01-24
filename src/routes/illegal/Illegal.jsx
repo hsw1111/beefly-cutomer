@@ -96,7 +96,7 @@ export default class Illegal extends React.Component {
 				</Box>
 
 				<AddRemarkModal ref={(e) => this._addRemarkModal = e}/>
-				<RejectModal ref={(e) => this._rejectModal = e}/>
+				<RejectModal ref={(e) => this._rejectModal = e} onClose={this.onClose.bind(this)}/>
 			</Content>
 		)
 	}
@@ -110,7 +110,10 @@ export default class Illegal extends React.Component {
 
 		this._dataTable.search(query);
 	}
-
+	onClose(){
+		let {query} = this.state;
+		this._dataTable.search(query);
+	}
 	async export() {
 		let {query} = this.state;
 		let result = await tripProblemApi.export(query);

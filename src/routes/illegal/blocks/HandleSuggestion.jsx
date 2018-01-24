@@ -38,7 +38,7 @@ export default class HandleSuggestion extends React.Component {
 		let {detail} = illegalStore;
 		this.state = {
 			deductScore: {
-				creditScoreCount: 5,
+				creditScoreCount: 10,
 				remark: '',
 				smsFlag: 1,
 				// mobile: detail.mobile,
@@ -195,7 +195,7 @@ export default class HandleSuggestion extends React.Component {
 	reset(){
 		this.setState({
 			deductScore: {
-				creditScoreCount: 5,
+				creditScoreCount: 10,
 				remark: '',
 				smsFlag: 1,
 				content: ''

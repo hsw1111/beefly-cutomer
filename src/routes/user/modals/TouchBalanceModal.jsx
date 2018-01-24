@@ -3,8 +3,9 @@ import {Button, Form, Modal, Row, Col, Text, Box, DataTable, dtUtils } from "bee
 import balaceRecordApi from "../../../apis/balaceRecordApi";
 
 /**
- * 修改手机号
+ * 余额变动明细
  */
+
 export default class BalanceModal extends React.Component {
 
 	constructor(props) {
@@ -27,8 +28,8 @@ export default class BalanceModal extends React.Component {
         userId: '',
       }
 		}
-	}
-
+  }
+  
 	render() {
 		let {show, data, query, columns} = this.state;
 		return (

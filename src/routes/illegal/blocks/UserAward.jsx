@@ -25,7 +25,7 @@ export default class UserAward extends React.Component {
 			rewardCoupon: {
 				couponAmout: '5',
 				num: '1',
-				expireTime: '2018-01-15'
+				expireTime: ''
 			},
 
 			rewardBlance: {

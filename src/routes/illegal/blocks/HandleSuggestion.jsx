@@ -218,6 +218,14 @@ export default class HandleSuggestion extends React.Component {
 		})
 	}
 
+	componentDidMount(){
+		if(illegalStore.detail.state == 5){
+			msgBox.warning('该上报已经处理', ()=>{
+				tabUtils.closeTab()
+			})
+		}
+	}
+
 
 	// 确认处理
 	confirmHandle() {

@@ -19,16 +19,13 @@ import {userState, vagueState, depositState} from '../../maps/userMap';
 import ModifyModal from "./modals/ModifyModal";
 import BlackModal from "./modals/BlackModal";
 import CancelBlackModal from "./modals/CancelBlackModal";
-<<<<<<< HEAD
 import BalanceModal from "./modals/BalanceModal";
 import CouponModal from "./modals/CouponModal";
 import TouchBalanceModal from "./modals/TouchBalanceModal";
 import CreditScoreModal from "./modals/CreditScoreModal";
-=======
 import FrozenModal from "./modals/FrozenModal"
 import UnfreezeModal from "./modals/UnfreezeModal"
 import ClearSmsModal from "./modals/ClearSmsModal"
->>>>>>> 84eb6b1a13482825f46d86003d843f456a72a8ff
 import appUserApi from "../../apis/appUserApi";
 import beefly from "../../js/beefly";
 
@@ -74,18 +71,15 @@ export default class Illegal extends React.Component {
 		beefly.cancelBlack = this.cancelBlack.bind(this);
 		beefly.frozen = this.frozen.bind(this);
 		beefly.unfreeze = this.unfreeze.bind(this);
-<<<<<<< HEAD
 		beefly.balance = this.balance.bind(this);
 		beefly.coupon = this.coupon.bind(this);
 		beefly.touchBalance = this.touchBalance.bind(this);
 		beefly.creditScore = this.creditScore.bind(this);
-=======
 		beefly.clearSms = this.clearSms.bind(this);
 	}
 
 	renderId(data, type, row){
 		return `<a href="javascript:beefly.details('${data}')">${data}</a>`
->>>>>>> 84eb6b1a13482825f46d86003d843f456a72a8ff
 	}
 
 	renderActions(data, type, row) {
@@ -96,19 +90,15 @@ export default class Illegal extends React.Component {
 			{text: '修改手机号', icon: 'user-plus', onclick: `beefly.modify('${row.id},${row.mobile}')`},
 			{text: '拉黑', icon: 'user-plus', onclick: `beefly.black('${row.id},${row.mobile}')`, visible: row.isFrozen == 0},
 			{text: '取消拉黑', icon: 'user-plus', onclick: `beefly.cancelBlack('${row.id},${row.mobile}')`, visible: row.isFrozen == 1},
-<<<<<<< HEAD
-			{text: '冻结用户押金', icon: 'user-plus', onclick: `beefly.frozen('${row.id}')`},
-			{text: '取消冻结用户押金', icon: 'user-plus', onclick: `beefly.unfreeze('${row.id}')`},
+			{text: '冻结用户押金', icon: 'user-plus', onclick: `beefly.frozen('${row.id},${row.mobile}')`,visible:row.creditLimit=1},
+			{text: '取消冻结用户押金', icon: 'user-plus', onclick: `beefly.unfreeze('${row.id},${row.mobile}')`,visible:row.creditLimit=0},
 			{text: '余额管理', icon: 'user-plus', onclick: `beefly.balance('${row.id},${row.mobile}')`},
 			{text: '出行券管理', icon: 'user-plus', onclick: `beefly.coupon('${row.id},${row.mobile}')`},
 			{text: '信用积分管理', icon: 'user-plus', onclick: `beefly.creditScore('${row.id},${row.mobile}')`},
-=======
-			{text: '冻结用户押金', icon: 'user-plus', onclick: `beefly.frozen('${row.id},${row.mobile}')`,visible:row.creditLimit=1},
-			{text: '取消冻结用户押金', icon: 'user-plus', onclick: `beefly.unfreeze('${row.id},${row.mobile}')`,visible:row.creditLimit=0},
+		
 			// {text: '余额管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
 			// {text: '出行券管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
 			// {text: '信用积分管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
->>>>>>> 84eb6b1a13482825f46d86003d843f456a72a8ff
 			{text: '修改手机号', icon: 'user-plus', onclick: `beefly.modify('${row.id},${row.mobile}')`},
 			{text: '清除验证码限制', icon: 'user-plus', onclick: `beefly.clearSms('${row.id},${row.mobile}')`},
 		];
@@ -137,16 +127,13 @@ export default class Illegal extends React.Component {
 				<ModifyModal ref={(e) => this._modifyModal = e}/>
 				<BlackModal ref={(e) => this._blackModal = e} onSuccess={this.search.bind(this)}/>
 				<CancelBlackModal ref={(e) => this._cancelModal = e} onSuccess={this.search.bind(this)}/>
-<<<<<<< HEAD
 				<BalanceModal ref={(e) => this._balanceModal = e}/>
 				<CouponModal ref={(e) => this._couponModal = e}/>
 				<TouchBalanceModal ref={(e) => this._touchBalanceModal = e}/>
 				<CreditScoreModal ref={(e) => this._creditScoreModal = e}/>
-=======
 				<FrozenModal ref={(e) => this._frozenModal = e} onSuccess={this.search.bind(this)}/>
 				<UnfreezeModal ref={(e) => this._unfreezeModal = e} onSuccess={this.search.bind(this)}/>
 				<ClearSmsModal ref={(e) => this._clearSmsModal = e} onSuccess={this.search.bind(this)}/>
->>>>>>> 84eb6b1a13482825f46d86003d843f456a72a8ff
 			</Content>
 		)
 	}
@@ -209,11 +196,6 @@ export default class Illegal extends React.Component {
 		});
 	}
 
-<<<<<<< HEAD
-   //冻结押金用户
-	frozen(){
-		console.log(546464564)
-=======
     //冻结押金用户
 	frozen(data){
 		let m = data.split(",");
@@ -221,7 +203,6 @@ export default class Illegal extends React.Component {
 			id: m[0],
 			mmobile: m[1]
 		});
->>>>>>> 84eb6b1a13482825f46d86003d843f456a72a8ff
 	}
 
 	//取消冻结押金用户

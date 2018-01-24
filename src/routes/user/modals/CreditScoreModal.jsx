@@ -48,8 +48,8 @@ export default class CouponModal extends React.Component {
                 <Text label="手机号" value={data.mmobile}/>  
               </Col>
             </Row>
-            <Select label="奖惩类型" model="query.awardPunishType" options={handleType} whole={true} validation={{required: true}} width={250} />
-            <Select label="处理类型" model="query.state" options={handleType} whole={true} validation={{required: true}} width={250} />
+            {/* <Select label="奖惩类型" model="query.awardPunishType" options={handleType} whole={true} validation={{required: true}} width={250} />
+            <Select label="处理类型" model="query.state" options={handleType} whole={true} validation={{required: true}} width={250} /> */}
             <Input label="奖罚积分" type='number' model={'query.couponAmout'} validation={{required: true}} width={250}/>              
             <div className='user-block' style={{ float: 'right'}}>
               <Button value={'取消'} theme={'default'} onClick={this.hide.bind(this)} className="margin-r-20" />

@@ -24,8 +24,6 @@ const appUserApi = {
 	//取消拉黑
 	unBlack: (params) => request.get(env.apiPath_customer + 'appUser/unBlack', params),
 
-<<<<<<< HEAD
-=======
 	//设为失信用户
 	creditless: (params) => request.get(env.apiPath_customer + 'appUser/creditless', params),
 
@@ -38,7 +36,6 @@ const appUserApi = {
 	//清除短消息限制
 	clearSms: (params) => request.get(env.apiPath_customer + 'appUser/clearSms', params),
 
->>>>>>> 84eb6b1a13482825f46d86003d843f456a72a8ff
 
 };
 

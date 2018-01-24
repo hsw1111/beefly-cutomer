@@ -49,6 +49,7 @@ export default class RejectModal extends React.Component {
 		this.setState({
 			show: false
 		})
+		console.log('----------',this._dataTable)
 	}
 
 	async ok() {

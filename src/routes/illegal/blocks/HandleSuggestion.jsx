@@ -7,6 +7,7 @@ import transRecordApi from "../../../apis/transRecordApi";
 import beefly from "../../../js/beefly";
 import creditScoreApi from "../../../apis/creditScoreApi";
 import illegalStore from "../stores/illegalStore";
+import {localStore} from 'jeselvmo';
 import cs from "classnames"
 
 /**
@@ -37,7 +38,7 @@ export default class HandleSuggestion extends React.Component {
 		let {detail} = illegalStore;
 		this.state = {
 			deductScore: {
-				creditScoreCount: 5,
+				creditScoreCount: 10,
 				remark: '',
 				smsFlag: 1,
 				// mobile: detail.mobile,
@@ -88,15 +89,15 @@ export default class HandleSuggestion extends React.Component {
 		//
 		let noPunishLis = [
 			{
-				value: orderDetail.endTime > detail.lastReportTime || '',
+				value: orderDetail.endTime > detail.createTime || '',
 				text: '违停上报的时间点 处理订单未结束状态，不处罚'
 			},
 			{
-				value: orderDetail.mileage < 500 || orderDetail.timeInOrder < 5,
+				value: orderDetail.orderFlow ==3 && (orderDetail.mileage < 500 || orderDetail.timeInOrder < 5),
 				text: '最近一次订单状态是已结束，里程＜500米，时长＜5分钟，不处罚'
 			},
 			{
-				value: beefly.DateMinus(orderDetail.placeOrderTime, detail.lastReportTime) > 5,
+				value: beefly.DateMinus(orderDetail.placeOrderTime, detail.createTime) > 5,
 				text: '最近一次订单与违停上报时间点相差超过5天，不处罚'
 			},
 			{
@@ -194,7 +195,7 @@ export default class HandleSuggestion extends React.Component {
 	reset(){
 		this.setState({
 			deductScore: {
-				creditScoreCount: 5,
+				creditScoreCount: 10,
 				remark: '',
 				smsFlag: 1,
 				content: ''
@@ -216,6 +217,14 @@ export default class HandleSuggestion extends React.Component {
 				content: ''
 			},
 		})
+	}
+
+	componentDidMount(){
+		if(illegalStore.detail.state == 5){
+			msgBox.warning('该上报已经处理', ()=>{
+				tabUtils.closeTab()
+			})
+		}
 	}
 
 
@@ -277,8 +286,9 @@ export default class HandleSuggestion extends React.Component {
 		});
 
 		if (result.resultCode == 1) {
+			localStore.set('illegalState',5);
 			msgBox.success(result.message, () => {
-				tabUtils.closeTab()
+				tabUtils.closeTab();
 			});
 		}
 	}
@@ -299,6 +309,7 @@ export default class HandleSuggestion extends React.Component {
 		});
 
 		if (result.resultCode == 1) {
+			localStore.set('illegalState',5);
 			msgBox.success(result.message, () => {
 				tabUtils.closeTab()
 			});
@@ -318,8 +329,9 @@ export default class HandleSuggestion extends React.Component {
 		});
 
 		if (result.resultCode == 1) {
+			localStore.set('illegalState',5);
 			msgBox.success(result.message, () => {
-				tabUtils.closeTab()
+				tabUtils.closeTab();
 			});
 		}
 	}
@@ -339,8 +351,9 @@ export default class HandleSuggestion extends React.Component {
 		});
 
 		if (result.resultCode == 1) {
+			localStore.set('illegalState',5);
 			msgBox.success(result.message, () => {
-				tabUtils.closeTab()
+				tabUtils.closeTab();
 			});
 		}
 	}

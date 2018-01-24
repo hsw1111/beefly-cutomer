@@ -37,7 +37,7 @@ export default class HandleSuggestion extends React.Component {
 		let {detail} = illegalStore;
 		this.state = {
 			deductScore: {
-				creditScoreCount: 5,
+				creditScoreCount: 10,
 				remark: '',
 				smsFlag: 1,
 				// mobile: detail.mobile,
@@ -160,8 +160,8 @@ export default class HandleSuggestion extends React.Component {
 						<Tab title="不处罚">
 							{!detail.content.includes('双人骑行')&& <div><p>订单（编号：<span>{orderDetail.id}</span>）符合如下第{noPunishActiveLis.join('、')}点不处罚的情况，该违规人不不处罚。</p>
 							<ol>
-								{noPunishLis.map((d) => (
-									<li className={cs({'text-red': d.value})}>{d.text}</li>
+								{noPunishLis.map((d, i) => (
+									<li className={cs({'text-red': d.value})} key={i}>{d.text}</li>
 								))}
 							</ol></div>}
 							<Form horizontal>
@@ -194,7 +194,7 @@ export default class HandleSuggestion extends React.Component {
 	reset(){
 		this.setState({
 			deductScore: {
-				creditScoreCount: 5,
+				creditScoreCount: 10,
 				remark: '',
 				smsFlag: 1,
 				content: ''

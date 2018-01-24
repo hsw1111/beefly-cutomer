@@ -28,8 +28,8 @@ export default class detailModal extends React.Component {
 				bikeCode: '',
 			},
 			columns1: [
-				{title: '上报时间', data: 'updateTime'},
-				{title: '订单里程', data: 'orderMileage'}
+				{title: '上报时间', data: 'updateTime', width: '50%'},
+				{title: '订单里程', data: 'orderMileage', width: '50%'}
 			],
 			query1: {
 				id: ''

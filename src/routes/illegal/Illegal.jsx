@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Button, CitySelect, Content, DataTable, DateRange, Field, Form, Select, SelectInput, tabUtils, dtUtils} from "beefly-common";
+import {Box, Button, CitySelect, Content, DataTable, DateRange, Field, Form, Select, SelectInput, tabUtils, dtUtils, msgBox} from "beefly-common";
 import {handleType, operateState, reportState, vagueState} from '../../maps/illegalMap';
 import AddRemarkModal from "./modals/AddRemarkModal";
 import RejectModal from "./modals/RejectModal";
@@ -137,7 +137,16 @@ export default class Illegal extends React.Component {
 	}
 
 	// 驳回处理
-	reject(id) {
+	async reject(id) {
+		let parms={
+			id:id
+		};
+		let result = await tripProblemApi.detail(parms);
+		if(result.data.state==5){
+          this.search();
+			msgBox.warning("该用户已确认上报");
+          return
+		}
 		this._rejectModal.show({
 			id
 		});

@@ -7,6 +7,7 @@ import transRecordApi from "../../../apis/transRecordApi";
 import beefly from "../../../js/beefly";
 import creditScoreApi from "../../../apis/creditScoreApi";
 import illegalStore from "../stores/illegalStore";
+import {localStore} from 'jeselvmo';
 import cs from "classnames"
 
 /**
@@ -285,8 +286,9 @@ export default class HandleSuggestion extends React.Component {
 		});
 
 		if (result.resultCode == 1) {
+			localStore.set('illegalState',5);
 			msgBox.success(result.message, () => {
-				tabUtils.closeTab()
+				tabUtils.closeTab();
 			});
 		}
 	}
@@ -307,6 +309,7 @@ export default class HandleSuggestion extends React.Component {
 		});
 
 		if (result.resultCode == 1) {
+			localStore.set('illegalState',5);
 			msgBox.success(result.message, () => {
 				tabUtils.closeTab()
 			});
@@ -326,8 +329,9 @@ export default class HandleSuggestion extends React.Component {
 		});
 
 		if (result.resultCode == 1) {
+			localStore.set('illegalState',5);
 			msgBox.success(result.message, () => {
-				tabUtils.closeTab()
+				tabUtils.closeTab();
 			});
 		}
 	}
@@ -347,8 +351,9 @@ export default class HandleSuggestion extends React.Component {
 		});
 
 		if (result.resultCode == 1) {
+			localStore.set('illegalState',5);
 			msgBox.success(result.message, () => {
-				tabUtils.closeTab()
+				tabUtils.closeTab();
 			});
 		}
 	}

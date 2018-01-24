@@ -93,7 +93,7 @@ export default class HandleSuggestion extends React.Component {
 				text: '违停上报的时间点 处理订单未结束状态，不处罚'
 			},
 			{
-				value: orderDetail.mileage < 500 || orderDetail.timeInOrder < 5,
+				value: orderDetail.orderFlow ==3 && (orderDetail.mileage < 500 || orderDetail.timeInOrder < 5),
 				text: '最近一次订单状态是已结束，里程＜500米，时长＜5分钟，不处罚'
 			},
 			{

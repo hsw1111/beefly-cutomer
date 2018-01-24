@@ -37,6 +37,7 @@ export default class IllegalDetails extends React.Component {
 	// 驳回处理
 	reject() {
 		this._rejectModal.show({
+
 			id: illegalStore.detail.id
 		});
 	}

@@ -96,6 +96,14 @@ export default class UserAward extends React.Component {
 		)
 	}
 
+	componentDidMount(){
+		if(illegalStore.detail.state == 5){
+			msgBox.warning('该上报已经处理', ()=>{
+				tabUtils.closeTab()
+			})
+		}
+	}
+
 	// 确认处理
 	confirmHandle() {
 		let type = this.state.type + 1;

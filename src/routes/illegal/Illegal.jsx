@@ -5,7 +5,6 @@ import AddRemarkModal from "./modals/AddRemarkModal";
 import RejectModal from "./modals/RejectModal";
 import tripProblemApi from "../../apis/tripProblemApi";
 import beefly from "../../js/beefly";
-
 /**
  * 违停上报
  */

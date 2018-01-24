@@ -150,7 +150,16 @@ export default class Illegal extends React.Component {
 	}
 
 	// 确认处理
-	confirm(id) {
+	async confirm(id) {
+		let parms={
+			id:id
+		};
+		let result = await tripProblemApi.detail(parms);
+		if(result.data.state==5){
+			this.search();
+			msgBox.warning("该用户已确认上报");
+			return
+		}
 		tabUtils.addTab({
 			name: '确认处理-' + id,
 			path: '/illegal/confirm',

@@ -1,6 +1,6 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import {Button, Content, Box, DateRange, Input, Form, Field, DataTable, dtUtils,Text} from "beefly-common";
+import {Button, Content, Box, DateRange, Input, Form, Field, DataTable, dtUtils, Text, msgBox} from "beefly-common";
 import $ from 'jquery';
 
 
@@ -51,15 +51,43 @@ export default class userVoucher extends React.Component {
 
 				</div>
 				<div className="margin-t-80" style={{float:'right'}}>
-					<Button value="确定"/>
+					<Button value="确定发送" onClick={this.ok.bind(this)}/>
 				</div>
 			</Form>
         </Box>
       </Content>
     )
   }
+	async ok() {
+		let {rewardCoupon} = this.state;
 
-  sendNewMessage(){
-    this._sendMessageModal.show()
-  }
+		if (rewardCoupon.couponAmout == '') {
+			msgBox.warning('出行券金额不能为空');
+			return;
+		}
+
+		if (rewardCoupon.num == '') {
+			msgBox.warning('出行券张数不能为空');
+			return;
+		}
+
+		if (rewardCoupon.expireTime == '') {
+			msgBox.warning('过期时间不能为空');
+			return;
+		}
+
+		if (this.file.files.length == 0) {
+			msgBox.warning('请选择上传文件');
+			return;
+		}
+
+		let formData = new FormData();
+		formData.append('generationsCode', generationsCode);
+		formData.append('file', this.file.files[0]);
+
+		// let result = await bikeApi.importBike(formData);
+		if (result.code == 1) {
+			console.log(123456)
+		}
+	}
 }

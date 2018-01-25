@@ -43,13 +43,17 @@ export default class ModifyModal extends React.Component {
 			data,
 			remark: ''
 		})
-		console.log(data)
 	}
 
-	hide() {
+	hide(isCallback) {
 		this.setState({
 			show: false
-		})
+		});
+
+		if(isCallback){
+			let {onSuccess} = this.props;
+			onSuccess && onSuccess();
+		}
 	}
 
 	async ok() {
@@ -59,7 +63,7 @@ export default class ModifyModal extends React.Component {
 			mobile:remark
 		};
 		let result = await appUserApi.modifyMobile(parms);
-		this.hide();
+		this.hide(true);
 		msgBox.warning(result.message);
 
 	}

@@ -112,7 +112,7 @@ export default class Illegal extends React.Component {
 					<DataTable ref={(e) => this._dataTable = e}
 							   columns={columns} api={appUserApi.page} query={query}/>
 				</Box>
-				<ModifyModal ref={(e) => this._modifyModal = e}/>
+				<ModifyModal ref={(e) => this._modifyModal = e} onSuccess={this.search.bind(this)}/>
 				<BlackModal ref={(e) => this._blackModal = e} onSuccess={this.search.bind(this)}/>
 				<CancelBlackModal ref={(e) => this._cancelModal = e} onSuccess={this.search.bind(this)}/>
 				<FrozenModal ref={(e) => this._frozenModal = e} onSuccess={this.search.bind(this)}/>

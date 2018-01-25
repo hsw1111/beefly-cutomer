@@ -94,7 +94,7 @@ export default class HandleSuggestion extends React.Component {
 			},
 			{
 				value: orderDetail.orderFlow ==3 && (orderDetail.mileage < 500 || orderDetail.timeInOrder < 5),
-				text: '最近一次订单状态是已结束，里程＜500米，时长＜5分钟，不处罚'
+				text: '最近一次订单状态是已结束，里程＜500米或时长＜5分钟，不处罚'
 			},
 			{
 				value: beefly.DateMinus(orderDetail.placeOrderTime, detail.createTime) > 5,

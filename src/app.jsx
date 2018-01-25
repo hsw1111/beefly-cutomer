@@ -1,11 +1,13 @@
 import React from 'react';
 import beefly from './js/beefly';
 import Router from './router';
-import {localStore} from 'jeselvmo';
+import 'beefly-common/styles/index.scss';
 import './styles/index.scss';
 import {DataTable, msgBox} from 'beefly-common'
 import $ from 'jquery';
-import {regexp} from 'jeselvmo';
+import {validator} from 'jeselvmo';
+
+console.log(beefly);
 
 $.ajaxSetup({
 	xhrFields: {
@@ -13,7 +15,7 @@ $.ajaxSetup({
 	},
 	data: {
 		accessToken: function () {
-			let loginUser = localStore.get('loginUser');
+			let loginUser = beefly.getLoginUser();
 			return loginUser ? loginUser.token : ''
 		}
 	},
@@ -28,7 +30,7 @@ $.ajaxSetup({
 			if (json.resultCode === -1) {
 				msgBox.error(json.message);
 				if (json.data === 0) {
-					setTimeout(()=>{
+					setTimeout(() => {
 						parent.location = '../login.html'
 					}, 1000)
 				}
@@ -39,24 +41,17 @@ $.ajaxSetup({
 	}
 });
 
-// Modify options, control originalOptions, store jqXHR, etc
-$.ajaxPrefilter((options, originalOptions, jqXHR) => {
+$.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+	// console.log(options, originalOptions, jqXHR);
 
-	if ('get'.indexOf(options.type)) {
-
-		// 使用测试用户
-		// console.log(options.data);
-		// options.data = regexp.replace(options.data, /appUserId=\w+/ig, 'appUserId=52468');
-		// console.log(options.data);
+	if ("POST".indexOf(options.type.toUpperCase()) >= 0) {
+		if (validator.isFormData(options.data)) {
+			let loginUser = beefly.getLoginUser();
+			options.data.append('accessToken', loginUser ? loginUser.token : '')
+		}
 	}
 
-	// console.log('options:', options);
-	// console.log('originalOptions:', originalOptions);
-	// console.log('jqXHR:', jqXHR);
-	// debugger;
 });
-
-console.log(beefly);
 
 DataTable.defaultProps.onAjax = (api, params, data, callback) => {
 	// 添加分页参数

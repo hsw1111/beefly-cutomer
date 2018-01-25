@@ -23,7 +23,7 @@ export default class IntegralModal extends React.Component {
 				{title: '处理类型', data: 'type', render: (data) => dtUtils.renderMap(data, integralType)},
 				{title: '积分', data: 'value', render: (data, type, row) => (row.unit == 0 ?'+':'-') + data},
 				{title: '剩余总积分', data: 'newValue'},
-				{title: '备注', data: 'unit'},
+				{title: '备注', data: 'remark'},
 			],
 			query: {
 				'userId': '',

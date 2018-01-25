@@ -2,6 +2,7 @@ import React from 'react';
 import {observer} from 'mobx-react';
 import {Button, Content, Box, DateRange, Input, Form, Field, DataTable, dtUtils, Text, msgBox} from "beefly-common";
 import $ from 'jquery';
+import couponApi from "../../apis/couponApi";
 
 
 /**
@@ -80,12 +81,14 @@ export default class userVoucher extends React.Component {
 			msgBox.warning('请选择上传文件');
 			return;
 		}
-
+        console.log(this.file.files[0],78787979)
 		let formData = new FormData();
-		formData.append('generationsCode', generationsCode);
-		formData.append('file', this.file.files[0]);
+		formData.append('couponAmout', rewardCoupon.couponAmout);
+		formData.append('num', rewardCoupon.num);
+		formData.append('expireTime', rewardCoupon.expireTime);
+		formData.append('mobile', this.file.files[0]);
 
-		// let result = await bikeApi.importBike(formData);
+		let result = await couponApi.massCoupon(formData);
 		if (result.code == 1) {
 			console.log(123456)
 		}

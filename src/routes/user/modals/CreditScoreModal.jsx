@@ -2,7 +2,8 @@ import React from 'react';
 import {Button, Form, Modal,Input, msgBox, Textarea, Row, Col, Text, Box, Select, DataTable, dtUtils } from "beefly-common";
 import tripProblemApi from "../../../apis/tripProblemApi";
 import beefly from "../../../js/beefly";
-import couponApi from "../../../apis/couponApi";
+import {awardPunishType, dealType} from '../../../maps/userMap'
+import creditScoreApi from "../../../apis/creditScoreApi";
 
 /**
  * 修改手机号
@@ -15,18 +16,20 @@ export default class CouponModal extends React.Component {
       show: false,
       data: '',
 			query: {
-        awardPunishType: '',
-        num: '',
-        time: '',
+        awardPunishType: 0,
+        dealType: 0,
+        awardPunishScore: -10,
+        remark: '',
       },
       columns: [
         {title: '编号', data: 'id'},
-        {title: '发放金额', data: 'amount'},
-				{title: '获得时间', data: 'receiveDate', render: dtUtils.renderDateTime},
-				{title: '消费时间', data: 'useTime', render: dtUtils.renderDateTime},
-				{title: '消费订单', data: 'orderId'},
-				{title: '到期时间', data: 'validityEndDate', render: dtUtils.renderDateTime},
-				{title: '获得类型', data: 'receiveWay'},
+				{title: '操作时间', data: 'createTime', render: dtUtils.renderDateTime},
+				{title: '操作人', data: 'manageName'},
+				{title: '奖惩类型', data: 'unit', render: (data, type, row) => (data === 0 ? '奖励' : '惩罚')},
+				{title: '处理类型', data: 'unit'},
+				{title: '积分', data: 'value'},
+				{title: '剩余总积分', data: 'newValue'},
+				{title: '备注', data: 'remark'},
       ],
       queryTable: {
         userId: ''
@@ -48,9 +51,10 @@ export default class CouponModal extends React.Component {
                 <Text label="手机号" value={data.mmobile}/>  
               </Col>
             </Row>
-            {/* <Select label="奖惩类型" model="query.awardPunishType" options={handleType} whole={true} validation={{required: true}} width={250} />
-            <Select label="处理类型" model="query.state" options={handleType} whole={true} validation={{required: true}} width={250} /> */}
-            <Input label="奖罚积分" type='number' model={'query.couponAmout'} validation={{required: true}} width={250}/>              
+            <Select label="奖惩类型" model="query.awardPunishType" options={awardPunishType} whole={true} validation={{required: true}} width={250} />
+            <Select label="处理类型" model="query.dealType" options={dealType} whole={true} validation={{required: true}} width={250} />
+            <Input label="奖罚积分" type='number' model={'query.awardPunishScore'} validation={{required: true}} width={250}/>              
+            <Textarea label="备注" model="query.remark" validation={{required: true}} width={450}/>
             <div className='user-block' style={{ float: 'right'}}>
               <Button value={'取消'} theme={'default'} onClick={this.hide.bind(this)} className="margin-r-20" />
               <Button value={'确定'} onClick={this.ok.bind(this)}/>
@@ -58,9 +62,9 @@ export default class CouponModal extends React.Component {
 					</Form>
           
           <div className='margin-t-50'>
-            <Box title='发放记录'>
+            <Box title='奖罚记录'>
               <DataTable ref={(e) => this._dataTable = e}
-                  columns={columns} api={couponApi.page} query={queryTable}/>
+                  columns={columns} api={creditScoreApi.page} query={queryTable}/>
             </Box>
           </div>
           

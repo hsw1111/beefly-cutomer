@@ -1,7 +1,6 @@
 /*! login.js
 * ================
 */
-
 import $ from 'jquery';
 import systemApi from "../apis/systemApi";
 import beefly from "../js/beefly";
@@ -13,7 +12,7 @@ $.ajaxSetup({
 });
 
 // 用户登录
-async function login() {
+$('#login').click(async () => {
 	var username = $('#username').val();
 	var password = $('#password').val();
 
@@ -37,6 +36,4 @@ async function login() {
 	} else {
 		alert(result.message)
 	}
-}
-
-$('#login').click(login);
+});

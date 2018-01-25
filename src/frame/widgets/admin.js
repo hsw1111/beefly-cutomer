@@ -5,6 +5,7 @@ import $ from 'jquery';
 import beefly from "../../js/beefly";
 import tripProblemApi from "../../apis/tripProblemApi";
 
+
 beefly.checkLogin = async function (callback) {
 	var loginUser = beefly.getLoginUser();
 	if (loginUser) {
@@ -20,15 +21,11 @@ beefly.checkLogin = async function (callback) {
 	}
 };
 
-beefly.logoff = function () {
-	beefly.removeLoginUser();
-	beefly.toLogin()
-};
-
 beefly.checkLogin((loginUser) => {
 	$('*[name=username]').text(loginUser.userName)
 });
 
 $('#logoff').on('click', function () {
-	beefly.logoff();
+	beefly.removeLoginUser();
+	beefly.toLogin()
 });

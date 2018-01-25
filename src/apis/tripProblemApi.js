@@ -1,6 +1,7 @@
 import {request, localStore} from 'jeselvmo';
 import env from '../js/env';
 import $ from 'jquery';
+import beefly from "../js/beefly";
 
 /**
  * 违规上报接口
@@ -39,7 +40,7 @@ const tripProblemApi = {
 	 * 违停上报导出
 	 */
 	export: (params) => {
-		let loginUser = localStore.get('loginUser');
+		let loginUser = beefly.getLoginUser();
 		params.accessToken = loginUser.token;
 		let str = $.param(params);
 		let url = env.apiPath_customer + 'tripProblem/export?' + str;

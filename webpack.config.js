@@ -32,7 +32,8 @@ module.exports = {
 		"react-router": "ReactRouter",
 		"react-router-dom": "ReactRouterDOM",
 		"jquery": "jQuery",
-		"lodash": "_"
+		"lodash": "_",
+		"jeselvmo": "Jeselvmo"
 	},
 	resolve: {
 		extensions: ['.js', '.jsx']

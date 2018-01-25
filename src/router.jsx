@@ -15,6 +15,7 @@ const userDetails = asyncComponent(() => import(/* webpackChunkName: "user/detai
 const userInfo = asyncComponent(() => import(/* webpackChunkName: "user/info" */'./routes/user/userInfo'));
 const userMessage = asyncComponent(() => import(/* webpackChunkName: "user/message" */'./routes/user/userMessage'));
 const userOrder = asyncComponent(() => import(/* webpackChunkName: "user/order" */'./routes/user/userOrder'));
+const userVoucher = asyncComponent(() => import(/* webpackChunkName: "user/voucher" */'./routes/user/userVoucher'));
 
 /**
  * 模块路由
@@ -35,6 +36,7 @@ export default () => (
 			<Route exact path="/user/info" component={userInfo}/>
 			<Route exact path="/user/message" component={userMessage}/>
 			<Route exact path="/user/order" component={userOrder}/>
+			<Route exact path="/user/voucher" component={userVoucher}/>
 			<Route path="*" component={Error404}/>
 		</Switch>
 	</Router>

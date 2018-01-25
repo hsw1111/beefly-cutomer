@@ -4,6 +4,7 @@ import {Box, Field, Form, Text, Row, Col, Tab, Tabs,DataTable} from "beefly-comm
 import {reportState,handleType} from '../../../maps/illegalMap';
 import couponApi from "../../../apis/couponApi";
 import userStore from "../../../stores/userStore";
+import orderApi from "../../../apis/orderApi";
 
 
 /**
@@ -19,10 +20,17 @@ export default class Detail extends React.Component {
 		this.state = {
 			type:0,
 			columns: [
-				{title: '用户编号', data: 'userId'},
-				{title: '用户姓名', data: 'userId'},
+				{title: '订单编号', data: 'id'},
+				{title: '下单时间', data: 'placeOrderTime'},
+				{title: '结束时间', data: 'endTime'},
+				{title: '取车时续航里程', data: 'leftMileage'},
+				{title: '车辆编号', data: 'bikeCode'},
+				{title: '取车地点', data: 'pickLocation'},
+				{title: '骑行时间（m）', data: 'timeInOrder'},
+				{title: '骑行里程（m）', data: 'mileage'},
+				{title: '订单费用（￥）', data: 'actualAmount'},
+				{title: '订单状态', data: 'state'},
 			],
-
 			query: {
 				'appUserId': '',
 			},
@@ -62,14 +70,14 @@ export default class Detail extends React.Component {
 				</Form>
 				<Tabs model="type">
 					<Tab title="余额">
-						<Text label="发送目的" value="违规通知"/>
+						<DataTable ref={(e) => this._dataTable = e}
+								   columns={columns} api={orderApi.page} query={query}/>
 					</Tab>
 					<Tab title="押金">
 						<Text label="发送目的" value="违规通知"/>
 					</Tab>
 					<Tab title="出行券">
-						<DataTable ref={(e) => this._dataTable = e}
-								   columns={columns} api={couponApi.page} query={query}/>
+						<Text label="发送目的" value="违规通知"/>
 					</Tab>
 					<Tab title="权益卡">
 						<Text label="发送目的" value="违规通知"/>

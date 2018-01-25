@@ -16,15 +16,17 @@ loaders.push({
 });
 
 module.exports = {
-	entry: [
-		'react-hot-loader/patch', './src/index.jsx'
-	],
+	entry: {
+		'index': './src/frame/index.js',
+		'login': './src/frame/login.js',
+		'module': ['react-hot-loader/patch', './src/index.jsx']
+	},
 	devtool: process.env.WEBPACK_DEVTOOL || 'eval-source-map',
 	output: {
 		publicPath: '/',
-		path: path.join(__dirname, 'public/module'),
-		filename: 'bundle.js',
-		chunkFilename: '[name].bundle.js'
+		path: path.join(__dirname, 'public'),
+		filename: 'js/[name].bundle.js',
+		chunkFilename: 'js/[name].bundle.js'
 	},
 	externals: {
 		"react": "React",
@@ -59,17 +61,25 @@ module.exports = {
 		new webpack.NamedModulesPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
 		new ExtractTextPlugin({
-			filename: 'style.css',
+			filename: 'css/[name].css',
 			allChunks: true
 		}),
 		new DashboardPlugin(),
 		new HtmlWebpackPlugin({
-			filename: 'module/index.html',
+			filename: 'index.html',
+			template: './src/frame/index.html',
+			chunks: ['index']
+
+		}),
+		new HtmlWebpackPlugin({
+			filename: 'login.html',
+			template: './src/frame/login.html',
+			chunks: ['login']
+		}),
+		new HtmlWebpackPlugin({
+			filename: 'module.html',
 			template: './src/template.html',
-			files: {
-				css: ['style.css'],
-				js: ["bundle.js"],
-			}
+			chunks: ['module']
 		})
 	]
 };

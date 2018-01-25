@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>蜜蜂出行</title>
+	<!-- Tell the browser to be responsive to screen width -->
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- Ionicons -->
+	<link rel="stylesheet" href="https://cdn.bootcss.com/ionicons/4.0.0-7/css/ionicons.min.css">
+	<!-- Theme style -->
+	<link rel="stylesheet" href="http://web.mmuu.com/admin/assets/css/AdminLTE.min.css">
+	<link rel="stylesheet" href="http://web.mmuu.com/admin/assets/css/skins/_all-skins.min.css">
+	<link rel="stylesheet" href="http://web.mmuu.com/admin/assets/css/style.css">
+	<!-- config -->
+	<script src="js/config.js"></script>
+</head>
+<body class="skin-blue hold-transition sidebar-mini fixed layout-boxed">
+<script>document.body.className = document.body.className + ' ' + config.skin</script>
+<!-- Site wrapper -->
+<div class="wrapper" data-widget="admin">
+
+	<header class="main-header">
+		<!-- Logo -->
+		<a href="index.html" class="logo">
+			<!-- mini logo for sidebar mini 50x50 pixels -->
+			<span class="logo-mini">MF</span>
+			<!-- logo for regular state and mobile devices -->
+			<span class="logo-lg">蜜蜂出行</span>
+		</a>
+		<!-- Header Navbar: style can be found in header.less -->
+		<nav class="navbar navbar-static-top">
+			<!-- Sidebar toggle button-->
+			<a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</a>
+
+			<div class="navbar-custom-menu">
+				<ul class="nav navbar-nav">
+					<!-- User Account: style can be found in dropdown.less -->
+					<li class="dropdown user user-menu">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<img src="http://web.mmuu.com/admin/assets/images/avatar_small.jpg" class="user-image"
+								 alt="User Image">
+							<span class="hidden-xs" name="username"></span>
+						</a>
+						<ul style="width: 150px" class="dropdown-menu" role="menu" aria-labelledby="drop3">
+							<!--<li role="presentation"><a role="menuitem" tabindex="-1" href="#"><font-->
+								<!--style="vertical-align: inherit;"><font-->
+								<!--style="vertical-align: inherit;">修改密码</font></font></a></li>-->
+							<li role="presentation" id="logoff"><a role="menuitem" tabindex="-1" href="#"><font
+								style="vertical-align: inherit;"><font
+								style="vertical-align: inherit;">退出登录</font></font></a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+
+	<!-- =============================================== -->
+
+	<!-- Left side column. contains the sidebar -->
+	<aside class="main-sidebar">
+		<!-- sidebar: style can be found in sidebar.less -->
+		<section class="sidebar">
+			<!-- Sidebar user panel -->
+			<div class="user-panel">
+				<div class="pull-left image">
+					<img src="http://web.mmuu.com/admin/assets/images/avatar_small.jpg" class="img-circle"
+						 alt="User Image">
+				</div>
+				<div class="pull-left info">
+					<p name="username"></p>
+					<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+				</div>
+			</div>
+			<!-- /.search form -->
+			<!-- sidebar menu: : style can be found in sidebar.less -->
+			<ul class="sidebar-menu" data-widget="tree">
+				<li class="header">MAIN NAVIGATION</li>
+				<li class="active">
+					<a href="/home">
+						<i class="fa fa-dashboard"></i>
+						<span>首页</span>
+					</a>
+				</li>
+			</ul>
+		</section>
+		<!-- /.sidebar -->
+	</aside>
+
+	<!-- =============================================== -->
+
+	<!-- Content Wrapper. Contains page content -->
+	<div class="content-wrapper">
+
+		<div id="tabs" class="tabs" data-widget="tabs">
+			<div class="tab-header">
+				<div class="tab-left">
+					<a href="javascript:;" id="lnkLeft"><i class="fa fa-fw fa-angle-left"></i></a>
+				</div>
+				<div class="tab-menu">
+					<div class="dropdown">
+						<a class="dropdown-toggle" type="button" data-toggle="dropdown"
+						   aria-expanded="false">
+							<i class="fa fa-fw fa-ellipsis-v"></i>
+						</a>
+						<ul class="dropdown-menu dropdown-menu-right">
+							<li><a href="javascript:" id="lnkReload">重新加载</a></li>
+							<li><a href="javascript:" id="lnkClose">关闭标签页</a></li>
+							<li><a href="javascript:" id="lnkCloseAll">关闭所有标签页</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="tab-right">
+					<a href="javascript:;" id="lnkRight"><i class="fa fa-fw fa-angle-right"></i></a>
+				</div>
+				<ul class="tab-ul">
+					<li class="active" data-path="module.html#/home">
+						<a href="javascript:">
+							首页
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="tab-content">
+				<div class="tab-pane active">
+					<iframe src="module.html#/home" width="100%" height="100%" frameborder="0"></iframe>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!-- /.content-wrapper -->
+
+	<footer class="main-footer">
+		<div class="pull-right hidden-xs">
+			<span id="platform">3.0.0</span> v<span id="version">3.0.0</span>
+		</div>
+		<strong>Copyright &copy; 2016-2018 <a href="http://www.mmuu.com" id="company">蜜蜂出行</a>.</strong> All rights
+		reserved.
+	</footer>
+
+	<ul id="contextMenu" class="dropdown-menu" role="menu" style="display:none">
+		<li><a data-action="refresh" href="javascript:;">刷新</a></li>
+		<li><a data-action="close" href="javascript:;">关闭</a></li>
+		<li class="divider"></li>
+		<li><a data-action="closeAll" href="javascript:;">关闭全部</a></li>
+	</ul>
+
+</div>
+<!-- ./wrapper -->
+
+<!-- jquery -->
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<!-- bootstrap -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- slimscroll -->
+<script src="https://cdn.bootcss.com/jQuery-slimScroll/1.3.8/jquery.slimscroll.min.js"></script>
+<!-- jeselvmo -->
+<script src="http://web.mmuu.com/plugins/jeselvmo/1.0.8-beta/jeselvmo.min.js"></script>
+</body>
+</html>

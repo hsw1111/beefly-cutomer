@@ -20,6 +20,7 @@ class IllegalStore {
 	@observable suggestHandleType = 0;		// 建议的处理意见
 	@observable actualHandleType = 0;		// 实际的处理意见
 	@observable depositState = 0; 			// 押金状态
+	@observable transId = null; 			//
 
 	async fetchDetail() {
 		let {id} = urlUtils.getParams();
@@ -53,13 +54,18 @@ class IllegalStore {
 				 this.misreport = 1;
 			}
 
-			if(this.orderDetail && this.orderDetail.mileage < 500 || this.orderDetail.timeInOrder < 5){
-				this.suggestHandleType = 2;
-				this.actualHandleType = this.suggestHandleType;
-			}
-			this.fetchBuckleCount();
-			this.fetchSmsCount();
-			this.fetchDepositState();
+
+			await this.fetchBuckleCount();
+			await this.fetchSmsCount();
+			await this.fetchDepositState();
+
+			setTimeout(()=>{
+				if(this.orderDetail && this.orderDetail.mileage < 500 || this.orderDetail.timeInOrder < 5 ||(this.orderDetail.endTime > this.detail.createTime ||'')||
+					(beefly.DateMinus(this.orderDetail.placeOrderTime,this.detail.createTime)>5)||(this.orderDetail.orderFlow == 10)){
+					this.suggestHandleType = 2;
+					this.actualHandleType = this.suggestHandleType;
+				}
+			}, 300)
 		}
 
 	}
@@ -80,7 +86,8 @@ class IllegalStore {
 	// 收到违停短信次数
 	async fetchSmsCount() {
 		let result = await symsApi.countSms({
-			userId: this.orderDetail.userId
+			mobile: this.orderDetail.mobile,
+			serviceType:4
 		});
 		if (result.resultCode === 1) {
 			this.smsCount = result.data
@@ -93,7 +100,8 @@ class IllegalStore {
 		});
 
 		if (result.resultCode == 1) {
-			this.depositState = result.data.depositState
+			this.depositState = result.data.depositState;
+			this.transId =result.data.transId
 		}
 	}
 

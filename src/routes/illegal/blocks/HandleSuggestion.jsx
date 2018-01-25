@@ -7,6 +7,8 @@ import transRecordApi from "../../../apis/transRecordApi";
 import beefly from "../../../js/beefly";
 import creditScoreApi from "../../../apis/creditScoreApi";
 import illegalStore from "../stores/illegalStore";
+import {localStore} from 'jeselvmo';
+import cs from "classnames"
 
 /**
  * 违停上报 处理意见
@@ -18,6 +20,12 @@ const opinionType = {
 	3: '发短信',
 };
 
+const commitType = {
+	1: 1,
+	2: 5,
+	3: 4,
+	4: 6,
+};
 /**
  * 处理意见
  */
@@ -30,7 +38,7 @@ export default class HandleSuggestion extends React.Component {
 		let {detail} = illegalStore;
 		this.state = {
 			deductScore: {
-				creditScoreCount: 5,
+				creditScoreCount: 10,
 				remark: '',
 				smsFlag: 1,
 				// mobile: detail.mobile,
@@ -67,14 +75,49 @@ export default class HandleSuggestion extends React.Component {
 
 	render() {
 		let {deductScore, deductCashPledge, data, proposal} = this.state;
-		let {orderDetail, actualHandleType, suggestHandleType, depositState} = illegalStore;
-		let mobile = illegalStore.orderDetail ? illegalStore.orderDetail.mobile : '-';
+		let {detail, orderDetail, actualHandleType, suggestHandleType, depositState} = illegalStore;
+		if (!orderDetail) {
+			return null;
+		}
+		let mobile = orderDetail.mobile || '-';
+
+		// if(!detail.content.includes('双人骑行')){
+        //
+		// }
+		console.log(detail.content.includes('双人骑行'));
+
+		//
+		let noPunishLis = [
+			{
+				value: orderDetail.endTime > detail.createTime || '',
+				text: '违停上报的时间点 处理订单未结束状态，不处罚'
+			},
+			{
+				value: orderDetail.orderFlow ==3 && (orderDetail.mileage < 500 || orderDetail.timeInOrder < 5),
+				text: '最近一次订单状态是已结束，里程＜500米或时长＜5分钟，不处罚'
+			},
+			{
+				value: beefly.DateMinus(orderDetail.placeOrderTime, detail.createTime) > 5,
+				text: '最近一次订单与违停上报时间点相差超过5天，不处罚'
+			},
+			{
+				value: orderDetail.orderFlow == 10,
+				text: '订单状态是＂开锁失败＂，不处罚'
+			},
+		];
+		let noPunishActiveLis = [];
+		noPunishLis.forEach((d, i)=>{
+			if(d.value){
+				noPunishActiveLis.push(i + 1);
+			}
+		});
+
 		return (
 			<Box title="处理意见" icon="fa-tag">
-				<p>鉴于订单的违规类别和信用积分，我们建议的处理意见为 {opinionType[suggestHandleType]} ，你也可以更改处理意见。</p>
+				<p>鉴于订单的违规类别和信用积分，我们建议的处理意见为 <span className="text-orange h5">{opinionType[suggestHandleType]}</span> ，你也可以更改处理意见。</p>
 				<Form className="form-label-150" horizontal>
 					<Tabs value={actualHandleType}
-						  onChange={(index)=> illegalStore.actualHandleType = index}>
+						  onChange={(index) => illegalStore.actualHandleType = index}>
 						<Tab title="扣积分">
 							<Input label="扣除积分" model={'deductScore.creditScoreCount'} width={250}
 								   validation={{required: true}}/>
@@ -94,7 +137,7 @@ export default class HandleSuggestion extends React.Component {
 									   validation={{required: true}}/>
 								<Textarea label="备注" model={'deductCashPledge.remark'} width={'50%'}
 										  validation={{required: true}}/>
-								<Checkbox model={'deductCashPledge.smsFlag'} text="同时给违规人发送短信通知"/>
+								<Checkbox model={'deductCashPledge.smsFlag'} text="同时给违规人发送短信通知" onChange={(e)=>console.log(e, '............................')}/>
 								{deductCashPledge.smsFlag == 1 && <div>
 									<Text label="手机号" value={mobile}/>
 									<Text label="发送目的" value="违规通知"/>
@@ -116,13 +159,12 @@ export default class HandleSuggestion extends React.Component {
 							</div>}
 						</Tab>
 						<Tab title="不处罚">
-							<p>订单（编号：1213）符合如下第2点不处罚的情况，该违规人不不处罚。</p>
+							{!detail.content.includes('双人骑行')&& <div><p>订单（编号：<span>{orderDetail.id}</span>）符合如下第{noPunishActiveLis.join('、')}点不处罚的情况，该违规人不不处罚。</p>
 							<ol>
-								<li>违停上报的时间点 处理订单未结束状态，不处罚</li>
-								<li className="text-red">最近一次订单状态是已结束，里程＜500米，时长＜5分钟，不处罚</li>
-								<li>最近一次订单与违停上报时间点相差超过5天，不处罚</li>
-								<li>订单状态是＂开锁失败＂，不处罚</li>
-							</ol>
+								{noPunishLis.map((d) => (
+									<li className={cs({'text-red': d.value})}>{d.text}</li>
+								))}
+							</ol></div>}
 							<Form horizontal>
 								<Select width={250} label="请选择不处罚的原因" wholeOption={data} model="noPunish.code"
 										whole={true} options={noPunishType} validation={{required: true}}/>
@@ -144,12 +186,53 @@ export default class HandleSuggestion extends React.Component {
 		)
 	}
 
+	componentWillReceiveProps(nextProps){
+		if(this.props.orderId !== nextProps.orderId){
+			this.reset();
+		}
+	}
+
+	reset(){
+		this.setState({
+			deductScore: {
+				creditScoreCount: 10,
+				remark: '',
+				smsFlag: 1,
+				content: ''
+			},
+
+			// 扣押金有三种可能:
+			// 1.押金充值在	3个月内：直接扣；
+			// 2.押金充值超过3各个月：先拉黑；
+			// 3.押金已经被提现：冻结用户押金(原来叫：设为失信用户)
+			deductCashPledge: {
+				// depositState: 1,	// 押金状态
+				depositAmount: '',
+				remark: '',
+				smsFlag: 1,
+				content: ''
+			},
+
+			sendSms: {
+				content: ''
+			},
+		})
+	}
+
+	componentDidMount(){
+		if(illegalStore.detail.state == 5){
+			msgBox.warning('该上报已经处理', ()=>{
+				tabUtils.closeTab()
+			})
+		}
+	}
+
 
 	// 确认处理
 	confirmHandle() {
-		let {detail, orderDetail,actualHandleType} = illegalStore;
-		let type = actualHandleType + 1;
+		let {detail, orderDetail, actualHandleType,transId} = illegalStore;
 
+		let type = commitType[actualHandleType + 1];
 		if (!orderDetail) {
 			msgBox.error('该车辆无订单数据');
 			return;
@@ -158,22 +241,23 @@ export default class HandleSuggestion extends React.Component {
 
 		let params = {
 			type,
-			id: orderDetail.id,
+			id: detail.id,
 			appUserId: orderDetail.userId,
 			orderId: orderDetail.id,
+			transId:transId
 		};
 
 		switch (type) {
 			case 1:
 				this.confirmHandle_deductScore(params);
 				break;
-			case 2:
+			case 5:
 				this.confirmHandle_deductCashPledge(params);
 				break;
-			case 3:
+			case 4:
 				this.confirmHandle_noPunish(params);
 				break;
-			case 4:
+			case 6:
 				this.confirmHandle_sendSms(params);
 				break;
 			default:
@@ -202,8 +286,9 @@ export default class HandleSuggestion extends React.Component {
 		});
 
 		if (result.resultCode == 1) {
+			localStore.set('illegalState',5);
 			msgBox.success(result.message, () => {
-				tabUtils.closeTab()
+				tabUtils.closeTab();
 			});
 		}
 	}
@@ -224,6 +309,7 @@ export default class HandleSuggestion extends React.Component {
 		});
 
 		if (result.resultCode == 1) {
+			localStore.set('illegalState',5);
 			msgBox.success(result.message, () => {
 				tabUtils.closeTab()
 			});
@@ -243,8 +329,9 @@ export default class HandleSuggestion extends React.Component {
 		});
 
 		if (result.resultCode == 1) {
+			localStore.set('illegalState',5);
 			msgBox.success(result.message, () => {
-				tabUtils.closeTab()
+				tabUtils.closeTab();
 			});
 		}
 	}
@@ -264,8 +351,9 @@ export default class HandleSuggestion extends React.Component {
 		});
 
 		if (result.resultCode == 1) {
+			localStore.set('illegalState',5);
 			msgBox.success(result.message, () => {
-				tabUtils.closeTab()
+				tabUtils.closeTab();
 			});
 		}
 	}

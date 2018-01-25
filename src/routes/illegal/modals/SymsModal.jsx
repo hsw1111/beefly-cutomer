@@ -52,7 +52,7 @@ export default class SymsModal extends React.Component {
 	show(data) {
 		this.setState({
 			show: true,
-			mobile: data.module,
+			mobile: data.mobile,
 			userId: data.userId
 		});
 		let {query} = this.state;

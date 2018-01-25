@@ -14,6 +14,7 @@ export default class CouponModal extends React.Component {
 		this.state = {
       show: false,
       data: '',
+      isOver: false, //是否超过发送上线
 			query: {
         couponAmout: '',
         num: '',
@@ -35,7 +36,7 @@ export default class CouponModal extends React.Component {
 	}
 
 	render() {
-		let {show, data, query, columns, queryTable} = this.state;
+		let {show, data, isOver, query, columns, queryTable} = this.state;
 		return (
 			<Modal show={show} title="出行券管理" size='lg' onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
 				<Modal.Body>
@@ -49,11 +50,12 @@ export default class CouponModal extends React.Component {
               </Col>
             </Row>
             <div className='user-block'>
-              <Input label="出行券金额" type='number' model={'query.couponAmout'} validation={{required: true}} width={250} placeholder='金额，正数'/>              
-              <Input label="出行券张数" type='number' model={'query.num'} validation={{required: true}} width={80} placeholder='张数'/>
-              <div className='text-red margin-l-10'>今日已到你可发送出行券的上限了，不可发送了！</div>
+              <Input label="出行券金额" type='number' model='query.couponAmout' validation={{required: true}} width={250} placeholder='金额，正数'/>              
+              <Input label="出行券张数" type='number' model='query.num' validation={{required: true}} width={80} placeholder='张数'/>
+              {isOver && <div className='text-red margin-l-10' style={{position: 'absolute', top: 110, left: 390}}>
+                            今日已到你可发送出行券的上限了，不可发送了！</div>}
             </div>
-            <Input label="过期时间" type='date' model={'query.time'}  width={310}  validation={{required: true}}/>
+            <Input label="过期时间" type='date' model='query.time'  width={310}  validation={{required: true}}/>
             <div className='user-block' style={{ float: 'right'}}>
               <Button value={'取消'} theme={'default'} onClick={this.hide.bind(this)} className="margin-r-20" />
               <Button value={'确定'} onClick={this.ok.bind(this)}/>
@@ -75,7 +77,8 @@ export default class CouponModal extends React.Component {
 	show(data) {
 		this.setState({
       show: true,
-      data
+      data,
+      isOver: false
     });
     let {queryTable} = this.state
     queryTable.userId =  data.id
@@ -89,6 +92,9 @@ export default class CouponModal extends React.Component {
 	}
 
 	async ok() {
+    this.setState({
+      isOver: true
+    })
     let {query} = this.state;
     if (query.couponAmount == '') {
       msgBox.warning("出行券金额不能为空");

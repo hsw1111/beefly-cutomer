@@ -54,7 +54,7 @@ export default class UserMessage extends React.Component {
           </div>
           
         </Box>
-        <SendMessageModal ref={(e) => this._sendMessageModal = e}/>
+        <SendMessageModal ref={(e) => this._sendMessageModal = e} onSuccess={this.search.bind(this)}/>
       </Content>
     )
   }

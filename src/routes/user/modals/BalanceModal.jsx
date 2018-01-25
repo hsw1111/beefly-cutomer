@@ -3,6 +3,7 @@ import {Button, Form, Modal,Input, msgBox, Textarea, Row, Col, Text, Box, DataTa
 import tripProblemApi from "../../../apis/tripProblemApi";
 import beefly from "../../../js/beefly";
 import balaceRecordApi from "../../../apis/balaceRecordApi";
+import appUserApi from "../../../apis/appUserApi";
 
 /**
  * 修改手机号
@@ -13,7 +14,7 @@ export default class BalanceModal extends React.Component {
 		super(props);
 		this.state = {
       show: false,
-      data: '',
+      detail: '',
 			query: {
         amount: '',
         remark: ''
@@ -22,7 +23,7 @@ export default class BalanceModal extends React.Component {
         {title: '编号', data: 'id'},
 				{title: '时间', data: 'createTime', render: dtUtils.renderDateTime},
 				{title: '操作人', data: 'createdName'},
-				{title: '增加/减少金额', data: 'amount', render: (data, type, row) => (row.modifyType === 0 ? '+' : '-') + data},
+				{title: '增加/减少金额', data: 'amount', render: (data, type, row) => (row.modifyType == 1 ? '+' : '-') + data},
 				{title: '当前总余额', data: 'newBalance'},
 				{title: '备注', data: 'remark'},
       ],
@@ -34,22 +35,22 @@ export default class BalanceModal extends React.Component {
 	}
 
 	render() {
-		let {show, data, query, columns, queryTable} = this.state;
+		let {show, detail, query, columns, queryTable} = this.state;
 		return (
 			<Modal show={show} title="余额管理" size='lg' onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
 				<Modal.Body>
 					<Form className="form-label-100" horizontal>
             <Row>
               <Col md={5}>
-                <Text label="用户编号" value={data.id}/>
+                <Text label="用户编号" value={detail.id}/>
               </Col>
               <Col md={5}>
-                <Text label="手机号" value={data.mmobile}/>  
+                <Text label="手机号" value={detail.mobile}/>  
               </Col>
             </Row>
-            <p style={{margin: '10px 14px'}}>用户当前余额：<span className='text-orange'>1000元</span>（充值金额{500}元+赠送金额{500}元）</p>
-            <Input label="金额" type='number' model={'query.amount'} validation={{required: true}} width={250} placeholder='正数为增加，负数为减少'/>
-						<Textarea label="备注" model={'query.remark'}  width={450}/>
+            <p style={{margin: '10px 14px'}}>用户当前余额：<span className='text-orange'>	{(detail.balance || 0) + (detail.grantBalance || 0)}元</span>（充值金额{detail.balance || 0}元+赠送金额{detail.grantBalance || 0}元）</p>
+            <Input label="金额" type='number' model='query.amount' validation={{required: true}} width={250} placeholder='正数为增加，负数为减少'/>
+						<Textarea label="备注" model='query.remark'  width={450}/>
 					</Form>
           <div style={{ float: 'right'}}>
               <Button value={'取消'} theme={'default'} onClick={this.hide.bind(this)} className="margin-r-20" />
@@ -67,14 +68,18 @@ export default class BalanceModal extends React.Component {
 		)
 	}
 
-	show(data) {
-		this.setState({
-      show: true,
-      data,
-    });
+	async show(data) {
+    this.setState({
+      show: true
+    })
     let {queryTable} = this.state
     queryTable.userId =  data.id
     this._dataTable.search(queryTable)
+
+    let result = await appUserApi.userDetail({id: data.id}) 
+    this.setState({
+      detail: result.data
+    })
 	}
 
 	hide() {

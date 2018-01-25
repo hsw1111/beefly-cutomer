@@ -12,14 +12,14 @@ export default class BalanceModal extends React.Component {
 		super(props);
 		this.state = {
       show: false,
-      data: '',
+      detail: '',
       columns: [
 				{title: '操作时间', data: 'createTime', render: dtUtils.renderDateTime},
 				{title: '操作人', data: 'createdName'},
 				{title: '类别', data: 'createdName'},
-				{title: '充值余额变动（¥）', data: 'createdName', render: (data, type, row) => (row.modifyType === 0 ? '+' : '-') + data},
+				{title: '充值余额变动（¥）', data: 'newBalance', render: (data, type, row) => (row.modifyType === 0 ? '+' : '-') + data},
 				{title: '剩余充值余额（¥）', data: 'createdName'},
-				{title: '赠送余额变动（¥）', data: 'createdName', render: (data, type, row) => (row.modifyType === 0 ? '+' : '-') + data},
+				{title: '赠送余额变动（¥）', data: 'newBalance', render: (data, type, row) => (row.modifyType === 0 ? '+' : '-') + data},
 				{title: '剩余赠送余额（¥）', data: 'createdName'},
 				{title: '总余额', data: 'newBalance'},
 				{title: '备注', data: 'remark'},
@@ -31,20 +31,20 @@ export default class BalanceModal extends React.Component {
   }
   
 	render() {
-		let {show, data, query, columns} = this.state;
+		let {show, detail, query, columns} = this.state;
 		return (
 			<Modal show={show} title="余额变动明细" size='lg' onHide={this.hide.bind(this)}>
 				<Modal.Body>
 					<Form className="form-label-100" horizontal>
             <Row>
               <Col md={5}>
-                <Text label="用户编号" value={data.id}/>
+                <Text label="用户编号" value={detail.id}/>
               </Col>
               <Col md={5}>
-                <Text label="手机号" value={data.mmobile}/>  
+                <Text label="手机号" value={detail.mmobile}/>  
               </Col>
             </Row>
-            <p style={{margin: '10px 14px'}}>用户当前余额：<span className='text-orange'>1000元</span>（充值金额{500}元+赠送金额{500}元）</p>
+            <p style={{margin: '10px 14px'}}>用户当前余额：<span className='text-orange'>	{(detail.balance || 0) + (detail.grantBalance || 0)}元</span>（充值金额{detail.balance || 0}元+赠送金额{detail.grantBalance || 0}元）</p>
 					</Form>
           <div className="margin-t-30">
             <Box title='余额变动明细'>
@@ -62,14 +62,18 @@ export default class BalanceModal extends React.Component {
 		)
 	}
 
-	show(data) {
+	async show(data) {
 		this.setState({
-      show: true,
-      data,
+      show: true
     });
     let {query} = this.state
     query.userId =  data.id
     this._dataTable.search(query)
+
+    let result = await appUserApi.userDetail({id: data.id}) 
+    this.setState({
+      detail: result.data
+    })
 	}
 
 	hide() {

@@ -2,7 +2,7 @@ import React from 'react';
 import {Button, Form, Modal,Input, msgBox, Textarea, Row, Col, Text, Box, Select, DataTable, dtUtils } from "beefly-common";
 import tripProblemApi from "../../../apis/tripProblemApi";
 import beefly from "../../../js/beefly";
-import {awardPunishType, dealType} from '../../../maps/userMap'
+import {awardPunishType, dealType, rewardType, integralType} from '../../../maps/userMap'
 import creditScoreApi from "../../../apis/creditScoreApi";
 
 /**
@@ -18,16 +18,16 @@ export default class CouponModal extends React.Component {
 			query: {
         awardPunishType: 0,
         dealType: 0,
-        awardPunishScore: -10,
+        awardPunishScore: '',
         remark: '',
       },
       columns: [
         {title: '编号', data: 'id'},
 				{title: '操作时间', data: 'createTime', render: dtUtils.renderDateTime},
 				{title: '操作人', data: 'manageName'},
-				{title: '奖惩类型', data: 'unit', render: (data, type, row) => (data === 0 ? '奖励' : '惩罚')},
-				{title: '处理类型', data: 'unit'},
-				{title: '积分', data: 'value'},
+				{title: '奖惩类型', data: 'unit', render: (data) => dtUtils.renderMap(data, rewardType)},
+				{title: '处理类型', data: 'type', render: (data) => dtUtils.renderMap(data, integralType)},
+				{title: '积分', data: 'value', render: (data, type, row) => (row.unit == 0 ?'+':'-') + data},
 				{title: '剩余总积分', data: 'newValue'},
 				{title: '备注', data: 'remark'},
       ],
@@ -38,6 +38,22 @@ export default class CouponModal extends React.Component {
 	}
 
 	render() {
+    let awardType = {
+      0: '其他'
+    }
+    let punishType = {
+      0: '违停扣分',
+      1: '车辆轻度划伤',
+      2: '车辆重度划伤',
+      3: '加装私锁',
+      4: '忘记关锁',
+      5: '弃车逃走',
+      6: '其他',
+    }
+    let backType = {
+      0: '违停扣错',
+      1: '其他'
+    }
 		let {show, data, query, columns, queryTable} = this.state;
 		return (
 			<Modal show={show} title="信用积分管理" size='lg' onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
@@ -51,8 +67,10 @@ export default class CouponModal extends React.Component {
                 <Text label="手机号" value={data.mmobile}/>  
               </Col>
             </Row>
-            <Select label="奖惩类型" model="query.awardPunishType" options={awardPunishType} whole={true} validation={{required: true}} width={250} />
-            <Select label="处理类型" model="query.dealType" options={dealType} whole={true} validation={{required: true}} width={250} />
+            <Select label="奖惩类型" model="query.awardPunishType" options={awardPunishType} whole={false} validation={{required: true}} width={250} />
+            {query.awardPunishType == 0 && <Select label="处理类型" model="query.dealType" options={punishType} whole={false} validation={{required: true}} width={250} />}
+            {query.awardPunishType == 1 && <Select label="处理类型" model="query.dealType" options={awardType} whole={false} validation={{required: true}} width={250} />}
+            {query.awardPunishType == 2 && <Select label="处理类型" model="query.dealType" options={backType} whole={false} validation={{required: true}} width={250} />}
             <Input label="奖罚积分" type='number' model={'query.awardPunishScore'} validation={{required: true}} width={250}/>              
             <Textarea label="备注" model="query.remark" validation={{required: true}} width={450}/>
             <div className='user-block' style={{ float: 'right'}}>

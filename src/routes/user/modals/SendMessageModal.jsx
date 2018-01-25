@@ -59,6 +59,7 @@ export default class SendMessageModal extends React.Component {
 	}
 
 	async ok() {
+		let {onSuccess} = this.props
 		let {query} = this.state
 		let result = await symsApi.sendSms({
 			...query,
@@ -66,6 +67,7 @@ export default class SendMessageModal extends React.Component {
 		})
 		if (result.resultCode == 1) {
 			this.hide();
+			onSuccess && onSuccess()
 			msgBox.success('发送短信成功！');
 		}
 

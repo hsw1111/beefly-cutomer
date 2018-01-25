@@ -26,7 +26,7 @@ beefly.logoff = function () {
 };
 
 beefly.checkLogin((loginUser) => {
-	$('*[name=username]').text(loginUser.account)
+	$('*[name=username]').text(loginUser.userName)
 });
 
 $('#logoff').on('click', function () {

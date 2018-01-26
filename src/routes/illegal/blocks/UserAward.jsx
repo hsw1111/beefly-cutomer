@@ -24,13 +24,8 @@ export default class UserAward extends React.Component {
 			},
 
 			rewardCoupon: {
-<<<<<<< HEAD
-				couponAmout: '5',
-				num: '1',
-=======
 				couponAmout: '',
 				num: '',
->>>>>>> dev
 				expireTime: ''
 			},
 

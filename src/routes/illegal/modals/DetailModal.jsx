@@ -55,7 +55,7 @@ export default class detailModal extends React.Component {
 					</Box>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button value={'取消'} theme={'default'} onClick={this.hide.bind(this)}/>
+					<Button value={'关闭'} theme={'default'} onClick={this.hide.bind(this)}/>
 				</Modal.Footer>
 			</Modal>
 		)

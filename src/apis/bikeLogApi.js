@@ -7,7 +7,7 @@ import env from '../js/env';
  */
 const bikeLogApi = {
 	// 用户详情接口
-	page: (params) => request.get(env.apiPath_customer + 'bikeLog/page', params),
+	bikeLog: (params) => request.get(env.apiPath_customer + 'bikeLog/bikeLog', params),
 };
 
 export default bikeLogApi

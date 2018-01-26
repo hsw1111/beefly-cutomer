@@ -3,13 +3,14 @@
  */
 import $ from 'jquery';
 import beefly from "../../js/beefly";
-import tripProblemApi from "../../apis/tripProblemApi";
+import systemApi from "../../apis/systemApi";
+
 
 beefly.checkLogin = async function (callback) {
 	var loginUser = beefly.getLoginUser();
 	if (loginUser) {
 		// 测试登录状态
-		let result = await tripProblemApi.page({});
+		let result = await systemApi.testToken({});
 		if (beefly.isSuccess(result)) {
 			callback(loginUser)
 		} else {
@@ -20,15 +21,11 @@ beefly.checkLogin = async function (callback) {
 	}
 };
 
-beefly.logoff = function () {
-	beefly.removeLoginUser();
-	beefly.toLogin()
-};
-
 beefly.checkLogin((loginUser) => {
 	$('*[name=username]').text(loginUser.userName)
 });
 
 $('#logoff').on('click', function () {
-	beefly.logoff();
+	beefly.removeLoginUser();
+	beefly.toLogin()
 });

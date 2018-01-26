@@ -3,7 +3,7 @@ import {Modal, Button, Box, DataTable, dtUtils} from "beefly-common";
 import OrderDetail from '../blocks/OrderDetail';
 import OrderCost from '../blocks/OrderCost';
 import orderApi from "../../../apis/orderApi";
-import bikeLogApi from '../../../apis/bikeLogApi';
+import bikeApi from '../../../apis/bikeApi';
 import beefly from "../../../js/beefly";
 
 
@@ -21,11 +21,11 @@ export default class detailModal extends React.Component {
 			id: '',
 			detail: '',
 			columns: [
-				{title: '操作时间', data: 'bike.operTime', render: dtUtils.renderDateTime},
-				{title: '操作内容', data: 'operateContent'},
+				{title: '操作时间', data: 'operationTime', render: dtUtils.renderDateTime},
+				{title: '操作内容', data: 'operationContent'},
 			],
 			query: {
-				bikeCode: '',
+				orderId: '',
 			},
 			columns1: [
 				{title: '上报时间', data: 'updateTime'},
@@ -47,7 +47,7 @@ export default class detailModal extends React.Component {
 					<OrderCost detail={detail}/>
 					<Box title="车辆操作日志">
 						<DataTable ref={(e) => this._dataTable = e}
-								   columns={columns} api={bikeLogApi.page} query={query}/>
+								   columns={columns} api={bikeApi.bikeLog} query={query}/>
 					</Box>
 					<Box title="订单上报日志">
 						<DataTable ref={(e) => this._dataTable1 = e}
@@ -71,7 +71,7 @@ export default class detailModal extends React.Component {
 			detail,
 		});
 		let {query, query1} = this.state;
-		query.bikeCode = result.data.bikeCode;
+		query.orderId = result.data.orderId;
 		query1.id = result.data.id;
 		// 车辆操作日志
 		this._dataTable.search(query);

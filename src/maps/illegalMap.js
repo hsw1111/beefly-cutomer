@@ -45,11 +45,7 @@ export const vagueState = {
 
 export const rewardType = {
 	0: '积分奖励',
-<<<<<<< HEAD
 	1: '积分处罚',
-=======
-	1: '积分惩罚',
->>>>>>> b54873372a3b18515d00e76c964415d31e3ea392
 };
 
 /**

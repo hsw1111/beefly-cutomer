@@ -144,7 +144,7 @@ export default class Illegal extends React.Component {
 		let result = await tripProblemApi.detail(parms);
 		if(result.data.state==5){
           this.search();
-			msgBox.warning("该用户已确认上报");
+			msgBox.warning("该违停记录已处理过！");
           return
 		}
 		this._rejectModal.show({
@@ -160,7 +160,7 @@ export default class Illegal extends React.Component {
 		let result = await tripProblemApi.detail(parms);
 		if(result.data.state==5){
 			this.search();
-			msgBox.warning("该用户已确认上报");
+			msgBox.warning("该违停记录已处理过！");
 			return
 		}
 		tabUtils.addTab({

@@ -90,7 +90,7 @@ export default class HandleSuggestion extends React.Component {
 		let noPunishLis = [
 			{
 				value: orderDetail.endTime > detail.createTime || '',
-				text: '违停上报的时间点 处理订单未结束状态，不处罚'
+				text: '违停上报的时间点 处于订单未结束状态，不处罚'
 			},
 			{
 				value: orderDetail.orderFlow ==3 && (orderDetail.mileage < 500 || orderDetail.timeInOrder < 5),

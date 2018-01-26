@@ -34,7 +34,7 @@ class IllegalStore {
 			let result = await orderApi.page({
 				bikeCode: this.detail.bikeCode,
 				pageSize: 1,
-				beginDate: this.detail.createTime
+				beginDate:this.detail.createTime
 			});
 			if (result.resultCode === 1) {
 				if (result.data && result.data.length > 0) {

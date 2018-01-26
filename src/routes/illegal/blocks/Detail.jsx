@@ -19,12 +19,12 @@ export default class Detail extends React.Component {
 					<Text label="上报编号" value={detail.id}/>
 					<Text label="上报人员姓名" value={detail.userName}/>
 					<Text label="上报人员手机号" value={detail.mobile}/>
-					<Text label="上报时间" value={detail.lastReportTime}/>
+					<Text label="上报时间" value={detail.createTime}/>
 					<Text label="上报车辆编号" value={detail.bikeCode}/>
 					<Text label="城市" value={detail.cityName}/>
 					<Text label="上报信息" value={detail.content}/>
 					<Field label="车辆故障图片">
-						{detail.picUrls.map((r) => <img key={r} src={r} width={200} className="margin-r-10"/>)}
+						{detail.picUrls.map((r) => <img key={r} src={r} width={200} className="margin-r-10" data-widget="zoomify"/>)}
 					</Field>
 					<Text label="上报人员角色">
 						<span className="text-orange h4">{reportState[detail.reportRole]}</span>
@@ -73,6 +73,10 @@ export default class Detail extends React.Component {
 				)}
 			</Box>
 		)
+	}
+
+	componentDidMount(){
+		$('img').zoomify();
 	}
 }
 

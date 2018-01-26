@@ -2,7 +2,7 @@ var webpack = require('webpack');
 var path = require('path');
 var loaders = require('./webpack.loaders');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
+// var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var webpackConfig = require('./webpack.config');
 var env = require('./src/js/env');
@@ -19,12 +19,14 @@ loaders.push({
 });
 
 module.exports = {
-	entry: [
-		'./src/index.jsx'
-	],
+	entry: {
+		'index': './src/frame/index.js',
+		'login': './src/frame/login.js',
+		'module': './src/index.jsx'
+	},
 	output: {
 		publicPath: './',
-		path: path.join(__dirname, 'public/module'),
+		path: path.join(__dirname, 'public'),
 		filename: 'js/[name].' + hash + '.js',
 		chunkFilename: 'js/[name].' + hash + '.js'
 	},
@@ -34,14 +36,14 @@ module.exports = {
 		loaders
 	},
 	plugins: [
-		new WebpackCleanupPlugin(),
+		// new WebpackCleanupPlugin(),
 		new webpack.DefinePlugin({
 			'process.env': {
 				NODE_ENV: '"production"'
 			}
 		}),
 		new ExtractTextPlugin({
-			filename: 'css/style.' + hash + '.css',
+			filename: 'css/[name].' + hash + '.css',
 			allChunks: true
 		}),
 		new webpack.optimize.UglifyJsPlugin({
@@ -55,7 +57,19 @@ module.exports = {
 		}),
 		new webpack.optimize.OccurrenceOrderPlugin(),
 		new HtmlWebpackPlugin({
-			template: './src/template.html'
+			filename: 'index.html',
+			template: './src/frame/index.html',
+			chunks: ['index']
+		}),
+		new HtmlWebpackPlugin({
+			filename: 'login.html',
+			template: './src/frame/login.html',
+			chunks: ['login']
+		}),
+		new HtmlWebpackPlugin({
+			filename: 'module.html',
+			template: './src/template.html',
+			chunks: ['module']
 		})
 	]
 };

@@ -39,7 +39,7 @@ export default class userOrder extends React.Component {
 		let {id} = urlUtils.getParams();
 		let {query} = this.state;
 		query.appUserId=id;
-		userStore.fetchDetail()
+		userStore.fetchDetail();
 	}
 
 	render() {

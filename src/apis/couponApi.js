@@ -7,6 +7,8 @@ import env from '../js/env';
  */
 const couponApi = {
 	page: (params) => request.get(env.apiPath_customer + 'coupon/page', params),
+
+	massCoupon: (params) => request.get(env.apiPath_customer + 'coupon/massCoupon', params),
 };
 
 export default couponApi

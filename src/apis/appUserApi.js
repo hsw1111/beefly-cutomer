@@ -36,6 +36,9 @@ const appUserApi = {
 	//清除短消息限制
 	clearSms: (params) => request.get(env.apiPath_customer + 'appUser/clearSms', params),
 
+	//用户备注信息
+	recordPage: (params) => request.get(env.apiPath_customer + 'appUser/recordPage', params),
+
 
 };
 

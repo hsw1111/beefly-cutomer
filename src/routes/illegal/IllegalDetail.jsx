@@ -1,7 +1,7 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 import {Button, Content, tabUtils} from "beefly-common";
-import {urlUtils} from 'jeselvmo';
+import {localStore} from 'jeselvmo';
 import tripProblemApi from "../../apis/tripProblemApi";
 import RejectModal from "./modals/RejectModal";
 import Detail from "./blocks/Detail";
@@ -47,6 +47,13 @@ export default class IllegalDetails extends React.Component {
 
 	// 确认处理
 	confirm() {
+		localStore.set('illegalState',0);
+		this.timer = setInterval(() => {
+			if(localStore.get('illegalState')==5){
+				illegalStore.fetchDetail();
+				clearInterval(this.timer);
+			}
+		}, 1000);
 		tabUtils.addTab({
 			name: '确认处理-' + illegalStore.detail.id,
 			path: '/illegal/confirm',

@@ -18,6 +18,10 @@
 			{
 				"name": "用户信息",
 				"path": "/user/info"
+			},
+			{
+				"name": "群发出行券",
+				"path": "/user/voucher"
 			}
 		]
 	},

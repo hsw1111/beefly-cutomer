@@ -90,12 +90,17 @@ export default class Illegal extends React.Component {
 			{text: '修改手机号', icon: 'user-plus', onclick: `beefly.modify('${row.id},${row.mobile}')`},
 			{text: '拉黑', icon: 'user-plus', onclick: `beefly.black('${row.id},${row.mobile}')`, visible: row.isFrozen == 0},
 			{text: '取消拉黑', icon: 'user-plus', onclick: `beefly.cancelBlack('${row.id},${row.mobile}')`, visible: row.isFrozen == 1},
+<<<<<<< HEAD
 			{text: '冻结用户押金', icon: 'user-plus', onclick: `beefly.frozen('${row.id},${row.mobile}')`,visible:row.creditLimit=1},
 			{text: '取消冻结用户押金', icon: 'user-plus', onclick: `beefly.unfreeze('${row.id},${row.mobile}')`,visible:row.creditLimit=0},
 			{text: '余额管理', icon: 'user-plus', onclick: `beefly.balance('${row.id},${row.mobile}')`},
 			{text: '出行券管理', icon: 'user-plus', onclick: `beefly.coupon('${row.id},${row.mobile}')`},
 			{text: '信用积分管理', icon: 'user-plus', onclick: `beefly.creditScore('${row.id},${row.mobile}')`},
 		
+=======
+			{text: '冻结用户押金', icon: 'user-plus', onclick: `beefly.frozen('${row.id},${row.mobile}')`,visible:row.creditLimit==0},
+			{text: '取消冻结用户押金', icon: 'user-plus', onclick: `beefly.unfreeze('${row.id},${row.mobile}')`,visible:row.creditLimit==1},
+>>>>>>> dev
 			// {text: '余额管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
 			// {text: '出行券管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
 			// {text: '信用积分管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
@@ -124,7 +129,7 @@ export default class Illegal extends React.Component {
 					<DataTable ref={(e) => this._dataTable = e}
 							   columns={columns} api={appUserApi.page} query={query}/>
 				</Box>
-				<ModifyModal ref={(e) => this._modifyModal = e}/>
+				<ModifyModal ref={(e) => this._modifyModal = e} onSuccess={this.search.bind(this)}/>
 				<BlackModal ref={(e) => this._blackModal = e} onSuccess={this.search.bind(this)}/>
 				<CancelBlackModal ref={(e) => this._cancelModal = e} onSuccess={this.search.bind(this)}/>
 				<BalanceModal ref={(e) => this._balanceModal = e}/>

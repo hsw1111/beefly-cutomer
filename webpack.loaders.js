@@ -4,8 +4,8 @@ const publicPath = cmd.indexOf('production') > 0 ? '../' : './';
 
 function assetsPath(name, dir) {
 	let basename = path.basename(name);
-	let basedir = path.join(__dirname, 'src', dir);
-	let p = path.join(dir, name.replace(basename, '').replace(basedir, ''), '[name].[hash:7].[ext]');
+	let index = name.indexOf(dir);
+	let p = name.substr(index).replace(basename, '[name].[hash:7].[ext]')
 	p = p.replace(/\\/g, '/');
 	return p
 }

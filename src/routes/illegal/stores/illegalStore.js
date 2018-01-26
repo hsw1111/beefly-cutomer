@@ -30,10 +30,18 @@ class IllegalStore {
 	// 订单详情
 	async fetchOrderDetail(orderId) {
 		if (!orderId) {
+			let ptype;
+			if(this.detail.content.includes('双人骑行')){
+				ptype=2
+			}
+
+			if(!this.detail.content.includes('双人骑行')){
+				ptype=1
+			}
 			let result = await orderApi.page({
 				bikeCode: this.detail.bikeCode,
 				pageSize: 1,
-				beginDate:this.detail.createTime
+				problemType:ptype
 			});
 			if (result.resultCode === 1) {
 				if (result.data && result.data.length > 0) {
@@ -53,7 +61,10 @@ class IllegalStore {
 
 		let result = await orderApi.detail({
 			orderId,
+<<<<<<< HEAD
 			problemType:ptype
+=======
+>>>>>>> 66702d592056e774c5bfe399d5d8620a4fa7d1a3
 		});
 		if (result.resultCode === 1) {
 			this.orderDetail = result.data;

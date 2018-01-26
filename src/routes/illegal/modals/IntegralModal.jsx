@@ -18,10 +18,10 @@ export default class IntegralModal extends React.Component {
 			columns: [
 				{title: '编号', data: 'id'},
 				{title: '操作时间', data: 'createTime'},
-				{title: '操作人', data: 'manageName'},
+				{title: '操作人', data: 'manageName',render:(data) =>(data == '' ?'系统自动':data)},
 				{title: '奖惩类型', data: 'unit', render: (data) => dtUtils.renderMap(data, rewardType)},
 				{title: '处理类型', data: 'type', render: (data) => dtUtils.renderMap(data, integralType)},
-				{title: '积分', data: 'value', render: (data, type, row) => (row.unit == 0 ?'+':'-') + data},
+				{title: '积分', data: 'value', render: this.renderIntegral.bind(this)},
 				{title: '剩余总积分', data: 'newValue'},
 				{title: '备注', data: 'remark'},
 			],
@@ -30,6 +30,14 @@ export default class IntegralModal extends React.Component {
 			},
 		}
 
+	}
+
+	renderIntegral(data, type, row){
+		if(row.unit == 0){
+			return `<span>+${data}</span>`
+		}else{
+			return `<span class="label label-danger">-${data}</span>`
+		}
 	}
 
 	render() {
@@ -69,6 +77,15 @@ export default class IntegralModal extends React.Component {
 		this.setState({
 			show: false
 		})
+	}
+
+	componentDidUpdate(){
+		// $(this._dataTable._dataTable).find('tr').each(function(){
+		// 	if(parseInt($(this).find('td:eq(5)').text()) < 0){
+		// 		$(this).css('background-color', 'red');
+		// 	}
+		// })
+
 	}
 
 }

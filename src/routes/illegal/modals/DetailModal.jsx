@@ -47,11 +47,11 @@ export default class detailModal extends React.Component {
 					<OrderCost detail={detail}/>
 					<Box title="车辆操作日志">
 						<DataTable ref={(e) => this._dataTable = e}
-								   columns={columns} api={bikeApi.bikeLog} query={query}/>
+									columns={columns} api={bikeApi.bikeLog} query={query}/>
 					</Box>
 					<Box title="订单上报日志">
 						<DataTable ref={(e) => this._dataTable1 = e}
-								   columns={columns1} api={orderApi.orderLog} query={query1}/>
+									columns={columns1} api={orderApi.orderLog} query={query1}/>
 					</Box>
 				</Modal.Body>
 				<Modal.Footer>

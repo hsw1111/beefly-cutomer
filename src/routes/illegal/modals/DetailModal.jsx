@@ -71,7 +71,7 @@ export default class detailModal extends React.Component {
 			detail,
 		});
 		let {query, query1} = this.state;
-		query.orderId = result.data.orderId;
+		query.orderId = result.data.id;
 		query1.id = result.data.id;
 		// 车辆操作日志
 		this._dataTable.search(query);

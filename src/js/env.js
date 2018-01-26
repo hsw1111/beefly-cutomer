@@ -18,8 +18,8 @@ const development = {
 const production = {
 	name: 'production',
 	dir: 'official',
-	apiPath: 'http://47.93.48.250:7080/',
-	apiPath_customer: 'http://47.93.48.250:7080/customer/',
+	apiPath: 'http://47.94.39.104:8090/',
+	apiPath_customer: 'http://47.94.39.104:8090/customer/',
 };
 
 module.exports = development;

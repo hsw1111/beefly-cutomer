@@ -49,7 +49,6 @@ export default class userVoucher extends React.Component {
 					</div>
 				</div>
 				<div className="clear" style={{borderTop:"1px solid"}}>
-
 				</div>
 				<div className="margin-t-80" style={{float:'right'}}>
 					<Button value="确定发送" onClick={this.ok.bind(this)}/>
@@ -81,13 +80,13 @@ export default class userVoucher extends React.Component {
 			msgBox.warning('请选择上传文件');
 			return;
 		}
-        console.log(this.file.files[0],78787979)
 		let formData = new FormData();
 		formData.append('couponAmout', rewardCoupon.couponAmout);
 		formData.append('num', rewardCoupon.num);
 		formData.append('expireTime', rewardCoupon.expireTime);
-		formData.append('mobile', this.file.files[0]);
+		// formData.append('mobile', this.file.files[0]);
 
+		console.log(formData,78787979);
 		let result = await couponApi.massCoupon(formData);
 		if (result.code == 1) {
 			console.log(123456)

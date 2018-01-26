@@ -121,7 +121,7 @@ export default class HandleSuggestion extends React.Component {
 						<Tab title="扣积分">
 							<Input label="扣除积分" model={'deductScore.creditScoreCount'} width={250}
 								   validation={{required: true}}/>
-							<Textarea label="备注" model={'deductScore.remark'} width={'50%'}/>
+							<Textarea label="备注" model={'deductScore.remark||""'} width={'50%'}/>
 							<Checkbox model={'deductScore.smsFlag'} text="同时给违规人发送短信通知"/>
 							{deductScore.smsFlag == 1 && <div>
 								<Text label="手机号" value={mobile}/>
@@ -161,8 +161,8 @@ export default class HandleSuggestion extends React.Component {
 						<Tab title="不处罚">
 							{!detail.content.includes('双人骑行')&& <div><p>订单（编号：<span>{orderDetail.id}</span>）符合如下第{noPunishActiveLis.join('、')}点不处罚的情况，该违规人不不处罚。</p>
 							<ol>
-								{noPunishLis.map((d) => (
-									<li className={cs({'text-red': d.value})}>{d.text}</li>
+								{noPunishLis.map((d, i) => (
+									<li className={cs({'text-red': d.value})} key={i}>{d.text}</li>
 								))}
 							</ol></div>}
 							<Form horizontal>

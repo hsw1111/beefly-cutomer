@@ -51,20 +51,9 @@ class IllegalStore {
 				}
 			}
 		}
-		if(this.detail.content.includes('双人骑行')){
-			return ptype=2
-		}
-
-		if(!this.detail.content.includes('双人骑行')){
-			return ptype=1
-		}
 
 		let result = await orderApi.detail({
 			orderId,
-<<<<<<< HEAD
-			problemType:ptype
-=======
->>>>>>> 66702d592056e774c5bfe399d5d8620a4fa7d1a3
 		});
 		if (result.resultCode === 1) {
 			this.orderDetail = result.data;

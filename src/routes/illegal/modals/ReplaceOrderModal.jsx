@@ -1,12 +1,15 @@
 import React from 'react';
+import {observer} from 'mobx-react';
 import beefly from "../../../js/beefly";
 import {Button, DataTable, Form, Modal, dtUtils, msgBox} from "beefly-common";
 import orderApi from "../../../apis/orderApi";
 import DetailModal from "../modals/DetailModal"
+import illegalStore from "../stores/illegalStore";
 
 /**
  * 更换订单弹框
  */
+@observer
 export default class ReplaceOrderModal extends React.Component {
 
 	constructor(props) {
@@ -32,6 +35,7 @@ export default class ReplaceOrderModal extends React.Component {
 			query: {
 				'bikeCode': '',
 				'beginDate': '',
+				'problemType': '',
 			},
 			// 选中的订单id
 			orderId: '',
@@ -83,8 +87,18 @@ export default class ReplaceOrderModal extends React.Component {
 			show: true,
 			bikeCode: data.bikeCode
 		});
+		let {detail} = illegalStore;
+		let ptype;
+		if(detail.content.includes('双人骑行')){
+			ptype=2
+		}
+
+		if(!detail.content.includes('双人骑行')){
+			ptype=1
+		}
 		let {query} = this.state;
 		query.bikeCode = data.bikeCode;
+		query.problemType = ptype;
 		query.beginDate = data.beginDate;
 		this._dataTable.search(query);
 	}

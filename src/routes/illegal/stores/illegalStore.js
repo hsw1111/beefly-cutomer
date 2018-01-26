@@ -7,7 +7,6 @@ import creditScoreApi from "../../../apis/creditScoreApi";
 import beefly from "../../../js/beefly";
 import {msgBox} from 'beefly-common';
 import transRecordApi from "../../../apis/transRecordApi";
-
 /**
  *
  */

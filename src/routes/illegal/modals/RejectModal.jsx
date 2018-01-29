@@ -49,7 +49,6 @@ export default class RejectModal extends React.Component {
 		this.setState({
 			show: false
 		})
-
 	}
 
 	async ok() {

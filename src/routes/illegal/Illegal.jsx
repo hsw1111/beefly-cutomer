@@ -5,6 +5,8 @@ import AddRemarkModal from "./modals/AddRemarkModal";
 import RejectModal from "./modals/RejectModal";
 import tripProblemApi from "../../apis/tripProblemApi";
 import beefly from "../../js/beefly";
+import env from "../../js/env";
+
 /**
  * 违停上报
  */
@@ -94,7 +96,7 @@ export default class Illegal extends React.Component {
 				</Box>
 
 				<AddRemarkModal ref={(e) => this._addRemarkModal = e}/>
-				<RejectModal ref={(e) => this._rejectModal = e} onClose={this.onClose.bind(this)}/>
+				<RejectModal ref={(e) => this._rejectModal = e}/>
 			</Content>
 		)
 	}
@@ -108,13 +110,14 @@ export default class Illegal extends React.Component {
 
 		this._dataTable.search(query);
 	}
-	onClose(){
-		let {query} = this.state;
-		this._dataTable.search(query);
-	}
+
 	async export() {
 		let {query} = this.state;
 		let result = await tripProblemApi.export(query);
+		if(beefly.isSuccess(result)){
+			let url = env.apiPath + result.data;
+			$('body').append(`<iframe src="${url}" style="display: none;"></iframe>`)
+		}
 	}
 
 	// 查看详情
@@ -143,7 +146,7 @@ export default class Illegal extends React.Component {
 		let result = await tripProblemApi.detail(parms);
 		if(result.data.state==5){
           this.search();
-			msgBox.warning("该用户已确认上报");
+			msgBox.warning("该违停记录已处理过！");
           return
 		}
 		this._rejectModal.show({
@@ -159,7 +162,7 @@ export default class Illegal extends React.Component {
 		let result = await tripProblemApi.detail(parms);
 		if(result.data.state==5){
 			this.search();
-			msgBox.warning("该用户已确认上报");
+			msgBox.warning("该违停记录已处理过！");
 			return
 		}
 		tabUtils.addTab({

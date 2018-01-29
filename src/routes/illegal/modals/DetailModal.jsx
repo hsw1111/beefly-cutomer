@@ -21,15 +21,15 @@ export default class detailModal extends React.Component {
 			id: '',
 			detail: '',
 			columns: [
-				{title: '操作时间', data: 'bike.operTime', render: dtUtils.renderDateTime},
-				{title: '操作内容', data: 'operateContent'},
+				{title: '操作时间', data: 'operationTime', render: dtUtils.renderDateTime},
+				{title: '操作内容', data: 'operationContent'},
 			],
 			query: {
-				bikeCode: '',
+				orderId: '',
 			},
 			columns1: [
-				{title: '上报时间', data: 'updateTime', width: '50%'},
-				{title: '订单里程', data: 'orderMileage', width: '50%'}
+				{title: '上报时间', data: 'updateTime'},
+				{title: '订单里程', data: 'orderMileage'}
 			],
 			query1: {
 				id: ''
@@ -47,15 +47,15 @@ export default class detailModal extends React.Component {
 					<OrderCost detail={detail}/>
 					<Box title="车辆操作日志">
 						<DataTable ref={(e) => this._dataTable = e}
-								   columns={columns} api={bikeLogApi.page} query={query}/>
+									columns={columns} api={bikeLogApi.bikeLog} query={query}/>
 					</Box>
 					<Box title="订单上报日志">
 						<DataTable ref={(e) => this._dataTable1 = e}
-								   columns={columns1} api={orderApi.orderLog} query={query1}/>
+									columns={columns1} api={orderApi.orderLog} query={query1}/>
 					</Box>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button value={'取消'} theme={'default'} onClick={this.hide.bind(this)}/>
+					<Button value={'关闭'} theme={'default'} onClick={this.hide.bind(this)}/>
 				</Modal.Footer>
 			</Modal>
 		)
@@ -71,7 +71,7 @@ export default class detailModal extends React.Component {
 			detail,
 		});
 		let {query, query1} = this.state;
-		query.bikeCode = result.data.bikeCode;
+		query.orderId = result.data.id;
 		query1.id = result.data.id;
 		// 车辆操作日志
 		this._dataTable.search(query);

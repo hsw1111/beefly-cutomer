@@ -31,7 +31,7 @@ $.ajaxSetup({
 				msgBox.error(json.message);
 				if (json.data === 0) {
 					setTimeout(() => {
-						parent.location = '../login.html'
+						parent.location = 'login.html'
 					}, 1000)
 				}
 			}

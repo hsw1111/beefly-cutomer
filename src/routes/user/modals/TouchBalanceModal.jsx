@@ -26,7 +26,7 @@ export default class BalanceModal extends React.Component {
 				{title: '备注', data: 'remark'},
       ],
       query: {
-        userId: '',
+        'userId': '',
       }
 		}
   }
@@ -35,6 +35,8 @@ export default class BalanceModal extends React.Component {
 		let {show, detail, query, columns} = this.state;
 		return (
 			<Modal show={show} title="余额变动明细" size='lg' onHide={this.hide.bind(this)}>
+      {show && 
+        <div>
 				<Modal.Body>
 					<Form className="form-label-100" horizontal>
             <Row>
@@ -59,18 +61,19 @@ export default class BalanceModal extends React.Component {
         <Modal.Footer>
           <Button value={'取消'} theme={'default'} onClick={this.hide.bind(this)}/>
         </Modal.Footer>
+        </div>
+      }
 			</Modal>
 		)
 	}
 
 	async show(data) {
 		this.setState({
-      show: true
+      show: true,
+      query: {
+        'userId': data.id
+      }
     });
-    let {query} = this.state
-    query.userId =  data.id
-    this._dataTable.search(query)
-
     let result = await appUserApi.userDetail({id: data.id}) 
     this.setState({
       detail: result.data
@@ -80,8 +83,8 @@ export default class BalanceModal extends React.Component {
 	hide() {
 		this.setState({
       show: false,
-      queryTable: {
-        userId: ''
+      query: {
+        'userId': ''
       }
 		});
 	}

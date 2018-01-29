@@ -38,6 +38,7 @@ export default class BalanceModal extends React.Component {
 		let {show, detail, query, columns, queryTable} = this.state;
 		return (
 			<Modal show={show} title="余额管理" size='lg' onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
+      {show &&
 				<Modal.Body>
 					<Form className="form-label-100" horizontal>
             <Row>
@@ -64,18 +65,19 @@ export default class BalanceModal extends React.Component {
           </div>
           
 				</Modal.Body>
+      }
 			</Modal>
 		)
 	}
 
 	async show(data) {
     this.setState({
-      show: true
+      show: true,
+      queryTable: {
+        'userId': data.id
+      }
     })
-    let {queryTable} = this.state
-    queryTable.userId =  data.id
-    this._dataTable.search(queryTable)
-
+    
     let result = await appUserApi.userDetail({id: data.id}) 
     this.setState({
       detail: result.data

@@ -55,8 +55,8 @@ export const purpose = {
  */
 
 export const awardPunishType = {
-	0: '积分处罚',
-	1: '积分奖励',
+	0: '积分奖励',
+	1: '积分处罚',
 	2: '积分返还',
 };
 
@@ -74,8 +74,8 @@ export const dealType = {
 	6: '其他',
 };
 export const rewardType = {
-	0: '奖励',
-	1: '惩罚',
+	0: '积分奖励',
+	1: '积分处罚',
 };
 export const integralType = {
 	0: '正常骑行一次',

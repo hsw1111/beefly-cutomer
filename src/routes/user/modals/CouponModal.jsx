@@ -39,7 +39,8 @@ export default class CouponModal extends React.Component {
 		let {show, data, isOver, query, columns, queryTable} = this.state;
 		return (
 			<Modal show={show} title="出行券管理" size='lg' onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
-				<Modal.Body>
+				{show &&
+        <Modal.Body>
 					<Form className="form-label-100" horizontal>
             <Row>
               <Col md={5}>
@@ -70,6 +71,7 @@ export default class CouponModal extends React.Component {
           </div>
           
 				</Modal.Body>
+        }
 			</Modal>
 		)
 	}
@@ -78,11 +80,11 @@ export default class CouponModal extends React.Component {
 		this.setState({
       show: true,
       data,
-      isOver: false
+      isOver: false,
+      queryTable: {
+        'userId': data.id
+      }
     });
-    let {queryTable} = this.state
-    queryTable.userId =  data.id
-    this._dataTable.search(queryTable)
 	}
 
 	hide() {

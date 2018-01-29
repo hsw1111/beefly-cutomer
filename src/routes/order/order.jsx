@@ -3,10 +3,10 @@ import orderApi from "../../apis/orderApi";
 import {Box, Button, Content, DataTable, DateRange, Field, Form, Select, SelectInput, dtUtils} from "beefly-common";
 import {orderState, orderType, vagueState, timeType} from '../../maps/orderMap';
 
-import EndOrderModal from './modals/endOrderModal' 
-import DetailModal from './modals/detailModal' 
-import LockModal from './modals/lockModal' 
-import UnlockModal from './modals/unlockModal' 
+import EndOrderModal from './modals/EndOrderModal' 
+import DetailModal from './modals/DetailModal' 
+import LockModal from './modals/LockModal' 
+import UnlockModal from './modals/UnlockModal' 
 import beefly from "../../js/beefly";
 
 /**

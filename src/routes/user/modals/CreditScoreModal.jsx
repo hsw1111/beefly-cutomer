@@ -15,12 +15,10 @@ export default class CouponModal extends React.Component {
 		this.state = {
       show: false,
       data: '',
-			query: {
-        awardPunishType: 0,
-        dealType: 9,
-        awardPunishScore: -10,
-        remark: '',
-      },
+      apType: 0,
+
+      
+
       columns: [
         {title: '编号', data: 'id'},
 				{title: '操作时间', data: 'createTime', render: dtUtils.renderDateTime},
@@ -54,7 +52,7 @@ export default class CouponModal extends React.Component {
       16: '违停扣错',
       8: '其他'
     }
-		let {show, data, query, columns, queryTable} = this.state;
+		let {show, data,  awardPunishType, award, punish, back,query1, columns, queryTable} = this.state;
 		return (
 			<Modal show={show} title="信用积分管理" size='lg' onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
 				<Modal.Body>
@@ -67,11 +65,19 @@ export default class CouponModal extends React.Component {
                 <Text label="手机号" value={data.mmobile}/>  
               </Col>
             </Row>
-            <Select label="奖惩类型" model="query.awardPunishType" options={awardPunishType} whole={false} validation={{required: true}} width={250}/>
-            <Select label="处理类型" model="query.dealType" 
-              options={query.awardPunishType == 0?punishType:(query.awardPunishType == 1 ? awardType:backType)} 
-              whole={false} validation={{required: true}} width={250} onChange={this.selectChange.bind(this)}/>
-            <Input label="奖罚积分" type='number' model={'query.awardPunishScore'} validation={{required: true}} width={250}/>              
+            {/* <Select label="奖惩类型" model="apType" options={awardPunishType} whole={false} validation={{required: true}} width={250}/>
+
+              {awardPunishType == 0?&&<Select label="处理类型" model="punish.dealType" 
+              options={punishType} whole={false} validation={{required: true}} width={250}/>}
+               {awardPunishType == 1?&&<Select label="处理类型" model="award.dealType" 
+              options={awardType} whole={false} validation={{required: true}} width={250}/>}
+               {awardPunishType == 2?&&<Select label="处理类型" model="back.dealType" 
+              options={backType} whole={false} validation={{required: true}} width={250}/>}
+
+    {(query.dealType==9||punish.dealType==10) &&<Input label="奖罚积分" type='number' model={'query1.model1'} validation={{required: true}} width={250} value='1'/>}           
+    {(query.dealType==11||punish.dealType==12||punish.dealType==13||punish.dealType==14) &&<Input label="奖罚积分" type='number' model={'query1.model2'} validation={{required: true}} width={250} value='1'/>}           
+    {awardPunishType==1&&award.dealType==8 &&<Input label="奖罚积分" type='number' model={'query1.model3'} validation={{required: true}} width={250} value='1'/>}           
+    {awardPunishType!=1&&(punish.dealType==8||back.dealType==16) &&<Input label="奖罚积分" type='number' model={'query1.model4'} validation={{required: true}} width={250} value='1'/>}            */}
             <Textarea label="备注" model="query.remark" validation={{required: true}} width={450}/>
             <div className='user-block' style={{ float: 'right'}}>
               <Button value={'取消'} theme={'default'} onClick={this.hide.bind(this)} className="margin-r-20" />
@@ -91,38 +97,7 @@ export default class CouponModal extends React.Component {
 		)
 	}
 
-  selectChange(e){
-    console.log('-----------',e.target.value)
-      let {query} = this.state
-      let value = e.target.value
-      if(value==9||value==10){
-        this.setState({
-          query: {
-            awardPunishScore: -10
-          }
-        })
-      }else if(query.awardPunishType==1&&value==1){
-        this.setState({
-          query: {
-            awardPunishScore: +10
-          }
-        })
-      }else if(query.awardPunishType!=1 && value==8){
-        this.setState({
-          query: {
-            awardPunishScore: ''
-          }
-        })
-      }else{
-        this.setState({
-          query: {
-            awardPunishScore: -30
-          }
-        })
-      }
-      
-    
-  }
+ 
 	show(data) {
 		this.setState({
       show: true,
@@ -140,19 +115,7 @@ export default class CouponModal extends React.Component {
 	}
 
 	async ok() {
-    let {query} = this.state;
-    if (query.couponAmount == '') {
-      msgBox.warning("出行券金额不能为空");
-      return
-    }
-    if (query.num == '') {
-      msgBox.warning("出行券数量不能为空");
-      return
-    }
-    if (query.time == '') {
-      msgBox.warning("过期时间不能为空");
-      return
-    }
+ 
 		this.hide();
 	}
 

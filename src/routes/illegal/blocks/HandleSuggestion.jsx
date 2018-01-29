@@ -146,7 +146,7 @@ export default class HandleSuggestion extends React.Component {
 								</div>}
 							</div>}
 							{depositState == 2 && <div>
-								<p className="text-red">*押金充值超过3各个月：先拉黑</p>
+								<p className="text-red">*押金充值超过3个月：先拉黑</p>
 								<Textarea label="备注" model={'deductCashPledge.remark'} width={'50%'}
 										  validation={{required: true}}/>
 								<p>拉黑后，用户无法再租用小蜜蜂。</p>
@@ -285,6 +285,13 @@ export default class HandleSuggestion extends React.Component {
 			mobile: illegalStore.orderDetail.mobile
 		});
 
+		if (result.resultSupport == -1) {
+			localStore.set('illegalState',5);
+			msgBox.warning(result.message, () => {
+				tabUtils.closeTab();
+			});
+		}
+
 		if (result.resultCode == 1) {
 			localStore.set('illegalState',5);
 			msgBox.success(result.message, () => {
@@ -308,6 +315,13 @@ export default class HandleSuggestion extends React.Component {
 			mobile: illegalStore.orderDetail.mobile
 		});
 
+		if (result.resultSupport == -1) {
+			localStore.set('illegalState',5);
+			msgBox.warning(result.message, () => {
+				tabUtils.closeTab();
+			});
+		}
+
 		if (result.resultCode == 1) {
 			localStore.set('illegalState',5);
 			msgBox.success(result.message, () => {
@@ -327,6 +341,13 @@ export default class HandleSuggestion extends React.Component {
 			...params,
 			...noPunish
 		});
+
+		if (result.resultSupport == -1) {
+			localStore.set('illegalState',5);
+			msgBox.warning(result.message, () => {
+				tabUtils.closeTab();
+			});
+		}
 
 		if (result.resultCode == 1) {
 			localStore.set('illegalState',5);
@@ -349,6 +370,13 @@ export default class HandleSuggestion extends React.Component {
 			...sendSms,
 			mobile: illegalStore.orderDetail.mobile
 		});
+
+		if (result.resultSupport == -1) {
+			localStore.set('illegalState',5);
+			msgBox.warning(result.message, () => {
+				tabUtils.closeTab();
+			});
+		}
 
 		if (result.resultCode == 1) {
 			localStore.set('illegalState',5);

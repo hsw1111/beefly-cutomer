@@ -149,6 +149,13 @@ export default class UserAward extends React.Component {
 			...rewardScore
 		});
 
+		if (result.resultSupport == -1) {
+			localStore.set('illegalState',5);
+			msgBox.warning(result.message, () => {
+				tabUtils.closeTab();
+			});
+		}
+
 		if (result.resultCode == 1) {
 			localStore.set('illegalState',5);
 			msgBox.success(result.message, () => {
@@ -178,6 +185,13 @@ export default class UserAward extends React.Component {
 			...rewardCoupon
 		});
 
+		if (result.resultSupport == -1) {
+			localStore.set('illegalState',5);
+			msgBox.warning(result.message, () => {
+				tabUtils.closeTab();
+			});
+		}
+
 		if (result.resultCode == 1) {
 			localStore.set('illegalState',5);
 			msgBox.success(result.message, () => {
@@ -200,6 +214,13 @@ export default class UserAward extends React.Component {
 			...rewardBlance
 		});
 
+		if (result.resultSupport == -1) {
+			localStore.set('illegalState',5);
+			msgBox.warning(result.message, () => {
+				tabUtils.closeTab();
+			});
+		}
+
 		if (result.resultCode == 1) {
 			localStore.set('illegalState',5);
 			msgBox.success(result.message, () => {
@@ -216,6 +237,13 @@ export default class UserAward extends React.Component {
 			...params,
 			...noReward
 		});
+
+		if (result.resultSupport == -1) {
+			localStore.set('illegalState',5);
+			msgBox.warning(result.message, () => {
+				tabUtils.closeTab();
+			});
+		}
 
 		if (result.resultCode == 1) {
 			localStore.set('illegalState',5);

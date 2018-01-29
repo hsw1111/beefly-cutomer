@@ -27,6 +27,8 @@ export default class IntegralModal extends React.Component {
 			],
 			query: {
 				'userId': '',
+				'unit': 1,
+				'type': 9
 			},
 		}
 
@@ -54,7 +56,7 @@ export default class IntegralModal extends React.Component {
 						</div>
 					</div>
 					<hr/>
-					<h5><b>积分奖惩记录</b></h5>
+					<h5><b>积分处罚记录</b></h5>
 					<DataTable ref={(e) => this._dataTable = e}
 							   columns={columns} api={creditScoreApi.page} query={query}/>
 				</Form>

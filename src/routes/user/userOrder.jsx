@@ -1,12 +1,13 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import {Box, Form, Text, Row, Col, Button, Content, DataTable} from "beefly-common";
+import {Box, Form, Text, Row, Col, Button, Content, DataTable, dtUtils} from "beefly-common";
 import {urlUtils} from 'jeselvmo';
 import appUserApi from "../../apis/appUserApi";
 import beefly from "../../js/beefly";
 import Detail from "./blocks/Details";
 import orderApi from "../../apis/orderApi";
 import userStore from "../../stores/userStore";
+import UnlockModal from "./modals/UnlockModal"
 /**
  * 查看订单
  */
@@ -27,12 +28,26 @@ export default class userOrder extends React.Component {
 				{title: '骑行里程（m）', data: 'mileage'},
 				{title: '订单费用（￥）', data: 'actualAmount'},
 				{title: '订单状态', data: 'state'},
+				{title: '操作', type: 'object', render: this.renderActions},
 			],
 			orderData: {},
 			query: {
 				'appUserId': '',
 			},
 		}
+		beefly.endOrder = this.endOrder.bind(this);
+		beefly.unlock = this.unlock.bind(this);
+		beefly.lock = this.lock.bind(this);
+	}
+	renderActions(data, type, row) {
+
+		let actions = [
+			{text: '结束订单', icon: 'search', onclick: `beefly.endOrder('${row.id}')`},
+			{text: '车辆开锁', icon: 'user-plus', onclick: `beefly.unlock('${row.id},${row.bikeCode}')`},
+			{text: '车辆关锁', icon: 'user-plus', onclick: `beefly.lock('$${row.id},${row.bikeCode}')`},
+		];
+
+		return dtUtils.renderActions(actions, 'dropdown')
 	}
 
 	componentWillMount() {
@@ -66,11 +81,30 @@ export default class userOrder extends React.Component {
 					</p>
 					<DataTable ref={(e) => this._dataTable = e}
 					columns={columns} api={orderApi.page} query={query}/>
+					<UnlockModal ref={(e) => this._unlockModal = e}/>
 				</Box>
 			)
 
 		}
 		return null
+	}
+	//结束订单
+	endOrder(){
+       console.log(11111)
+	}
+
+	//关锁
+	unlock(data){
+		let m = data.split(",");
+		this._unlockModal.show({
+			id: m[0],
+			bikeCode: m[1]
+		});
+	}
+
+	//开琐
+	lock(data){
+		console.log(33333)
 	}
 }
 

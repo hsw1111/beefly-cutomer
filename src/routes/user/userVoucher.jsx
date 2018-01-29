@@ -33,9 +33,7 @@ export default class userVoucher extends React.Component {
 				<Input label="出行券张数" model="rewardCoupon.num" type="number" width={150}  validation={{required: true}}/>
 				<Input label="过期时间" model="rewardCoupon.expireTime" type="date" width={250} validation={{required: true}}/>
 				<Text label="发送对象" validation={{required: true}}>
-					<span>
 						<input ref={e => this.file = e} type="file" name="file"/>
-					</span>
 				</Text>
 				<Text>
 					只支持".xls/.xlsx"格式；表格中只需包含"手机号"。<a href="files/initBike.xlsx">模板下载</a>
@@ -59,6 +57,7 @@ export default class userVoucher extends React.Component {
     )
   }
 	async ok() {
+
 		let {rewardCoupon} = this.state;
 
 		if (rewardCoupon.couponAmout == '') {
@@ -80,6 +79,7 @@ export default class userVoucher extends React.Component {
 			msgBox.warning('请选择上传文件');
 			return;
 		}
+		console.log(rewardCoupon.couponAmout,455555555);
 		let formData = new FormData();
 		formData.append('couponAmout', rewardCoupon.couponAmout);
 		formData.append('num', rewardCoupon.num);
@@ -87,9 +87,9 @@ export default class userVoucher extends React.Component {
 		// formData.append('mobile', this.file.files[0]);
 
 		console.log(formData,78787979);
-		let result = await couponApi.massCoupon(formData);
-		if (result.code == 1) {
-			console.log(123456)
-		}
+		// let result = await couponApi.massCoupon(formData);
+		// if (result.code == 1) {
+		// 	console.log(123456)
+		// }
 	}
 }

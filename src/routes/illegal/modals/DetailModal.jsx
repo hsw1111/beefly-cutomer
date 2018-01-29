@@ -42,26 +42,6 @@ export default class detailModal extends React.Component {
 		return (
 			
 			<Modal show={show} title="订单详情" size="lg" onHide={this.hide.bind(this)}>
-<<<<<<< HEAD
-			{show &&
-				<div>
-				<Modal.Body>
-					<OrderDetail detail={detail}/>
-					<OrderCost detail={detail}/>
-					<Box title="车辆操作日志">
-						<DataTable ref={(e) => this._dataTable = e}
-									columns={columns} api={bikeLogApi.bikeLog} query={query}/>
-					</Box>
-					<Box title="订单上报日志">
-						<DataTable ref={(e) => this._dataTable1 = e}
-									columns={columns1} api={orderApi.orderLog} query={query1}/>
-					</Box>
-				</Modal.Body>
-				<Modal.Footer>
-					<Button value={'关闭'} theme={'default'} onClick={this.hide.bind(this)}/>
-				</Modal.Footer>
-				</div>
-=======
 				{show &&
 					<div>
 						<Modal.Body>
@@ -80,7 +60,6 @@ export default class detailModal extends React.Component {
 							<Button value={'关闭'} theme={'default'} onClick={this.hide.bind(this)}/>
 						</Modal.Footer>
 					</div>
->>>>>>> d19101c2aaa30af13945b8be334e6becd56e623a
 				}
 			</Modal>
 	

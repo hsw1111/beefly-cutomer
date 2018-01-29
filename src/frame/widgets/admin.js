@@ -14,7 +14,11 @@ beefly.checkLogin = async function (callback) {
 		if (beefly.isSuccess(result)) {
 			callback(loginUser)
 		} else {
-			beefly.toLogin()
+			if (result.data === 0) {
+					setTimeout(() => {
+						beefly.toLogin()
+					}, 1000)
+				}
 		}
 	} else {
 		beefly.toLogin()

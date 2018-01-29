@@ -48,10 +48,10 @@ export default class userVoucher extends React.Component {
 				</div>
 				<div className="clear" style={{borderTop:"1px solid"}}>
 				</div>
-				<div className="margin-t-80" style={{float:'right'}}>
-					<Button value="确定发送" onClick={this.ok.bind(this)}/>
-				</div>
 			</Form>
+			<div className="margin-t-80" style={{float:'right'}}>
+				<Button value="确定发送" onClick={this.ok.bind(this)}/>
+			</div>
         </Box>
       </Content>
     )
@@ -79,7 +79,7 @@ export default class userVoucher extends React.Component {
 			msgBox.warning('请选择上传文件');
 			return;
 		}
-		console.log(rewardCoupon.couponAmout,455555555);
+
 		let formData = new FormData();
 		formData.append('couponAmout', rewardCoupon.couponAmout);
 		formData.append('num', rewardCoupon.num);

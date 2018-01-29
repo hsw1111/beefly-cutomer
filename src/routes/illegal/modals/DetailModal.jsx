@@ -55,7 +55,7 @@ export default class detailModal extends React.Component {
 						<DataTable ref={(e) => this._dataTable1 = e}
 									columns={columns1} api={orderApi.orderLog} query={query1}/>
 					</Box>
-				</Modal.Body>}
+				</Modal.Body>
 				<Modal.Footer>
 					<Button value={'关闭'} theme={'default'} onClick={this.hide.bind(this)}/>
 				</Modal.Footer>

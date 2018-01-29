@@ -28,7 +28,11 @@ export default class IntegralModal extends React.Component {
 			query: {
 				'userId': '',
 				'unit': 1,
+<<<<<<< HEAD
 				'type': 9
+=======
+				'type': 9,
+>>>>>>> 8d53b4e2dc1f0a07e82e607bc0d13959a0a1777a
 			},
 		}
 

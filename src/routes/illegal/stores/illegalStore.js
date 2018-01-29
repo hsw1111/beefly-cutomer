@@ -42,6 +42,7 @@ class IllegalStore {
 				bikeCode: this.detail.bikeCode,
 				beginDate: this.detail.createTime,
 				pageSize: 1,
+				beginDate:this.detail.createTime,
 				problemType:ptype
 			});
 			if (result.resultCode === 1) {
@@ -69,7 +70,11 @@ class IllegalStore {
 			await this.fetchDepositState();
 
 			setTimeout(()=>{
+<<<<<<< HEAD
 				if((!this.detail.content.includes('双人骑行'))&&(this.orderDetail && this.orderDetail.orderFlow == 3 &&(this.orderDetail.mileage < 500 || this.orderDetail.timeInOrder < 5) ||(this.orderDetail.endTime > this.detail.createTime ||'')||
+=======
+				if((!this.detail.content.includes('双人骑行'))&&(this.orderDetail && this.orderDetail.orderFlow == 3 && (this.orderDetail.mileage < 500 || this.orderDetail.timeInOrder < 5 )||(this.orderDetail.endTime > this.detail.createTime ||'')||
+>>>>>>> 8d53b4e2dc1f0a07e82e607bc0d13959a0a1777a
 					(beefly.DateMinus(this.orderDetail.placeOrderTime,this.detail.createTime)>5)||(this.orderDetail.orderFlow == 10))){
 					this.suggestHandleType = 2;
 					this.actualHandleType = this.suggestHandleType;

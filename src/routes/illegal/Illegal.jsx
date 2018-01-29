@@ -5,6 +5,8 @@ import AddRemarkModal from "./modals/AddRemarkModal";
 import RejectModal from "./modals/RejectModal";
 import tripProblemApi from "../../apis/tripProblemApi";
 import beefly from "../../js/beefly";
+import env from "../../js/env";
+
 /**
  * 违停上报
  */
@@ -112,6 +114,10 @@ export default class Illegal extends React.Component {
 	async export() {
 		let {query} = this.state;
 		let result = await tripProblemApi.export(query);
+		if(beefly.isSuccess(result)){
+			let url = env.apiPath + result.data;
+			$('body').append(`<iframe src="${url}" style="display: none;"></iframe>`)
+		}
 	}
 
 	// 查看详情

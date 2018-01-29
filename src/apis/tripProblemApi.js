@@ -39,13 +39,7 @@ const tripProblemApi = {
 	/**
 	 * 违停上报导出
 	 */
-	export: (params) => {
-		let loginUser = beefly.getLoginUser();
-		params.accessToken = loginUser.token;
-		let str = $.param(params);
-		let url = env.apiPath_customer + 'tripProblem/export?' + str;
-		$('body').append(`<iframe src="${url}" style="display: none;"></iframe>`)
-	},
+	export: (params) => request.get(env.apiPath_customer + 'tripProblem/export', params),
 };
 
 export default tripProblemApi

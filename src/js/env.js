@@ -9,8 +9,10 @@
 const development = {
 	name: 'development',
 	dir: 'test',
-	apiPath: 'http://10.31.24.156:7080/',
-	apiPath_customer: 'http://10.31.24.156:7080/customer/',
+	// apiPath: 'http://10.31.24.156:7080/',
+	// apiPath_customer: 'http://10.31.24.156:7080/customer/',
+	apiPath: 'http://47.93.48.250:7080/',
+	apiPath_customer: 'http://47.93.48.250:7080/customer/',
 };
 
 
@@ -18,8 +20,8 @@ const development = {
 const production = {
 	name: 'production',
 	dir: 'official',
-	apiPath: 'http://47.93.48.250:7080/',
-	apiPath_customer: 'http://47.93.48.250:7080/customer/',
+	apiPath: 'http://47.94.39.104:7777/',
+	apiPath_customer: 'http://47.94.39.104:7777/customer/',
 };
 
 module.exports = development;

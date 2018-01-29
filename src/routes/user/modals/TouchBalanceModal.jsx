@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button, Form, Modal, Row, Col, Text, Box, DataTable, dtUtils } from "beefly-common";
 import balaceRecordApi from "../../../apis/balaceRecordApi";
+import appUserApi from "../../../apis/appUserApi";
 
 /**
  * 余额变动明细
@@ -41,7 +42,7 @@ export default class BalanceModal extends React.Component {
                 <Text label="用户编号" value={detail.id}/>
               </Col>
               <Col md={5}>
-                <Text label="手机号" value={detail.mmobile}/>  
+                <Text label="手机号" value={detail.mobile}/>  
               </Col>
             </Row>
             <p style={{margin: '10px 14px'}}>用户当前余额：<span className='text-orange'>	{(detail.balance || 0) + (detail.grantBalance || 0)}元</span>（充值金额{detail.balance || 0}元+赠送金额{detail.grantBalance || 0}元）</p>

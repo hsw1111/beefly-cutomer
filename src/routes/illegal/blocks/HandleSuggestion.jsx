@@ -1,7 +1,7 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 import {Box, Button, Checkbox, Form, Input, Tab, Tabs, Text, Textarea, Select, tabUtils, msgBox} from "beefly-common";
-import {noPunishType} from '../../../maps/illegalMap';
+// import {noPunishType} from '../../../maps/illegalMap';
 import tripProblemApi from "../../../apis/tripProblemApi";
 import transRecordApi from "../../../apis/transRecordApi";
 import beefly from "../../../js/beefly";
@@ -42,7 +42,8 @@ export default class HandleSuggestion extends React.Component {
 				remark: '',
 				smsFlag: 1,
 				// mobile: detail.mobile,
-				content: ''
+				content: '',
+
 			},
 
 			// 扣押金有三种可能:
@@ -69,12 +70,14 @@ export default class HandleSuggestion extends React.Component {
 
 			data: {
 				text: '请选择原因', value: ''
-			}
+			},
+
+			noPunishType: ''
 		}
 	}
 
 	render() {
-		let {deductScore, deductCashPledge, data, proposal} = this.state;
+		let {deductScore, deductCashPledge, data, proposal, noPunishType} = this.state;
 		let {detail, orderDetail, actualHandleType, suggestHandleType, depositState} = illegalStore;
 		if (!orderDetail) {
 			return null;
@@ -82,7 +85,7 @@ export default class HandleSuggestion extends React.Component {
 		let mobile = orderDetail.mobile || '-';
 
 		// if(!detail.content.includes('双人骑行')){
-        //
+		//
 		// }
 		console.log(detail.content.includes('双人骑行'));
 
@@ -160,11 +163,11 @@ export default class HandleSuggestion extends React.Component {
 						</Tab>
 						<Tab title="不处罚">
 							{!detail.content.includes('双人骑行')&& <div><p>订单（编号：<span>{orderDetail.id}</span>）符合如下第{noPunishActiveLis.join('、')}点不处罚的情况，该违规人不不处罚。</p>
-							<ol>
-								{noPunishLis.map((d) => (
-									<li className={cs({'text-red': d.value})}>{d.text}</li>
-								))}
-							</ol></div>}
+								<ol>
+									{noPunishLis.map((d) => (
+										<li className={cs({'text-red': d.value})}>{d.text}</li>
+									))}
+								</ol></div>}
 							<Form horizontal>
 								<Select width={250} label="请选择不处罚的原因" wholeOption={data} model="noPunish.code"
 										whole={true} options={noPunishType} validation={{required: true}}/>
@@ -190,6 +193,17 @@ export default class HandleSuggestion extends React.Component {
 		if(this.props.orderId !== nextProps.orderId){
 			this.reset();
 		}
+	}
+
+	async componentWillMount(){
+		let result = await tripProblemApi.noPunishList()
+		var obj = {}
+		result.data.map((item)=>{
+			return obj[item.code] = item.content
+		})
+		this.setState({
+			noPunishType: obj
+		})
 	}
 
 	reset(){

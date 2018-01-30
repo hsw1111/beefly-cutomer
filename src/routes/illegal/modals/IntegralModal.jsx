@@ -46,6 +46,7 @@ export default class IntegralModal extends React.Component {
 		let {show, columns, query, userId, mobile} = this.state;
 		return (
 			<Modal show={show} title="信用积分" size="lg" onHide={this.hide.bind(this)}>
+			{show && 
 				<Form>
 					<div className={'row'}>
 						<div className={'col-sm-6'}>
@@ -60,6 +61,7 @@ export default class IntegralModal extends React.Component {
 					<DataTable ref={(e) => this._dataTable = e}
 							   columns={columns} api={creditScoreApi.page} query={query}/>
 				</Form>
+			}
 			</Modal>
 		)
 	}
@@ -68,11 +70,11 @@ export default class IntegralModal extends React.Component {
 		this.setState({
 			show: true,
 			userId: data.userId,
-			mobile: data.mobile
+			mobile: data.mobile,
+			query: {
+				'userId': data.userId
+			}
 		});
-		let {query} = this.state;
-		query.userId = data.userId;
-		this._dataTable.search(query);
 	}
 
 	hide() {

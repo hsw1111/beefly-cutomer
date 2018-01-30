@@ -31,6 +31,7 @@ export default class SymsModal extends React.Component {
 		let {show, columns, query, userId, mobile} = this.state;
 		return (
 			<Modal show={show} title="违规短信" size="lg" onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
+				{show &&
 				<Form>
 					<div className={'row'}>
 						<div className={'col-sm-6'}>
@@ -45,6 +46,7 @@ export default class SymsModal extends React.Component {
 					<DataTable ref={(e) => this._dataTable = e}
 							   columns={columns} api={symsApi.pageSms} query={query}/>
 				</Form>
+				}
 			</Modal>
 		)
 	}
@@ -53,12 +55,12 @@ export default class SymsModal extends React.Component {
 		this.setState({
 			show: true,
 			mobile: data.mobile,
-			userId: data.userId
+			userId: data.userId,
+			query: {
+				'mobiles': data.mobile,
+				'serviceType': 4
+			}
 		});
-		let {query} = this.state;
-		query.mobiles = data.mobile;
-		query.serviceType = 4;
-		this._dataTable.search(query);
 	}
 
 	hide() {

@@ -23,6 +23,16 @@ const orderApi = {
 
 	// 关电车锁
 	closeLock: (params) => request.get(env.apiPath_customer + 'order/closeLock', params),
+	
+	// 是否违停区域内还车
+	isNoParkingArea: (params) => request.get(env.apiPath_customer + 'order/isNoParkingArea', params),
+	
+	// 是否运营区域外还车
+	abroadCloseOrder: (params) => request.get(env.apiPath_customer + 'order/abroadCloseOrder', params),
+	
+	// 还车
+	returnCar: (params) => request.get(env.apiPath_customer + 'order/returnCar', params),
+	
 
 };
 

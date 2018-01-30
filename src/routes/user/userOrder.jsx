@@ -7,6 +7,7 @@ import beefly from "../../js/beefly";
 import Detail from "./blocks/Details";
 import orderApi from "../../apis/orderApi";
 import userStore from "../../stores/userStore";
+import EndOrderModal from "./modals/EndOrderModal"
 import OpenLockModal from "./modals/OpenLockModal"
 import CloseLockModal from "./modals/CloseLockModal"
 /**
@@ -43,7 +44,7 @@ export default class userOrder extends React.Component {
 	renderActions(data, type, row) {
 
 		let actions = [
-			{text: '结束订单', icon: 'search', onclick: `beefly.endOrder('${row.id}')`},
+			{text: '结束订单', icon: 'search', onclick: `beefly.endOrder('${row.id},${row.bikeCode}')`},
 			{text: '车辆开锁', icon: 'user-plus', onclick: `beefly.openLock('${row.id},${row.bikeCode}')`, visible: row.state == '已结束' || row.state == '开锁失败' || row.state == '已取车' || row.state == '开锁中' || row.state == '已取消' || row.state == '人工结束'},
 			{text: '车辆关锁', icon: 'user-plus', onclick: `beefly.closeLock('${row.id},${row.bikeCode}')`, visible: row.state == '已结束' || row.state == '开锁失败' || row.state == '已取车' || row.state == '开锁中' || row.state == '已取消' || row.state == '人工结束'},
 		];
@@ -82,8 +83,9 @@ export default class userOrder extends React.Component {
 					</p>
 					<DataTable ref={(e) => this._dataTable = e}
 					columns={columns} api={orderApi.page} query={query}/>
-					<OpenLockModal ref={(e) => this._openlockModal = e} onSuccess={this.search.bind(this)}/>
-					<CloseLockModal ref={(e) => this._closelockModal = e}  onSuccess={this.search.bind(this)}/>
+					<EndOrderModal ref={(e) => this._endOrderModal = e} onSuccess={this.search.bind(this)}/>
+					<OpenLockModal ref={(e) => this._openLockModal = e} onSuccess={this.search.bind(this)}/>
+					<CloseLockModal ref={(e) => this._closeLockModal = e}  onSuccess={this.search.bind(this)}/>
 				</Box>
 			)
 
@@ -95,15 +97,20 @@ export default class userOrder extends React.Component {
 		let {query} = this.state;
 		this._dataTable.search(query);
 	}
+	
 	//结束订单
-	endOrder(){
-       console.log(11111)
+	endOrder(data){
+		let m = data.split(",");
+		this._endOrderModal.show({
+			id: m[0],
+			bikeCode: m[1]
+		});
 	}
 
 	//开锁
 	openLock(data){
 		let m = data.split(",");
-		this._openlockModal.show({
+		this._openLockModal.show({
 			id: m[0],
 			bikeCode: m[1]
 		});
@@ -112,7 +119,7 @@ export default class userOrder extends React.Component {
 	//关琐
 	closeLock(data){
 		let m = data.split(",");
-		this._closelockModal.show({
+		this._closeLockModal.show({
 			id: m[0],
 			bikeCode: m[1]
 		});

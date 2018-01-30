@@ -37,3 +37,9 @@ $('#login').click(async () => {
 		alert(result.message)
 	}
 });
+
+$(document).keydown(function(event){
+	if(event.keyCode == 13){
+		$('#login').click()
+	}
+});

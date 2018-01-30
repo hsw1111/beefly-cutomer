@@ -18,7 +18,8 @@ export default class userVoucher extends React.Component {
 		rewardCoupon: {
 			couponAmout: '',
 			num: '',
-			expireTime: ''
+			expireTime: '',
+			mobiles: []
 		},
     }
   }
@@ -84,12 +85,10 @@ export default class userVoucher extends React.Component {
 		formData.append('couponAmout', rewardCoupon.couponAmout);
 		formData.append('num', rewardCoupon.num);
 		formData.append('expireTime', rewardCoupon.expireTime);
-		// formData.append('mobile', this.file.files[0]);
+		// formData.append('mobile', rewardCoupon.mobiles);
 
-		console.log(formData,78787979);
-		// let result = await couponApi.massCoupon(formData);
-		// if (result.code == 1) {
-		// 	console.log(123456)
-		// }
+		let result = await couponApi.massCoupon(formData);
+		console.log(result,78787979);
+
 	}
 }

@@ -53,21 +53,15 @@ export const purpose = {
 /**
  *  信用积分管理   奖罚类型
  */
-
-export const awardPunishType = {
+export const rewardType = {
 	0: '积分奖励',
 	1: '积分处罚',
-	2: '积分返还',
 };
 
 /**
  *  信用积分管理   处理类型
  */
 
-export const rewardType = {
-	0: '积分奖励',
-	1: '积分处罚',
-};
 export const integralType = {
 	0: '正常骑行一次',
 	1: '邀请好友',
@@ -78,11 +72,22 @@ export const integralType = {
     6: '故障上报',
     7: '违停上报',
     8: '其它',
-    9: '违停一次',
+    9: '违停扣分',
     10: '车辆轻度划伤',
     11: '车辆重度划伤',
     12: '加装私锁',
     13: '忘记关锁',
     14: '弃车逃跑',
     15: '拆红包',
+};
+
+/**
+ *  出行券 获得类型
+ */
+
+export const couponGetType = {
+	0: '新手注册',
+	1: '人工发放',
+	2: '系统奖励',
+	3: '活动发放'
 };

@@ -24,7 +24,7 @@ export default class BalanceModal extends React.Component {
         {title: '编号', data: 'id'},
 				{title: '时间', data: 'createTime', render: dtUtils.renderDateTime},
 				{title: '操作人', data: 'createdName'},
-				{title: '增加/减少金额', data: 'amount', render: (data, type, row) => (row.modifyType == 0 ? '+' : '-') + data},
+				{title: '增加/减少金额', data: 'amount', render: (data, type, row) => (row.modifyType == 1 ? '+' : '-') + data},
 				{title: '当前总余额', data: 'newBalance'},
 				{title: '备注', data: 'remark'},
       ],

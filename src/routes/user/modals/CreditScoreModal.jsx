@@ -1,8 +1,6 @@
 import React from 'react';
 import {Button, Form, Modal,Input, msgBox, Textarea, Row, Col, Text, Box, Select, DataTable, dtUtils } from "beefly-common";
-import tripProblemApi from "../../../apis/tripProblemApi";
-import beefly from "../../../js/beefly";
-import {awardPunishType, dealType, rewardType, integralType} from '../../../maps/userMap'
+import {rewardType, integralType} from '../../../maps/userMap';
 import creditScoreApi from "../../../apis/creditScoreApi";
 
 /**
@@ -40,7 +38,8 @@ export default class CouponModal extends React.Component {
 
 	render() {
     let awardType = {
-      8: '其他'
+      8: '其他',
+      16: '违停扣错积分返还'
     }
     let punishType = {
       8: '其它',
@@ -50,10 +49,6 @@ export default class CouponModal extends React.Component {
       12: '加装私锁',
       13: '忘记关锁',
       14: '弃车逃跑',
-    }
-    let backType = {
-      16: '违停扣错',
-      8: '其他'
     }
 
     
@@ -72,9 +67,8 @@ export default class CouponModal extends React.Component {
                 <Text label="手机号" value={data.mmobile}/>  
               </Col>
             </Row>
-           <Select label="奖惩类型" model="query.awardPunishType" options={awardPunishType} whole={false} validation={{required: true}} width={250}  onChange={this.change.bind(this)}/>
-      
-           <Select label="处理类型" model="query.creditScoreType" options={query.awardPunishType==1?punishType:(query.awardPunishType==0?awardType:backType)} whole={false} validation={{required: true}} width={250} onChange={this.change.bind(this)}/>
+           <Select label="奖惩类型" model="query.awardPunishType" options={rewardType} whole={false} validation={{required: true}} width={250}  onChange={this.change.bind(this)}/>
+           <Select label="处理类型" model="query.creditScoreType" options={query.awardPunishType==1?punishType:awardType} whole={false} validation={{required: true}} width={250} onChange={this.change.bind(this)}/>
            <Input label="奖罚积分"  type='number' model="query.creditScoreCount" validation={{required: true}} width={250}/>
             <Textarea label="备注" model="query.remark" validation={{required: true}} width={450}/>
             <div className='user-block' style={{ float: 'right'}}>
@@ -97,6 +91,7 @@ export default class CouponModal extends React.Component {
   }
   // 下拉菜单改变时，奖惩积分随之改变
   change(e){
+    // 积分奖励都+10
     if(this.state.query.awardPunishType==0){
       this.setState({
         query: {
@@ -105,6 +100,7 @@ export default class CouponModal extends React.Component {
           creditScoreCount: 10
         }
       })
+      // 违停扣分和轻度划伤-10
     }else if(this.state.query.creditScoreType==9||this.state.query.creditScoreType==10){
       this.setState({
         query: {
@@ -113,6 +109,7 @@ export default class CouponModal extends React.Component {
           creditScoreCount: -10
         }
       })
+      // 其余积分处罚-30
     }else if(this.state.query.awardPunishType==1&&(this.state.query.creditScoreType==11||this.state.query.creditScoreType==12||this.state.query.creditScoreType==13||this.state.query.creditScoreType==14)){
       this.setState({
         query: {
@@ -121,26 +118,11 @@ export default class CouponModal extends React.Component {
           creditScoreCount: -30
         }
       })
-    }else if(this.state.query.awardPunishType==1&&this.state.query.creditScoreType==8){
+      // 积分处罚中的其他为空，由客服填写
+    }else{
       this.setState({
         query: {
           awardPunishType: 1,
-          creditScoreType:e.target.value,
-          creditScoreCount: ''
-        }
-      })
-    }else if(this.state.query.awardPunishType==2&&this.state.query.creditScoreType==8){
-      this.setState({
-        query: {
-          awardPunishType: 2,
-          creditScoreType:e.target.value,
-          creditScoreCount: ''
-        }
-      })
-    }else {
-      this.setState({
-        query: {
-          awardPunishType: 2,
           creditScoreType:e.target.value,
           creditScoreCount: ''
         }
@@ -169,8 +151,17 @@ export default class CouponModal extends React.Component {
 	}
 
 	async ok() {
-    let {query} = this.state
+    let {query, queryTable} = this.state
     console.log(query)
+    let result = await creditScoreApi.insertScore({
+      userId: queryTable.userId,
+      creditScoreCount: query.creditScoreCount,
+      remark: query.remark,
+      creditScoreType: query.creditScoreType
+    })
+    if(result.resultCode==1){
+      msgBox.success("奖惩积分操作成功！")
+    }
     this.hide(true)
 	}
 

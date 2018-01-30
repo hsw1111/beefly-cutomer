@@ -3,6 +3,7 @@ import {Button, Form, Modal,Input, msgBox, Textarea, Row, Col, Text, Box, DateRa
 import tripProblemApi from "../../../apis/tripProblemApi";
 import beefly from "../../../js/beefly";
 import couponApi from "../../../apis/couponApi";
+import {couponGetType} from '../../../maps/userMap'
 
 /**
  * 修改手机号
@@ -27,7 +28,7 @@ export default class CouponModal extends React.Component {
 				{title: '消费时间', data: 'useTime', render: dtUtils.renderDateTime},
 				{title: '消费订单', data: 'orderId'},
 				{title: '到期时间', data: 'validityEndDate', render: dtUtils.renderDateTime},
-				{title: '获得类型', data: 'receiveWay'},
+				{title: '获得类型', data: 'receiveWay', render: (data) => dtUtils.renderMap(data, couponGetType) },
       ],
       queryTable: {
         userId: ''

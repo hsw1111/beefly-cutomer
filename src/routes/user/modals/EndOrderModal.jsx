@@ -1,7 +1,6 @@
 import React from 'react';
 import {Modal, Button, msgBox} from "beefly-common";
 import orderApi from "../../../apis/orderApi";
-import OverAbroadModal from "./OverAbroadModal"
 
 
 
@@ -18,7 +17,7 @@ export default class endOrderModal extends React.Component{
       id: '',
       bikeCode: '',
       isOver: false,  //是否在违停区域内
-      isEnd: true, //
+      isEnd: false, //
       isAbroad: false, // 是否显示在运营区域外
       isReturn: false, // 是否还车失败
       type: 0, // 是否计费
@@ -31,6 +30,13 @@ export default class endOrderModal extends React.Component{
       <div>
       <Modal show={show} title="结束订单" onHide={this.hide.bind(this)}>
         <Modal.Body>
+          
+            {isAbroad &&
+              <div>
+                该订单的车辆{bikeCode}正在运营区域外！
+              </div>
+            }
+
 						{isEnd && 
               <div>
                 <p>你确定结束{id}的订单么？</p>
@@ -43,12 +49,6 @@ export default class endOrderModal extends React.Component{
               </div>
             }
 
-            {isAbroad &&
-              <div>
-                该订单的车辆{bikeCode}正在运营区域外！
-              </div>
-            }
-
             {isReturn &&
               <div>
                 还车失败！
@@ -56,28 +56,29 @@ export default class endOrderModal extends React.Component{
             }
 				</Modal.Body>
 				<Modal.Footer>
+          {isAbroad &&
+          <div>
+            <Button value={'强制关闭'} theme={'default'} onClick={this.forceClose.bind(this)}/>
+            <Button value={'暂不关闭'} onClick={this.hide.bind(this)}/>
+          </div>
+          }
+
           {isEnd &&
           <div>
             <Button value={'取消'} theme={'default'} onClick={this.hide.bind(this)}/>
             <Button value={'确定'} onClick={this.ok.bind(this)}/>
           </div>
           }
-           {isAbroad &&
-          <div>
-            <Button value={'强制关闭'} theme={'default'} onClick={this.forceClose.bind(this)}/>
-            <Button value={'暂不关闭'} onClick={this.hide.bind(this)}/>
-          </div>
-          }
+          
            {isReturn &&
           <div>
-            <Button value={'强制关闭'} theme={'default'} onClick={this.forceClose.bind(this)}/>
+            <Button value={'强制关闭'} theme={'default'} onClick={this.returnCar.bind(this)}/>
             <Button value={'暂不关闭'} onClick={this.hide.bind(this)}/>
           </div>
           }
 					
 				</Modal.Footer>
       </Modal>
-      <OverAbroadModal ref={(e) => this._overAbroadModal = e}/>
       </div>
     )
   }
@@ -88,23 +89,44 @@ export default class endOrderModal extends React.Component{
       id: data.id,
       bikeCode: data.bikeCode
     })
-    let result = await orderApi.isNoParkingArea({id: data.id})
-    if(result.resultCode == -1){
+    // 判断是否在运营区域外
+    let result = await orderApi.abroadCloseOrder({id: data.id})
+      // 在运营区域外
+    if(result.resultCode==-1){
       this.setState({
-        isOver: true
+        isAbroad: true,
       })
     }else{
-      this.setState({
-        isOver: false
-      })
+       // 不在运营区域外
+
+       // 判断是否在违停区域内
+       let result = await orderApi.isNoParkingArea({id})
+          // 违停
+        if(result.resultCode == -1){
+          this.setState({
+            isEnd: true,
+            isOver: true
+          })
+        }else{
+          // 不违停
+          this.setState({
+            isEnd: true,
+            isOver: false
+          })
+        }
     }
+    
   }
 
 
   hide(isCallBack){
     let {onSuccess} = this.props;
     this.setState({
-			show: false
+      show: false,
+      isOver: false, 
+      isEnd: false, 
+      isAbroad: false,
+      isReturn: false, 
     })
     if(isCallBack){
       onSuccess && onSuccess();
@@ -114,27 +136,46 @@ export default class endOrderModal extends React.Component{
 // 结束订单
  async ok(){
    let {id, bikeCode} = this.state
-    // this.hide(true)
     // 是否计费
     this.setState({
       type: $(".isChecked input:checked").val()
     })
-    console.log($(".isChecked input:checked").val())
-    let result = await orderApi.abroadCloseOrder({id})
-    if(result.resultCode==-1){
-      // this._overAbroadModal.show({id, bikeCode})
-      // this.hide()
+
+    // 还车
+    let result = await orderApi.returnCar({id})
+    if(result.resultCode==1){
+      msgBox.success("还车成功！")
+      this.hide(true)
+    }else{
       this.setState({
-        isEnd: false,
-        isAbroad: true,
+        isOver: false, 
+        isEnd: false, 
+        isAbroad: false,
+        isReturn: true,
       })
-      return
     }
   }
 
   // 强制关闭
   async forceClose(){
-
+    let {id} = this.state
+     // 判断是否在违停区域内
+     let result = await orderApi.isNoParkingArea({id})
+          // 违停
+        if(result.resultCode == -1){
+          this.setState({
+            isAbroad: false,
+            isEnd: true,
+            isOver: true
+          })
+        }else{
+          // 不违停
+          this.setState({
+            isAbroad: false,
+            isEnd: true,
+            isOver: false
+          })
+        }
   }
 
   // 还车

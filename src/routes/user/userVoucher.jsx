@@ -34,7 +34,7 @@ export default class userVoucher extends React.Component {
 				<Input label="出行券张数" model="rewardCoupon.num" type="number" width={150}  validation={{required: true}}/>
 				<Input label="过期时间" model="rewardCoupon.expireTime" type="date" width={250} validation={{required: true}}/>
 				<Text label="发送对象" validation={{required: true}}>
-						<input ref={e => this.file = e} type="file" name="file"/>
+						<input ref={e => this.file = e} type="file" name="file" onChange={this.fileChange.bind(this)}/>
 				</Text>
 				<Text>
 					只支持".xls/.xlsx"格式；表格中只需包含"手机号"。<a href="files/initBike.xlsx">模板下载</a>
@@ -91,4 +91,10 @@ export default class userVoucher extends React.Component {
 		console.log(result,78787979);
 
 	}
+
+    //上传文件改变
+	fileChange(){
+  	   console.log(this.file.files[0],123456)
+	}
+
 }

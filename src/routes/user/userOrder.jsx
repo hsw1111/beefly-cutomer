@@ -43,8 +43,8 @@ export default class userOrder extends React.Component {
 
 		let actions = [
 			{text: '结束订单', icon: 'search', onclick: `beefly.endOrder('${row.id}')`},
-			{text: '车辆开锁', icon: 'user-plus', onclick: `beefly.unlock('${row.id},${row.bikeCode}')`},
-			{text: '车辆关锁', icon: 'user-plus', onclick: `beefly.lock('$${row.id},${row.bikeCode}')`},
+			{text: '车辆开锁', icon: 'user-plus', onclick: `beefly.unlock('${row.id},${row.bikeCode}')`, visible: row.state == '已结束' || row.state == '开锁失败' || row.state == '已取车' || row.state == '开锁中' || row.state == '已取消' || row.state == '人工结束'},
+			{text: '车辆关锁', icon: 'user-plus', onclick: `beefly.lock('$${row.id},${row.bikeCode}')`, visible: row.state == '已结束' || row.state == '开锁失败' || row.state == '已取车' || row.state == '开锁中' || row.state == '已取消' || row.state == '人工结束'},
 		];
 
 		return dtUtils.renderActions(actions, 'dropdown')

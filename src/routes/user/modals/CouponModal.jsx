@@ -87,10 +87,14 @@ export default class CouponModal extends React.Component {
     });
 	}
 
-	hide() {
+	hide(isCallback) {
 		this.setState({
       show: false,
-		});
+    });
+    if(isCallback){
+			let {onSuccess} = this.props;
+			onSuccess && onSuccess();
+		}
 	}
 
 	async ok() {
@@ -110,7 +114,7 @@ export default class CouponModal extends React.Component {
       msgBox.warning("过期时间不能为空");
       return
     }
-		this.hide();
+		this.hide(true);
 	}
 
 }

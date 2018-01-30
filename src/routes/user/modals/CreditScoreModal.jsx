@@ -158,15 +158,20 @@ export default class CouponModal extends React.Component {
     });
 	}
 
-	hide() {
+	hide(isCallback) {
 		this.setState({
       show: false,
-		});
+    });
+    if(isCallback){
+			let {onSuccess} = this.props;
+			onSuccess && onSuccess();
+		}
 	}
 
 	async ok() {
     let {query} = this.state
-		console.log(query)
+    console.log(query)
+    this.hide(true)
 	}
 
 }

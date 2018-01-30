@@ -90,10 +90,14 @@ export default class BalanceModal extends React.Component {
     })
 	}
 
-	hide() {
+	hide(isCallback) {
 		this.setState({
       show: false,
-		});
+    });
+    if(isCallback){
+			let {onSuccess} = this.props;
+			onSuccess && onSuccess();
+		}
 	}
 
 	async ok() {
@@ -105,7 +109,7 @@ export default class BalanceModal extends React.Component {
     let result = await balaceRecordApi.addRecord(query)
     if(result.resultCode == 1){
       msgBox.success('修改余额成功！');
-      this.hide();
+      this.hide(true);
     }
 	}
 

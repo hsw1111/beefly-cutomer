@@ -127,10 +127,10 @@ export default class Illegal extends React.Component {
 				<ModifyModal ref={(e) => this._modifyModal = e} onSuccess={this.search.bind(this)}/>
 				<BlackModal ref={(e) => this._blackModal = e} onSuccess={this.search.bind(this)}/>
 				<CancelBlackModal ref={(e) => this._cancelModal = e} onSuccess={this.search.bind(this)}/>
-				<BalanceModal ref={(e) => this._balanceModal = e}/>
-				<CouponModal ref={(e) => this._couponModal = e}/>
+				<BalanceModal ref={(e) => this._balanceModal = e}  onSuccess={this.search.bind(this)}/>
+				<CouponModal ref={(e) => this._couponModal = e}  onSuccess={this.search.bind(this)}/>
 				<TouchBalanceModal ref={(e) => this._touchBalanceModal = e}/>
-				<CreditScoreModal ref={(e) => this._creditScoreModal = e}/>
+				<CreditScoreModal ref={(e) => this._creditScoreModal = e}  onSuccess={this.search.bind(this)}/>
 				<FrozenModal ref={(e) => this._frozenModal = e} onSuccess={this.search.bind(this)}/>
 				<UnfreezeModal ref={(e) => this._unfreezeModal = e} onSuccess={this.search.bind(this)}/>
 				<ClearSmsModal ref={(e) => this._clearSmsModal = e} onSuccess={this.search.bind(this)}/>

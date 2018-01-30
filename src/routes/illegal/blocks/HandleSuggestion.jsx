@@ -1,7 +1,7 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 import {Box, Button, Checkbox, Form, Input, Tab, Tabs, Text, Textarea, Select, tabUtils, msgBox} from "beefly-common";
-import {noPunishType} from '../../../maps/illegalMap';
+// import {noPunishType} from '../../../maps/illegalMap';
 import tripProblemApi from "../../../apis/tripProblemApi";
 import transRecordApi from "../../../apis/transRecordApi";
 import beefly from "../../../js/beefly";
@@ -42,7 +42,8 @@ export default class HandleSuggestion extends React.Component {
 				remark: '',
 				smsFlag: 1,
 				// mobile: detail.mobile,
-				content: ''
+				content: '',
+				
 			},
 
 			// 扣押金有三种可能:
@@ -69,12 +70,14 @@ export default class HandleSuggestion extends React.Component {
 
 			data: {
 				text: '请选择原因', value: ''
-			}
+			},
+
+			noPunishType: ''
 		}
 	}
 
 	render() {
-		let {deductScore, deductCashPledge, data, proposal} = this.state;
+		let {deductScore, deductCashPledge, data, proposal, noPunishType} = this.state;
 		let {detail, orderDetail, actualHandleType, suggestHandleType, depositState} = illegalStore;
 		if (!orderDetail) {
 			return null;
@@ -190,6 +193,17 @@ export default class HandleSuggestion extends React.Component {
 		if(this.props.orderId !== nextProps.orderId){
 			this.reset();
 		}
+	}
+	
+	async componentWillMount(){
+		let result = await tripProblemApi.noPunishList()
+		var obj = {}
+		result.data.map((item)=>{
+			return obj[item.code] = item.content
+		})
+		this.setState({
+			noPunishType: obj
+		})
 	}
 
 	reset(){

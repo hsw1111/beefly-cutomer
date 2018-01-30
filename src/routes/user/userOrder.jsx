@@ -7,7 +7,8 @@ import beefly from "../../js/beefly";
 import Detail from "./blocks/Details";
 import orderApi from "../../apis/orderApi";
 import userStore from "../../stores/userStore";
-import UnlockModal from "./modals/UnlockModal"
+import OpenLockModal from "./modals/OpenLockModal"
+import CloseLockModal from "./modals/CloseLockModal"
 /**
  * 查看订单
  */
@@ -36,15 +37,15 @@ export default class userOrder extends React.Component {
 			},
 		}
 		beefly.endOrder = this.endOrder.bind(this);
-		beefly.unlock = this.unlock.bind(this);
-		beefly.lock = this.lock.bind(this);
+		beefly.openLock = this.openLock.bind(this);
+		beefly.closeLock = this.closeLock.bind(this);
 	}
 	renderActions(data, type, row) {
 
 		let actions = [
 			{text: '结束订单', icon: 'search', onclick: `beefly.endOrder('${row.id}')`},
-			{text: '车辆开锁', icon: 'user-plus', onclick: `beefly.unlock('${row.id},${row.bikeCode}')`, visible: row.state == '已结束' || row.state == '开锁失败' || row.state == '已取车' || row.state == '开锁中' || row.state == '已取消' || row.state == '人工结束'},
-			{text: '车辆关锁', icon: 'user-plus', onclick: `beefly.lock('$${row.id},${row.bikeCode}')`, visible: row.state == '已结束' || row.state == '开锁失败' || row.state == '已取车' || row.state == '开锁中' || row.state == '已取消' || row.state == '人工结束'},
+			{text: '车辆开锁', icon: 'user-plus', onclick: `beefly.openLock('${row.id},${row.bikeCode}')`, visible: row.state == '已结束' || row.state == '开锁失败' || row.state == '已取车' || row.state == '开锁中' || row.state == '已取消' || row.state == '人工结束'},
+			{text: '车辆关锁', icon: 'user-plus', onclick: `beefly.closeLock('${row.id},${row.bikeCode}')`, visible: row.state == '已结束' || row.state == '开锁失败' || row.state == '已取车' || row.state == '开锁中' || row.state == '已取消' || row.state == '人工结束'},
 		];
 
 		return dtUtils.renderActions(actions, 'dropdown')
@@ -81,30 +82,41 @@ export default class userOrder extends React.Component {
 					</p>
 					<DataTable ref={(e) => this._dataTable = e}
 					columns={columns} api={orderApi.page} query={query}/>
-					<UnlockModal ref={(e) => this._unlockModal = e}/>
+					<OpenLockModal ref={(e) => this._openlockModal = e} onSuccess={this.search.bind(this)}/>
+					<CloseLockModal ref={(e) => this._closelockModal = e}  onSuccess={this.search.bind(this)}/>
 				</Box>
 			)
 
 		}
 		return null
 	}
+	// 查询列表
+	search(){
+		let {query} = this.state;
+		this._dataTable.search(query);
+	}
 	//结束订单
 	endOrder(){
        console.log(11111)
 	}
 
-	//关锁
-	unlock(data){
+	//开锁
+	openLock(data){
 		let m = data.split(",");
-		this._unlockModal.show({
+		this._openlockModal.show({
 			id: m[0],
 			bikeCode: m[1]
 		});
 	}
 
-	//开琐
-	lock(data){
-		console.log(33333)
+	//关琐
+	closeLock(data){
+		let m = data.split(",");
+		this._closelockModal.show({
+			id: m[0],
+			bikeCode: m[1]
+		});
 	}
+
 }
 

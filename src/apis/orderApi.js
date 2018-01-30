@@ -18,6 +18,12 @@ const orderApi = {
 	// 订单上报日志
 	orderLog: (params) => request.get(env.apiPath_customer + 'order/orderLog', params),
 
+	// 开电车锁
+	openLock: (params) => request.get(env.apiPath_customer + 'order/openLock', params),
+
+	// 关电车锁
+	closeLock: (params) => request.get(env.apiPath_customer + 'order/closeLock', params),
+
 };
 
 export default orderApi

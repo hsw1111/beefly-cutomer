@@ -27,5 +27,5 @@ const production = {
 	apiPath_customer: 'http://47.94.39.104:7777/customer/',
 };
 
-module.exports = development;
+module.exports = production;
 

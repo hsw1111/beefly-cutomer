@@ -64,15 +64,6 @@ export const awardPunishType = {
  *  信用积分管理   处理类型
  */
 
-export const dealType = {
-	0: '违停扣分',
-	1: '车辆轻度划伤',
-	2: '车辆重度划伤',
-	3: '加装私锁',
-	4: '忘记关锁',
-	5: '弃车逃走',
-	6: '其他',
-};
 export const rewardType = {
 	0: '积分奖励',
 	1: '积分处罚',

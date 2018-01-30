@@ -30,6 +30,7 @@ export default class userVoucher extends React.Component {
       <Content>
         <Box>
 			<Form ref={e => this.form = e} horizontal>
+				<a class="glyphicon glyphicon-remove btn form-control-feedback" style={{'pointer-events':"auto"}}></a>
 				<Input label="出行券金额" model="rewardCoupon.couponAmout" type="number" width={150} validation={{required: true}}/>
 				<Input label="出行券张数" model="rewardCoupon.num" type="number" width={150}  validation={{required: true}}/>
 				<Input label="过期时间" model="rewardCoupon.expireTime" type="date" width={250} validation={{required: true}}/>

@@ -26,7 +26,7 @@ export default class BalanceModal extends React.Component {
 				{title: '备注', data: 'remark'},
       ],
       query: {
-        'userId': '',
+        userId: '',
       }
 		}
   }
@@ -71,7 +71,7 @@ export default class BalanceModal extends React.Component {
 		this.setState({
       show: true,
       query: {
-        'userId': data.id
+        userId: data.id
       }
     });
     let result = await appUserApi.userDetail({id: data.id}) 
@@ -84,7 +84,7 @@ export default class BalanceModal extends React.Component {
 		this.setState({
       show: false,
       query: {
-        'userId': ''
+        userId: ''
       }
 		});
 	}

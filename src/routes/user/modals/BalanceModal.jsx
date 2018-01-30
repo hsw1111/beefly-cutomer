@@ -16,6 +16,7 @@ export default class BalanceModal extends React.Component {
       show: false,
       detail: '',
 			query: {
+        userId: '',
         amount: '',
         remark: ''
       },
@@ -23,13 +24,13 @@ export default class BalanceModal extends React.Component {
         {title: '编号', data: 'id'},
 				{title: '时间', data: 'createTime', render: dtUtils.renderDateTime},
 				{title: '操作人', data: 'createdName'},
-				{title: '增加/减少金额', data: 'amount', render: (data, type, row) => (row.modifyType == 1 ? '+' : '-') + data},
+				{title: '增加/减少金额', data: 'amount', render: (data, type, row) => (row.modifyType == 0 ? '+' : '-') + data},
 				{title: '当前总余额', data: 'newBalance'},
 				{title: '备注', data: 'remark'},
       ],
       queryTable: {
         userId: '',
-        modifySource: 1
+        modifySource: 1   //查询赠送余额列表，固定传参为1
       }
 		}
 	}
@@ -74,7 +75,12 @@ export default class BalanceModal extends React.Component {
     this.setState({
       show: true,
       queryTable: {
-        'userId': data.id
+        userId: data.id
+      },
+      query: {
+        userId: data.id,
+        amount: '',
+        remark: ''
       }
     })
     
@@ -87,9 +93,6 @@ export default class BalanceModal extends React.Component {
 	hide() {
 		this.setState({
       show: false,
-      queryTable: {
-        userId: ''
-      }
 		});
 	}
 
@@ -99,7 +102,11 @@ export default class BalanceModal extends React.Component {
       msgBox.warning("金额不能为空");
       return
     }
-		this.hide();
+    let result = await balaceRecordApi.addRecord(query)
+    if(result.resultCode == 1){
+      msgBox.success('修改余额成功！');
+      this.hide();
+    }
 	}
 
 }

@@ -113,7 +113,7 @@ export default class CouponModal extends React.Component {
           creditScoreCount: -10
         }
       })
-    }else if(this.state.query.awardPunishType==1&&(this.state.query.creditScoreType!=9||this.state.query.creditScoreType!=10)){
+    }else if(this.state.query.awardPunishType==1&&(this.state.query.creditScoreType==11||this.state.query.creditScoreType==12||this.state.query.creditScoreType==13||this.state.query.creditScoreType==14)){
       this.setState({
         query: {
           awardPunishType: 1,

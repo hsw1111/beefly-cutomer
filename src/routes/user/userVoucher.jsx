@@ -93,8 +93,8 @@ export default class userVoucher extends React.Component {
 	}
 
     //上传文件改变
-	fileChange(){
-  	   console.log(this.file.files[0],123456)
+	fileChange() {
+		console.log(this.file.files[0], 123456)
 	}
 
 }

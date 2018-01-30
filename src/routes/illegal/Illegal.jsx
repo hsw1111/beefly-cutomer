@@ -4,6 +4,7 @@ import {handleType, operateState, reportState, vagueState} from '../../maps/ille
 import AddRemarkModal from "./modals/AddRemarkModal";
 import RejectModal from "./modals/RejectModal";
 import tripProblemApi from "../../apis/tripProblemApi";
+// import systemCityApi from "../../apis/systemCityApi";
 import beefly from "../../js/beefly";
 import env from "../../js/env";
 
@@ -100,7 +101,9 @@ export default class Illegal extends React.Component {
 			</Content>
 		)
 	}
-
+	// async componentWillMount(){
+	// 	let result = await systemCityApi.getSystemCitys()
+	// }
 	search() {
 		let {query} = this.state;
 

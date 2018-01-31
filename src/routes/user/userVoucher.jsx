@@ -18,7 +18,8 @@ export default class userVoucher extends React.Component {
 		rewardCoupon: {
 			couponAmout: '',
 			num: '',
-			expireTime: ''
+			expireTime: '',
+			mobiles: []
 		},
     }
   }
@@ -29,11 +30,12 @@ export default class userVoucher extends React.Component {
       <Content>
         <Box>
 			<Form ref={e => this.form = e} horizontal>
+				<a class="glyphicon glyphicon-remove btn form-control-feedback" style={{'pointer-events':"auto"}}></a>
 				<Input label="出行券金额" model="rewardCoupon.couponAmout" type="number" width={150} validation={{required: true}}/>
 				<Input label="出行券张数" model="rewardCoupon.num" type="number" width={150}  validation={{required: true}}/>
 				<Input label="过期时间" model="rewardCoupon.expireTime" type="date" width={250} validation={{required: true}}/>
 				<Text label="发送对象" validation={{required: true}}>
-						<input ref={e => this.file = e} type="file" name="file"/>
+						<input ref={e => this.file = e} type="file" name="file" onChange={this.fileChange.bind(this)}/>
 				</Text>
 				<Text>
 					只支持".xls/.xlsx"格式；表格中只需包含"手机号"。<a href="files/initBike.xlsx">模板下载</a>
@@ -84,12 +86,16 @@ export default class userVoucher extends React.Component {
 		formData.append('couponAmout', rewardCoupon.couponAmout);
 		formData.append('num', rewardCoupon.num);
 		formData.append('expireTime', rewardCoupon.expireTime);
-		// formData.append('mobile', this.file.files[0]);
+		// formData.append('mobile', rewardCoupon.mobiles);
 
-		console.log(formData,78787979);
-		// let result = await couponApi.massCoupon(formData);
-		// if (result.code == 1) {
-		// 	console.log(123456)
-		// }
+		let result = await couponApi.massCoupon(formData);
+		console.log(result,78787979);
+
 	}
+
+    //上传文件改变
+	fileChange() {
+		console.log(this.file.files[0], 123456)
+	}
+
 }

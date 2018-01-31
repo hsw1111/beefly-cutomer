@@ -116,8 +116,10 @@ export default class Illegal extends React.Component {
 							<Button icon="search" onClick={this.search.bind(this)}>查询</Button>
 						</Field>
 					</Form>
-					<DataTable ref={(e) => this._dataTable = e}
-							   columns={columns} api={appUserApi.page} query={query}/>
+					<div className='isShow' style={{display: 'none'}}>
+						<DataTable ref={(e) => this._dataTable = e}
+									columns={columns} api={appUserApi.page} query={query}/>
+					</div>
 				</Box>
 				<ModifyModal ref={(e) => this._modifyModal = e} onSuccess={this.search.bind(this)}/>
 				<BlackModal ref={(e) => this._blackModal = e} onSuccess={this.search.bind(this)}/>
@@ -134,8 +136,9 @@ export default class Illegal extends React.Component {
 	}
 
 	search() {
+		$(".isShow").css({display: 'block'})
+		
 		let {query} = this.state;
-
 		// 多选一个字段处理
 		query.mobile = query.id = query.name = '';
 		query[query.category] = query.keyword;

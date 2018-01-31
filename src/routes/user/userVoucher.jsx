@@ -21,12 +21,12 @@ export default class userVoucher extends React.Component {
 			expireTime: '',
 			mobiles: []
 		},
-		cont:''
+		cont:[]
     }
   }
 
   render() {
-    let {columns,cont,rewardCoupon} = this.state;
+    let {columns,rewardCoupon} = this.state;
     console.log(rewardCoupon.mobiles,888);
     return(
       <Content>
@@ -44,7 +44,7 @@ export default class userVoucher extends React.Component {
 				</Text>
 				<div className="margin-t-30">
 					<div style={{float:'left'}}>
-						<span className="h4">发送人员名单</span><span className="h6 margin-l-20">共计{cont}人</span>
+						<span className="h4">发送人员名单</span><span className="h6 margin-l-20">共计0人</span>
 					</div>
 					<div style={{float:'right'}}>
 						<a href="javascript:void(0)">清空</a>
@@ -54,12 +54,9 @@ export default class userVoucher extends React.Component {
 				</div>
 			</Form>
 			<div>
-				{/*<span className="label label-default margin-r-5" >Default <i className="fa fa-fw fa-close"></i></span>*/}
+				<span className="label label-default margin-r-5 " >Default <i className="fa fa-fw fa-close"></i></span>
+				<span className="label label-default margin-r-5">Default <i className="fa fa-fw fa-close"></i></span>
 				{/*<span className="label label-default margin-r-5">Default <i className="fa fa-fw fa-close"></i></span>*/}
-				{/*<span className="label label-default margin-r-5">Default <i className="fa fa-fw fa-close"></i></span>*/}
-				{/*{noPunishLis.map((d) => (*/}
-					{/*<li className={cs({'text-red': d.value})}>{d.text}</li>*/}
-				{/*))}*/}
 			</div>
 			<div className="margin-t-80" style={{float:'right'}}>
 				<Button value="确定发送" onClick={this.ok.bind(this)}/>
@@ -140,9 +137,8 @@ export default class userVoucher extends React.Component {
 				$.each(persons,function(index,data)
 				{
 					rewardCoupon.mobiles.push(data.mobile);
-					console.log(rewardCoupon.mobiles);
 				});
-
+				console.log(rewardCoupon.mobiles);
 			} catch (e) {
 				msgBox.warning('文件类型不正确');
 				return;

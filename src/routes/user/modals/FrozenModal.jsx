@@ -70,7 +70,9 @@ export default class FrozenModal extends React.Component {
 		};
 		let result = await appUserApi.creditless(parms);
 		this.hide(true);
-		msgBox.warning(result.message);
+		if(result.resultCode==1){
+			msgBox.success('冻结用户押金成功');			
+		}
 	}
 
 }

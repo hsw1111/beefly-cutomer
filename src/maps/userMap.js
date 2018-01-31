@@ -26,10 +26,8 @@ export const vagueState = {
  */
 
 export const depositState = {
-	0: '未缴纳',
-	1: '正常',
-	2: '退款中',
-	3: '冻结',
+	0: '正常',
+	1: '已冻结',
 };
 
 /**

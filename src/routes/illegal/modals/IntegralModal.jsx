@@ -72,7 +72,9 @@ export default class IntegralModal extends React.Component {
 			userId: data.userId,
 			mobile: data.mobile,
 			query: {
-				'userId': data.userId
+				'userId': data.userId,
+				'unit': 1,
+				'type': 9,
 			}
 		});
 	}

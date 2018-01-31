@@ -94,17 +94,17 @@ export default class EndOrderModal extends React.Component{
     // 1.判断是否在运营区域外
     let result = await orderApi.abroadCloseOrder({id: data.id})
       // 在运营区域外
-    if(result.resultCode==-1){
+    if(result.resultCode==0){
       this.setState({
         isAbroad: true,
       })
-    }else{
+    }else if(result.resultCode==1){
       // 不在运营区域外
 
        // 2.判断是否在违停区域内
        let result = await orderApi.isNoParkingArea({id})
           // 违停
-        if(result.resultCode == -1){
+        if(result.resultCode == 0){
           this.setState({
             isEnd: true,
             isOver: true

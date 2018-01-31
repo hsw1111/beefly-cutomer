@@ -47,7 +47,7 @@ export default class Illegal extends React.Component {
 				{title: '注册时间', data: 'registerTime', render: dtUtils.renderDateTime},
 				{title: '账户余额（￥）', data: 'grantBalance', render: (data, type, row) => (`<a href="javascript:" onClick={beefly.touchBalance(${row.id},${row.mobile})}>${data}</a>`)},
 				{title: '信用积分', data: 'credScore'},
-				{title: '押金状态', data: 'certState', render: (data) => dtUtils.renderMap(data, depositState)},
+				{title: '押金状态', data: 'creditLimit', render: (data) => dtUtils.renderMap(data, depositState)},
 				{title: '操作', type: 'object', render: this.renderActions},
 			],
 
@@ -92,8 +92,8 @@ export default class Illegal extends React.Component {
 			{text: '余额管理', icon: 'user-plus', onclick: `beefly.balance('${row.id},${row.mobile}')`},
 			{text: '出行券管理', icon: 'user-plus', onclick: `beefly.coupon('${row.id},${row.mobile}')`},
 			{text: '信用积分管理', icon: 'user-plus', onclick: `beefly.creditScore('${row.id},${row.mobile}')`},
-			{text: '冻结用户押金', icon: 'user-plus', onclick: `beefly.frozen('${row.id},${row.mobile}')`,visible:row.creditLimit=1},
-			{text: '取消冻结用户押金', icon: 'user-plus', onclick: `beefly.unfreeze('${row.id},${row.mobile}')`,visible:row.creditLimit=0},
+			{text: '冻结用户押金', icon: 'user-plus', onclick: `beefly.frozen('${row.id},${row.mobile}')`,visible:row.creditLimit==0},
+			{text: '取消冻结用户押金', icon: 'user-plus', onclick: `beefly.unfreeze('${row.id},${row.mobile}')`,visible:row.creditLimit==1},
 			{text: '修改手机号', icon: 'user-plus', onclick: `beefly.modify('${row.id},${row.mobile}')`},
 			{text: '清除验证码限制', icon: 'user-plus', onclick: `beefly.clearSms('${row.id},${row.mobile}')`},
 		];

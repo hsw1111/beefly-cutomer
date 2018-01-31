@@ -10,6 +10,7 @@ import userStore from "../../stores/userStore";
 import EndOrderModal from "./modals/EndOrderModal"
 import OpenLockModal from "./modals/OpenLockModal"
 import CloseLockModal from "./modals/CloseLockModal"
+import OrderDetailModal from "./modals/OrderDetailModal"
 /**
  * 查看订单
  */
@@ -20,7 +21,7 @@ export default class userOrder extends React.Component {
 		super(props);
 		this.state = {
 			columns: [
-				{title: '订单编号', data: 'id'},
+				{title: '订单编号', data: 'id', render: this.renderId.bind(this)},
 				{title: '下单时间', data: 'placeOrderTime'},
 				{title: '结束时间', data: 'endTime'},
 				{title: '取车时续航里程', data: 'leftMileage'},
@@ -40,6 +41,11 @@ export default class userOrder extends React.Component {
 		beefly.endOrder = this.endOrder.bind(this);
 		beefly.openLock = this.openLock.bind(this);
 		beefly.closeLock = this.closeLock.bind(this);
+		beefly.orderDetails = this.orderDetails.bind(this);
+	}
+
+	renderId(data, type, row){
+		return `<a href="javascript:beefly.orderDetails('${data}')">${data}</a>`
 	}
 	renderActions(data, type, row) {
 
@@ -86,6 +92,7 @@ export default class userOrder extends React.Component {
 					<EndOrderModal ref={(e) => this._endOrderModal = e} onSuccess={this.search.bind(this)}/>
 					<OpenLockModal ref={(e) => this._openLockModal = e} onSuccess={this.search.bind(this)}/>
 					<CloseLockModal ref={(e) => this._closeLockModal = e}  onSuccess={this.search.bind(this)}/>
+					<OrderDetailModal ref={(e) => this._orderDetailModal = e} />
 				</Box>
 			)
 
@@ -97,7 +104,13 @@ export default class userOrder extends React.Component {
 		let {query} = this.state;
 		this._dataTable.search(query);
 	}
-	
+
+	// 订单详情
+	orderDetails(data){
+		this._orderDetailModal.show({id: data})
+	}	
+
+
 	//结束订单
 	endOrder(data){
 		let m = data.split(",");

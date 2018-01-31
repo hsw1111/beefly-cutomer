@@ -87,18 +87,13 @@ export default class Illegal extends React.Component {
 		let actions = [
 			{text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
 			{text: '查看订单', icon: 'user-plus', onclick: `beefly.seeOrder('${row.id}')`},
-			{text: '修改手机号', icon: 'user-plus', onclick: `beefly.modify('${row.id},${row.mobile}')`},
 			{text: '拉黑', icon: 'user-plus', onclick: `beefly.black('${row.id},${row.mobile}')`, visible: row.isFrozen == 0},
 			{text: '取消拉黑', icon: 'user-plus', onclick: `beefly.cancelBlack('${row.id},${row.mobile}')`, visible: row.isFrozen == 1},
-			{text: '冻结用户押金', icon: 'user-plus', onclick: `beefly.frozen('${row.id},${row.mobile}')`,visible:row.creditLimit=1},
-			{text: '取消冻结用户押金', icon: 'user-plus', onclick: `beefly.unfreeze('${row.id},${row.mobile}')`,visible:row.creditLimit=0},
 			{text: '余额管理', icon: 'user-plus', onclick: `beefly.balance('${row.id},${row.mobile}')`},
 			{text: '出行券管理', icon: 'user-plus', onclick: `beefly.coupon('${row.id},${row.mobile}')`},
 			{text: '信用积分管理', icon: 'user-plus', onclick: `beefly.creditScore('${row.id},${row.mobile}')`},
-		
-			// {text: '余额管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
-			// {text: '出行券管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
-			// {text: '信用积分管理', icon: 'user-plus', onclick: `beefly.confirm('${row.id}')`},
+			{text: '冻结用户押金', icon: 'user-plus', onclick: `beefly.frozen('${row.id},${row.mobile}')`,visible:row.creditLimit=1},
+			{text: '取消冻结用户押金', icon: 'user-plus', onclick: `beefly.unfreeze('${row.id},${row.mobile}')`,visible:row.creditLimit=0},
 			{text: '修改手机号', icon: 'user-plus', onclick: `beefly.modify('${row.id},${row.mobile}')`},
 			{text: '清除验证码限制', icon: 'user-plus', onclick: `beefly.clearSms('${row.id},${row.mobile}')`},
 		];

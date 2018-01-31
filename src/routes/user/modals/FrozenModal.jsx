@@ -25,7 +25,7 @@ export default class FrozenModal extends React.Component {
 			<Modal show={show} title="冻结用户押金" onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
 				<Modal.Body>
 					    <div className="margin-l-15">确定冻结用户“{data.mmobile}”的押金么？</div>
-					    <div className="margin-l-15">押金冻结后，用户无法自行提现。</div>
+					    <div className="margin-l-15 margin-t-5" style={{color:'#ccc'}} >押金冻结后，用户无法自行提现。</div>
 					<Form ref={e => this._form = e}>
 						<Textarea label="备注" rows={5} model="remark" validation={{required: true}}/>
 					</Form>

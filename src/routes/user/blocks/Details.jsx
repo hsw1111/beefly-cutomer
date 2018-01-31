@@ -51,9 +51,9 @@ export default class Detail extends React.Component {
 				{title: '编号', data: 'id'},
 				{title: '操作时间', data: 'createTime'},
 				{title: '操作人', data: 'createName'},
-				{title: '奖惩类型', data: 'typeStr'},
+				{title: '奖惩类型', data: 'unit', render: (data) => dtUtils.renderMap(data, rewardType)},
 				{title: '处理类型', data: 'type', render: (data) => dtUtils.renderMap(data, integralType)},
-				{title: '积分', data: 'value'},
+				{title: '积分', data: 'value', render: (data, type, row) => (row.unit == 0 ? '+' : '-') + data},
 				{title: '剩余总积分', data: 'newValue'},
 				{title: '备注', data: 'remark'},
 			],
@@ -102,6 +102,9 @@ export default class Detail extends React.Component {
 				</Form>
 				<hr/>
 				<div className="margin-t-30">
+					<p className="margin-t-10">
+						<h4><b>备注信息</b></h4>
+					</p>
 					<Tabs model="type">
 						<Tab title="余额">
 							<DataTable ref={(e) => this._dataTable = e}

@@ -25,7 +25,7 @@ export default class BlackModal extends React.Component {
 			<Modal show={show} title="拉黑" onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
 				<Modal.Body>
 					    <div className="margin-l-15">确定是否把用户“{data.mmobile}”拉黑？</div>
-					    <div className="margin-l-15">拉黑后，用户无法再租用小蜜蜂.</div>
+					    <div className="margin-l-15 margin-t-5" style={{color:'#ccc'}}>拉黑后，用户无法再租用小蜜蜂.</div>
 					<Form ref={e => this._form = e}>
 						<Textarea label="备注" rows={5} model="remark" validation={{required: true}}/>
 					</Form>

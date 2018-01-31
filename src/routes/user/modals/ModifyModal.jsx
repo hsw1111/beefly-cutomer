@@ -24,10 +24,12 @@ export default class ModifyModal extends React.Component {
 		return (
 			<Modal show={show} title="修改手机号" onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
 				<Modal.Body>
-					    <p>原手机号：{data.mmobile}</p>
-					    <p><Input label="新手机号" model={'remark'} type="number" width={200} validation={{required: true}}/></p>
-					    <p>*修改手机号后，原手机号所有数据被变更到新手机号下，如订单、</p>
-					    <p>车辆、积分、出行券等，原手机号所有数据不再保存。</p>
+					<Form className='form-label-150' inline>
+							<p>原手机号：{data.mmobile}</p>
+					    <Input label="新手机号" model={'remark'} type="number" width={200} validation={{required: true}}/>
+					    
+					</Form>
+					<div className='margin-t-30' style={{color:'#ccc'}}>*修改手机号后，原手机号所有数据被变更到新手机号下，如订单、<br />车辆、积分、出行券等，原手机号所有数据不再保存。</div>
 				</Modal.Body>
 				<Modal.Footer>
 					<Button value={'取消'} theme={'default'} onClick={this.hide.bind(this)}/>
@@ -62,6 +64,12 @@ export default class ModifyModal extends React.Component {
 			appUserId:data.id,
 			mobile:remark
 		};
+		
+		var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/; 
+		if(!myreg.test(parms.mobile)){ 
+				msgBox.warning('请输入有效的手机号码！'); 
+				return; 
+		} 
 		let result = await appUserApi.modifyMobile(parms);
 		this.hide(true);
 		msgBox.warning(result.message);

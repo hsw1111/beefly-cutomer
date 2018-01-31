@@ -1,15 +1,16 @@
 import React from 'react';
 import {Modal, Button, msgBox} from "beefly-common";
 import orderApi from "../../../apis/orderApi";
+import bikeApi from "../../../apis/bikeApi";
 
 
 
 
 /**
- * 结束订单弹框
+ * 结束订单
  */
 
-export default class endOrderModal extends React.Component{
+export default class EndOrderModal extends React.Component{
   constructor(props){
     super(props)
     this.state = {
@@ -20,7 +21,7 @@ export default class endOrderModal extends React.Component{
       isEnd: false, //
       isAbroad: false, // 是否显示在运营区域外
       isReturn: false, // 是否还车失败
-      type: 0, // 是否计费
+      type: 1, // 是否计费
     }
   }
 
@@ -43,8 +44,8 @@ export default class endOrderModal extends React.Component{
                 {isOver && <p className='text-red'>该订单的车辆{id}当前位于违停区域内！</p>}
                 <div className="margin-t-20 isChecked">
                   <span className='text-red'>*</span>请选择该订单是否计费：
-                  <input name='radio' type="radio" value='0' checked /> <span className='margin-r-20'>计费</span>    
-                  <input name='radio' type="radio" value='1' /> <span>不计费</span> 
+                  <input name='radio' type="radio" value='1' defaultChecked /> <span className='margin-r-20'>计费</span>    
+                  <input name='radio' type="radio" value='2' /> <span>不计费</span> 
                 </div>
               </div>
             }
@@ -89,7 +90,8 @@ export default class endOrderModal extends React.Component{
       id: data.id,
       bikeCode: data.bikeCode
     })
-    // 判断是否在运营区域外
+
+    // 1.判断是否在运营区域外
     let result = await orderApi.abroadCloseOrder({id: data.id})
       // 在运营区域外
     if(result.resultCode==-1){
@@ -97,9 +99,9 @@ export default class endOrderModal extends React.Component{
         isAbroad: true,
       })
     }else{
-       // 不在运营区域外
+      // 不在运营区域外
 
-       // 判断是否在违停区域内
+       // 2.判断是否在违停区域内
        let result = await orderApi.isNoParkingArea({id})
           // 违停
         if(result.resultCode == -1){
@@ -133,30 +135,7 @@ export default class endOrderModal extends React.Component{
     }
   }
 
-// 结束订单
- async ok(){
-   let {id, bikeCode} = this.state
-    // 是否计费
-    this.setState({
-      type: $(".isChecked input:checked").val()
-    })
-
-    // 还车
-    let result = await orderApi.returnCar({id})
-    if(result.resultCode==1){
-      msgBox.success("还车成功！")
-      this.hide(true)
-    }else{
-      this.setState({
-        isOver: false, 
-        isEnd: false, 
-        isAbroad: false,
-        isReturn: true,
-      })
-    }
-  }
-
-  // 强制关闭
+  // 运营区域外强制关闭
   async forceClose(){
     let {id} = this.state
      // 判断是否在违停区域内
@@ -178,13 +157,39 @@ export default class endOrderModal extends React.Component{
         }
   }
 
-  // 还车
-  async returnCar(){
-    let {id, type} = this.state
-    let result = await orderApi.returnCar({id, type})
-    if(result.resultCode == 1){
+ // 结束订单
+ async ok(){
+   let {id, bikeCode} = this.state
+    // 是否计费
+    this.setState({
+      type: $(".isChecked input:checked").val()
+    })
+
+    // 还车
+    let result = await orderApi.returnCar({id,type:$(".isChecked input:checked").val()})
+    if(result.resultCode==1){
       msgBox.success("还车成功！")
       this.hide(true)
+    }else{
+      // 显示还车失败
+      this.setState({
+        isOver: false, 
+        isEnd: false, 
+        isAbroad: false,
+        isReturn: true,
+      })
+    }
+  }
+
+
+  // 还车失败 点击强制还车
+  async returnCar(){
+    let {id, bikeCode} = this.state
+    // 强制锁车
+    let result = await bikeApi.forcedLock({bikeCode})
+    if(result.resultCode == 1){
+      msgBox.success("还车成功！")
+      // this.hide(true)
     }
   }
 

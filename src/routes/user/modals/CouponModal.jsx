@@ -6,7 +6,7 @@ import couponApi from "../../../apis/couponApi";
 import {couponGetType} from '../../../maps/userMap'
 
 /**
- * 修改手机号
+ *  出行券管理
  */
 export default class CouponModal extends React.Component {
 
@@ -84,7 +84,12 @@ export default class CouponModal extends React.Component {
       isOver: false,
       queryTable: {
         'userId': data.id
-      }
+      },
+      query: {
+        couponAmout: '',
+        num: '',
+        time: '',
+      },
     });
 	}
 

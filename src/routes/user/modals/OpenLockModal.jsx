@@ -4,7 +4,7 @@ import orderApi from "../../../apis/orderApi";
 import beefly from "../../../js/beefly";
 
 /**
- * 车辆开锁锁弹框
+ * 车辆开锁
  */
 
 export default class endOrderModal extends React.Component{

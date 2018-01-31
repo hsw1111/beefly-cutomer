@@ -24,15 +24,17 @@ const orderApi = {
 	// 关电车锁
 	closeLock: (params) => request.get(env.apiPath_customer + 'order/closeLock', params),
 	
-	// 是否违停区域内还车
+	// 是否在违停区域内
 	isNoParkingArea: (params) => request.get(env.apiPath_customer + 'order/isNoParkingArea', params),
 	
-	// 是否运营区域外还车
+	// 是否在运营区域外
 	abroadCloseOrder: (params) => request.get(env.apiPath_customer + 'order/abroadCloseOrder', params),
 	
-	// 还车
+	// 还车接口
 	returnCar: (params) => request.get(env.apiPath_customer + 'order/returnCar', params),
 	
+	// 轮训车辆状态接口
+	reBackOrder: (params) => request.get(env.apiPath_customer + 'order/reBackOrder', params),
 
 };
 

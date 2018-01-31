@@ -4,7 +4,7 @@ import {rewardType, integralType} from '../../../maps/userMap';
 import creditScoreApi from "../../../apis/creditScoreApi";
 
 /**
- * 修改手机号
+ * 信用积分管理
  */
 export default class CouponModal extends React.Component {
 
@@ -136,6 +136,12 @@ export default class CouponModal extends React.Component {
       data,
       queryTable: {
         'userId': data.id
+      },
+      query: {
+        awardPunishType: 1,
+        creditScoreType: 9,
+        creditScoreCount: -10,
+        remark: ''
       }
     });
 	}

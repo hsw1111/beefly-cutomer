@@ -44,7 +44,7 @@ export default class userOrder extends React.Component {
 	renderActions(data, type, row) {
 
 		let actions = [
-			{text: '结束订单', icon: 'search', onclick: `beefly.endOrder('${row.id},${row.bikeCode}')`},
+			{text: '结束订单', icon: 'search', onclick: `beefly.endOrder('${row.id},${row.bikeCode}')`, visible: row.state == '未取车' || row.state == '已取车' || row.state == '开锁中'},
 			{text: '车辆开锁', icon: 'user-plus', onclick: `beefly.openLock('${row.id},${row.bikeCode}')`, visible: row.state == '已结束' || row.state == '开锁失败' || row.state == '已取车' || row.state == '开锁中' || row.state == '已取消' || row.state == '人工结束'},
 			{text: '车辆关锁', icon: 'user-plus', onclick: `beefly.closeLock('${row.id},${row.bikeCode}')`, visible: row.state == '已结束' || row.state == '开锁失败' || row.state == '已取车' || row.state == '开锁中' || row.state == '已取消' || row.state == '人工结束'},
 		];

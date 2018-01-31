@@ -17,9 +17,10 @@ export default class CouponModal extends React.Component {
       data: '',
       isOver: false, //是否超过发送上线
 			query: {
+        appUserId: '',
         couponAmout: '',
         num: '',
-        time: '',
+        expireTime: '',
       },
       columns: [
         {title: '编号', data: 'id'},
@@ -57,7 +58,7 @@ export default class CouponModal extends React.Component {
               {isOver && <div className='text-red margin-l-10' style={{position: 'absolute', top: 110, left: 390}}>
                             今日已到你可发送出行券的上限了，不可发送了！</div>}
             </div>
-            <Input label="过期时间" type='date' model='query.time'  width={310}  validation={{required: true}}/>
+            <Input label="过期时间" type='date' model='query.expireTime'  width={310}  validation={{required: true}}/>
             <div className='user-block' style={{ float: 'right'}}>
               <Button value={'取消'} theme={'default'} onClick={this.hide.bind(this)} className="margin-r-20" />
               <Button value={'确定'} onClick={this.ok.bind(this)}/>
@@ -86,9 +87,10 @@ export default class CouponModal extends React.Component {
         'userId': data.id
       },
       query: {
+        appUserId: data.id,
         couponAmout: '',
         num: '',
-        time: '',
+        expireTime: '',
       },
     });
 	}
@@ -104,21 +106,39 @@ export default class CouponModal extends React.Component {
 	}
 
 	async ok() {
-    this.setState({
-      isOver: true
-    })
+    // this.setState({
+    //   isOver: true
+    // })
     let {query} = this.state;
-    if (query.couponAmount == '') {
+    if (query.couponAmout == '') {
       msgBox.warning("出行券金额不能为空");
+      return
+    }
+    if(query.couponAmout < 0){
+      msgBox.warning("出行券金额不能小于0");
       return
     }
     if (query.num == '') {
       msgBox.warning("出行券数量不能为空");
       return
     }
-    if (query.time == '') {
+    if (query.num <0) {
+      msgBox.warning("出行券数量不能小于0");
+      return
+    }
+
+    if (query.expireTime == '') {
       msgBox.warning("过期时间不能为空");
       return
+    }
+    if(new Date(query.expireTime)-new Date() < 0){
+      msgBox.warning("过期时间不能小于当前日期");
+      return
+    }
+
+    let result = await couponApi.awardCoupon(query);
+    if(result.resultCode==1){
+      msgBox.success("奖励出行券操作成功！")
     }
 		this.hide(true);
 	}

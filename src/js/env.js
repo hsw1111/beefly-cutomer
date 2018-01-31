@@ -9,13 +9,13 @@
 const development = {
 	name: 'development',
 	dir: 'test',
-	// apiPath: 'http://10.31.24.156:7080/',
-	// apiPath_customer: 'http://10.31.24.156:7080/customer/',
+	apiPath: 'http://10.31.24.156:7080/',
+	apiPath_customer: 'http://10.31.24.156:7080/customer/',
 	// apiPath: 'http://47.93.48.250:7080/',
 	// apiPath_customer: 'http://47.93.48.250:7080/customer/',
 	// // 孙巍ip
-	apiPath: 'http://192.168.0.117:7080/',
-	apiPath_customer: 'http://192.168.0.117:7080/customer/',
+	// apiPath: 'http://192.168.0.117:7080/',
+	// apiPath_customer: 'http://192.168.0.117:7080/customer/',
 };
 
 

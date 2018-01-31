@@ -43,7 +43,7 @@ export default class HandleSuggestion extends React.Component {
 				smsFlag: 1,
 				// mobile: detail.mobile,
 				content: '',
-
+				
 			},
 
 			// 扣押金有三种可能:
@@ -189,10 +189,32 @@ export default class HandleSuggestion extends React.Component {
 		)
 	}
 
+	async componentWillMount(){
+		let result = await tripProblemApi.noPunishList()
+		var obj = {}
+		result.data.map((item)=>{
+			return obj[item.code] = item.content
+		})
+		this.setState({
+			noPunishType: obj
+		})
+	}
+
 	componentWillReceiveProps(nextProps){
 		if(this.props.orderId !== nextProps.orderId){
 			this.reset();
 		}
+	}
+	
+	async componentWillMount(){
+		let result = await tripProblemApi.noPunishList()
+		var obj = {}
+		result.data.map((item)=>{
+			return obj[item.code] = item.content
+		})
+		this.setState({
+			noPunishType: obj
+		})
 	}
 
 	async componentWillMount(){

@@ -40,6 +40,7 @@ class IllegalStore {
 			}
 			let result = await orderApi.page({
 				bikeCode: this.detail.bikeCode,
+				beginDate: this.detail.createTime,
 				pageSize: 1,
 				beginDate:this.detail.createTime,
 				problemType:ptype

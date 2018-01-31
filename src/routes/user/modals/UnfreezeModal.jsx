@@ -25,7 +25,7 @@ export default class UnfreezeModal extends React.Component {
 		return (
 			<Modal show={show} title="取消冻结用户押金" onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
 				<Modal.Body>
-					    <div className="margin-l-15">冻结原因：{blackBeason}</div>
+					    <div className="margin-l-15">冻结原因：<span style={{color:'#ccc'}}>{blackBeason}</span>	 	</div>
 					    <div className="margin-l-15">确定取消冻结用户“{data.mmobile}”的押金么？</div>
 					<Form ref={e => this._form = e}>
 						<Textarea label="备注" rows={5} model="remark" validation={{required: true}}/>
@@ -79,8 +79,11 @@ export default class UnfreezeModal extends React.Component {
 			remark:remark
 		};
 		let result = await appUserApi.credibly(parms);
-		this.hide(true);
-		msgBox.warning(result.message);
+		if(result.resultCode==1){
+			this.hide(true);
+			msgBox.success('取消冻结用户押金成功');
+		}
+		
 
 	}
 

@@ -66,9 +66,9 @@ export default class detailModal extends React.Component {
 		)
 	}
 
-	async show({id}) {
+	async show(data) {
 
-		let result = await orderApi.detail({orderId: id});
+		let result = await orderApi.detail({orderId: data.id});
 		let detail = result.data;
 		this.setState({
 			show: true,

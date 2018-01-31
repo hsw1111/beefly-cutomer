@@ -70,11 +70,13 @@ export default class IntegralModal extends React.Component {
 		this.setState({
 			show: true,
 			userId: data.userId,
-			mobile: data.mobile
+			mobile: data.mobile,
+			query: {
+				'userId': data.userId,
+				'unit': 1,
+				'type': 9,
+			}
 		});
-		let {query} = this.state;
-		query.userId = data.userId;
-		// this._dataTable.search(query);
 	}
 
 	hide() {

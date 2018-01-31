@@ -25,8 +25,8 @@ export default class CancelBlackModal extends React.Component {
 		return (
 			<Modal show={show} title="取消拉黑" onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
 				<Modal.Body>
-					    <div className="margin-l-15">拉黑原因：{blackBeason}</div>
-					    <div className="margin-l-15">确定是否把用户“{data.mmobile}”取消拉黑？</div>
+					    <div className="margin-l-15">拉黑原因：<span style={{color:'#ccc'}}>{blackBeason}</span></div>
+					    <div className="margin-l-15 margin-t-5">确定是否把用户“{data.mmobile}”取消拉黑？</div>
 					<Form ref={e => this._form = e}>
 						<Textarea label="备注" rows={5} model="remark" validation={{required: true}}/>
 					</Form>

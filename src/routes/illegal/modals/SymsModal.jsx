@@ -55,12 +55,12 @@ export default class SymsModal extends React.Component {
 		this.setState({
 			show: true,
 			mobile: data.mobile,
-			userId: data.userId
+			userId: data.userId,
+			query: {
+				'mobiles': data.mobile,
+				'serviceType': 4
+			}
 		});
-		let {query} = this.state;
-		query.mobiles = data.mobile;
-		query.serviceType = 4;
-		// this._dataTable.search(query);
 	}
 
 	hide() {

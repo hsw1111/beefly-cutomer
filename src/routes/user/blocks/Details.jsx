@@ -1,9 +1,8 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import {Box, Field, Form, Text, Row, Col, Tab, Tabs,DataTable,dtUtils} from "beefly-common";
-import {reportState,handleType} from '../../../maps/illegalMap';
-import couponApi from "../../../apis/couponApi";
-import {integralType, rewardType} from '../../../maps/illegalMap';
+import {Box, Form, Text, Row, Col, Tab, Tabs,DataTable,dtUtils} from "beefly-common";
+import {integralType, rewardType,} from '../../../maps/illegalMap';
+import {depositState} from '../../../maps/userMap';
 import userStore from "../../../stores/userStore";
 import appUserApi from "../../../apis/appUserApi";
 
@@ -51,9 +50,9 @@ export default class Detail extends React.Component {
 				{title: '编号', data: 'id'},
 				{title: '操作时间', data: 'createTime'},
 				{title: '操作人', data: 'createName'},
-				{title: '奖惩类型', data: 'typeStr'},
+				{title: '奖惩类型', data: 'unit', render: (data) => dtUtils.renderMap(data, rewardType)},
 				{title: '处理类型', data: 'type', render: (data) => dtUtils.renderMap(data, integralType)},
-				{title: '积分', data: 'value'},
+				{title: '积分', data: 'value', render: (data, type, row) => (row.unit == 0 ? '+' : '-') + data},
 				{title: '剩余总积分', data: 'newValue'},
 				{title: '备注', data: 'remark'},
 			],
@@ -87,14 +86,14 @@ export default class Detail extends React.Component {
 							<Text label="用户编号" value={detail.id}/>
 							<Text label="用户姓名" value={detail.name}/>
 							<Text label="手机号" value={detail.mobile}/>
-							<Text label="所属城市" value={detail.cityName}/>
+							<Text label="所属城市" value={detail.registerCity}/>
 							<Text label="余额" value={detail.totalBalance}/>
-							<Text label="注册时间" value={detail.ctrTime}/>
+							<Text label="注册时间" value={detail.registerTime}/>
 						</Col>
 						<Col md={7}>
 							<Text label="用户状态" value={detail.userStatusName}/>
 							<Text label="信用积分" value={detail.credScore}/>
-							<Text label="押金状态" value={detail.depositState}/>
+							<Text label="押金状态" value={depositState[detail.creditLimit]}/>
 							<Text label="最近一次订单" value={detail.orderId}/>
 							<Text label="最近一次订单时间" value={detail.orderTime}/>
 						</Col>
@@ -102,6 +101,9 @@ export default class Detail extends React.Component {
 				</Form>
 				<hr/>
 				<div className="margin-t-30">
+					<p className="margin-t-10">
+						<h4><b>备注信息</b></h4>
+					</p>
 					<Tabs model="type">
 						<Tab title="余额">
 							<DataTable ref={(e) => this._dataTable = e}

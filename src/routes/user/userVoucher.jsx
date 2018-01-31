@@ -32,7 +32,6 @@ export default class userVoucher extends React.Component {
       <Content>
         <Box>
 			<Form ref={e => this.form = e} horizontal>
-				<a class="glyphicon glyphicon-remove btn form-control-feedback" style={{'pointer-events':"auto"}}></a>
 				<Input label="出行券金额" model="rewardCoupon.couponAmout" type="number" width={150} validation={{required: true}}/>
 				<Input label="出行券张数" model="rewardCoupon.num" type="number" width={150}  validation={{required: true}}/>
 				<Input label="过期时间" model="rewardCoupon.expireTime" type="date" width={250} validation={{required: true}}/>
@@ -61,7 +60,6 @@ export default class userVoucher extends React.Component {
 				{/*{noPunishLis.map((d) => (*/}
 					{/*<li className={cs({'text-red': d.value})}>{d.text}</li>*/}
 				{/*))}*/}
-				{this.renderPrize()}
 			</div>
 			<div className="margin-t-80" style={{float:'right'}}>
 				<Button value="确定发送" onClick={this.ok.bind(this)}/>
@@ -139,7 +137,6 @@ export default class userVoucher extends React.Component {
 					}
 				}
 
-
 				$.each(persons,function(index,data)
 				{
 					rewardCoupon.mobiles.push(data.mobile);
@@ -158,14 +155,5 @@ export default class userVoucher extends React.Component {
 
 	}
 
-	renderPrize(){
-		// return (
-		// 	<div className="contented">
-		// 		<div>分享后将自动放入</div>
-		// 		<div>“个人中心”-“我的钱包”中</div>
-		// 		<div>再骑一次 中大奖概率翻倍</div>
-		// 	</div>
-		// )
-	}
 
 }

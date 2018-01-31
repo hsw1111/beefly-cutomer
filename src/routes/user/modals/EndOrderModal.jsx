@@ -102,9 +102,9 @@ export default class EndOrderModal extends React.Component{
       // 不在运营区域外
 
        // 2.判断是否在违停区域内
-       let result = await orderApi.isNoParkingArea({id})
+       let result1 = await orderApi.isNoParkingArea({id: data.id})
           // 违停
-        if(result.resultCode == 0){
+        if(result1.resultCode == 0){
           this.setState({
             isEnd: true,
             isOver: true
@@ -116,6 +116,9 @@ export default class EndOrderModal extends React.Component{
             isOver: false
           })
         }
+    }else{
+      // 判断是否境外还车异常
+      this.hide()
     }
     
   }

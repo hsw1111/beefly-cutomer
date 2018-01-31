@@ -79,7 +79,7 @@ export default class userOrder extends React.Component {
 							</Col>
 							<Col md={7}>
 								<Text label="用户姓名" value={detail.name}/>
-								<Text label="所属城市" value={detail.cityName}/>
+								<Text label="所属城市" value={detail.registerCity}/>
 							</Col>
 						</Row>
 					</Form>

@@ -1,5 +1,6 @@
 import React from 'react';
 import {Modal, Button} from "beefly-common";
+import bikeApi from '../../../apis/bikeApi'
 
 
 
@@ -32,9 +33,10 @@ export default class WhistleModal extends React.Component {
 		)
 	}
 
-	show() {
+	show({bikeCode}) {
     this.setState({
-			show: true
+			show: true,
+			bikeCode
 		})
 	}
 
@@ -44,10 +46,10 @@ export default class WhistleModal extends React.Component {
 		})
 	}
 
-	ok() {
-		this.setState({
-			show: false
-		})
+	async ok() {
+		let {bikeCode} = this.state;
+		let result = await bikeApi.whistle({bikeCode})
+		this.hide()
 	}
 
 }

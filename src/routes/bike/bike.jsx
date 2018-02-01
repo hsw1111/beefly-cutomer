@@ -86,8 +86,8 @@ export default class bike extends React.Component {
     return dtUtils.renderActions(actions, 'dropdown')
   }
 
-  whistle(){
-    this._whistleModal.show()
+  whistle(bikeCode){
+    this._whistleModal.show({bikeCode})
   }
 
   bikeLog(code){

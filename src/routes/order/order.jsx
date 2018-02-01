@@ -20,7 +20,7 @@ export default class Order extends React.Component {
 
 		this.state = {
 			columns: [
-				{title: '订单编号', data: 'id'},
+				{title: '订单编号', data: 'id', render: this.renderId.bind(this)},
 				{title: '用户编号', data: 'userId'},
 				{title: '手机号', data: 'mobile'},
 				{title: '下单时间', data: 'placeOrderTime', render: dtUtils.renderDateTime},
@@ -50,7 +50,9 @@ export default class Order extends React.Component {
 		beefly.openLock = this.openLock.bind(this);
 		beefly.closeLock = this.closeLock.bind(this);
 	}
-
+	renderId(data, type, row){
+		return `<a href="javascript:beefly.details('${data}')">${data}</a>`
+	}
 	render() {
 		let {columns, query} = this.state;
 		return (

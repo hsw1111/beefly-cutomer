@@ -2,7 +2,7 @@ import React from 'react';
 import {observer} from 'mobx-react';
 import {Box, Button, Content, Form, Row, Col, Text, tabUtils, dtUtils, DataTable} from "beefly-common";
 import bikeLogApi from '../../apis/bikeLogApi'
-import bikeLog from './stores/bikeStores'
+import bikeStores from './stores/bikeStores'
 import {urlUtils} from 'jeselvmo';
 
 /**
@@ -16,7 +16,7 @@ export default class BikeLog extends React.Component {
 
     this.state = {
       columns: [
-        {title: '操作人', render: this.renderOperater},
+        {title: '操作人', data: 'operater', render: (data, type, row) =>{row.opersterType==1?data.userName:data.realName}},
 				{title: '角色', data: 'operaterTypeName'},
 				{title: '在线状态', data: 'operateBoxState'},
 				{title: '操作日志', data: 'operateContent'},
@@ -35,12 +35,12 @@ export default class BikeLog extends React.Component {
         bikeCode
       }
     })
-    bikeLog.fetchDetail()
+    bikeStores.fetchDetail()
   }
 
   render(){
-    let {detail} = bikeLog
-    let {columns, query} = this.state
+    let {detail} = bikeStores;
+    let {columns, query} = this.state;
     return (
       <Content>
         {detail && 
@@ -70,8 +70,5 @@ export default class BikeLog extends React.Component {
     )
   }
 
-  renderOperater(data, type, row){
-    return row.operater.role === 3 ? row.operater.realName : row.operater.userName
-  }
 
 }

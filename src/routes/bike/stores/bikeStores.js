@@ -6,7 +6,7 @@ import {urlUtils} from 'jeselvmo';
 /**
  *
  */
-class BikeStore {
+class BikeStores {
 	@observable detail = null;
 
 
@@ -22,5 +22,5 @@ class BikeStore {
 }
 
 // 实例化
-const bikeStore = new BikeStore();
-export default bikeStore;
+const bikeStores = new BikeStores();
+export default bikeStores;

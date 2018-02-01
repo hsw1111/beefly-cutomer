@@ -5,6 +5,7 @@ import tripProblemApi from "../../../apis/tripProblemApi";
 import appUserApi from "../../../apis/appUserApi";
 import beefly from "../../../js/beefly";
 import illegalStore from "../stores/illegalStore";
+import {localStore} from 'jeselvmo';
 
 /**
  * 用户奖励
@@ -23,13 +24,13 @@ export default class UserAward extends React.Component {
 			},
 
 			rewardCoupon: {
-				couponAmout: '5',
-				num: '1',
-				expireTime: '2018-01-15'
+				couponAmout: '',
+				num: '',
+				expireTime: ''
 			},
 
 			rewardBlance: {
-				amount: 5,
+				amount: '',
 				remark: ''
 			},
 
@@ -96,6 +97,14 @@ export default class UserAward extends React.Component {
 		)
 	}
 
+	componentDidMount(){
+		if(illegalStore.detail.state == 5){
+			msgBox.warning('该上报已经处理', ()=>{
+				tabUtils.closeTab()
+			})
+		}
+	}
+
 	// 确认处理
 	confirmHandle() {
 		let type = this.state.type + 1;
@@ -140,9 +149,17 @@ export default class UserAward extends React.Component {
 			...rewardScore
 		});
 
+		if (result.resultSupport == -1) {
+			localStore.set('illegalState',5);
+			msgBox.warning(result.message, () => {
+				tabUtils.closeTab();
+			});
+		}
+
 		if (result.resultCode == 1) {
+			localStore.set('illegalState',5);
 			msgBox.success(result.message, () => {
-				tabUtils.closeTab()
+				tabUtils.closeTab();
 			});
 		}
 	}
@@ -168,9 +185,17 @@ export default class UserAward extends React.Component {
 			...rewardCoupon
 		});
 
+		if (result.resultSupport == -1) {
+			localStore.set('illegalState',5);
+			msgBox.warning(result.message, () => {
+				tabUtils.closeTab();
+			});
+		}
+
 		if (result.resultCode == 1) {
+			localStore.set('illegalState',5);
 			msgBox.success(result.message, () => {
-				tabUtils.closeTab()
+				tabUtils.closeTab();
 			});
 		}
 	}
@@ -189,9 +214,17 @@ export default class UserAward extends React.Component {
 			...rewardBlance
 		});
 
+		if (result.resultSupport == -1) {
+			localStore.set('illegalState',5);
+			msgBox.warning(result.message, () => {
+				tabUtils.closeTab();
+			});
+		}
+
 		if (result.resultCode == 1) {
+			localStore.set('illegalState',5);
 			msgBox.success(result.message, () => {
-				tabUtils.closeTab()
+				tabUtils.closeTab();
 			});
 		}
 	}
@@ -205,9 +238,17 @@ export default class UserAward extends React.Component {
 			...noReward
 		});
 
+		if (result.resultSupport == -1) {
+			localStore.set('illegalState',5);
+			msgBox.warning(result.message, () => {
+				tabUtils.closeTab();
+			});
+		}
+
 		if (result.resultCode == 1) {
+			localStore.set('illegalState',5);
 			msgBox.success(result.message, () => {
-				tabUtils.closeTab()
+				tabUtils.closeTab();
 			});
 		}
 	}

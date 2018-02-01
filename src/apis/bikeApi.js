@@ -3,7 +3,7 @@ import env from '../js/env';
 
 
 /**
- * bike
+ * 车辆
  */
 const bikeApi = {
 	// 车辆操作日志接口
@@ -15,6 +15,9 @@ const bikeApi = {
 	// 修改状态接口
 	editState: (params) => request.get(env.apiPath_customer + 'bike/editState', params),
 	
+	// 强制锁车接口
+	forcedLock: (params) => request.get(env.apiPath_customer + 'bike/forcedLock', params),
+
 };
 
 export default bikeApi

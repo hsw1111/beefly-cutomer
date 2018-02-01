@@ -1,7 +1,7 @@
 {
   "name": "beefly-customer",
   "version": "3.0.0",
-  "description": "运营管理平台",
+  "description": "客服管理平台",
   "main": "''",
   "scripts": {
     "clean": "rimraf public",
@@ -24,7 +24,7 @@
   },
   "author": "beefly",
   "license": "MIT",
-  "homepage": "http://59.110.52.154:82/admin-web/system#readme",
+  "homepage": "http://59.110.52.154:82/admin-web/beefly-customer#readme",
   "dependencies": {
     "classnames": "^2.2.5",
     "jeselvmo": "^1.0.6",

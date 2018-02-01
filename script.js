@@ -100,7 +100,7 @@ function travel(src, dest) {
 
 //copy
 if (program.copy) {
-	travel("../beefly-frame/public", './public');
+	// travel("../beefly-frame/public", './public');
 	travel("./static", './public');
 }
 

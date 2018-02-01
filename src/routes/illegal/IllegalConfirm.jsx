@@ -13,18 +13,26 @@ import illegalStore from "./stores/illegalStore";
 @observer
 export default class IllegalConfirm extends React.Component {
 
+	constructor(props){
+		super(props);
+		this.state = {
+			orderId: null
+		}
+	}
+
 	componentWillMount() {
 		illegalStore.fetchDetail()
 	}
 
 	render() {
 		let {detail} = illegalStore;
+		let {orderId} = this.state;
 		if (detail) {
 			return (
 				<Content>
 					<Detail simple/>
-					{detail.reportRole != 0 && <IllegalCategory/>}
-					{detail.reportRole == 0 ? <UserAward/> : <HandleSuggestion/>}
+					{detail.reportRole != 0 && <IllegalCategory onOrderChange={(orderId)=>this.setState({orderId})}/>}
+					{detail.reportRole == 0 ? <UserAward/> : <HandleSuggestion orderId={orderId}/>}
 				</Content>
 			)
 		}

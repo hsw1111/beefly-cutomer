@@ -3,7 +3,7 @@ import {Modal, Button, Box, DataTable, dtUtils} from "beefly-common";
 import Detail from '../blocks/Detail';
 import OrderCost from '../blocks/OrderCost';
 import orderApi from "../../../apis/orderApi";
-import bikeApi from '../../../apis/bikeApi';
+import bikeLogApi from '../../../apis/bikeLogApi';
 import beefly from "../../../js/beefly";
 
 
@@ -47,7 +47,7 @@ export default class detailModal extends React.Component {
 					<OrderCost detail={detail}/>
 					<Box title="车辆操作日志">
 						<DataTable ref={(e) => this._dataTable = e}
-								   columns={columns} api={bikeApi.bikeLogPage} query={query}/>
+								   columns={columns} api={bikeLogApi.bikeLogPage} query={query}/>
 					</Box>
 					<Box title="订单上报日志">
 						<DataTable ref={(e) => this._dataTable1 = e}

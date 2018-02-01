@@ -9,11 +9,19 @@
 			},
 			{
 				"name": "短信管理",
-				"path": "/"
+				"path": "/user/message"
 			},
 			{
 				"name": "验证码信息",
-				"path": "/"
+				"path": "/user/authCode"
+			},
+			{
+				"name": "用户信息",
+				"path": "/user/info"
+			},
+			{
+				"name": "群发出行券",
+				"path": "/user/voucher"
 			}
 		]
 	},

@@ -1,10 +1,12 @@
 import React from 'react';
-import {Box, Button, CitySelect, Content, DataTable, DateRange, Field, Form, Select, SelectInput, tabUtils, dtUtils} from "beefly-common";
+import {Box, Button, CitySelect, Content, DataTable, DateRange, Field, Form, Select, SelectInput, tabUtils, dtUtils, msgBox} from "beefly-common";
 import {handleType, operateState, reportState, vagueState} from '../../maps/illegalMap';
 import AddRemarkModal from "./modals/AddRemarkModal";
 import RejectModal from "./modals/RejectModal";
 import tripProblemApi from "../../apis/tripProblemApi";
+// import systemCityApi from "../../apis/systemCityApi";
 import beefly from "../../js/beefly";
+import env from "../../js/env";
 
 /**
  * 违停上报
@@ -16,13 +18,13 @@ export default class Illegal extends React.Component {
 
 		this.state = {
 			columns: [
-				{title: '上报编号', data: 'id'},
+				{title: '上报编号', data: 'id',render: this.renderId.bind(this)},
 				{title: '城市', data: 'cityName'},
 				{title: '上报姓名', data: 'userName'},
 				{title: '上报角色', data: 'reportRole', render: (data) => dtUtils.renderMap(data, reportState)},
 				{title: '手机号', data: 'mobile'},
 				{title: '车辆编号', data: 'bikeCode'},
-				{title: '上报时间', data: 'lastReportTime', render: dtUtils.renderDateTime},
+				{title: '上报时间', data: 'createTime', render: dtUtils.renderDateTime},
 				{title: '处理进度', data: 'state', render: (data) => dtUtils.renderMap(data, handleType)},
 				{title: '操作', type: 'object', render: this.renderActions},
 			],
@@ -49,8 +51,11 @@ export default class Illegal extends React.Component {
 		beefly.confirm = this.confirm.bind(this);
 	}
 
-	renderActions(data, type, row) {
+	renderId(data, type, row){
+		return `<a href="javascript:beefly.details('${data}')">${data}</a>`
+	}
 
+	renderActions(data, type, row) {
 		if (row.state == 5) {
 			let actions = [
 				{text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
@@ -96,7 +101,9 @@ export default class Illegal extends React.Component {
 			</Content>
 		)
 	}
-
+	// async componentWillMount(){
+	// 	let result = await systemCityApi.getSystemCitys()
+	// }
 	search() {
 		let {query} = this.state;
 
@@ -110,6 +117,10 @@ export default class Illegal extends React.Component {
 	async export() {
 		let {query} = this.state;
 		let result = await tripProblemApi.export(query);
+		if(beefly.isSuccess(result)){
+			let url = env.apiPath + result.data;
+			$('body').append(`<iframe src="${url}" style="display: none;"></iframe>`)
+		}
 	}
 
 	// 查看详情
@@ -131,14 +142,32 @@ export default class Illegal extends React.Component {
 	}
 
 	// 驳回处理
-	reject(id) {
+	async reject(id) {
+		let parms={
+			id:id
+		};
+		let result = await tripProblemApi.detail(parms);
+		if(result.data.state==5){
+          this.search();
+			msgBox.warning("该违停记录已处理过！");
+          return
+		}
 		this._rejectModal.show({
 			id
 		});
 	}
 
 	// 确认处理
-	confirm(id) {
+	async confirm(id) {
+		let parms={
+			id:id
+		};
+		let result = await tripProblemApi.detail(parms);
+		if(result.data.state==5){
+			this.search();
+			msgBox.warning("该违停记录已处理过！");
+			return
+		}
 		tabUtils.addTab({
 			name: '确认处理-' + id,
 			path: '/illegal/confirm',

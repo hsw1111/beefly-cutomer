@@ -32,7 +32,6 @@ export default class CouponModal extends React.Component {
         creditScoreType: 9,
         creditScoreCount: -10,
         remark: '',
-        unit: 1
       }
 		}
 	}
@@ -116,7 +115,6 @@ export default class CouponModal extends React.Component {
           awardPunishType: 1,
           creditScoreType:e.target.value,
           creditScoreCount: -10,
-          unit: 1
         }
       })
       // 其余积分处罚-30
@@ -126,7 +124,6 @@ export default class CouponModal extends React.Component {
           awardPunishType: 1,
           creditScoreType:e.target.value,
           creditScoreCount: -30,
-          unit: 1
         }
       })
       // 积分处罚中的其他为空，由客服填写
@@ -136,7 +133,6 @@ export default class CouponModal extends React.Component {
           awardPunishType: 1,
           creditScoreType:e.target.value,
           creditScoreCount: '',
-          unit: 1
         }
       })
     }
@@ -155,7 +151,6 @@ export default class CouponModal extends React.Component {
         creditScoreType: 9,
         creditScoreCount: -10,
         remark: '',
-        unit: 1
       }
     });
 	}
@@ -177,7 +172,6 @@ export default class CouponModal extends React.Component {
       creditScoreCount: query.creditScoreCount,
       remark: query.remark,
       creditScoreType: query.creditScoreType,
-      unit: query.unit
     })
     if(result.resultCode==1){
       msgBox.success("奖惩积分操作成功！")

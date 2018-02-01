@@ -71,9 +71,10 @@ export default class ModifyModal extends React.Component {
 				return; 
 		} 
 		let result = await appUserApi.modifyMobile(parms);
-		this.hide(true);
-		msgBox.warning(result.message);
-
+		if(result.resultCode==1){
+			msgBox.success('修改手机号码成功！')
+			this.hide(true);
+		}
 	}
 
 }

@@ -44,8 +44,8 @@ export default class userVoucher extends React.Component {
 						</Text>
 						<div className="margin-t-30">
 							<div style={{float: 'left'}}>
-								<span className="h4">发送人员名单</span><span
-								className="h6 margin-l-20">共计{mobiles.length}人</span>
+								<span className="h3">发送人员名单</span><span
+								className="h5 margin-l-20">共计{mobiles.length}人</span>
 							</div>
 							<div style={{float: 'right'}}>
 								<a href="javascript:void(0)" onClick={this.empty.bind(this)}>清空</a>

@@ -89,7 +89,7 @@ export default class Detail extends React.Component {
 			<Box>
 				<Form className="form-label-150" horizontal>
 					<Row>
-						<Col md={5}>
+						<Col md={4}>
 							<Text label="用户编号" value={detail.id}/>
 							<Text label="用户姓名" value={detail.name}/>
 							<Text label="手机号" value={detail.mobile}/>
@@ -97,7 +97,7 @@ export default class Detail extends React.Component {
 							<Text label="余额" value={(detail.balance || 0) + (detail.grantBalance || 0)}/> <span style={{position: 'absolute', top: 138, left: 235}}>（充值金额{detail.balance || 0}元+赠送金额{detail.grantBalance || 0}元）</span>
 							<Text label="注册时间" value={detail.registerTime}/>
 						</Col>
-						<Col md={7}>
+						<Col md={8}>
 							<Text label="用户状态" value={detail.userStatusName}/>
 							<Text label="信用积分" value={detail.credScore}/>
 							<Text label="押金状态" value={depositState[detail.creditLimit]}/>

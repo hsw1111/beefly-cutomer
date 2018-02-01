@@ -1,7 +1,7 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 import {Box, Button, Content, Form, Row, Col, Text, tabUtils, dtUtils, DataTable} from "beefly-common";
-import bikeApi from '../../apis/bikeApi'
+import bikeLogApi from '../../apis/bikeLogApi'
 import bikeLog from './stores/bikeStores'
 import {urlUtils} from 'jeselvmo';
 
@@ -61,7 +61,7 @@ export default class BikeLog extends React.Component {
         <Box title='车辆日志'>
           <Form>
             <DataTable ref={(e) => this._dataTable = e}
-                columns={columns}  api={bikeApi.bikeLogPage}  query={query}/> 
+                columns={columns}  api={bikeLogApi.page}  query={query}/> 
           </Form>
           
         </Box>

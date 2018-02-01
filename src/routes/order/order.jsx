@@ -5,8 +5,8 @@ import {orderState, orderType, vagueState, timeType} from '../../maps/orderMap';
 
 import EndOrderModal from './modals/EndOrderModal' 
 import DetailModal from './modals/DetailModal' 
-import LockModal from './modals/LockModal' 
-import UnlockModal from './modals/UnlockModal' 
+import OpenLockModal from './modals/OpenLockModal' 
+import CloseLockModal from './modals/CloseLockModal' 
 import beefly from "../../js/beefly";
 
 /**
@@ -47,8 +47,8 @@ export default class Order extends React.Component {
 
 		beefly.details = this.details.bind(this);
 		beefly.endOrder = this.endOrder.bind(this);
-		beefly.unlock = this.unlock.bind(this);
-		beefly.lock = this.lock.bind(this);
+		beefly.openLock = this.openLock.bind(this);
+		beefly.closeLock = this.closeLock.bind(this);
 	}
 
 	render() {
@@ -71,10 +71,10 @@ export default class Order extends React.Component {
 							   columns={columns} api={orderApi.listPage} query={query}/>
         </Box>
 
-        <EndOrderModal ref={(e) => this._endOrderModal = e}/>
         <DetailModal ref={(e) => this._detailModal = e}/>
-        <LockModal ref={(e) => this._lockModal = e}/>
-        <UnlockModal ref={(e) => this._unlockModal = e}/>
+        <EndOrderModal ref={(e) => this._endOrderModal = e} onSuccess={this.search.bind(this)}/>
+        <OpenLockModal ref={(e) => this._openLockModal = e} onSuccess={this.search.bind(this)}/>
+        <CloseLockModal ref={(e) => this._closeLockModal = e}  onSuccess={this.search.bind(this)}/>
       </Content>
     )
   }
@@ -94,22 +94,22 @@ export default class Order extends React.Component {
     if(row.orderFlow === 0 || row.orderFlow === 3 || row.orderFlow === 4 || row.orderFlow === 10){
       let actions = [
         {text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
-        {text: '车辆开锁', icon: 'user-plus', onclick: `beefly.unlock('${row.id}')`},
-        {text: '车辆关锁', icon: 'user-plus', onclick: `beefly.lock('${row.id}')`},
+        {text: '车辆开锁', icon: 'user-plus', onclick: `beefly.openLock('${row.id},${row.bikeCode}')`},
+        {text: '车辆关锁', icon: 'user-plus', onclick: `beefly.closeLock('${row.id},${row.bikeCode}')`},
       ]
       return dtUtils.renderActions(actions, 'dropdown')
     }else if(row.orderFlow === 1 ){
       let actions = [
         {text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
-        {text: '结束订单', icon: 'user-plus', onclick: `beefly.endOrder('${row.id}')`},
+        {text: '结束订单', icon: 'user-plus', onclick: `beefly.endOrder('${row.id},${row.bikeCode}')`},
       ]
       return dtUtils.renderActions(actions, 'dropdown')
     }else if(row.orderFlow === 2 || row.orderFlow === 9){
       let actions = [
         {text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
-        {text: '结束订单', icon: 'user-plus', onclick: `beefly.endOrder('${row.id}')`},
-        {text: '车辆开锁', icon: 'user-plus', onclick: `beefly.unlock('${row.id}')`},
-        {text: '车辆关锁', icon: 'user-plus', onclick: `beefly.lock('${row.id}')`},
+        {text: '结束订单', icon: 'user-plus', onclick: `beefly.endOrder('${row.id},${row.bikeCode}')`},
+        {text: '车辆开锁', icon: 'user-plus', onclick: `beefly.openLock('${row.id},${row.bikeCode}')`},
+        {text: '车辆关锁', icon: 'user-plus', onclick: `beefly.closeLock('${row.id},${row.bikeCode}')`},
       ]
       return dtUtils.renderActions(actions, 'dropdown')
     }
@@ -122,23 +122,32 @@ export default class Order extends React.Component {
       id
     })
   }
-  // 结束订单
-  endOrder(id){
-    this._endOrderModal.show({
-      id
-    })
-  }
-  // 车辆开锁
-  unlock(id){
-    this._unlockModal.show({
-      id
-    })
-  }
-  // 车辆关锁
-  lock(id){
-    this._lockModal.show({
-      id
-    })
-  }
+  	//结束订单
+	endOrder(data){
+		let m = data.split(",");
+		this._endOrderModal.show({
+			id: m[0],
+			bikeCode: m[1]
+		});
+	}
+
+	//开锁
+	openLock(data){
+		let m = data.split(",");
+		this._openLockModal.show({
+			id: m[0],
+			bikeCode: m[1]
+		});
+	}
+
+	//关琐
+	closeLock(data){
+		let m = data.split(",");
+		this._closeLockModal.show({
+			id: m[0],
+			bikeCode: m[1]
+		});
+	}
+
 
 }

@@ -1,10 +1,10 @@
 import React from 'react';
-import {Modal, Button} from "beefly-common";
+import {Modal, Button, msgBox} from "beefly-common";
 import orderApi from "../../../apis/orderApi";
 import beefly from "../../../js/beefly";
 
 /**
- * 车辆开锁锁弹框
+ * 车辆开锁
  */
 
 export default class endOrderModal extends React.Component{
@@ -12,17 +12,18 @@ export default class endOrderModal extends React.Component{
     super(props);
     this.state = {
       show: false,
-      id: ''
+      id: '',
+      bikeCode: ''
     }
   }
 
   render(){
-    let {show} = this.state;
+    let {show, id, bikeCode} = this.state;
     return (
       <Modal show={show} title="车辆开锁" onHide={this.hide.bind(this)}>
         <Modal.Body>
 						<div>
-              你确定车辆开锁么？（订单编号：12123，车辆编号：3456）
+              你确定车辆开锁么？（订单编号：{id}，车辆编号：{bikeCode}）
 						</div>
 				</Modal.Body>
 				<Modal.Footer>
@@ -33,23 +34,33 @@ export default class endOrderModal extends React.Component{
     )
   }
 
-  show({id}){
+  show(data){
     this.setState({
       show: true,
-      id
+      id: data.id,
+      bikeCode: data.bikeCode
 		})
   }
 
 
-  hide(){
+  hide(isCallBack){
+    let {onSuccess} = this.props;
     this.setState({
 			show: false
-		})
+    })
+    if(isCallBack){
+      onSuccess && onSuccess();
+    }
   }
 
  async ok(){
+   let {bikeCode} =  this.state;
+   let result = await orderApi.openLock({type: 1, bikeCode})
+   if(result.resultCode==1){
+     msgBox.success("车辆开锁成功！");
+     this.hide(true);
+   }
 
-
-  }
+}
 
 }

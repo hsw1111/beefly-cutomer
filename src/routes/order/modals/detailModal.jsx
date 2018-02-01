@@ -42,12 +42,14 @@ export default class detailModal extends React.Component {
 		let {show, detail, columns, query, columns1, query1} = this.state;
 		return (
 			<Modal show={show} title="订单详情" size="lg" onHide={this.hide.bind(this)}>
+			{show && 
+			<div>
 				<Modal.Body>
 					<Detail detail={detail}/>
 					<OrderCost detail={detail}/>
 					<Box title="车辆操作日志">
 						<DataTable ref={(e) => this._dataTable = e}
-								   columns={columns} api={bikeLogApi.bikeLogPage} query={query}/>
+								   columns={columns} api={bikeLogApi.page} query={query}/>
 					</Box>
 					<Box title="订单上报日志">
 						<DataTable ref={(e) => this._dataTable1 = e}
@@ -57,6 +59,8 @@ export default class detailModal extends React.Component {
 				<Modal.Footer>
 					<Button value={'取消'} theme={'default'} onClick={this.hide.bind(this)}/>
 				</Modal.Footer>
+			</div>
+			}
 			</Modal>
 		)
 	}
@@ -69,14 +73,13 @@ export default class detailModal extends React.Component {
 			show: true,
 			id,
 			detail,
+			query: {
+				bikeCode: detail.bikeCode
+			},
+			query1: {
+				id: detail.id
+			}
 		});
-		let {query, query1} = this.state;
-		query.bikeCode = result.data.bikeCode;
-		query1.id = result.data.id;
-		// 车辆操作日志
-		this._dataTable.search(query);
-		// 订单上报日志
-		this._dataTable1.search(query1);
 	}
 
 	hide() {

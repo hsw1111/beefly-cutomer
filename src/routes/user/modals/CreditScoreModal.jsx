@@ -17,8 +17,8 @@ export default class CouponModal extends React.Component {
       columns: [
         {title: '编号', data: 'id'},
 				{title: '操作时间', data: 'createTime', render: dtUtils.renderDateTime},
-				{title: '操作人', data: 'manageName'},
-				{title: '奖惩类型', data: 'unit', render: (data) => dtUtils.renderMap(data, rewardType)},
+				{title: '操作人', data: 'manageName', render:(data) =>(data == '' ?'系统自动':data)},
+				{title: '奖惩类型', data: 'unit', render: this.renderIntegral.bind(this)},
 				{title: '处理类型', data: 'type', render: (data) => dtUtils.renderMap(data, integralType)},
 				{title: '积分', data: 'value', render: (data, type, row) => (row.unit == 0 ?'+':'-') + data},
 				{title: '剩余总积分', data: 'newValue'},
@@ -31,11 +31,19 @@ export default class CouponModal extends React.Component {
         awardPunishType: 1,
         creditScoreType: 9,
         creditScoreCount: -10,
-        remark: ''
+        remark: '',
+        unit: 1
       }
 		}
 	}
-
+  renderIntegral(data, type, row){
+		if(row.unit == 0){
+			return `<span>${dtUtils.renderMap(data, rewardType)}</span>`
+		}else{
+			return `<span class="label label-danger">${dtUtils.renderMap(data, rewardType)}</span>`
+		}
+  }
+  
 	render() {
     let awardType = {
       8: '其他',
@@ -97,7 +105,8 @@ export default class CouponModal extends React.Component {
         query: {
           awardPunishType: 0,
           creditScoreType:e.target.value,
-          creditScoreCount: 10
+          creditScoreCount: 10,
+          unit: 0
         }
       })
       // 违停扣分和轻度划伤-10
@@ -106,7 +115,8 @@ export default class CouponModal extends React.Component {
         query: {
           awardPunishType: 1,
           creditScoreType:e.target.value,
-          creditScoreCount: -10
+          creditScoreCount: -10,
+          unit: 1
         }
       })
       // 其余积分处罚-30
@@ -115,7 +125,8 @@ export default class CouponModal extends React.Component {
         query: {
           awardPunishType: 1,
           creditScoreType:e.target.value,
-          creditScoreCount: -30
+          creditScoreCount: -30,
+          unit: 1
         }
       })
       // 积分处罚中的其他为空，由客服填写
@@ -124,7 +135,8 @@ export default class CouponModal extends React.Component {
         query: {
           awardPunishType: 1,
           creditScoreType:e.target.value,
-          creditScoreCount: ''
+          creditScoreCount: '',
+          unit: 1
         }
       })
     }
@@ -138,10 +150,12 @@ export default class CouponModal extends React.Component {
         'userId': data.id
       },
       query: {
+        userId: data.id,
         awardPunishType: 1,
         creditScoreType: 9,
         creditScoreCount: -10,
-        remark: ''
+        remark: '',
+        unit: 1
       }
     });
 	}
@@ -158,12 +172,12 @@ export default class CouponModal extends React.Component {
 
 	async ok() {
     let {query, queryTable} = this.state
-    console.log(query)
     let result = await creditScoreApi.insertScore({
       userId: queryTable.userId,
       creditScoreCount: query.creditScoreCount,
       remark: query.remark,
-      creditScoreType: query.creditScoreType
+      creditScoreType: query.creditScoreType,
+      unit: query.unit
     })
     if(result.resultCode==1){
       msgBox.success("奖惩积分操作成功！")

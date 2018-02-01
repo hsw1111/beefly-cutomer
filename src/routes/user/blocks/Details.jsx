@@ -50,7 +50,7 @@ export default class Detail extends React.Component {
 				{title: '编号', data: 'id'},
 				{title: '操作时间', data: 'createTime'},
 				{title: '操作人', data: 'createName'},
-				{title: '奖惩类型', data: 'unit', render: (data) => dtUtils.renderMap(data, rewardType)},
+				{title: '奖惩类型', data: 'unit', render: this.renderIntegral.bind(this)},
 				{title: '处理类型', data: 'type', render: (data) => dtUtils.renderMap(data, integralType)},
 				{title: '积分', data: 'value', render: (data, type, row) => (row.unit == 0 ? '+' : '-') + data},
 				{title: '剩余总积分', data: 'newValue'},
@@ -75,6 +75,13 @@ export default class Detail extends React.Component {
 		userStore.fetchDetail();
 	}
 
+	renderIntegral(data, type, row){
+		if(row.unit == 0){
+			return `<span>${dtUtils.renderMap(data, rewardType)}</span>`
+		}else{
+			return `<span class="label label-danger">${dtUtils.renderMap(data, rewardType)}</span>`
+		}
+  }
 	render() {
 		let {columns_voucher, columns_deposit,columns_balance,columns_integral,columns_black} = this.state;
 		let {detail} = userStore;

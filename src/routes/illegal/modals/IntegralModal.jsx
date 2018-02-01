@@ -18,7 +18,7 @@ export default class IntegralModal extends React.Component {
 			columns: [
 				{title: '编号', data: 'id'},
 				{title: '操作时间', data: 'createTime'},
-				{title: '操作人', data: 'manageName',render:(data) =>(data == '' ?'系统自动':data)},
+				{title: '操作人', data: 'manageName', render:(data) =>(data == '' ?'系统自动':data)},
 				{title: '奖惩类型', data: 'unit', render: this.renderIntegral.bind(this)},
 				{title: '处理类型', data: 'type', render: (data) => dtUtils.renderMap(data, integralType)},
 				{title: '积分', data: 'value', render: (data,type,row) => (row.unit == 0?'+':'-')+data},

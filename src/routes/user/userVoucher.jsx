@@ -11,63 +11,66 @@ import couponApi from "../../apis/couponApi";
 
 @observer
 export default class userVoucher extends React.Component {
-  constructor(props){
-    super(props);
+	constructor(props) {
+		super(props);
 
-    this.state = {
-		rewardCoupon: {
-			couponAmout: '',
-			num: '',
-			expireTime: '',
+		this.state = {
+			rewardCoupon: {
+				couponAmout: '',
+				num: '',
+				expireTime: ''
+			},
 			mobiles: []
-		},
-		cont:[]
-    }
-  }
+		}
+	}
 
-  render() {
-    let {columns,rewardCoupon} = this.state;
-    console.log(rewardCoupon.mobiles,888);
-    return(
-      <Content>
-        <Box>
-			<Form ref={e => this.form = e} horizontal>
-				<Input label="出行券金额" model="rewardCoupon.couponAmout" type="number" width={150} validation={{required: true}}/>
-				<Input label="出行券张数" model="rewardCoupon.num" type="number" width={150}  validation={{required: true}}/>
-				<Input label="过期时间" model="rewardCoupon.expireTime" type="date" width={250} validation={{required: true}}/>
-				<Text label="发送对象" validation={{required: true}}>
-						{/*<input ref={e => this.file = e} type="file" name="file" onChange={this.fileChange.bind(this)}/>*/}
-						<input ref={e => this.file = e} type="file" name="file" onChange={e =>this.fileChange(e)}/>
-				</Text>
-				<Text>
-					只支持".xls/.xlsx"格式；表格中只需包含"手机号"。<a href="files/initBike.xlsx">模板下载</a>
-				</Text>
-				<div className="margin-t-30">
-					<div style={{float:'left'}}>
-						<span className="h4">发送人员名单</span><span className="h6 margin-l-20">共计0人</span>
+	render() {
+		let {mobiles} = this.state;
+		return (
+			<Content>
+				<Box>
+					<Form ref={e => this.form = e} horizontal>
+						<Input label="出行券金额" model="rewardCoupon.couponAmout" type="number" width={150}
+							   validation={{required: true}}/>
+						<Input label="出行券张数" model="rewardCoupon.num" type="number" width={150}
+							   validation={{required: true}}/>
+						<Input label="过期时间" model="rewardCoupon.expireTime" type="date" width={250}
+							   validation={{required: true}}/>
+						<Text label="发送对象" validation={{required: true}}>
+							<input ref={e => this.file = e} type="file" name="file" onChange={e => this.fileChange(e)}/>
+						</Text>
+						<Text>
+							只支持".xls/.xlsx"格式；表格中只需包含"手机号"。<a href="files/userVoucher.xlsx">模板下载</a>
+						</Text>
+						<div className="margin-t-30">
+							<div style={{float: 'left'}}>
+								<span className="h4">发送人员名单</span><span
+								className="h6 margin-l-20">共计{mobiles.length}人</span>
+							</div>
+							<div style={{float: 'right'}}>
+								<a href="javascript:void(0)" onClick={this.empty.bind(this)}>清空</a>
+							</div>
+						</div>
+						<div className="clear" style={{borderTop: "1px solid"}}>
+						</div>
+					</Form>
+					<div>
+						{mobiles.map((d, i) =>
+							<span style={{'white-space':'normal',lineHeight:'30px'}} className="label label-default margin-r-10">{d} <span
+								onClick={(e) => this.delete(i)}><i className="fa fa-fw fa-close"></i></span></span>
+						)}
 					</div>
-					<div style={{float:'right'}}>
-						<a href="javascript:void(0)">清空</a>
+					<div className="margin-t-80" style={{float: 'right'}}>
+						<Button value="确定发送" onClick={this.ok.bind(this)}/>
 					</div>
-				</div>
-				<div className="clear" style={{borderTop:"1px solid"}}>
-				</div>
-			</Form>
-			<div>
-				<span className="label label-default margin-r-5 " >Default <i className="fa fa-fw fa-close"></i></span>
-				<span className="label label-default margin-r-5">Default <i className="fa fa-fw fa-close"></i></span>
-				{/*<span className="label label-default margin-r-5">Default <i className="fa fa-fw fa-close"></i></span>*/}
-			</div>
-			<div className="margin-t-80" style={{float:'right'}}>
-				<Button value="确定发送" onClick={this.ok.bind(this)}/>
-			</div>
-        </Box>
-      </Content>
-    )
-  }
+				</Box>
+			</Content>
+		)
+	}
+
 	async ok() {
 
-		let {rewardCoupon} = this.state;
+		let {rewardCoupon, mobiles} = this.state;
 
 		if (rewardCoupon.couponAmout == '') {
 			msgBox.warning('出行券金额不能为空');
@@ -89,30 +92,34 @@ export default class userVoucher extends React.Component {
 			return;
 		}
 
-		let mobiles=JSON.stringify(rewardCoupon.mobiles);
-		let formData={
-			couponAmout:rewardCoupon.couponAmout,
-			num:rewardCoupon.num,
-			expireTime:rewardCoupon.expireTime,
-			mobile:mobiles,
+		let mobile = JSON.stringify(mobiles);
+		let formData = {
+			couponAmout: rewardCoupon.couponAmout,
+			num: rewardCoupon.num,
+			expireTime: rewardCoupon.expireTime,
+			mobile: mobile,
 		};
 
 		let result = await couponApi.massCoupon(formData);
 
+		if (result.resultCode == 1) {
+			this.empty()
+		}
+
+
 	}
 
-    //上传文件改变
+	//上传文件改变
 	fileChange(e) {
 
 		let {rewardCoupon} = this.state;
-		rewardCoupon.mobiles=[];
 
 		let files = e.target.files;
 		let persons;
-        let workbook;
+		let workbook;
 		let fileReader = new FileReader();
 
-		fileReader.onload = function(ev) {
+		fileReader.onload = (ev) => {
 			try {
 				let data = ev.target.result,
 					workbook = XLSX.read(data, {
@@ -134,13 +141,17 @@ export default class userVoucher extends React.Component {
 					}
 				}
 
-				$.each(persons,function(index,data)
-				{
-					rewardCoupon.mobiles.push(data.mobile);
+				let mobiles = [];
+				$.each(persons, function (index, data) {
+					mobiles.push(data.mobile);
 				});
-				console.log(rewardCoupon.mobiles);
+				this.setState({
+					mobiles
+				})
 			} catch (e) {
+
 				msgBox.warning('文件类型不正确');
+
 				return;
 			}
 
@@ -149,6 +160,23 @@ export default class userVoucher extends React.Component {
 		fileReader.readAsBinaryString(files[0]);
 
 
+	}
+
+	//删除指定
+	delete(i) {
+		let {mobiles} = this.state;
+		console.log(mobiles);
+		mobiles.splice(i, 1);//删除下标为3的对象
+		this.setState({
+			mobiles
+		})
+	}
+
+	//清空所有
+	empty() {
+		this.setState({
+			mobiles: []
+		})
 	}
 
 

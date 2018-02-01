@@ -42,10 +42,10 @@ export default class Illegal extends React.Component {
 				{title: '用户编号', data: 'id',render:this.renderId.bind(this)},
 				{title: '用户姓名', data: 'name'},
 				{title: '手机号', data: 'mobile'},
-				{title: '登录城市', data: 'cityName'},
+				{title: '登录城市', data: 'registerCity'},
 				{title: '用户状态', data: 'userStatusName'},
 				{title: '注册时间', data: 'registerTime', render: dtUtils.renderDateTime},
-				{title: '账户余额（￥）', data: 'grantBalance', render: (data, type, row) => (`<a href="javascript:" onClick={beefly.touchBalance(${row.id},${row.mobile})}>${data}</a>`)},
+				{title: '账户余额（￥）', data: 'balance', render: (data, type, row) => (`<a href="javascript:" onClick={beefly.touchBalance(${row.id},${row.mobile})}>${data}</a>`)},
 				{title: '信用积分', data: 'credScore'},
 				{title: '押金状态', data: 'creditLimit', render: (data) => dtUtils.renderMap(data, depositState)},
 				{title: '操作', type: 'object', render: this.renderActions},
@@ -106,8 +106,8 @@ export default class Illegal extends React.Component {
 							<Button icon="search" onClick={this.search.bind(this)}>查询</Button>
 						</Field>
 					</Form>
-					<DataTable ref={(e) => this._dataTable = e}
-							   columns={columns} api={appUserApi.page} query={query}/>
+						<DataTable ref={(e) => this._dataTable = e}
+									columns={columns} api={appUserApi.page} query={query}/>
 				</Box>
 				<ModifyModal ref={(e) => this._modifyModal = e} onSuccess={this.search.bind(this)}/>
 				<BlackModal ref={(e) => this._blackModal = e} onSuccess={this.search.bind(this)}/>
@@ -124,8 +124,8 @@ export default class Illegal extends React.Component {
 	}
 
 	search() {
+		
 		let {query} = this.state;
-
 		// 多选一个字段处理
 		query.mobile = query.id = query.name = '';
 		query[query.category] = query.keyword;

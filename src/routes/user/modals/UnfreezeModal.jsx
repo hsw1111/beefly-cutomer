@@ -40,7 +40,6 @@ export default class UnfreezeModal extends React.Component {
 	}
 
 	async show(data) {
-		console.log(data,44444444444444)
 		this.setState({
 			show: true,
 			data,
@@ -54,7 +53,6 @@ export default class UnfreezeModal extends React.Component {
 		this.setState({
             blackBeason:result.data
 		});
-		console.log(result,4561323)
 	}
 
 	hide(isCallback) {

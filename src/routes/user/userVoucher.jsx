@@ -56,7 +56,7 @@ export default class userVoucher extends React.Component {
 					</Form>
 					<div>
 						{mobiles.map((d, i) =>
-							<span style={{'white-space':'normal',lineHeight:'30px'}} className="label label-default margin-r-10">{d} <span
+							<span style={{'white-space':'normal',lineHeight:'30px'}} className="label label-default margin-r-10" key={i}>{d} <span
 								onClick={(e) => this.delete(i)}><i className="fa fa-fw fa-close"></i></span></span>
 						)}
 					</div>
@@ -118,6 +118,10 @@ export default class userVoucher extends React.Component {
 		let persons;
 		let workbook;
 		let fileReader = new FileReader();
+
+		if(files.length==0){
+			return
+		}
 
 		fileReader.onload = (ev) => {
 			try {

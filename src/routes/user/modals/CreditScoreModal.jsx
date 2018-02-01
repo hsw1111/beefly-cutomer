@@ -105,7 +105,6 @@ export default class CouponModal extends React.Component {
           awardPunishType: 0,
           creditScoreType:e.target.value,
           creditScoreCount: 10,
-          unit: 0
         }
       })
       // 违停扣分和轻度划伤-10

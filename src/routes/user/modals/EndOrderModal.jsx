@@ -42,7 +42,7 @@ export default class EndOrderModal extends React.Component{
 						{isEnd && 
               <div>
                 <p>你确定结束{id}的订单么？</p>
-                {isOver && <p className='text-red'>该订单的车辆{id}当前位于违停区域内！</p>}
+                {isOver && <p className='text-red'>该订单的车辆{bikeCode}当前位于违停区域内！</p>}
                 <div className="margin-t-20 isChecked">
                   <span className='text-red'>*</span>请选择该订单是否计费：
                   <input name='radio' type="radio" value='1' defaultChecked /> <span className='margin-r-20'>计费</span>    
@@ -170,32 +170,13 @@ export default class EndOrderModal extends React.Component{
     })
     let {id, bikeCode, type} = this.state
     // 还车
-    let result = await orderApi.returnCar({id, type})
+    let result = await orderApi.returnCar({id, type: $(".isChecked input:checked").val()})
 
     if(result.resultCode == 1){
       this._tipModal.show(true)
       // 3.调用returnCar接口成功后，每5秒轮询调车辆状态接口
       var timer =  setInterval(()=>{
-        let result1 =   orderApi.reBackOrder({id})
-        // (1)如果车辆状态改变就停止轮询、还车成功
-        if(result1.resultCode == 1){
-          clearInterval(timer)
-          msgBox.success('还车成功')
-          this._tipModal.show(false)          
-          this.hide(true)
-        }else{
-          // (2)否则30s停止轮询并显示还车失败
-          setTimeout(()=>{
-            clearInterval(timer)
-            this._tipModal.show(false)  
-            this.setState({
-              isOver: false, 
-              isEnd: false, 
-              isAbroad: false,
-              isReturn: true,
-            })
-        },5000*5)
-        }
+        this.reBackOrder(timer)
       },5000)
 
     }else{
@@ -218,6 +199,31 @@ export default class EndOrderModal extends React.Component{
     if(result.resultCode == 1){
       msgBox.success("还车成功！")
       this.hide(true)
+    }
+  }
+
+  async reBackOrder(timer){
+    let {id} = this.state;
+    let result = await  orderApi.reBackOrder({id})
+    console.log('--------result',  result)
+    // (1)如果车辆状态改变就停止轮询、还车成功
+    if(result.resultCode == 1){
+      clearInterval(timer)
+      msgBox.success('还车成功')
+      this._tipModal.show(false)          
+      this.hide(true)
+    }else{
+      // (2)否则30后停止轮询并显示还车失败
+      setTimeout(()=>{
+        clearInterval(timer)
+        this._tipModal.show(false)  
+        this.setState({
+          isOver: false, 
+          isEnd: false, 
+          isAbroad: false,
+          isReturn: true,
+        })
+      },5000*5)
     }
   }
 

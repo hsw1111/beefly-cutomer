@@ -105,6 +105,7 @@ export default class CouponModal extends React.Component {
           awardPunishType: 0,
           creditScoreType:e.target.value,
           creditScoreCount: 10,
+          remark: '',
         }
       })
       // 违停扣分和轻度划伤-10
@@ -114,6 +115,7 @@ export default class CouponModal extends React.Component {
           awardPunishType: 1,
           creditScoreType:e.target.value,
           creditScoreCount: -10,
+          remark: '',
         }
       })
       // 其余积分处罚-30
@@ -123,6 +125,7 @@ export default class CouponModal extends React.Component {
           awardPunishType: 1,
           creditScoreType:e.target.value,
           creditScoreCount: -30,
+          remark: '',
         }
       })
       // 积分处罚中的其他为空，由客服填写
@@ -132,6 +135,7 @@ export default class CouponModal extends React.Component {
           awardPunishType: 1,
           creditScoreType:e.target.value,
           creditScoreCount: '',
+          remark: '',
         }
       })
     }
@@ -166,6 +170,22 @@ export default class CouponModal extends React.Component {
 
 	async ok() {
     let {query, queryTable} = this.state
+    if(query.creditScoreCount==''){
+      msgBox.warning("奖惩积分不能为空")
+      return
+    }
+    if(query.awardPunishType==0&&query.creditScoreCount<0){
+      msgBox.warning("积分奖励应为正数")
+      return
+    }
+    if(query.awardPunishType==1&&query.creditScoreCount>0){
+      msgBox.warning("积分处罚应为负数")
+      return
+    }
+    if(query.remark==''){
+      msgBox.warning("备注不能为空")
+      return
+    }
     let result = await creditScoreApi.insertScore({
       userId: queryTable.userId,
       creditScoreCount: query.creditScoreCount,
@@ -174,8 +194,8 @@ export default class CouponModal extends React.Component {
     })
     if(result.resultCode==1){
       msgBox.success("奖惩积分操作成功！")
+      this.hide(true)
     }
-    this.hide(true)
 	}
 
 }

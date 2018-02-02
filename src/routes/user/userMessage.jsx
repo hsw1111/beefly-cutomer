@@ -26,7 +26,7 @@ export default class UserMessage extends React.Component {
 				{title: '发送目的', data: 'serviceType', render: (data) => dtUtils.renderMap(data, purposeType)},
 				{title: '信息内容', data: 'content'},
       ],
-      
+
       query: {
         qSendTimeStart: '',
         qSendTimeEnd: '',
@@ -48,11 +48,11 @@ export default class UserMessage extends React.Component {
 					  </Field>
           </Form>
 					<Button onClick={this.sendNewMessage.bind(this)}>发送新短信</Button>
-          <div className='isShow' style={{display: 'none'}}>
+          <div>
             <DataTable ref={(e) => this._dataTable = e}
-							   columns={columns} api={symsApi.pageSms} query={query}/>
+							   columns={columns} api={symsApi.pageSms}/>
           </div>
-          
+
         </Box>
         <SendMessageModal ref={(e) => this._sendMessageModal = e} onSuccess={this.search.bind(this)}/>
       </Content>
@@ -60,10 +60,8 @@ export default class UserMessage extends React.Component {
   }
 
   search(){
-    $(".isShow").css({display: 'block'})
-    let {query} = this.state
+    let {query} = this.state;
     this._dataTable.search(query)
-
   }
 
   sendNewMessage(){

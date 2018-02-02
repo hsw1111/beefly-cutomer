@@ -54,6 +54,7 @@ $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
 
 });
 
+// 表格组件，数据请求
 DataTable.defaultProps.onAjax = (api, params, data, callback) => {
 	// 添加分页参数
 	if (data.length != -1) {
@@ -70,12 +71,16 @@ DataTable.defaultProps.onAjax = (api, params, data, callback) => {
 	})
 };
 
-// 初始化城市列表
-cityApi.list().then((result) => {
-	if (beefly.isSuccess(result)) {
-		CitySelect.defaultProps.citys = result.data
-	}
-});
+// 城市区域选择组件，数据请求
+CitySelect.defaultProps.onAjax = (callback) => {
+	// 初始化城市列表
+	cityApi.list().then((result) => {
+		if (beefly.isSuccess(result)) {
+			callback(result.data)
+		}
+	});
+};
+
 
 /**
  * app

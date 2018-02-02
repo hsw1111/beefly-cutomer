@@ -65,14 +65,14 @@ export default class ModifyModal extends React.Component {
 			mobile:remark
 		};
 
-		var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+		let myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
 		if(!myreg.test(parms.mobile)){
 				msgBox.warning('请输入有效的手机号码！');
 				return;
 		}
 		let result = await userApi.modifyMobile(parms);
 		if(result.resultCode==1){
-			msgBox.success('修改手机号码成功！')
+			msgBox.success('修改手机号码成功！');
 			this.hide(true);
 		}
 	}

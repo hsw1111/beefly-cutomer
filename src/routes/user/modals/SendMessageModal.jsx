@@ -61,6 +61,16 @@ export default class SendMessageModal extends React.Component {
 	async ok() {
 		let {onSuccess} = this.props
 		let {query} = this.state
+
+		const myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/; 
+		if(!myreg.test(query.mobiles)){ 
+				msgBox.warning('请输入有效的手机号码！'); 
+				return; 
+		} 
+		if(query.content==''){
+			msgBox.warning('短信内容不能为空'); 
+			return;
+		}
 		let result = await symsApi.sendSms({
 			...query,
 			serviceTypeName: purpose[query.serviceType]

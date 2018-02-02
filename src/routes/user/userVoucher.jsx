@@ -76,9 +76,17 @@ export default class userVoucher extends React.Component {
 			msgBox.warning('出行券金额不能为空');
 			return;
 		}
+		if (rewardCoupon.couponAmout < 0) {
+			msgBox.warning('出行券金额不能小于0');
+			return;
+		}
 
 		if (rewardCoupon.num == '') {
 			msgBox.warning('出行券张数不能为空');
+			return;
+		}
+		if (rewardCoupon.num < 0) {
+			msgBox.warning('出行券张数不能小于0');
 			return;
 		}
 
@@ -86,6 +94,10 @@ export default class userVoucher extends React.Component {
 			msgBox.warning('过期时间不能为空');
 			return;
 		}
+		if(new Date(rewardCoupon.expireTime)-new Date() < 0){
+      msgBox.warning("过期时间不能小于当前日期");
+      return
+    }
 
 		if (this.file.files.length == 0) {
 			msgBox.warning('请选择上传文件');

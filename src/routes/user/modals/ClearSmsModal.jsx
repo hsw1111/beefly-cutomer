@@ -1,6 +1,6 @@
 import React from 'react';
 import {Modal,Button,msgBox} from "beefly-common";
-import appUserApi from "../../../apis/appUserApi";
+import userApi from "../../../apis/userApi";
 import symsApi from "../../../apis/symsApi";
 
 /**
@@ -65,7 +65,7 @@ export default class ClearSmsModal extends React.Component {
 		let parms={
 			appUserId:data.id,
 		};
-		let result = await appUserApi.clearSms(parms);
+		let result = await userApi.clearSms(parms);
 		this.hide(true);
 		msgBox.warning(result.message);
 	}

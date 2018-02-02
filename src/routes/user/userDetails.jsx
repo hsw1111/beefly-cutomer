@@ -2,7 +2,7 @@ import React from 'react';
 import {observer} from 'mobx-react';
 import {Button, Content} from "beefly-common";
 import {urlUtils} from 'jeselvmo';
-import appUserApi from "../../apis/appUserApi";
+import userApi from "../../apis/userApi";
 import beefly from "../../js/beefly";
 import Detail from "./blocks/Details";
 import userStore from "../../stores/userStore";

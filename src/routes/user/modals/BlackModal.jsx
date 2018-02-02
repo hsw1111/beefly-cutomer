@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {Button, Form, Modal,Input, msgBox, Textarea } from "beefly-common";
 import tripProblemApi from "../../../apis/tripProblemApi";
 import beefly from "../../../js/beefly";
-import appUserApi from "../../../apis/appUserApi";
+import userApi from "../../../apis/userApi";
 
 /**
  * 修改手机号
@@ -68,7 +68,7 @@ export default class BlackModal extends React.Component {
 			appUserId:data.id,
 			remark:remark
 		};
-		let result = await appUserApi.black(parms);
+		let result = await userApi.black(parms);
 		this.hide(true);
 		msgBox.warning(result.message);
 	}

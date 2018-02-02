@@ -3,7 +3,7 @@ import {Button, Form, Modal,Input, msgBox, Textarea, Row, Col, Text, Box, DataTa
 import tripProblemApi from "../../../apis/tripProblemApi";
 import beefly from "../../../js/beefly";
 import balaceRecordApi from "../../../apis/balaceRecordApi";
-import appUserApi from "../../../apis/appUserApi";
+import userApi from "../../../apis/userApi";
 
 /**
  * 修改手机号
@@ -47,7 +47,7 @@ export default class BalanceModal extends React.Component {
                 <Text label="用户编号" value={detail.id}/>
               </Col>
               <Col md={5}>
-                <Text label="手机号" value={detail.mobile}/>  
+                <Text label="手机号" value={detail.mobile}/>
               </Col>
             </Row>
             <p style={{margin: '10px 14px'}}>用户当前余额：<span className='text-orange'>	{(detail.balance || 0) + (detail.grantBalance || 0)}元</span>（充值金额{detail.balance || 0}元+赠送金额{detail.grantBalance || 0}元）</p>
@@ -61,10 +61,10 @@ export default class BalanceModal extends React.Component {
           <div  className='margin-t-50'>
             <Box title='赠送余额充值记录'>
               <DataTable ref={(e) => this._dataTable = e}
-                  columns={columns} api={balaceRecordApi.page} query={queryTable}/> 
+                  columns={columns} api={balaceRecordApi.page} query={queryTable}/>
             </Box>
           </div>
-          
+
 				</Modal.Body>
       }
 			</Modal>
@@ -83,8 +83,8 @@ export default class BalanceModal extends React.Component {
         remark: ''
       }
     })
-    
-    let result = await appUserApi.userDetail({id: data.id}) 
+
+    let result = await userApi.userDetail({id: data.id})
     this.setState({
       detail: result.data
     })

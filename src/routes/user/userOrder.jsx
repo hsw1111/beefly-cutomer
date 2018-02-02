@@ -2,7 +2,7 @@ import React from 'react';
 import {observer} from 'mobx-react';
 import {Box, Form, Text, Row, Col, Button, Content, DataTable, dtUtils} from "beefly-common";
 import {urlUtils} from 'jeselvmo';
-import appUserApi from "../../apis/appUserApi";
+import userApi from "../../apis/userApi";
 import beefly from "../../js/beefly";
 import Detail from "./blocks/Details";
 import orderApi from "../../apis/orderApi";
@@ -108,7 +108,7 @@ export default class userOrder extends React.Component {
 	// 订单详情
 	orderDetails(data){
 		this._orderDetailModal.show({id: data})
-	}	
+	}
 
 
 	//结束订单

@@ -1,7 +1,7 @@
 import {action, observable, reaction, computed} from 'mobx';
 import {urlUtils} from 'jeselvmo';
 import beefly from "../js/beefly";
-import appUserApi from "../apis/appUserApi";
+import userApi from "../apis/userApi";
 
 /**
  *
@@ -11,7 +11,7 @@ class UserStore {
 
 	async fetchDetail() {
 		let {id} = urlUtils.getParams();
-		let result = await appUserApi.userDetail({id});
+		let result = await userApi.userDetail({id});
 		this.detail = result.data;
 	}
 

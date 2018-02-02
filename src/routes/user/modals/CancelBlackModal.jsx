@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {Button, Form, Modal,Input, msgBox, Textarea } from "beefly-common";
 import tripProblemApi from "../../../apis/tripProblemApi";
 import beefly from "../../../js/beefly";
-import appUserApi from "../../../apis/appUserApi";
+import userApi from "../../../apis/userApi";
 
 /**
  * 取消拉黑
@@ -49,7 +49,7 @@ export default class CancelBlackModal extends React.Component {
 			appUserId:data.id,
 			type:1
 		};
-		let result = await appUserApi.blackRemark(parms);
+		let result = await userApi.blackRemark(parms);
 		this.setState({
             blackBeason:result.data
 		});
@@ -73,7 +73,7 @@ export default class CancelBlackModal extends React.Component {
 			appUserId:data.id,
 			remark:remark
 		};
-		let result = await appUserApi.unBlack(parms);
+		let result = await userApi.unBlack(parms);
 		this.hide(true);
 		msgBox.warning(result.message);
 

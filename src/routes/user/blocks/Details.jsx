@@ -4,7 +4,7 @@ import {Box, Form, Text, Row, Col, Tab, Tabs,DataTable,dtUtils} from "beefly-com
 import {integralType, rewardType,} from '../../../maps/illegalMap';
 import {depositState} from '../../../maps/userMap';
 import userStore from "../../../stores/userStore";
-import appUserApi from "../../../apis/appUserApi";
+import userApi from "../../../apis/userApi";
 
 
 /**
@@ -114,23 +114,23 @@ export default class Detail extends React.Component {
 					<Tabs model="type">
 						<Tab title="余额">
 							<DataTable ref={(e) => this._dataTable = e}
-									   columns={columns_balance} api={appUserApi.recordPage} query={{appUserId:detail.id,type:1}}/>
+									   columns={columns_balance} api={userApi.recordPage} query={{appUserId:detail.id,type:1}}/>
 						</Tab>
 						<Tab title="押金">
 							<DataTable ref={(e) => this._dataTable = e}
-									   columns={columns_deposit} api={appUserApi.recordPage} query={{appUserId:detail.id,type:2}}/>
+									   columns={columns_deposit} api={userApi.recordPage} query={{appUserId:detail.id,type:2}}/>
 						</Tab>
 						<Tab title="出行券">
 							<DataTable ref={(e) => this._dataTable = e}
-									   columns={columns_voucher} api={appUserApi.recordPage} query={{appUserId:detail.id,type:3}}/>
+									   columns={columns_voucher} api={userApi.recordPage} query={{appUserId:detail.id,type:3}}/>
 						</Tab>
 						<Tab title="信用积分">
 							<DataTable ref={(e) => this._dataTable = e}
-									   columns={columns_integral} api={appUserApi.recordPage} query={{appUserId:detail.id,type:4}}/>
+									   columns={columns_integral} api={userApi.recordPage} query={{appUserId:detail.id,type:4}}/>
 						</Tab>
 						<Tab title="拉黑">
 							<DataTable ref={(e) => this._dataTable = e}
-									   columns={columns_black} api={appUserApi.recordPage} query={{appUserId:detail.id,type:5}}/>
+									   columns={columns_black} api={userApi.recordPage} query={{appUserId:detail.id,type:5}}/>
 						</Tab>
 					</Tabs>
 				</div>

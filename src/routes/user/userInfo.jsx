@@ -26,7 +26,7 @@ import CreditScoreModal from "./modals/CreditScoreModal";
 import FrozenModal from "./modals/FrozenModal"
 import UnfreezeModal from "./modals/UnfreezeModal"
 import ClearSmsModal from "./modals/ClearSmsModal"
-import appUserApi from "../../apis/appUserApi";
+import userApi from "../../apis/userApi";
 import beefly from "../../js/beefly";
 
 /**
@@ -107,18 +107,18 @@ export default class Illegal extends React.Component {
 						</Field>
 					</Form>
 					<DataTable ref={(e) => this._dataTable = e}
-							   columns={columns} api={appUserApi.page} query={query}/>
+							   columns={columns} api={userApi.page} query={query}/>
 				</Box>
-				<ModifyModal ref={(e) => this._modifyModal = e} onSuccess={this.search.bind(this)}/>
-				<BlackModal ref={(e) => this._blackModal = e} onSuccess={this.search.bind(this)}/>
-				<CancelBlackModal ref={(e) => this._cancelModal = e} onSuccess={this.search.bind(this)}/>
-				<BalanceModal ref={(e) => this._balanceModal = e}  onSuccess={this.search.bind(this)}/>
-				<CouponModal ref={(e) => this._couponModal = e}  onSuccess={this.search.bind(this)}/>
+				<ModifyModal ref={(e) => this._modifyModal = e} onSuccess={this.refresh.bind(this)}/>
+				<BlackModal ref={(e) => this._blackModal = e} onSuccess={this.refresh.bind(this)}/>
+				<CancelBlackModal ref={(e) => this._cancelModal = e} onSuccess={this.refresh.bind(this)}/>
+				<BalanceModal ref={(e) => this._balanceModal = e}  onSuccess={this.refresh.bind(this)}/>
+				<CouponModal ref={(e) => this._couponModal = e}  onSuccess={this.refresh.bind(this)}/>
 				<TouchBalanceModal ref={(e) => this._touchBalanceModal = e}/>
-				<CreditScoreModal ref={(e) => this._creditScoreModal = e}  onSuccess={this.search.bind(this)}/>
-				<FrozenModal ref={(e) => this._frozenModal = e} onSuccess={this.search.bind(this)}/>
-				<UnfreezeModal ref={(e) => this._unfreezeModal = e} onSuccess={this.search.bind(this)}/>
-				<ClearSmsModal ref={(e) => this._clearSmsModal = e} onSuccess={this.search.bind(this)}/>
+				<CreditScoreModal ref={(e) => this._creditScoreModal = e}  onSuccess={this.refresh.bind(this)}/>
+				<FrozenModal ref={(e) => this._frozenModal = e} onSuccess={this.refresh.bind(this)}/>
+				<UnfreezeModal ref={(e) => this._unfreezeModal = e} onSuccess={this.refresh.bind(this)}/>
+				<ClearSmsModal ref={(e) => this._clearSmsModal = e} onSuccess={this.refresh.bind(this)}/>
 			</Content>
 		)
 	}
@@ -133,6 +133,9 @@ export default class Illegal extends React.Component {
 		this._dataTable.search(query);
 	}
 
+	refresh(){
+		this._dataTable.refresh()
+	}
 	// 查看详情
 	details(id) {
 		tabUtils.addTab({
@@ -212,7 +215,7 @@ export default class Illegal extends React.Component {
 		let m = data.split(",");
 		this._balanceModal.show({
 			id: m[0],
-			mmobile: m[1] 
+			mmobile: m[1]
 		});
 	}
 
@@ -221,7 +224,7 @@ export default class Illegal extends React.Component {
 		let m = data.split(",");
 		this._couponModal.show({
 			id: m[0],
-			mmobile: m[1] 
+			mmobile: m[1]
 		});
 	}
 
@@ -229,16 +232,16 @@ export default class Illegal extends React.Component {
 	touchBalance(id, mobile){
 		this._touchBalanceModal.show({
 			id,
-			mmobile: mobile 
+			mmobile: mobile
 		});
 	}
-	
+
 	//信用积分管理
 	creditScore(data){
 		let m = data.split(",");
 		this._creditScoreModal.show({
 			id: m[0],
-			mmobile: m[1] 
+			mmobile: m[1]
 		});
 	}
 

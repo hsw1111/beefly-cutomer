@@ -3,9 +3,9 @@ import env from '../js/env';
 
 
 /**
- * appUser
+ * User
  */
-const appUserApi = {
+const userApi = {
 	// 用户详情接口
 	userDetail: (params) => request.get(env.apiPath_customer + 'appUser/userDetail', params),
 
@@ -42,4 +42,4 @@ const appUserApi = {
 
 };
 
-export default appUserApi
+export default userApi

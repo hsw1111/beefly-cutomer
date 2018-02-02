@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {Button, Form, Modal,Input, msgBox, Textarea } from "beefly-common";
 import tripProblemApi from "../../../apis/tripProblemApi";
 import beefly from "../../../js/beefly";
-import appUserApi from "../../../apis/appUserApi";
+import userApi from "../../../apis/userApi";
 
 /**
  * 冻结用户押金
@@ -68,10 +68,10 @@ export default class FrozenModal extends React.Component {
 			appUserId:data.id,
 			remark:remark
 		};
-		let result = await appUserApi.creditless(parms);
+		let result = await userApi.creditless(parms);
 		this.hide(true);
 		if(result.resultCode==1){
-			msgBox.success('冻结用户押金成功');			
+			msgBox.success('冻结用户押金成功');
 		}
 	}
 

@@ -2,6 +2,7 @@ import React from 'react';
 import {Modal, Button, msgBox} from "beefly-common";
 import orderApi from "../../../apis/orderApi";
 import bikeApi from "../../../apis/bikeApi";
+import TipModal from './TipModal'
 
 
 
@@ -80,6 +81,7 @@ export default class EndOrderModal extends React.Component{
 					
 				</Modal.Footer>
       </Modal>
+      <TipModal ref={(e) => this._tipModal = e} />
       </div>
     )
   }
@@ -162,17 +164,40 @@ export default class EndOrderModal extends React.Component{
 
  // 结束订单
  async ok(){
-   let {id, bikeCode} = this.state
     // 是否计费
     this.setState({
       type: $(".isChecked input:checked").val()
     })
-
+    let {id, bikeCode, type} = this.state
     // 还车
-    let result = await orderApi.returnCar({id,type:$(".isChecked input:checked").val()})
-    if(result.resultCode==1){
-      msgBox.success("还车成功！")
-      this.hide(true)
+    let result = await orderApi.returnCar({id, type})
+
+    if(result.resultCode == 1){
+      this._tipModal.show(true)
+      // 3.调用returnCar接口成功后，每5秒轮询调车辆状态接口
+      var timer =  setInterval(()=>{
+        let result1 =   orderApi.reBackOrder({id})
+        // (1)如果车辆状态改变就停止轮询、还车成功
+        if(result1.resultCode == 1){
+          clearInterval(timer)
+          msgBox.success('还车成功')
+          this._tipModal.show(false)          
+          this.hide(true)
+        }else{
+          // (2)否则30s停止轮询并显示还车失败
+          setTimeout(()=>{
+            clearInterval(timer)
+            this._tipModal.show(false)  
+            this.setState({
+              isOver: false, 
+              isEnd: false, 
+              isAbroad: false,
+              isReturn: true,
+            })
+        },5000*5)
+        }
+      },5000)
+
     }else{
       // 显示还车失败
       this.setState({
@@ -187,14 +212,13 @@ export default class EndOrderModal extends React.Component{
 
   // 还车失败 点击强制还车
   async returnCar(){
-    let {id, bikeCode} = this.state
+    let {bikeCode} = this.state
     // 强制锁车
     let result = await bikeApi.forcedLock({bikeCode})
     if(result.resultCode == 1){
       msgBox.success("还车成功！")
-      // this.hide(true)
+      this.hide(true)
     }
   }
-
 
 }

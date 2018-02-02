@@ -2,7 +2,7 @@ import React from 'react';
 import {observer} from 'mobx-react';
 import {Box, Button, Form, Input, Tab, Tabs, Text, Textarea, tabUtils, msgBox} from "beefly-common";
 import tripProblemApi from "../../../apis/tripProblemApi";
-import appUserApi from "../../../apis/appUserApi";
+import userApi from "../../../apis/userApi";
 import beefly from "../../../js/beefly";
 import illegalStore from "../stores/illegalStore";
 import {localStore} from 'jeselvmo';
@@ -44,7 +44,7 @@ export default class UserAward extends React.Component {
 
 	async componentWillMount() {
 		let {detail} = illegalStore;
-		let result = await appUserApi.userDetail({id: detail.userId});
+		let result = await userApi.userDetail({id: detail.userId});
 		if (result.resultCode === 1) {
 			this.setState({
 				userDetail: result.data

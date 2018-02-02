@@ -42,7 +42,7 @@ export default class detailModal extends React.Component {
 							<OrderCost detail={detail}/>
 							<Box title="车辆操作日志">
 								<DataTable ref={(e) => this._dataTable = e}
-										   columns={columns} api={bikeLogApi.bikeLog} query={{orderId: detail.id}}/>
+										   columns={columns} api={bikeLogApi.bikeLog} query={{orderId: detail.id}}  paging={false} info={false}/>
 							</Box>
 							<Box title="订单上报日志">
 								<DataTable ref={(e) => this._dataTable1 = e}

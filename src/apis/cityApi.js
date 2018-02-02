@@ -6,6 +6,8 @@ import env from '../js/env';
  */
 const cityApi = {
 
+	// 城市数据
+	list: (params) => request.get(env.apiPath_customer + 'systemCity/getSystemCitys', params),
 };
 
 export default cityApi

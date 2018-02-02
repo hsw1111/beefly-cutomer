@@ -3,9 +3,10 @@ import beefly from './js/beefly';
 import Router from './router';
 import 'beefly-common/styles/index.scss';
 import './styles/index.scss';
-import {DataTable, msgBox} from 'beefly-common'
+import {DataTable, CitySelect, msgBox} from 'beefly-common'
 import $ from 'jquery';
 import {validator} from 'jeselvmo';
+import cityApi from "./apis/cityApi";
 
 console.log(beefly);
 
@@ -55,8 +56,10 @@ $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
 
 DataTable.defaultProps.onAjax = (api, params, data, callback) => {
 	// 添加分页参数
-	params['pageNo'] = (data.start / data.length) + 1;
-	params['pageSize'] = data.length;
+	if (data.length != -1) {
+		params['pageNo'] = (data.start / data.length) + 1;
+		params['pageSize'] = data.length;
+	}
 
 	api(params).then((result) => {
 		let returnData = {};
@@ -66,6 +69,13 @@ DataTable.defaultProps.onAjax = (api, params, data, callback) => {
 		callback(returnData);
 	})
 };
+
+// 初始化城市列表
+cityApi.list().then((result) => {
+	if (beefly.isSuccess(result)) {
+		CitySelect.defaultProps.citys = result.data
+	}
+});
 
 /**
  * app

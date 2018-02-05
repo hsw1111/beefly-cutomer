@@ -19,7 +19,7 @@ export default class TipModal extends React.Component {
 			<Modal show={show} title="">
 				<Modal.Body>
 					<div style={{textAlign: 'center'}}>
-						还车中...
+						处理中...
 					</div>
 				</Modal.Body>
 			</Modal>

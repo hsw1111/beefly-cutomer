@@ -175,8 +175,21 @@ export default class EndOrderModal extends React.Component{
     if(result.resultCode == 1){
       this._tipModal.show(true)
       // 3.调用returnCar接口成功后，每5秒轮询调车辆状态接口
+      var count = 0;
       var timer =  setInterval(()=>{
+        count++;
         this.reBackOrder(timer)
+        // 30后停止轮询并显示还车失败
+        if(count==6){
+          clearInterval(timer)
+          this._tipModal.show(false)  
+          this.setState({
+            isOver: false, 
+            isEnd: false, 
+            isAbroad: false,
+            isReturn: true,
+          })
+        }
       },5000)
 
     }else{
@@ -190,7 +203,6 @@ export default class EndOrderModal extends React.Component{
     }
   }
 
-
   // 还车失败 点击强制还车
   async returnCar(){
     let {bikeCode} = this.state
@@ -202,28 +214,19 @@ export default class EndOrderModal extends React.Component{
     }
   }
 
+  // 轮询车辆状态接口
   async reBackOrder(timer){
     let {id} = this.state;
     let result = await  orderApi.reBackOrder({id})
     console.log('--------result',  result)
     // (1)如果车辆状态改变就停止轮询、还车成功
-    if(result.resultCode == 1){
+    let data = result.data;
+    if(result.resultCode == 1&& data.result==1){
       clearInterval(timer)
       msgBox.success('还车成功')
       this._tipModal.show(false)          
       this.hide(true)
-    }else{
-      // (2)否则30后停止轮询并显示还车失败
-      setTimeout(()=>{
-        clearInterval(timer)
-        this._tipModal.show(false)  
-        this.setState({
-          isOver: false, 
-          isEnd: false, 
-          isAbroad: false,
-          isReturn: true,
-        })
-      },5000*5)
+      return
     }
   }
 

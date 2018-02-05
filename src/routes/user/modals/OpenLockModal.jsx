@@ -90,6 +90,12 @@ export default class endOrderModal extends React.Component{
       this._tipModal.show(false)  
       this.hide(true);
       return      
+    }else if(result.resultCode == 1 && data.result==-1){
+      msgBox.error('开锁失败') 
+      clearInterval(timer)
+      this._tipModal.show(false)  
+      this.hide(true); 
+      return
     }
   }
 

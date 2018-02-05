@@ -182,6 +182,10 @@ export default class CouponModal extends React.Component {
       msgBox.warning("积分处罚应为负数")
       return
     }
+    if(parseInt(query.creditScoreCount) != Number(query.creditScoreCount)){
+      msgBox.warning("奖惩积分必须为整数");
+      return
+    }
     if(query.remark==''){
       msgBox.warning("备注不能为空")
       return

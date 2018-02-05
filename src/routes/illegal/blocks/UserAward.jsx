@@ -143,6 +143,14 @@ export default class UserAward extends React.Component {
 			msgBox.warning("奖励积分不能为空");
 			return
 		}
+		if(rewardScore.creditScoreCount <= 0){
+			msgBox.warning("奖励积分必须大于0");
+			return
+		}
+		if(parseInt(rewardScore.creditScoreCount) != Number(rewardScore.creditScoreCount)){
+			msgBox.warning("奖励积分必须为整数");
+			return
+		}
 
 		let result = await tripProblemApi.confirmHandle({
 			...params,
@@ -172,14 +180,34 @@ export default class UserAward extends React.Component {
 			msgBox.warning("出行券金额不能为空");
 			return
 		}
+		if(rewardCoupon.couponAmout <= 0){
+      msgBox.warning("出行券金额必须大于0");
+      return
+    }
+    if(parseInt(rewardCoupon.couponAmout) != Number(rewardCoupon.couponAmout)){
+      msgBox.warning("出行券金额必须为整数");
+      return
+    }
 		if(rewardCoupon.num == ''){
 			msgBox.warning("出行券张数不能为空");
 			return
 		}
+		if (rewardCoupon.num <= 0) {
+      msgBox.warning("出行券数量必须大于0");
+      return
+    }
+    if(parseInt(rewardCoupon.num) != Number(rewardCoupon.num)){
+      msgBox.warning("出行券数量必须为整数");
+      return
+    }
 		if(rewardCoupon.expireTime == ''){
 			msgBox.warning("过期时间不能为空");
 			return
 		}
+		if(new Date(rewardCoupon.expireTime)-new Date() < 0){
+      msgBox.warning("过期时间不能小于当前日期");
+      return
+    }
 		let result = await tripProblemApi.confirmHandle({
 			...params,
 			...rewardCoupon

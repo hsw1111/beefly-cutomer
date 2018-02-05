@@ -72,27 +72,33 @@ export default class userVoucher extends React.Component {
 
 		let {rewardCoupon, mobiles} = this.state;
 
-		if (rewardCoupon.couponAmout == '') {
-			msgBox.warning('出行券金额不能为空');
-			return;
+		if(rewardCoupon.couponAmout == ''){
+			msgBox.warning("出行券金额不能为空");
+			return
 		}
-		if (rewardCoupon.couponAmout < 0) {
-			msgBox.warning('出行券金额不能小于0');
-			return;
+		if(rewardCoupon.couponAmout <= 0){
+      msgBox.warning("出行券金额必须大于0");
+      return
+    }
+    if(parseInt(rewardCoupon.couponAmout) != Number(rewardCoupon.couponAmout)){
+      msgBox.warning("出行券金额必须为整数");
+      return
+    }
+		if(rewardCoupon.num == ''){
+			msgBox.warning("出行券张数不能为空");
+			return
 		}
-
-		if (rewardCoupon.num == '') {
-			msgBox.warning('出行券张数不能为空');
-			return;
-		}
-		if (rewardCoupon.num < 0) {
-			msgBox.warning('出行券张数不能小于0');
-			return;
-		}
-
-		if (rewardCoupon.expireTime == '') {
-			msgBox.warning('过期时间不能为空');
-			return;
+		if (rewardCoupon.num <= 0) {
+      msgBox.warning("出行券数量必须大于0");
+      return
+    }
+    if(parseInt(rewardCoupon.num) != Number(rewardCoupon.num)){
+      msgBox.warning("出行券数量必须为整数");
+      return
+    }
+		if(rewardCoupon.expireTime == ''){
+			msgBox.warning("过期时间不能为空");
+			return
 		}
 		if(new Date(rewardCoupon.expireTime)-new Date() < 0){
       msgBox.warning("过期时间不能小于当前日期");
@@ -104,7 +110,7 @@ export default class userVoucher extends React.Component {
 			return;
 		}
 
-		let mobile = JSON.stringify(mobiles);
+		let mobile = mobiles.join(",");
 		let formData = {
 			couponAmout: rewardCoupon.couponAmout,
 			num: rewardCoupon.num,
@@ -115,6 +121,7 @@ export default class userVoucher extends React.Component {
 		let result = await couponApi.massCoupon(formData);
 
 		if (result.resultCode == 1) {
+			msgBox.success("群发出行券成功")
 			this.empty()
 		}
 
@@ -161,8 +168,9 @@ export default class userVoucher extends React.Component {
 				$.each(persons, function (index, data) {
 					mobiles.push(data.mobile);
 				});
+				
 				this.setState({
-					mobiles
+					mobiles:Array.from(new Set(mobiles))  // 数组去重
 				})
 			} catch (e) {
 
@@ -191,7 +199,13 @@ export default class userVoucher extends React.Component {
 	//清空所有
 	empty() {
 		this.setState({
-			mobiles: []
+			mobiles: [],
+			rewardCoupon: {
+				couponAmout: '',
+				num: '',
+				expireTime: ''
+			},
+
 		})
 	}
 

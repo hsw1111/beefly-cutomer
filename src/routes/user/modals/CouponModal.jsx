@@ -53,8 +53,8 @@ export default class CouponModal extends React.Component {
               </Col>
             </Row>
             <div className='user-block'>
-              <Input label="出行券金额" type='number' model='query.couponAmout' validation={{required: true}} width={250} placeholder='金额，正数'/>              
-              <Input label="出行券张数" type='number' model='query.num' validation={{required: true}} width={80} placeholder='张数'/>
+              <Input label="出行券金额" type='number' model='query.couponAmout' validation={{required: true}} width={250} placeholder='金额，正整数'/>              
+              <Input label="出行券张数" type="number" model='query.num' validation={{required: true}} width={80} placeholder='张数'/>
               {isOver && <div className='text-red margin-l-10' style={{position: 'absolute', top: 110, left: 390}}>
                             今日已到你可发送出行券的上限了，不可发送了！</div>}
             </div>
@@ -114,16 +114,24 @@ export default class CouponModal extends React.Component {
       msgBox.warning("出行券金额不能为空");
       return
     }
-    if(query.couponAmout < 0){
-      msgBox.warning("出行券金额不能小于0");
+    if(query.couponAmout <= 0){
+      msgBox.warning("出行券金额必须大于0");
+      return
+    }
+    if(parseInt(query.couponAmout) != Number(query.couponAmout)){
+      msgBox.warning("出行券金额必须为整数");
       return
     }
     if (query.num == '') {
       msgBox.warning("出行券数量不能为空");
       return
     }
-    if (query.num <0) {
-      msgBox.warning("出行券数量不能小于0");
+    if (query.num <= 0) {
+      msgBox.warning("出行券数量必须大于0");
+      return
+    }
+    if(parseInt(query.num) != Number(query.num)){
+      msgBox.warning("出行券数量必须为整数");
       return
     }
 

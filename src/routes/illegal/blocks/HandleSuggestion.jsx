@@ -346,12 +346,12 @@ export default class HandleSuggestion extends React.Component {
 	// 确认处理-扣押金
 	async confirmHandle_deductCashPledge(params) {
 		let {deductCashPledge} = this.state;
-
-		if (deductCashPledge.depositAmount == '') {
+		let {depositState} = illegalStore;
+		if (depositState == 1 && deductCashPledge.depositAmount == '') {
 			msgBox.warning("金额不能为空");
 			return
 		}
-		if (deductCashPledge.depositAmount < 0) {
+		if (depositState == 1 && deductCashPledge.depositAmount < 0) {
 			msgBox.warning("金额不能小于0");
 			return
 		}

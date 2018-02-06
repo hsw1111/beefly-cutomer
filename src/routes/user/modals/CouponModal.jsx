@@ -1,19 +1,5 @@
 import React from 'react';
-import {
-	Button,
-	Form,
-	Modal,
-	Input,
-	msgBox,
-	Textarea,
-	Row,
-	Col,
-	Text,
-	Box,
-	DateRange,
-	DataTable,
-	dtUtils
-} from "beefly-common";
+import {Button, Form, Modal,Input, msgBox, Textarea, Row, Col, Text, Box, DateRange, DataTable, dtUtils } from "beefly-common";
 import tripProblemApi from "../../../apis/tripProblemApi";
 import beefly from "../../../js/beefly";
 import couponApi from "../../../apis/couponApi";
@@ -27,27 +13,27 @@ export default class CouponModal extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			show: false,
-			data: '',
-			isOver: false, //是否超过发送上线
+      show: false,
+      data: '',
+      isOver: false, //是否超过发送上线
 			query: {
-				appUserId: '',
-				couponAmout: '',
-				num: '',
-				expireTime: '',
-			},
-			columns: [
-				{title: '编号', data: 'id'},
-				{title: '发放金额', data: 'amount'},
+        appUserId: '',
+        couponAmout: '',
+        num: '',
+        expireTime: '',
+      },
+      columns: [
+        {title: '编号', data: 'id'},
+        {title: '发放金额', data: 'amount'},
 				{title: '获得时间', data: 'receiveDate', render: dtUtils.renderDateTime},
 				{title: '消费时间', data: 'useTime', render: dtUtils.renderDateTime},
 				{title: '消费订单', data: 'orderId'},
 				{title: '到期时间', data: 'validityEndDate', render: dtUtils.renderDateTime},
-				{title: '获得类型', data: 'receiveWay', render: (data) => dtUtils.renderMap(data, couponGetType)},
-			],
-			queryTable: {
-				userId: ''
-			}
+				{title: '获得类型', data: 'receiveWay', render: (data) => dtUtils.renderMap(data, couponGetType) },
+      ],
+      queryTable: {
+        userId: ''
+      }
 		}
 	}
 
@@ -55,7 +41,8 @@ export default class CouponModal extends React.Component {
 		let {show, data, isOver, query, columns, queryTable} = this.state;
 		return (
 			<Modal show={show} title="出行券管理" size='lg' onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
-				<Modal.Body>
+				{show &&
+        <Modal.Body>
 					<Form className="form-label-100" horizontal>
             <Row>
               <Col md={5}>
@@ -77,40 +64,42 @@ export default class CouponModal extends React.Component {
               <Button value={'确定'} onClick={this.ok.bind(this)}/>
             </div>
 					</Form>
-
-					<div className='margin-t-50'>
-						<Box title='发放记录'>
-							<DataTable ref={(e) => this._dataTable = e}
-									   columns={columns} api={couponApi.page} query={queryTable}/>
-						</Box>
-					</div>
+          
+          <div className='margin-t-50'>
+            <Box title='发放记录'>
+              <DataTable ref={(e) => this._dataTable = e}
+                  columns={columns} api={couponApi.page} query={queryTable}/>
+            </Box>
+          </div>
+          
 				</Modal.Body>
+        }
 			</Modal>
 		)
 	}
 
 	show(data) {
 		this.setState({
-			show: true,
-			data,
-			isOver: false,
-			queryTable: {
-				'userId': data.id
-			},
-			query: {
-				appUserId: data.id,
-				couponAmout: '',
-				num: '',
-				expireTime: '',
-			},
-		});
+      show: true,
+      data,
+      isOver: false,
+      queryTable: {
+        'userId': data.id
+      },
+      query: {
+        appUserId: data.id,
+        couponAmout: '',
+        num: '',
+        expireTime: '',
+      },
+    });
 	}
 
 	hide(isCallback) {
 		this.setState({
-			show: false,
-		});
-		if (isCallback) {
+      show: false,
+    });
+    if(isCallback){
 			let {onSuccess} = this.props;
 			onSuccess && onSuccess();
 		}
@@ -146,19 +135,19 @@ export default class CouponModal extends React.Component {
       return
     }
 
-		if (query.expireTime == '') {
-			msgBox.warning("过期时间不能为空");
-			return
-		}
-		if (new Date(query.expireTime) - new Date() < 0) {
-			msgBox.warning("过期时间不能小于当前日期");
-			return
-		}
+    if (query.expireTime == '') {
+      msgBox.warning("过期时间不能为空");
+      return
+    }
+    if(new Date(query.expireTime)-new Date() < 0){
+      msgBox.warning("过期时间不能小于当前日期");
+      return
+    }
 
-		let result = await couponApi.awardCoupon(query);
-		if (result.resultCode == 1) {
-			msgBox.success("奖励出行券操作成功！")
-		}
+    let result = await couponApi.awardCoupon(query);
+    if(result.resultCode==1){
+      msgBox.success("奖励出行券操作成功！")
+    }
 		this.hide(true);
 	}
 

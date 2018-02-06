@@ -48,7 +48,7 @@ export default class HandleSuggestion extends React.Component {
 
 			// 扣押金有三种可能:
 			// 1.押金充值在	3个月内：直接扣；
-			// 2.押金充值超过3各个月：先拉黑；
+			// 2.押金充值超过3个月：先拉黑；
 			// 3.押金已经被提现：冻结用户押金(原来叫：设为失信用户)
 			deductCashPledge: {
 				// depositState: 1,	// 押金状态
@@ -153,6 +153,13 @@ export default class HandleSuggestion extends React.Component {
 								<Textarea label="备注" model={'deductCashPledge.remark'} width={'50%'}
 										  validation={{required: true}}/>
 								<p>拉黑后，用户无法再租用小蜜蜂。</p>
+								<Checkbox model={'deductCashPledge.smsFlag'} text="同时给违规人发送短信通知" onChange={(e)=>console.log(e, '............................')}/>
+								{deductCashPledge.smsFlag == 1 && <div>
+									<Text label="手机号" value={mobile}/>
+									<Text label="发送目的" value="违规通知"/>
+									<Textarea label="短信内容" model={'deductCashPledge.content'} width={'50%'}
+											  validation={{required: true}}/>
+								</div>}
 							</div>}
 							{depositState == 3 && <div>
 								<p className="text-red">*押金已经被提现：冻结用户押金押金状态 </p>
@@ -340,8 +347,20 @@ export default class HandleSuggestion extends React.Component {
 	async confirmHandle_deductCashPledge(params) {
 		let {deductCashPledge} = this.state;
 
+		if (deductCashPledge.depositAmount == '') {
+			msgBox.warning("金额不能为空");
+			return
+		}
+		if (deductCashPledge.depositAmountk < 0) {
+			msgBox.warning("金额不能小于0");
+			return
+		}
 		if (deductCashPledge.remark == '') {
 			msgBox.warning("备注不能为空");
+			return
+		}
+		if (deductCashPledge.smsFlag == 1 && deductCashPledge.content == '') {
+			msgBox.warning("短信内容不能为空");
 			return
 		}
 		let result = await tripProblemApi.confirmHandleDq({

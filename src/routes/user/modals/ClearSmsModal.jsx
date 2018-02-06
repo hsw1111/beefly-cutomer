@@ -40,7 +40,7 @@ export default class ClearSmsModal extends React.Component {
 			data
 		});
 		let parms={
-			appUserId:data.id,
+			mobile:data.mmobile,
 			serviceType:0
 		};
 		let result = await symsApi.countSms(parms);

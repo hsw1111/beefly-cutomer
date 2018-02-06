@@ -3,6 +3,7 @@ import {observer} from 'mobx-react';
 import {Button, Content, Box, DateRange, Input, Form, Field, DataTable, dtUtils, Text, msgBox} from "beefly-common";
 import $ from 'jquery';
 import couponApi from "../../apis/couponApi";
+import VoucherModal from './modals/VoucherModal'
 
 
 /**
@@ -64,6 +65,7 @@ export default class userVoucher extends React.Component {
 						<Button value="确定发送" onClick={this.ok.bind(this)}/>
 					</div>
 				</Box>
+				<VoucherModal ref={(e) => this._voucherModal = e} onSuccess={this.empty.bind(this)} />
 			</Content>
 		)
 	}
@@ -123,6 +125,10 @@ export default class userVoucher extends React.Component {
 		if (result.resultCode == 1) {
 			msgBox.success("群发出行券成功")
 			this.empty()
+		}
+		if(result.resultCode == -1){
+			let data = result.data
+			this._voucherModal.show(data, formData)
 		}
 
 

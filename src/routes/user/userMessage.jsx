@@ -30,7 +30,8 @@ export default class UserMessage extends React.Component {
       query: {
         qSendTimeStart: '',
         qSendTimeEnd: '',
-        mobiles: ''
+        mobiles: '',
+        searchType: '1,2,3,4'
       },
     }
   }

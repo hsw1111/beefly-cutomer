@@ -25,7 +25,7 @@ export default class UserMessage extends React.Component {
 
       query: {
         mobiles: '',
-        serviceType: 0
+        searchType: '0'
       }
     }
   }

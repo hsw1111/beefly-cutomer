@@ -351,7 +351,7 @@ export default class HandleSuggestion extends React.Component {
 			msgBox.warning("金额不能为空");
 			return
 		}
-		if (deductCashPledge.depositAmountk < 0) {
+		if (deductCashPledge.depositAmount < 0) {
 			msgBox.warning("金额不能小于0");
 			return
 		}

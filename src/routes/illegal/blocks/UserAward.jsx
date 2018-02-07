@@ -170,6 +170,9 @@ export default class UserAward extends React.Component {
 				tabUtils.closeTab();
 			});
 		}
+		if (result.resultCode == -1) {
+			alert(result.message)
+		}
 	}
 
 	// 确认处理-奖出行券
@@ -226,6 +229,9 @@ export default class UserAward extends React.Component {
 				tabUtils.closeTab();
 			});
 		}
+		if (result.resultCode == -1) {
+			alert(result.message)
+		}
 	}
 
 	// 确认处理-奖余额
@@ -255,6 +261,9 @@ export default class UserAward extends React.Component {
 				tabUtils.closeTab();
 			});
 		}
+		if (result.resultCode == -1) {
+			alert(result.message)
+		}
 	}
 
 	// 确认处理-不奖励
@@ -278,6 +287,9 @@ export default class UserAward extends React.Component {
 			msgBox.success(result.message, () => {
 				tabUtils.closeTab();
 			});
+		}
+		if (result.resultCode == -1) {
+			alert(result.message)
 		}
 	}
 

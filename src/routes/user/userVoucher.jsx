@@ -213,6 +213,7 @@ export default class userVoucher extends React.Component {
 			},
 
 		})
+		this.file.value = ''
 	}
 
 

@@ -2,7 +2,7 @@ import React from 'react';
 import {observer} from 'mobx-react';
 import {Box, Form, Text, Row, Col, Tab, Tabs,DataTable,dtUtils} from "beefly-common";
 import {integralType, rewardType,} from '../../../maps/illegalMap';
-import {depositState} from '../../../maps/userMap';
+import {depositState, couponGetType} from '../../../maps/userMap';
 import userStore from "../../../stores/userStore";
 import userApi from "../../../apis/userApi";
 
@@ -43,7 +43,7 @@ export default class Detail extends React.Component {
 				{title: '消费时间', data: 'useTime'},
 				{title: '消费订单', data: 'orderId'},
 				{title: '到期时间', data: 'validityEndDate'},
-				{title: '获得类型', data: 'receiveWayStr'},
+				{title: '获得类型', data: 'receiveWay', render: (data) => dtUtils.renderMap(data, couponGetType)},
 			],
 			//信用积分
 			columns_integral: [

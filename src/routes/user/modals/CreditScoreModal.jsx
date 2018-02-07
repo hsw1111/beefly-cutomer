@@ -49,7 +49,7 @@ export default class CouponModal extends React.Component {
       16: '违停扣错积分返还'
     }
     let punishType = {
-      8: '其它',
+      8: '其他',
       9: '违停扣分',
       10: '车辆轻度划伤',
       11: '车辆重度划伤',

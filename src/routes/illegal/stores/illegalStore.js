@@ -7,6 +7,7 @@ import creditScoreApi from "../../../apis/creditScoreApi";
 import beefly from "../../../js/beefly";
 import {msgBox} from 'beefly-common';
 import transRecordApi from "../../../apis/transRecordApi";
+import appUserApi from '../../../apis/appUserApi'
 /**
  *
  */
@@ -19,7 +20,9 @@ class IllegalStore {
 	@observable suggestHandleType = 0;		// 建议的处理意见
 	@observable actualHandleType = 0;		// 实际的处理意见
 	@observable depositState = 0; 			// 押金状态
-	@observable transId = null; 			//
+	@observable transId = null;
+	@observable isDq = false;
+	@observable cityName = null; 			//
 
 	async fetchDetail() {
 		let {id} = urlUtils.getParams();
@@ -68,6 +71,7 @@ class IllegalStore {
 			await this.fetchBuckleCount();
 			await this.fetchSmsCount();
 			await this.fetchDepositState();
+			await this.fetchDq();
 
 			setTimeout(()=>{
 				if((!this.detail.content.includes('双人骑行'))&&(this.orderDetail && this.orderDetail.orderFlow == 3 && (this.orderDetail.mileage < 500 || this.orderDetail.timeInOrder < 5 )||(this.orderDetail.endTime > this.detail.createTime ||'')||
@@ -112,6 +116,20 @@ class IllegalStore {
 		if (result.resultCode == 1) {
 			this.depositState = result.data.depositState;
 			this.transId =result.data.transId
+		}
+	}
+
+	// 判断违规人是否是地勤
+	async fetchDq(){
+		let id = this.orderDetail.userId
+		let result = await appUserApi.getOperUser({id})
+		let data = result.data
+		if(data && data.operUserId){
+			this.isDq = true;
+			this.cityName = data.cityName;
+		}else{
+			this.isDq = false;
+			this.cityName = '';
 		}
 	}
 

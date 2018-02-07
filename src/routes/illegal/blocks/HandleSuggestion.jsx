@@ -135,7 +135,7 @@ export default class HandleSuggestion extends React.Component {
 						</Tab>
 						<Tab title="扣押金">
 							{depositState == 1 && <div>
-								<p className="text-red">*押金充值在3个月内：直接扣</p>
+								<p className="text-red">*支付宝押金充值在3个月内，或是以微信充值的</p>
 								<Input label="扣除金额" model={'deductCashPledge.depositAmount'} type="number" width={250}
 									   validation={{required: true}}/>
 								<Textarea label="备注" model={'deductCashPledge.remark'} width={'50%'}
@@ -149,7 +149,7 @@ export default class HandleSuggestion extends React.Component {
 								</div>}
 							</div>}
 							{depositState == 2 && <div>
-								<p className="text-red">*押金充值超过3个月：先拉黑</p>
+								<p className="text-red">*(支付宝)押金充值已经超过3个月了，暂时无法扣押金，先拉黑用户</p>
 								<Textarea label="备注" model={'deductCashPledge.remark'} width={'50%'}
 										  validation={{required: true}}/>
 								<p>拉黑后，用户无法再租用小蜜蜂。</p>
@@ -205,6 +205,11 @@ export default class HandleSuggestion extends React.Component {
 		this.setState({
 			noPunishType: obj
 		})
+
+		// // 如果建议处理类型是扣积分或扣押金
+		// let {suggestHandleType} = illegalStore;
+		// this.messageContent(suggestHandleType)
+		
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -213,28 +218,6 @@ export default class HandleSuggestion extends React.Component {
 		}
 	}
 	
-	async componentWillMount(){
-		let result = await tripProblemApi.noPunishList()
-		var obj = {}
-		result.data.map((item)=>{
-			return obj[item.code] = item.content
-		})
-		this.setState({
-			noPunishType: obj
-		})
-	}
-
-	async componentWillMount(){
-		let result = await tripProblemApi.noPunishList()
-		var obj = {}
-		result.data.map((item)=>{
-			return obj[item.code] = item.content
-		})
-		this.setState({
-			noPunishType: obj
-		})
-	}
-
 	reset(){
 		this.setState({
 			deductScore: {
@@ -269,6 +252,7 @@ export default class HandleSuggestion extends React.Component {
 			})
 		}
 	}
+
 
 
 	// 确认处理
@@ -341,6 +325,9 @@ export default class HandleSuggestion extends React.Component {
 				tabUtils.closeTab();
 			});
 		}
+		if (result.resultCode == -1) {
+			alert(result.message)
+		}
 	}
 
 	// 确认处理-扣押金
@@ -363,6 +350,7 @@ export default class HandleSuggestion extends React.Component {
 			msgBox.warning("短信内容不能为空");
 			return
 		}
+
 		let result = await tripProblemApi.confirmHandleDq({
 			...params,
 			...deductCashPledge,
@@ -382,6 +370,9 @@ export default class HandleSuggestion extends React.Component {
 			msgBox.success(result.message, () => {
 				tabUtils.closeTab()
 			});
+		}
+		if (result.resultCode == -1) {
+			alert(result.message)
 		}
 	}
 
@@ -409,6 +400,9 @@ export default class HandleSuggestion extends React.Component {
 			msgBox.success(result.message, () => {
 				tabUtils.closeTab();
 			});
+		}
+		if (result.resultCode == -1) {
+			alert(result.message)
 		}
 	}
 
@@ -438,6 +432,9 @@ export default class HandleSuggestion extends React.Component {
 			msgBox.success(result.message, () => {
 				tabUtils.closeTab();
 			});
+		}
+		if (result.resultCode == -1) {
+			alert(result.message)
 		}
 	}
 

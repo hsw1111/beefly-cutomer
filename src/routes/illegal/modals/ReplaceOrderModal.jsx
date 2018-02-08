@@ -56,6 +56,7 @@ export default class ReplaceOrderModal extends React.Component {
 		let {show, columns, query, bikeCode} = this.state;
 		return (
 			<div>
+				<div>
 				<Modal show={show} title="更改订单" size="lg" onHide={this.hide.bind(this)}>
 					<Modal.Body style={{height: 600}}>
 						<Form>
@@ -71,6 +72,7 @@ export default class ReplaceOrderModal extends React.Component {
 						<Button value={'确定'} onClick={this.ok.bind(this)}/>
 					</Modal.Footer>
 				</Modal>
+				</div>
 				<DetailModal ref={(e) => this._detailModal = e}/>
 			</div>
 		)

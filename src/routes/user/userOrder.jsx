@@ -71,7 +71,7 @@ export default class userOrder extends React.Component {
 		if(detail){
 			return (
 				<Box>
-					<Form className="form-label-150" horizontal>
+					<Form className="form-label-100" horizontal>
 						<Row>
 							<Col md={5}>
 								<Text label="用户编号" value={detail.id}/>

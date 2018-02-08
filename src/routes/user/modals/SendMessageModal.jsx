@@ -26,7 +26,7 @@ export default class SendMessageModal extends React.Component {
 		return (
 			<Modal show={show} title="发送短信" onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
 				<Modal.Body>
-					  <Form inline>
+					  <Form className="form-label-100" horizontal>
               <Input label="手机号" model='query.mobiles' width={250}
                     validation={{required: true}}/>
               <Select label="发送目的" model="query.serviceType" options={purpose}  validation={{required: true}} width={200} whole={false}/>

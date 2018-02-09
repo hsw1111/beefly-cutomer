@@ -57,7 +57,7 @@ export default class UserAward extends React.Component {
 		return (
 			<Box title="用户奖励" icon="fa-tag">
 				<p>给用户的奖励可以选择如下任一种：</p>
-				<Form className="form-label-150" horizontal>
+				<Form horizontal>
 					<Tabs model="type">
 						<Tab title="奖积分">
 							<Text label="奖罚类型" value="积分奖励"/>

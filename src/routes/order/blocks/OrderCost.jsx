@@ -11,7 +11,7 @@ export default class OrderCost extends React.Component{
     let {detail} = this.props;
     return(
       <Box title="订单费用">
-        <Form className="form-label-150" horizontal>
+        <Form horizontal>
           <Row>
             <Col md={6}>
               <Text label="订单总额" value={(detail.actualAmount || 0) + '元'}/>

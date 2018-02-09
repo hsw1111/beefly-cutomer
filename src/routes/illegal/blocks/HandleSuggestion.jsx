@@ -129,7 +129,7 @@ export default class HandleSuggestion extends React.Component {
 							{deductScore.smsFlag == 1 && <div>
 								<Text label="手机号" value={mobile}/>
 								<Text label="发送目的" value="违规通知"/>
-								<Textarea label="短信内容" model={'deductScore.content'} width={'50%'}
+								<Textarea label="短信内容" model={'deductScore.content'} width={'50%'}  height={135}
 										  validation={{required: true}}/>
 							</div>}
 						</Tab>
@@ -144,7 +144,7 @@ export default class HandleSuggestion extends React.Component {
 								{deductCashPledge.smsFlag == 1 && <div>
 									<Text label="手机号" value={mobile}/>
 									<Text label="发送目的" value="违规通知"/>
-									<Textarea label="短信内容" model={'deductCashPledge.content'} width={'50%'}
+									<Textarea label="短信内容" model={'deductCashPledge.content'} width={'50%'}  height={135}
 											  validation={{required: true}}/>
 								</div>}
 							</div>}
@@ -157,7 +157,7 @@ export default class HandleSuggestion extends React.Component {
 								{deductCashPledge.smsFlag == 1 && <div>
 									<Text label="手机号" value={mobile}/>
 									<Text label="发送目的" value="违规通知"/>
-									<Textarea label="短信内容" model={'deductCashPledge.content'} width={'50%'}
+									<Textarea label="短信内容" model={'deductCashPledge.content'} width={'50%'}  height={135}
 											  validation={{required: true}}/>
 								</div>}
 							</div>}

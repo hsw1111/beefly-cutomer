@@ -162,7 +162,7 @@ export default class HandleSuggestion extends React.Component {
 								</div>}
 							</div>}
 							{depositState == 3 && <div>
-								<p className="text-red">*押金已经被提现：冻结用户押金押金状态 </p>
+								<p className="text-red">*该用户押金已经提现，暂时无法扣押金，先冻结用户押金 </p>
 								<Textarea label="备注" model={'deductCashPledge.remark'} validation={{required: true}}
 										  width={'50%'}/>
 								<p>押金冻结后，用户无法自行提现。</p>

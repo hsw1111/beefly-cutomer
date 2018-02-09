@@ -172,7 +172,7 @@ export default class userVoucher extends React.Component {
 
 				let mobiles = [];
 				$.each(persons, function (index, data) {
-					mobiles.push(data.mobile);
+					mobiles.push(data.手机号);
 				});
 				
 				this.setState({

@@ -28,7 +28,7 @@ export default class CouponModal extends React.Component {
 				{title: '获得时间', data: 'receiveDate', render: dtUtils.renderDateTime},
 				{title: '消费时间', data: 'useTime', render: dtUtils.renderDateTime},
 				{title: '消费订单', data: 'orderId'},
-				{title: '到期时间', data: 'validityEndDate', render: dtUtils.renderDateTime},
+				{title: '到期时间', data: 'validityEndDate'},
 				{title: '获得类型', data: 'receiveWay', render: (data) => dtUtils.renderMap(data, couponGetType) },
       ],
       queryTable: {

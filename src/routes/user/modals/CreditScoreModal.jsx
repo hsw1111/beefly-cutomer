@@ -42,7 +42,7 @@ export default class CouponModal extends React.Component {
 			return `<span class="label label-danger">${dtUtils.renderMap(data, rewardType)}</span>`
 		}
   }
-  
+
 	render() {
     let awardType = {
       8: '其他',
@@ -58,20 +58,20 @@ export default class CouponModal extends React.Component {
       14: '弃车逃跑',
     }
 
-    
+
     let {show, data, columns, queryTable, query} = this.state;
 
 		return (
 			<Modal show={show} title="信用积分管理" size='lg' onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
-      {show && 
-				<Modal.Body>
+      {show &&
+				<Modal.Body style={{height: 660}}>
 					<Form className="form-label-100" horizontal>
             <Row>
               <Col md={5}>
                 <Text label="用户编号" value={data.id}/>
               </Col>
               <Col md={7}>
-                <Text label="手机号" value={data.mmobile}/>  
+                <Text label="手机号" value={data.mmobile}/>
               </Col>
             </Row>
            <Select label="奖惩类型" model="query.awardPunishType" options={rewardType} whole={false} validation={{required: true}} width={250}  onChange={this.change.bind(this)}/>
@@ -83,14 +83,14 @@ export default class CouponModal extends React.Component {
               <Button value={'确定'} onClick={this.ok.bind(this)}/>
             </div>
 					</Form>
-          
+
           <div className='margin-t-50'>
             <Box title='奖罚记录'>
               <DataTable ref={(e) => this._dataTable = e}
                   columns={columns} api={creditScoreApi.page} query={queryTable}/>
             </Box>
           </div>
-          
+
 				</Modal.Body>
       }
 			</Modal>
@@ -140,7 +140,7 @@ export default class CouponModal extends React.Component {
       })
     }
   }
- 
+
 	show(data) {
 		this.setState({
       show: true,

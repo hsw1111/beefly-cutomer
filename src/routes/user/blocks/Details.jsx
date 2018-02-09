@@ -87,7 +87,7 @@ export default class Detail extends React.Component {
 		let {detail} = userStore;
 		return (
 			<Box>
-				<Form className="form-label-150" horizontal>
+				<Form horizontal>
 					<Row>
 						<Col md={5}>
 							<Text label="用户编号" value={detail.id}/>

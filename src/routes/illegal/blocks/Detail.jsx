@@ -15,7 +15,7 @@ export default class Detail extends React.Component {
 		let {detail} = illegalStore;
 		return (
 			<Box>
-				<Form className="form-label-150" horizontal>
+				<Form horizontal>
 					<Text label="上报编号" value={detail.id}/>
 					<Text label="上报人员姓名" value={detail.userName}/>
 					<Text label="上报人员手机号" value={detail.mobile}/>
@@ -32,7 +32,7 @@ export default class Detail extends React.Component {
 					<Text label="处理进度" value={handleType[detail.state]}/>
 				</Form>
 				{showHandle && (
-					<Form className="form-label-150" horizontal>
+					<Form horizontal>
 						<Row>
 							<Col md={5}>
 								<Text label="接单处理时间" value={detail.acceptTime}/>

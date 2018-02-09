@@ -33,11 +33,11 @@ export default class detailModal extends React.Component {
 	render() {
 		let {show, detail, columns, columns1} = this.state;
 		return (
-			
+
 			<Modal show={show} title="订单详情" size="lg" onHide={this.hide.bind(this)}>
 				{show &&
 					<div>
-						<Modal.Body>
+						<Modal.Body style={{height:590}}>
 							<OrderDetail detail={detail}/>
 							<OrderCost detail={detail}/>
 							<Box title="车辆操作日志">
@@ -55,7 +55,7 @@ export default class detailModal extends React.Component {
 					</div>
 				}
 			</Modal>
-	
+
 		)
 	}
 

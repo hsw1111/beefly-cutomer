@@ -58,7 +58,7 @@ export default class userVoucher extends React.Component {
 					<div>
 						{mobiles.map((d, i) =>
 							<span style={{'white-space':'normal',lineHeight:'30px'}} className="label label-default margin-r-10" key={i}>{d} <span
-								onClick={(e) => this.delete(i)}><i className="fa fa-fw fa-close"></i></span></span>
+								onClick={(e) => this.delete(i)}><i style={{cursor:'pointer'}} className="fa fa-fw fa-close"></i></span></span>
 						)}
 					</div>
 					<div className="margin-t-80" style={{float: 'right'}}>
@@ -169,12 +169,11 @@ export default class userVoucher extends React.Component {
 						// break; // 如果只取第一张表，就取消注释这行
 					}
 				}
-
 				let mobiles = [];
 				$.each(persons, function (index, data) {
-					mobiles.push(data.mobile);
+					mobiles.push(data.手机号);
 				});
-				
+
 				this.setState({
 					mobiles:Array.from(new Set(mobiles))  // 数组去重
 				})

@@ -42,7 +42,7 @@ export default class Detail extends React.Component {
 				{title: '获得时间', data: 'receiveDate'},
 				{title: '消费时间', data: 'useTime'},
 				{title: '消费订单', data: 'orderId'},
-				{title: '到期时间', data: 'validityEndDate'},
+				{title: '到期时间', data: 'expiryTime'},
 				{title: '获得类型', data: 'receiveWay', render: (data) => dtUtils.renderMap(data, couponGetType)},
 			],
 			//信用积分

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, Form, Modal, Row, Col, Text, Box, DataTable, dtUtils } from "beefly-common";
 import balaceRecordApi from "../../../apis/balaceRecordApi";
-import appUserApi from "../../../apis/appUserApi";
+import userApi from "../../../apis/userApi";
 
 /**
  * 余额变动明细
@@ -30,12 +30,12 @@ export default class BalanceModal extends React.Component {
       }
 		}
   }
-  
+
 	render() {
 		let {show, detail, query, columns} = this.state;
 		return (
 			<Modal show={show} title="余额变动明细" size='lg' onHide={this.hide.bind(this)}>
-      {show && 
+      {show &&
         <div>
 				<Modal.Body>
 					<Form className="form-label-100" horizontal>
@@ -44,7 +44,7 @@ export default class BalanceModal extends React.Component {
                 <Text label="用户编号" value={detail.id}/>
               </Col>
               <Col md={5}>
-                <Text label="手机号" value={detail.mobile}/>  
+                <Text label="手机号" value={detail.mobile}/>
               </Col>
             </Row>
             <p style={{margin: '10px 14px'}}>用户当前余额：<span className='text-orange'>	{(detail.balance || 0) + (detail.grantBalance || 0)}元</span>（充值金额{detail.balance || 0}元+赠送金额{detail.grantBalance || 0}元）</p>
@@ -52,11 +52,11 @@ export default class BalanceModal extends React.Component {
           <div className="margin-t-30">
             <Box title='余额变动明细'>
               <DataTable ref={(e) => this._dataTable = e}
-                  columns={columns} api={balaceRecordApi.page} query={query}/> 
+                  columns={columns} api={balaceRecordApi.page} query={query}/>
             </Box>
           </div>
-          
-          
+
+
 				</Modal.Body>
         <Modal.Footer>
           <Button value={'取消'} theme={'default'} onClick={this.hide.bind(this)}/>
@@ -74,7 +74,7 @@ export default class BalanceModal extends React.Component {
         userId: data.id
       }
     });
-    let result = await appUserApi.userDetail({id: data.id}) 
+    let result = await userApi.userDetail({id: data.id})
     this.setState({
       detail: result.data
     })

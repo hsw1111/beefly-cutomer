@@ -26,7 +26,7 @@ import CreditScoreModal from "./modals/CreditScoreModal";
 import FrozenModal from "./modals/FrozenModal"
 import UnfreezeModal from "./modals/UnfreezeModal"
 import ClearSmsModal from "./modals/ClearSmsModal"
-import appUserApi from "../../apis/appUserApi";
+import userApi from "../../apis/userApi";
 import beefly from "../../js/beefly";
 
 /**
@@ -42,10 +42,10 @@ export default class Illegal extends React.Component {
 				{title: '用户编号', data: 'id',render:this.renderId.bind(this)},
 				{title: '用户姓名', data: 'name'},
 				{title: '手机号', data: 'mobile'},
-				{title: '登录城市', data: 'cityName'},
+				{title: '登录城市', data: 'registerCity'},
 				{title: '用户状态', data: 'userStatusName'},
 				{title: '注册时间', data: 'registerTime', render: dtUtils.renderDateTime},
-				{title: '账户余额（￥）', data: 'grantBalance', render: (data, type, row) => (`<a href="javascript:" onClick={beefly.touchBalance(${row.id},${row.mobile})}>${data}</a>`)},
+				{title: '账户余额（￥）', data: 'balance'},
 				{title: '信用积分', data: 'credScore'},
 				{title: '押金状态', data: 'creditLimit', render: (data) => dtUtils.renderMap(data, depositState)},
 				{title: '操作', type: 'object', render: this.renderActions},
@@ -116,28 +116,26 @@ export default class Illegal extends React.Component {
 							<Button icon="search" onClick={this.search.bind(this)}>查询</Button>
 						</Field>
 					</Form>
-					<div className='isShow' style={{display: 'none'}}>
+					<div>
 						<DataTable ref={(e) => this._dataTable = e}
-									columns={columns} api={appUserApi.page} query={query}/>
+									columns={columns} api={userApi.page} />
 					</div>
 				</Box>
-				<ModifyModal ref={(e) => this._modifyModal = e} onSuccess={this.search.bind(this)}/>
-				<BlackModal ref={(e) => this._blackModal = e} onSuccess={this.search.bind(this)}/>
-				<CancelBlackModal ref={(e) => this._cancelModal = e} onSuccess={this.search.bind(this)}/>
-				<BalanceModal ref={(e) => this._balanceModal = e}  onSuccess={this.search.bind(this)}/>
-				<CouponModal ref={(e) => this._couponModal = e}  onSuccess={this.search.bind(this)}/>
+				<ModifyModal ref={(e) => this._modifyModal = e} onSuccess={this.refresh.bind(this)}/>
+				<BlackModal ref={(e) => this._blackModal = e} onSuccess={this.refresh.bind(this)}/>
+				<CancelBlackModal ref={(e) => this._cancelModal = e} onSuccess={this.refresh.bind(this)}/>
+				<BalanceModal ref={(e) => this._balanceModal = e}  onSuccess={this.refresh.bind(this)}/>
+				<CouponModal ref={(e) => this._couponModal = e}  onSuccess={this.refresh.bind(this)}/>
 				<TouchBalanceModal ref={(e) => this._touchBalanceModal = e}/>
-				<CreditScoreModal ref={(e) => this._creditScoreModal = e}  onSuccess={this.search.bind(this)}/>
-				<FrozenModal ref={(e) => this._frozenModal = e} onSuccess={this.search.bind(this)}/>
-				<UnfreezeModal ref={(e) => this._unfreezeModal = e} onSuccess={this.search.bind(this)}/>
-				<ClearSmsModal ref={(e) => this._clearSmsModal = e} onSuccess={this.search.bind(this)}/>
+				<CreditScoreModal ref={(e) => this._creditScoreModal = e}  onSuccess={this.refresh.bind(this)}/>
+				<FrozenModal ref={(e) => this._frozenModal = e} onSuccess={this.refresh.bind(this)}/>
+				<UnfreezeModal ref={(e) => this._unfreezeModal = e} onSuccess={this.refresh.bind(this)}/>
+				<ClearSmsModal ref={(e) => this._clearSmsModal = e} onSuccess={this.refresh.bind(this)}/>
 			</Content>
 		)
 	}
 
 	search() {
-		$(".isShow").css({display: 'block'})
-		
 		let {query} = this.state;
 		// 多选一个字段处理
 		query.mobile = query.id = query.name = '';
@@ -145,6 +143,11 @@ export default class Illegal extends React.Component {
 
 		this._dataTable.search(query);
 	}
+
+	refresh(){
+		this._dataTable.refresh()
+	}
+
 
 	// 查看详情
 	details(id) {
@@ -159,6 +162,7 @@ export default class Illegal extends React.Component {
 
 	// 修改手机号
 	modify(data) {
+
 		let m = data.split(",");
 		this._modifyModal.show({
 			id: m[0],
@@ -225,7 +229,7 @@ export default class Illegal extends React.Component {
 		let m = data.split(",");
 		this._balanceModal.show({
 			id: m[0],
-			mmobile: m[1] 
+			mmobile: m[1]
 		});
 	}
 
@@ -234,7 +238,7 @@ export default class Illegal extends React.Component {
 		let m = data.split(",");
 		this._couponModal.show({
 			id: m[0],
-			mmobile: m[1] 
+			mmobile: m[1]
 		});
 	}
 
@@ -242,16 +246,16 @@ export default class Illegal extends React.Component {
 	touchBalance(id, mobile){
 		this._touchBalanceModal.show({
 			id,
-			mmobile: mobile 
+			mmobile: mobile
 		});
 	}
-	
+
 	//信用积分管理
 	creditScore(data){
 		let m = data.split(",");
 		this._creditScoreModal.show({
 			id: m[0],
-			mmobile: m[1] 
+			mmobile: m[1]
 		});
 	}
 

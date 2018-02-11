@@ -22,10 +22,10 @@ export default class UserMessage extends React.Component {
 				{title: '发送时间', data: 'sendTime', render: dtUtils.renderDateTime},
 				{title: '短信内容', data: 'content'},
       ],
-      
+
       query: {
         mobiles: '',
-        serviceType: 0
+        searchType: '0'
       }
     }
   }
@@ -41,9 +41,9 @@ export default class UserMessage extends React.Component {
 							<Button icon="search" onClick={this.search.bind(this)}>查询</Button>
 					  </Field>
           </Form>
-          <div className='isShow' style={{display: 'none'}}>
+          <div>
             <DataTable ref={(e) => this._dataTable = e}
-							   columns={columns} api={symsApi.pageSms} query={query}/>
+							   columns={columns} api={symsApi.pageSms}/>
           </div>
         </Box>
       </Content>
@@ -51,7 +51,6 @@ export default class UserMessage extends React.Component {
   }
 
   search(){
-    $(".isShow").css({display: 'block'})
     let {query} = this.state
     this._dataTable.search(query)
   }

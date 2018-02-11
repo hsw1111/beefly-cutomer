@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {Button, Form, Modal,Input, msgBox, Textarea } from "beefly-common";
 import tripProblemApi from "../../../apis/tripProblemApi";
 import beefly from "../../../js/beefly";
-import appUserApi from "../../../apis/appUserApi";
+import userApi from "../../../apis/userApi";
 
 /**
  * 取消冻结用户
@@ -40,7 +40,6 @@ export default class UnfreezeModal extends React.Component {
 	}
 
 	async show(data) {
-		console.log(data,44444444444444)
 		this.setState({
 			show: true,
 			data,
@@ -50,11 +49,10 @@ export default class UnfreezeModal extends React.Component {
 			appUserId:data.id,
 			type:3
 		};
-		let result = await appUserApi.creditRemark(parms);
+		let result = await userApi.creditRemark(parms);
 		this.setState({
             blackBeason:result.data
 		});
-		console.log(result,4561323)
 	}
 
 	hide(isCallback) {
@@ -78,12 +76,12 @@ export default class UnfreezeModal extends React.Component {
 			appUserId:data.id,
 			remark:remark
 		};
-		let result = await appUserApi.credibly(parms);
+		let result = await userApi.credibly(parms);
 		if(result.resultCode==1){
 			this.hide(true);
 			msgBox.success('取消冻结用户押金成功');
 		}
-		
+
 
 	}
 

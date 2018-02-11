@@ -16,15 +16,14 @@ import DetailModal from "../modals/DetailModal"
  */
 @observer
 export default class IllegalCategory extends React.Component {
-
-	componentWillMount() {
+	async componentWillMount() {
         // 获取订单详情
         illegalStore.fetchOrderDetail();
     }
 
 
     render() {
-        let {detail, orderDetail, smsCount, buckleCount, misreport} = illegalStore;
+        let {detail, orderDetail, smsCount, buckleCount, misreport, isDq, cityName} = illegalStore;
         name = '(订单里程<100米时，存在误报风险，需要处罚的有可能是上一次订单)';
         return (
             <Box>
@@ -45,6 +44,7 @@ export default class IllegalCategory extends React.Component {
                     <Text label="违规人手机号">
                         {orderDetail && <span>{orderDetail.mobile}</span>}
                     </Text>
+                    { isDq && <span className="margin-l-20" style={{backgroundColor: 'yellow', position: 'absolute', top: 125, left: 275}}>该违规人是{cityName}地勤</span>}
                     <Field label="已扣信用分次数">
                         <a href="javascript:" onClick={this.integral.bind(this)}>{buckleCount}次</a>
                     </Field>

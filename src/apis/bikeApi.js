@@ -17,6 +17,8 @@ const bikeApi = {
 	forcedLock: (params) => request.get(env.apiPath_customer + 'bike/forcedLock', params),
 	// 鸣笛接口
 	whistle: (params) => request.get(env.apiPath_customer + 'bike/whistle', params),	
+	// 开锁关锁轮询接口
+	reBikeState: (params) => request.get(env.apiPath_customer + 'bike/reBikeState', params),
 
 };
 

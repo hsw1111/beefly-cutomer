@@ -43,12 +43,12 @@ export default class HandleSuggestion extends React.Component {
 				smsFlag: 1,
 				// mobile: detail.mobile,
 				content: '',
-				
+
 			},
 
 			// 扣押金有三种可能:
 			// 1.押金充值在	3个月内：直接扣；
-			// 2.押金充值超过3各个月：先拉黑；
+			// 2.押金充值超过3个月：先拉黑；
 			// 3.押金已经被提现：冻结用户押金(原来叫：设为失信用户)
 			deductCashPledge: {
 				// depositState: 1,	// 押金状态
@@ -118,7 +118,7 @@ export default class HandleSuggestion extends React.Component {
 		return (
 			<Box title="处理意见" icon="fa-tag">
 				<p>鉴于订单的违规类别和信用积分，我们建议的处理意见为 <span className="text-orange h5">{opinionType[suggestHandleType]}</span> ，你也可以更改处理意见。</p>
-				<Form className="form-label-150" horizontal>
+				<Form horizontal>
 					<Tabs value={actualHandleType}
 						  onChange={(index) => illegalStore.actualHandleType = index}>
 						<Tab title="扣积分">
@@ -129,13 +129,13 @@ export default class HandleSuggestion extends React.Component {
 							{deductScore.smsFlag == 1 && <div>
 								<Text label="手机号" value={mobile}/>
 								<Text label="发送目的" value="违规通知"/>
-								<Textarea label="短信内容" model={'deductScore.content'} width={'50%'}
+								<Textarea label="短信内容" model={'deductScore.content'} width={'50%'}  height={135}
 										  validation={{required: true}}/>
 							</div>}
 						</Tab>
 						<Tab title="扣押金">
 							{depositState == 1 && <div>
-								<p className="text-red">*押金充值在3个月内：直接扣</p>
+								<p className="text-red">*支付宝押金充值在3个月内，或是以微信充值的</p>
 								<Input label="扣除金额" model={'deductCashPledge.depositAmount'} type="number" width={250}
 									   validation={{required: true}}/>
 								<Textarea label="备注" model={'deductCashPledge.remark'} width={'50%'}
@@ -144,18 +144,25 @@ export default class HandleSuggestion extends React.Component {
 								{deductCashPledge.smsFlag == 1 && <div>
 									<Text label="手机号" value={mobile}/>
 									<Text label="发送目的" value="违规通知"/>
-									<Textarea label="短信内容" model={'deductCashPledge.content'} width={'50%'}
+									<Textarea label="短信内容" model={'deductCashPledge.content'} width={'50%'}  height={135}
 											  validation={{required: true}}/>
 								</div>}
 							</div>}
 							{depositState == 2 && <div>
-								<p className="text-red">*押金充值超过3个月：先拉黑</p>
+								<p className="text-red">*(支付宝)押金充值已经超过3个月了，暂时无法扣押金，先拉黑用户</p>
 								<Textarea label="备注" model={'deductCashPledge.remark'} width={'50%'}
 										  validation={{required: true}}/>
 								<p>拉黑后，用户无法再租用小蜜蜂。</p>
+								<Checkbox model={'deductCashPledge.smsFlag'} text="同时给违规人发送短信通知" onChange={(e)=>console.log(e, '............................')}/>
+								{deductCashPledge.smsFlag == 1 && <div>
+									<Text label="手机号" value={mobile}/>
+									<Text label="发送目的" value="违规通知"/>
+									<Textarea label="短信内容" model={'deductCashPledge.content'} width={'50%'}  height={135}
+											  validation={{required: true}}/>
+								</div>}
 							</div>}
 							{depositState == 3 && <div>
-								<p className="text-red">*押金已经被提现：冻结用户押金押金状态 </p>
+								<p className="text-red">*该用户押金已经提现，暂时无法扣押金，先冻结用户押金 </p>
 								<Textarea label="备注" model={'deductCashPledge.remark'} validation={{required: true}}
 										  width={'50%'}/>
 								<p>押金冻结后，用户无法自行提现。</p>
@@ -198,34 +205,17 @@ export default class HandleSuggestion extends React.Component {
 		this.setState({
 			noPunishType: obj
 		})
+
+		// // 如果建议处理类型是扣积分或扣押金
+		// let {suggestHandleType} = illegalStore;
+		// this.messageContent(suggestHandleType)
+
 	}
 
 	componentWillReceiveProps(nextProps){
 		if(this.props.orderId !== nextProps.orderId){
 			this.reset();
 		}
-	}
-	
-	async componentWillMount(){
-		let result = await tripProblemApi.noPunishList()
-		var obj = {}
-		result.data.map((item)=>{
-			return obj[item.code] = item.content
-		})
-		this.setState({
-			noPunishType: obj
-		})
-	}
-
-	async componentWillMount(){
-		let result = await tripProblemApi.noPunishList()
-		var obj = {}
-		result.data.map((item)=>{
-			return obj[item.code] = item.content
-		})
-		this.setState({
-			noPunishType: obj
-		})
 	}
 
 	reset(){
@@ -262,6 +252,7 @@ export default class HandleSuggestion extends React.Component {
 			})
 		}
 	}
+
 
 
 	// 确认处理
@@ -334,16 +325,32 @@ export default class HandleSuggestion extends React.Component {
 				tabUtils.closeTab();
 			});
 		}
+		if (result.resultCode == -1) {
+			alert(result.message)
+		}
 	}
 
 	// 确认处理-扣押金
 	async confirmHandle_deductCashPledge(params) {
 		let {deductCashPledge} = this.state;
-
+		let {depositState} = illegalStore;
+		if (depositState == 1 && deductCashPledge.depositAmount == '') {
+			msgBox.warning("金额不能为空");
+			return
+		}
+		if (depositState == 1 && deductCashPledge.depositAmount < 0) {
+			msgBox.warning("金额不能小于0");
+			return
+		}
 		if (deductCashPledge.remark == '') {
 			msgBox.warning("备注不能为空");
 			return
 		}
+		if (deductCashPledge.smsFlag == 1 && deductCashPledge.content == '') {
+			msgBox.warning("短信内容不能为空");
+			return
+		}
+
 		let result = await tripProblemApi.confirmHandleDq({
 			...params,
 			...deductCashPledge,
@@ -363,6 +370,9 @@ export default class HandleSuggestion extends React.Component {
 			msgBox.success(result.message, () => {
 				tabUtils.closeTab()
 			});
+		}
+		if (result.resultCode == -1) {
+			alert(result.message)
 		}
 	}
 
@@ -390,6 +400,9 @@ export default class HandleSuggestion extends React.Component {
 			msgBox.success(result.message, () => {
 				tabUtils.closeTab();
 			});
+		}
+		if (result.resultCode == -1) {
+			alert(result.message)
 		}
 	}
 
@@ -419,6 +432,9 @@ export default class HandleSuggestion extends React.Component {
 			msgBox.success(result.message, () => {
 				tabUtils.closeTab();
 			});
+		}
+		if (result.resultCode == -1) {
+			alert(result.message)
 		}
 	}
 

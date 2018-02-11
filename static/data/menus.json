@@ -26,6 +26,7 @@
 		]
 	},
 	{
+<<<<<<< HEAD
 		"name": "订单管理",
 		"icon": "fa-file-text-o",
 		"child": [
@@ -74,32 +75,14 @@
 		]
 	},
 	{
+=======
+>>>>>>> dev
 		"name": "违停上报",
 		"icon": "fa-exclamation-triangle",
 		"child": [
 			{
 				"name": "违停上报",
 				"path": "/illegal"
-			}
-		]
-	},
-	{
-		"name": "活动信息",
-		"icon": "fa-vimeo",
-		"child": [
-			{
-				"name": "活动信息",
-				"path": "/activity"
-			}
-		]
-	},
-	{
-		"name": "系统日志",
-		"icon": "fa-book",
-		"child": [
-			{
-				"name": "系统日志",
-				"path": "/system"
 			}
 		]
 	}

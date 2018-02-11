@@ -7,7 +7,7 @@ export default class Detail extends React.Component {
 		let {detail} = this.props;
 		return (
 			<Box>
-				<Form className="form-label-150" horizontal>
+				<Form horizontal>
 					<Row>
 						<Col md={6}>
 							<Text label="订单编号" value={detail.id}/>

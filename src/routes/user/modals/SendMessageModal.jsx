@@ -13,9 +13,9 @@ export default class SendMessageModal extends React.Component {
 		this.state = {
       show: false,
       query: {
-        'mobile': '',
-        'serviceType': 1,
-				'content': '',
+        mobiles: '',
+        serviceType: 1,
+				content: '',
       }
     }
     
@@ -26,8 +26,8 @@ export default class SendMessageModal extends React.Component {
 		return (
 			<Modal show={show} title="发送短信" onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
 				<Modal.Body>
-					  <Form inline>
-              <Input label="手机号" model='query.mobile' width={250}
+					  <Form className="form-label-100" horizontal>
+              <Input label="手机号" model='query.mobiles' width={250}
                     validation={{required: true}}/>
               <Select label="发送目的" model="query.serviceType" options={purpose}  validation={{required: true}} width={200} whole={false}/>
               <Textarea label="短信内容" model='query.content'   validation={{required: true}} width={400}/>
@@ -45,9 +45,9 @@ export default class SendMessageModal extends React.Component {
 		this.setState({
 			show: true,
 			query: {
-        'mobile': '',
-        'serviceType': 1,
-        'content': ''
+        mobiles: '',
+        serviceType: 1,
+        content: ''
       }
 		})
 	}
@@ -61,6 +61,16 @@ export default class SendMessageModal extends React.Component {
 	async ok() {
 		let {onSuccess} = this.props
 		let {query} = this.state
+
+		const myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/; 
+		if(!myreg.test(query.mobiles)){ 
+				msgBox.warning('请输入有效的手机号码！'); 
+				return; 
+		} 
+		if(query.content==''){
+			msgBox.warning('短信内容不能为空'); 
+			return;
+		}
 		let result = await symsApi.sendSms({
 			...query,
 			serviceTypeName: purpose[query.serviceType]

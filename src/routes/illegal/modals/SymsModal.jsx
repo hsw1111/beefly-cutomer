@@ -21,7 +21,7 @@ export default class SymsModal extends React.Component {
 			],
 			query: {
 				'mobiles': '',
-				'serviceType': '',
+				'searchType': '',
 			},
 		}
 
@@ -58,7 +58,7 @@ export default class SymsModal extends React.Component {
 			userId: data.userId,
 			query: {
 				'mobiles': data.mobile,
-				'serviceType': 4
+				'searchType': 4
 			}
 		});
 	}

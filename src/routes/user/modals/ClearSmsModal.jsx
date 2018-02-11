@@ -1,6 +1,6 @@
 import React from 'react';
-import {Modal,Button,msgBox} from "beefly-common";
-import appUserApi from "../../../apis/appUserApi";
+import {Modal, Button, msgBox, dtUtils} from "beefly-common";
+import userApi from "../../../apis/userApi";
 import symsApi from "../../../apis/symsApi";
 
 /**
@@ -40,8 +40,9 @@ export default class ClearSmsModal extends React.Component {
 			data
 		});
 		let parms={
-			appUserId:data.id,
-			serviceType:0
+			mobile:data.mmobile,
+			serviceType:0,
+			qSendTimeStart: dtUtils.renderDate(new Date())
 		};
 		let result = await symsApi.countSms(parms);
 		this.setState({
@@ -65,7 +66,7 @@ export default class ClearSmsModal extends React.Component {
 		let parms={
 			appUserId:data.id,
 		};
-		let result = await appUserApi.clearSms(parms);
+		let result = await userApi.clearSms(parms);
 		this.hide(true);
 		msgBox.warning(result.message);
 	}

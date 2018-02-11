@@ -23,37 +23,30 @@ export default class detailModal extends React.Component {
 				{title: '操作时间', data: 'operationTime', render: dtUtils.renderDateTime},
 				{title: '操作内容', data: 'operationContent'},
 			],
-			query: {
-				orderId: '',
-			},
 			columns1: [
 				{title: '上报时间', data: 'updateTime'},
 				{title: '订单里程', data: 'orderMileage'}
 			],
-			query1: {
-				id: ''
-			}
-
 		}
 	}
 
 	render() {
-		let {show, detail, columns, query, columns1, query1} = this.state;
+		let {show, detail, columns, columns1,} = this.state;
 		return (
-			
+
 			<Modal show={show} title="订单详情" size="lg" onHide={this.hide.bind(this)}>
 				{show &&
 					<div>
-						<Modal.Body>
+						<Modal.Body style={{height: 590}}>
 							<OrderDetail detail={detail}/>
 							<OrderCost detail={detail}/>
 							<Box title="车辆操作日志">
 								<DataTable ref={(e) => this._dataTable = e}
-										   columns={columns} api={bikeLogApi.bikeLog} query={query}/>
+										   columns={columns} api={bikeLogApi.bikeLog} query={{orderId: detail.id}} 	paging={false} info={false}/>
 							</Box>
 							<Box title="订单上报日志">
 								<DataTable ref={(e) => this._dataTable1 = e}
-										   columns={columns1} api={orderApi.orderLog} query={query1}/>
+										   columns={columns1} api={orderApi.orderLog} query={{id: detail.id}}/>
 							</Box>
 						</Modal.Body>
 						<Modal.Footer>
@@ -62,7 +55,7 @@ export default class detailModal extends React.Component {
 					</div>
 				}
 			</Modal>
-	
+
 		)
 	}
 
@@ -73,12 +66,6 @@ export default class detailModal extends React.Component {
 		this.setState({
 			show: true,
 			detail,
-			query:{
-				orderId:detail.id
-			},
-			query1:{
-				id:detail.id
-			}
 		});
 	}
 

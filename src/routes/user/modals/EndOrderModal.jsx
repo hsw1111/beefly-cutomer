@@ -2,6 +2,7 @@ import React from 'react';
 import {Modal, Button, msgBox} from "beefly-common";
 import orderApi from "../../../apis/orderApi";
 import bikeApi from "../../../apis/bikeApi";
+import TipModal from './TipModal'
 
 
 
@@ -41,7 +42,7 @@ export default class EndOrderModal extends React.Component{
 						{isEnd && 
               <div>
                 <p>你确定结束{id}的订单么？</p>
-                {isOver && <p className='text-red'>该订单的车辆{id}当前位于违停区域内！</p>}
+                {isOver && <p className='text-red'>该订单的车辆{bikeCode}当前位于违停区域内！</p>}
                 <div className="margin-t-20 isChecked">
                   <span className='text-red'>*</span>请选择该订单是否计费：
                   <input name='radio' type="radio" value='1' defaultChecked /> <span className='margin-r-20'>计费</span>    
@@ -80,6 +81,7 @@ export default class EndOrderModal extends React.Component{
 					
 				</Modal.Footer>
       </Modal>
+      <TipModal ref={(e) => this._tipModal = e} />
       </div>
     )
   }
@@ -162,17 +164,34 @@ export default class EndOrderModal extends React.Component{
 
  // 结束订单
  async ok(){
-   let {id, bikeCode} = this.state
     // 是否计费
     this.setState({
       type: $(".isChecked input:checked").val()
     })
-
+    let {id, bikeCode, type} = this.state
     // 还车
-    let result = await orderApi.returnCar({id,type:$(".isChecked input:checked").val()})
-    if(result.resultCode==1){
-      msgBox.success("还车成功！")
-      this.hide(true)
+    let result = await orderApi.returnCar({id, type: $(".isChecked input:checked").val()})
+
+    if(result.resultCode == 1){
+      this._tipModal.show(true)
+      // 3.调用returnCar接口成功后，每5秒轮询调车辆状态接口
+      var count = 0;
+      var timer =  setInterval(()=>{
+        count++;
+        this.reBackOrder(timer)
+        // 30后停止轮询并显示还车失败
+        if(count==6){
+          clearInterval(timer)
+          this._tipModal.show(false)  
+          this.setState({
+            isOver: false, 
+            isEnd: false, 
+            isAbroad: false,
+            isReturn: true,
+          })
+        }
+      },5000)
+
     }else{
       // 显示还车失败
       this.setState({
@@ -184,17 +203,37 @@ export default class EndOrderModal extends React.Component{
     }
   }
 
-
   // 还车失败 点击强制还车
   async returnCar(){
-    let {id, bikeCode} = this.state
+    let {bikeCode} = this.state
     // 强制锁车
     let result = await bikeApi.forcedLock({bikeCode})
     if(result.resultCode == 1){
       msgBox.success("还车成功！")
-      // this.hide(true)
+      this.hide(true)
     }
   }
 
+  // 轮询车辆状态接口
+  async reBackOrder(timer){
+    let {id} = this.state;
+    let result = await  orderApi.reBackOrder({id})
+    console.log('--------result',  result)
+    // (1)如果车辆状态改变就停止轮询、还车成功
+    let data = result.data;
+    if(result.resultCode == 1&& data.result==1){
+      clearInterval(timer)
+      msgBox.success('还车成功')
+      this._tipModal.show(false)          
+      this.hide(true)
+      return
+    }else if(result.resultCode == 1 && data.result==-1){
+      msgBox.error('还车失败') 
+      clearInterval(timer)
+      this._tipModal.show(false)  
+      this.hide(true); 
+      return
+    }
+  }
 
 }

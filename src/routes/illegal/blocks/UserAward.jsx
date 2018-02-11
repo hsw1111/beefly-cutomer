@@ -2,7 +2,7 @@ import React from 'react';
 import {observer} from 'mobx-react';
 import {Box, Button, Form, Input, Tab, Tabs, Text, Textarea, tabUtils, msgBox} from "beefly-common";
 import tripProblemApi from "../../../apis/tripProblemApi";
-import appUserApi from "../../../apis/appUserApi";
+import userApi from "../../../apis/userApi";
 import beefly from "../../../js/beefly";
 import illegalStore from "../stores/illegalStore";
 import {localStore} from 'jeselvmo';
@@ -44,7 +44,7 @@ export default class UserAward extends React.Component {
 
 	async componentWillMount() {
 		let {detail} = illegalStore;
-		let result = await appUserApi.userDetail({id: detail.userId});
+		let result = await userApi.userDetail({id: detail.userId});
 		if (result.resultCode === 1) {
 			this.setState({
 				userDetail: result.data
@@ -57,7 +57,7 @@ export default class UserAward extends React.Component {
 		return (
 			<Box title="用户奖励" icon="fa-tag">
 				<p>给用户的奖励可以选择如下任一种：</p>
-				<Form className="form-label-150" horizontal>
+				<Form horizontal>
 					<Tabs model="type">
 						<Tab title="奖积分">
 							<Text label="奖罚类型" value="积分奖励"/>
@@ -143,6 +143,14 @@ export default class UserAward extends React.Component {
 			msgBox.warning("奖励积分不能为空");
 			return
 		}
+		if(rewardScore.creditScoreCount <= 0){
+			msgBox.warning("奖励积分必须大于0");
+			return
+		}
+		if(parseInt(rewardScore.creditScoreCount) != Number(rewardScore.creditScoreCount)){
+			msgBox.warning("奖励积分必须为整数");
+			return
+		}
 
 		let result = await tripProblemApi.confirmHandle({
 			...params,
@@ -162,6 +170,9 @@ export default class UserAward extends React.Component {
 				tabUtils.closeTab();
 			});
 		}
+		if (result.resultCode == -1) {
+			alert(result.message)
+		}
 	}
 
 	// 确认处理-奖出行券
@@ -172,14 +183,34 @@ export default class UserAward extends React.Component {
 			msgBox.warning("出行券金额不能为空");
 			return
 		}
+		if(rewardCoupon.couponAmout <= 0){
+      msgBox.warning("出行券金额必须大于0");
+      return
+    }
+    if(parseInt(rewardCoupon.couponAmout) != Number(rewardCoupon.couponAmout)){
+      msgBox.warning("出行券金额必须为整数");
+      return
+    }
 		if(rewardCoupon.num == ''){
 			msgBox.warning("出行券张数不能为空");
 			return
 		}
+		if (rewardCoupon.num <= 0) {
+      msgBox.warning("出行券数量必须大于0");
+      return
+    }
+    if(parseInt(rewardCoupon.num) != Number(rewardCoupon.num)){
+      msgBox.warning("出行券数量必须为整数");
+      return
+    }
 		if(rewardCoupon.expireTime == ''){
 			msgBox.warning("过期时间不能为空");
 			return
 		}
+		if(new Date(rewardCoupon.expireTime)-new Date() < 0){
+      msgBox.warning("过期时间不能小于当前日期");
+      return
+    }
 		let result = await tripProblemApi.confirmHandle({
 			...params,
 			...rewardCoupon
@@ -197,6 +228,9 @@ export default class UserAward extends React.Component {
 			msgBox.success(result.message, () => {
 				tabUtils.closeTab();
 			});
+		}
+		if (result.resultCode == -1) {
+			alert(result.message)
 		}
 	}
 
@@ -227,6 +261,9 @@ export default class UserAward extends React.Component {
 				tabUtils.closeTab();
 			});
 		}
+		if (result.resultCode == -1) {
+			alert(result.message)
+		}
 	}
 
 	// 确认处理-不奖励
@@ -250,6 +287,9 @@ export default class UserAward extends React.Component {
 			msgBox.success(result.message, () => {
 				tabUtils.closeTab();
 			});
+		}
+		if (result.resultCode == -1) {
+			alert(result.message)
 		}
 	}
 

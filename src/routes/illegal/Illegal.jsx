@@ -114,6 +114,11 @@ export default class Illegal extends React.Component {
 		this._dataTable.search(query);
 	}
 
+	//成功后刷新页面
+	refresh(){
+		this._dataTable.refresh()
+	}
+
 	async export() {
 		let {query} = this.state;
 		let result = await tripProblemApi.export(query);
@@ -148,7 +153,7 @@ export default class Illegal extends React.Component {
 		};
 		let result = await tripProblemApi.detail(parms);
 		if(result.data.state==5){
-          this.search();
+          this.refresh();
 			msgBox.warning("该违停记录已处理过！");
           return
 		}
@@ -164,7 +169,7 @@ export default class Illegal extends React.Component {
 		};
 		let result = await tripProblemApi.detail(parms);
 		if(result.data.state==5){
-			this.search();
+			this.refresh();
 			msgBox.warning("该违停记录已处理过！");
 			return
 		}

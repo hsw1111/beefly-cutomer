@@ -17,8 +17,8 @@ export default class CouponModal extends React.Component {
       columns: [
         {title: '编号', data: 'id'},
 				{title: '操作时间', data: 'createTime', render: dtUtils.renderDateTime},
-				{title: '操作人', data: 'manageName'},
-				{title: '奖惩类型', data: 'unit', render: (data) => dtUtils.renderMap(data, rewardType)},
+				{title: '操作人', data: 'manageName', render:(data) =>(data == '' ?'系统自动':data)},
+				{title: '奖惩类型', data: 'unit', render: this.renderIntegral.bind(this)},
 				{title: '处理类型', data: 'type', render: (data) => dtUtils.renderMap(data, integralType)},
 				{title: '积分', data: 'value', render: (data, type, row) => (row.unit == 0 ?'+':'-') + data},
 				{title: '剩余总积分', data: 'newValue'},
@@ -31,10 +31,17 @@ export default class CouponModal extends React.Component {
         awardPunishType: 1,
         creditScoreType: 9,
         creditScoreCount: -10,
-        remark: ''
+        remark: '',
       }
 		}
 	}
+  renderIntegral(data, type, row){
+		if(row.unit == 0){
+			return `<span>${dtUtils.renderMap(data, rewardType)}</span>`
+		}else{
+			return `<span class="label label-danger">${dtUtils.renderMap(data, rewardType)}</span>`
+		}
+  }
 
 	render() {
     let awardType = {
@@ -42,7 +49,7 @@ export default class CouponModal extends React.Component {
       16: '违停扣错积分返还'
     }
     let punishType = {
-      8: '其它',
+      8: '其他',
       9: '违停扣分',
       10: '车辆轻度划伤',
       11: '车辆重度划伤',
@@ -51,20 +58,20 @@ export default class CouponModal extends React.Component {
       14: '弃车逃跑',
     }
 
-    
+
     let {show, data, columns, queryTable, query} = this.state;
 
 		return (
 			<Modal show={show} title="信用积分管理" size='lg' onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
-      {show && 
-				<Modal.Body>
+      {show &&
+				<Modal.Body style={{height: 660}}>
 					<Form className="form-label-100" horizontal>
             <Row>
               <Col md={5}>
                 <Text label="用户编号" value={data.id}/>
               </Col>
               <Col md={7}>
-                <Text label="手机号" value={data.mmobile}/>  
+                <Text label="手机号" value={data.mmobile}/>
               </Col>
             </Row>
            <Select label="奖惩类型" model="query.awardPunishType" options={rewardType} whole={false} validation={{required: true}} width={250}  onChange={this.change.bind(this)}/>
@@ -76,14 +83,14 @@ export default class CouponModal extends React.Component {
               <Button value={'确定'} onClick={this.ok.bind(this)}/>
             </div>
 					</Form>
-          
+
           <div className='margin-t-50'>
             <Box title='奖罚记录'>
               <DataTable ref={(e) => this._dataTable = e}
                   columns={columns} api={creditScoreApi.page} query={queryTable}/>
             </Box>
           </div>
-          
+
 				</Modal.Body>
       }
 			</Modal>
@@ -97,7 +104,8 @@ export default class CouponModal extends React.Component {
         query: {
           awardPunishType: 0,
           creditScoreType:e.target.value,
-          creditScoreCount: 10
+          creditScoreCount: 10,
+          remark: '',
         }
       })
       // 违停扣分和轻度划伤-10
@@ -106,7 +114,8 @@ export default class CouponModal extends React.Component {
         query: {
           awardPunishType: 1,
           creditScoreType:e.target.value,
-          creditScoreCount: -10
+          creditScoreCount: -10,
+          remark: '',
         }
       })
       // 其余积分处罚-30
@@ -115,7 +124,8 @@ export default class CouponModal extends React.Component {
         query: {
           awardPunishType: 1,
           creditScoreType:e.target.value,
-          creditScoreCount: -30
+          creditScoreCount: -30,
+          remark: '',
         }
       })
       // 积分处罚中的其他为空，由客服填写
@@ -124,12 +134,13 @@ export default class CouponModal extends React.Component {
         query: {
           awardPunishType: 1,
           creditScoreType:e.target.value,
-          creditScoreCount: ''
+          creditScoreCount: '',
+          remark: '',
         }
       })
     }
   }
- 
+
 	show(data) {
 		this.setState({
       show: true,
@@ -138,10 +149,11 @@ export default class CouponModal extends React.Component {
         'userId': data.id
       },
       query: {
+        userId: data.id,
         awardPunishType: 1,
         creditScoreType: 9,
         creditScoreCount: -10,
-        remark: ''
+        remark: '',
       }
     });
 	}
@@ -158,17 +170,36 @@ export default class CouponModal extends React.Component {
 
 	async ok() {
     let {query, queryTable} = this.state
-    console.log(query)
+    if(query.creditScoreCount==''){
+      msgBox.warning("奖惩积分不能为空")
+      return
+    }
+    if(query.awardPunishType==0&&query.creditScoreCount<0){
+      msgBox.warning("积分奖励应为正数")
+      return
+    }
+    if(query.awardPunishType==1&&query.creditScoreCount>0){
+      msgBox.warning("积分处罚应为负数")
+      return
+    }
+    if(parseInt(query.creditScoreCount) != Number(query.creditScoreCount)){
+      msgBox.warning("奖惩积分必须为整数");
+      return
+    }
+    if(query.remark==''){
+      msgBox.warning("备注不能为空")
+      return
+    }
     let result = await creditScoreApi.insertScore({
       userId: queryTable.userId,
       creditScoreCount: query.creditScoreCount,
       remark: query.remark,
-      creditScoreType: query.creditScoreType
+      creditScoreType: query.creditScoreType,
     })
     if(result.resultCode==1){
       msgBox.success("奖惩积分操作成功！")
+      this.hide(true)
     }
-    this.hide(true)
 	}
 
 }

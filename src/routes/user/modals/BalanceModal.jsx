@@ -50,7 +50,7 @@ export default class BalanceModal extends React.Component {
                 <Text label="手机号" value={detail.mobile}/>
               </Col>
             </Row>
-            <p style={{margin: '10px 14px'}}>用户当前余额：<span className='text-orange'>	{(detail.balance || 0) + (detail.grantBalance || 0)}元</span>（充值金额{detail.balance || 0}元+赠送金额{detail.grantBalance || 0}元）</p>
+            <p style={{margin: '10px 14px'}}>用户当前余额：<span className='text-orange'>	{((detail.balance*100 || 0) + (detail.grantBalance*100 || 0))/100}元</span>（充值金额{detail.balance || 0}元+赠送金额{detail.grantBalance || 0}元）</p>
             <Input label="金额" type='number' model='query.amount' validation={{required: true}} width={250} placeholder='正数为增加，负数为减少'/>
 						<Textarea label="备注" model='query.remark'  width={450}/>
 					</Form>

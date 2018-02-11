@@ -70,13 +70,13 @@ export default class Order extends React.Component {
 					</Form>
 					<p className="text-gray margin-t-10">*只显示近3个月以内的订单数据</p>
 					<DataTable ref={(e) => this._dataTable = e}
-							   columns={columns} api={orderApi.listPage} query={query}/>
+							   columns={columns} api={orderApi.listPage}/>
         </Box>
 
         <DetailModal ref={(e) => this._detailModal = e}/>
-        <EndOrderModal ref={(e) => this._endOrderModal = e} onSuccess={this.search.bind(this)}/>
-        <OpenLockModal ref={(e) => this._openLockModal = e} onSuccess={this.search.bind(this)}/>
-        <CloseLockModal ref={(e) => this._closeLockModal = e}  onSuccess={this.search.bind(this)}/>
+        <EndOrderModal ref={(e) => this._endOrderModal = e} onSuccess={this.refresh.bind(this)}/>
+        <OpenLockModal ref={(e) => this._openLockModal = e} onSuccess={this.refresh.bind(this)}/>
+        <CloseLockModal ref={(e) => this._closeLockModal = e}  onSuccess={this.refresh.bind(this)}/>
       </Content>
     )
   }
@@ -91,31 +91,20 @@ export default class Order extends React.Component {
     this._dataTable.search(query);
   }
 
+  refresh(){
+    this._dataTable.refresh()
+  }
+
   renderActions(data, type, row){
     console.log(row)
-    if(row.orderFlow === 0 || row.orderFlow === 3 || row.orderFlow === 4 || row.orderFlow === 10){
+
       let actions = [
-        {text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
-        {text: '车辆开锁', icon: 'user-plus', onclick: `beefly.openLock('${row.id},${row.bikeCode}')`},
-        {text: '车辆关锁', icon: 'user-plus', onclick: `beefly.closeLock('${row.id},${row.bikeCode}')`},
+				{text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
+				{text: '结束订单', icon: 'user-plus', onclick: `beefly.endOrder('${row.id},${row.bikeCode}')`, visible: row.state == '未取车' || row.state == '已取车' || row.state == '开锁中'},
+        {text: '车辆开锁', icon: 'user-plus', onclick: `beefly.openLock('${row.id},${row.bikeCode}')`, visible: row.state == '已结束' || row.state == '开锁失败' || row.state == '已取车' || row.state == '开锁中' || row.state == '已取消' || row.state == '人工结束'},
+        {text: '车辆关锁', icon: 'user-plus', onclick: `beefly.closeLock('${row.id},${row.bikeCode}')`, visible: row.state == '已结束' || row.state == '开锁失败' || row.state == '已取车' || row.state == '开锁中' || row.state == '已取消' || row.state == '人工结束'},
       ]
       return dtUtils.renderActions(actions, 'dropdown')
-    }else if(row.orderFlow === 1 ){
-      let actions = [
-        {text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
-        {text: '结束订单', icon: 'user-plus', onclick: `beefly.endOrder('${row.id},${row.bikeCode}')`},
-      ]
-      return dtUtils.renderActions(actions, 'dropdown')
-    }else if(row.orderFlow === 2 || row.orderFlow === 9){
-      let actions = [
-        {text: '查看详情', icon: 'search', onclick: `beefly.details('${row.id}')`},
-        {text: '结束订单', icon: 'user-plus', onclick: `beefly.endOrder('${row.id},${row.bikeCode}')`},
-        {text: '车辆开锁', icon: 'user-plus', onclick: `beefly.openLock('${row.id},${row.bikeCode}')`},
-        {text: '车辆关锁', icon: 'user-plus', onclick: `beefly.closeLock('${row.id},${row.bikeCode}')`},
-      ]
-      return dtUtils.renderActions(actions, 'dropdown')
-    }
-    
   }
 
   // 查看详情

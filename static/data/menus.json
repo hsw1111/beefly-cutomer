@@ -26,7 +26,6 @@
 		]
 	},
 	{
-<<<<<<< HEAD
 		"name": "订单管理",
 		"icon": "fa-file-text-o",
 		"child": [
@@ -37,26 +36,16 @@
 		]
 	},
 	{
-		"name": "押金管理",
-		"icon": "fa-money",
-		"child": [
-			{
-				"name": "押金管理",
-				"path": "/deposit"
-			}
-		]
-	},
-	{
 		"name": "余额管理",
 		"icon": "fa-yen",
 		"child": [
 			{
 				"name": "余额信息",
-				"path": "/"
+				"path": "/balance"
 			},
 			{
 				"name": "提现信息",
-				"path": "/"
+				"path": "/balance/withdraw"
 			}
 		]
 	},
@@ -75,8 +64,6 @@
 		]
 	},
 	{
-=======
->>>>>>> dev
 		"name": "违停上报",
 		"icon": "fa-exclamation-triangle",
 		"child": [

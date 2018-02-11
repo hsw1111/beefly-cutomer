@@ -18,50 +18,44 @@ export default class detailModal extends React.Component {
 
 		this.state = {
 			show: false,
-			id: '',
 			detail: '',
 			columns: [
-				{title: '操作时间', data: 'bike.operTime', render: dtUtils.renderDateTime},
-				{title: '操作内容', data: 'operateContent'},
+				{title: '操作时间', data: 'operationTime', render: dtUtils.renderDateTime},
+				{title: '操作内容', data: 'operationContent'},
 			],
-			query: {
-				bikeCode: '',
-			},
 			columns1: [
 				{title: '上报时间', data: 'updateTime'},
 				{title: '订单里程', data: 'orderMileage'}
 			],
-			query1: {
-				id: ''
-			}
-
 		}
 	}
 
 	render() {
-		let {show, detail, columns, query, columns1, query1} = this.state;
+		let {show, detail, columns, columns1,} = this.state;
 		return (
+
 			<Modal show={show} title="订单详情" size="lg" onHide={this.hide.bind(this)}>
-			{show && 
-			<div>
-				<Modal.Body>
-					<Detail detail={detail}/>
-					<OrderCost detail={detail}/>
-					<Box title="车辆操作日志">
-						<DataTable ref={(e) => this._dataTable = e}
-								   columns={columns} api={bikeLogApi.page} query={query}/>
-					</Box>
-					<Box title="订单上报日志">
-						<DataTable ref={(e) => this._dataTable1 = e}
-								   columns={columns1} api={orderApi.orderLog} query={query1}/>
-					</Box>
-				</Modal.Body>
-				<Modal.Footer>
-					<Button value={'取消'} theme={'default'} onClick={this.hide.bind(this)}/>
-				</Modal.Footer>
-			</div>
-			}
+				{show &&
+					<div>
+						<Modal.Body style={{height: 590}}>
+							<Detail detail={detail}/>
+							<OrderCost detail={detail}/>
+							<Box title="车辆操作日志">
+								<DataTable ref={(e) => this._dataTable = e}
+										   columns={columns} api={bikeLogApi.bikeLog} query={{orderId: detail.id}} 	paging={false} info={false}/>
+							</Box>
+							<Box title="订单上报日志">
+								<DataTable ref={(e) => this._dataTable1 = e}
+										   columns={columns1} api={orderApi.orderLog} query={{id: detail.id}}/>
+							</Box>
+						</Modal.Body>
+						<Modal.Footer>
+							<Button value={'关闭'} theme={'default'} onClick={this.hide.bind(this)}/>
+						</Modal.Footer>
+					</div>
+				}
 			</Modal>
+
 		)
 	}
 
@@ -71,14 +65,7 @@ export default class detailModal extends React.Component {
 		let detail = result.data;
 		this.setState({
 			show: true,
-			id,
 			detail,
-			query: {
-				bikeCode: detail.bikeCode
-			},
-			query1: {
-				id: detail.id
-			}
 		});
 	}
 

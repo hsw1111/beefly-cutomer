@@ -65,7 +65,7 @@ export default class ModifyModal extends React.Component {
 			mobile:remark
 		};
 
-		let myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+		const myreg = /^(((1[0-9]{1}[0-9]{1}))+\d{8})$/;
 		if(!myreg.test(parms.mobile)){
 				msgBox.warning('请输入有效的手机号码！');
 				return;

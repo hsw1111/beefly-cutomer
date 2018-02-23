@@ -6,9 +6,9 @@ import balaceRecordApi from "../../../apis/balaceRecordApi";
 import userApi from "../../../apis/userApi";
 
 /**
- * 修改余额
+ * 提现
  */
-export default class EditBalanceModal extends React.Component {
+export default class BalanceModal extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -21,11 +21,10 @@ export default class EditBalanceModal extends React.Component {
         remark: ''
       },
       columns: [
-        {title: '编号', data: 'id'},
-				{title: '时间', data: 'createTime', render: dtUtils.renderDateTime},
-				{title: '操作人', data: 'createdName'},
-				{title: '增加/减少金额', data: 'amount', render: (data, type, row) => (row.modifyType == 1 ? '+' : '-') + data},
-				{title: '当前总余额', data: 'newBalance'},
+				{title: '提现时间', data: 'createTime', render: dtUtils.renderDateTime},
+				{title: '提现金额', data: 'amount', render: (data, type, row) => (row.modifyType == 1 ? '+' : '-') + data},
+				{title: '支付宝账号', data: 'newBalance'},
+				{title: '收款人姓名', data: 'newBalance'},
 				{title: '备注', data: 'remark'},
       ],
       queryTable: {
@@ -36,30 +35,23 @@ export default class EditBalanceModal extends React.Component {
 	}
 
 	render() {
-		let {show, detail, query, columns, queryTable} = this.state;
+    let {show, query, columns, queryTable} = this.state;
 		return (
-			<Modal show={show} title="余额管理" size='lg' onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
+			<Modal show={show} title="提现" size='lg' onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
       {show &&
 				<Modal.Body style={{height: 660}}>
 					<Form className="form-label-100" horizontal>
-            <Row>
-              <Col md={5}>
-                <Text label="用户编号" value={detail.id}/>
-              </Col>
-              <Col md={5}>
-                <Text label="手机号" value={detail.mobile}/>
-              </Col>
-            </Row>
-            <p style={{margin: '10px 14px'}}>用户当前余额：<span className='text-orange'>	{(detail.balance || 0) + (detail.grantBalance || 0)}元</span>（充值金额{detail.balance || 0}元+赠送金额{detail.grantBalance || 0}元）</p>
-            <Input label="金额" type='number' model='query.amount' validation={{required: true}} width={250} placeholder='正数为增加，负数为减少'/>
-						<Textarea label="备注" model='query.remark'  width={450}/>
+            <Input label="支付宝账户" model="query.mobiles" placeholder='支付宝账号/手机号' width={250}  validation={{required: true}} />
+            <Input label="收款人姓名" model="query.mobiles" placeholder='默认为用户姓名' width={250}  />
+            <Input label="提现备注" model="query.mobiles"  width={250} />
+            <Input label="提现金额" model="query.mobiles" placeholder='默认为充值剩余金额' width={250}  validation={{required: true}} />
 					</Form>
           <div style={{ float: 'right'}}>
               <Button value={'取消'} theme={'default'} onClick={this.hide.bind(this)} className="margin-r-20" />
               <Button value={'确定'} onClick={this.ok.bind(this)}/>
           </div>
           <div  className='margin-t-50'>
-            <Box title='赠送余额充值记录'>
+            <Box title='充值金额的充值记录'>
               <DataTable ref={(e) => this._dataTable = e}
                   columns={columns} api={balaceRecordApi.page} query={queryTable}/>
             </Box>
@@ -72,6 +64,7 @@ export default class EditBalanceModal extends React.Component {
 	}
 
 	async show(data) {
+    
     this.setState({
       show: true,
       queryTable: {
@@ -82,11 +75,6 @@ export default class EditBalanceModal extends React.Component {
         amount: '',
         remark: ''
       }
-    })
-
-    let result = await userApi.userDetail({id: data.id})
-    this.setState({
-      detail: result.data
     })
 	}
 

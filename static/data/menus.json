@@ -45,7 +45,7 @@
 			},
 			{
 				"name": "提现信息",
-				"path": "/balance/withdraw"
+				"path": "/balance/withdrawInfo"
 			}
 		]
 	},

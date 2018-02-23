@@ -3,8 +3,10 @@ import {Box, Button, Content, DataTable, Field, Form, SelectInput, dtUtils, tabU
 
 import beefly from "../../js/beefly";
 import userApi from "../../apis/userApi";
-import {userState, vagueState, depositState} from '../../maps/userMap';
+import { vagueState } from '../../maps/balanceMap';
 import EditBalanceModal from './modals/EditBalanceModal'
+import RechargeModal from './modals/RechargeModal'
+import WithdrawModal from './modals/WithdrawModal'
 
 /**
  * 余额信息
@@ -28,17 +30,18 @@ export default class Balance extends React.Component {
       }
     }
     beefly.editBalance = this.editBalance.bind(this);
-    beefly.seeOrder = this.seeOrder.bind(this);
+    beefly.withdraw = this.withdraw.bind(this);
+    beefly.recharge = this.recharge.bind(this);
   }
   
   renderBalance(data, type, row){
-    return `<a href="javascript:beefly.details('${data}')">${data}</a>`
+    return `<a href="javascript:beefly.recharge('${row.id}','${row.mobile}','${data}')">${data}</a>`
   }
   renderActions(data, type, row){
     
 		let actions = [
 			{text: '修改余额',  onclick: `beefly.editBalance('${row.id}','${row.mobile}')`},
-			{text: '提现', onclick: `beefly.seeOrder('${row.id}')`, visible: row.balance > 0}
+			{text: '提现', onclick: `beefly.withdraw('${row.id}')`, visible: row.balance > 0}
 		];
 
 		return dtUtils.renderActions(actions, 'link')
@@ -58,6 +61,8 @@ export default class Balance extends React.Component {
 							   columns={columns} api={userApi.page} query={query}/>
 				</Box>
         <EditBalanceModal ref={(e) => this._editBalanceModal = e} onSuccess={this.refresh.bind(this)}/>
+        <RechargeModal ref={(e) => this._rechargeModal = e}/>
+        <WithdrawModal ref={(e) => this._withdrawModal = e} onSuccess={this.refresh.bind(this)}/>
 			</Content>
 		)
   }
@@ -77,12 +82,20 @@ export default class Balance extends React.Component {
   }
 
   editBalance(id, mobile){
-    console.log(id)
-    this._editBalanceModal.show(id, mobile)
+    this._editBalanceModal.show({id, mobile})
   }
 
-  seeOrder(){
-
-  }
+  withdraw(id){
+		this._withdrawModal.show({
+			id,
+		})
+	}
+	recharge(id, mobile, rechargeBalance){
+		this._rechargeModal.show({
+			id,
+			mobile,
+			rechargeBalance
+		})
+	}
 
 }

@@ -346,7 +346,7 @@ export default class HandleSuggestion extends React.Component {
 			msgBox.warning("备注不能为空");
 			return
 		}
-		if (deductCashPledge.smsFlag == 1 && deductCashPledge.content == '') {
+		if ((depositState==1 ||depositState ==2) && deductCashPledge.smsFlag == 1 && deductCashPledge.content == '') {
 			msgBox.warning("短信内容不能为空");
 			return
 		}

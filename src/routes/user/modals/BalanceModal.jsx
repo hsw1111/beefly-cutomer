@@ -6,7 +6,7 @@ import balaceRecordApi from "../../../apis/balaceRecordApi";
 import userApi from "../../../apis/userApi";
 
 /**
- * 修改手机号
+ * 余额管理
  */
 export default class BalanceModal extends React.Component {
 

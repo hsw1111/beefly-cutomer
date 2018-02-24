@@ -1,9 +1,7 @@
 import React from 'react';
 import {Button, Form, Modal,Input, msgBox, Textarea, Row, Col, Text, Box, DataTable, dtUtils } from "beefly-common";
-import tripProblemApi from "../../../apis/tripProblemApi";
-import beefly from "../../../js/beefly";
 import balaceRecordApi from "../../../apis/balaceRecordApi";
-import userApi from "../../../apis/userApi";
+import beefly from "../../../js/beefly";
 
 /**
  * 提现
@@ -16,9 +14,11 @@ export default class BalanceModal extends React.Component {
       show: false,
       detail: '',
 			query: {
-        userId: '',
-        amount: '',
-        remark: ''
+        appUserId: '',
+        payeeAccount: '',
+        payeeAmount: '',
+        payeeRealName: '',
+        payeeRemark: ''
       },
       columns: [
 				{title: '提现时间', data: 'createTime', render: dtUtils.renderDateTime},
@@ -28,32 +28,32 @@ export default class BalanceModal extends React.Component {
 				{title: '备注', data: 'remark'},
       ],
       queryTable: {
-        userId: '',
-        modifySource: 1   //查询赠送余额列表，固定传参为1
+        appUserId: '',
       }
 		}
 	}
 
 	render() {
     let {show, query, columns, queryTable} = this.state;
+    console.log(query)
 		return (
 			<Modal show={show} title="提现" size='lg' onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
       {show &&
 				<Modal.Body style={{height: 660}}>
 					<Form className="form-label-100" horizontal>
-            <Input label="支付宝账户" model="query.mobiles" placeholder='支付宝账号/手机号' width={250}  validation={{required: true}} />
-            <Input label="收款人姓名" model="query.mobiles" placeholder='默认为用户姓名' width={250}  />
-            <Input label="提现备注" model="query.mobiles"  width={250} />
-            <Input label="提现金额" model="query.mobiles" placeholder='默认为充值剩余金额' width={250}  validation={{required: true}} />
+            <Input label="支付宝账户" model="query.payeeAccount" placeholder='支付宝账号/手机号' width={250}  validation={{required: true}} />
+            <Input label="收款人姓名" model="query.payeeRealName" placeholder='默认为用户姓名' width={250}  />
+            <Input label="提现备注" model="query.payeeRemark"  width={250} />
+            <Input label="提现金额" type="number" model="query.payeeAmount" placeholder='默认为充值剩余金额' width={250}  validation={{required: true}} />
 					</Form>
           <div style={{ float: 'right'}}>
               <Button value={'取消'} theme={'default'} onClick={this.hide.bind(this)} className="margin-r-20" />
               <Button value={'确定'} onClick={this.ok.bind(this)}/>
           </div>
           <div  className='margin-t-50'>
-            <Box title='充值金额的充值记录'>
+            <Box title='提现记录'>
               <DataTable ref={(e) => this._dataTable = e}
-                  columns={columns} api={balaceRecordApi.page} query={queryTable}/>
+                  columns={columns} api={balaceRecordApi.withdrawPage} query={queryTable}/>
             </Box>
           </div>
 
@@ -68,12 +68,14 @@ export default class BalanceModal extends React.Component {
     this.setState({
       show: true,
       queryTable: {
-        userId: data.id
+        appUserId: data.id
       },
       query: {
-        userId: data.id,
-        amount: '',
-        remark: ''
+        appUserId: data.id,
+        payeeAccount: '',
+        payeeAmount: '',
+        payeeRealName: data.name,
+        payeeRemark: ''
       }
     })
 	}
@@ -90,13 +92,17 @@ export default class BalanceModal extends React.Component {
 
 	async ok() {
     let {query} = this.state;
-    if (query.amount == '') {
-      msgBox.warning("金额不能为空");
+    if (query.payeeAccount == '') {
+      msgBox.warning("支付宝账户不能为空");
       return
     }
-    let result = await balaceRecordApi.addRecord(query)
+    if (query.payeeAmount == '') {
+      msgBox.warning("提现金额不能为空");
+      return
+    }
+    let result = await balaceRecordApi.withdraw(query)
     if(result.resultCode == 1){
-      msgBox.success('修改余额成功！');
+      msgBox.success('提现成功！');
       this.hide(true);
     }
 	}

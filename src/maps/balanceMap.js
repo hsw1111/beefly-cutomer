@@ -13,6 +13,6 @@ export const withdrawState = {
  */
 export const vagueState = {
 	'mobile': '手机号',
-	'id': '用户编号',
+	'appUserId': '用户编号',
 	'name': '用户姓名',
 };

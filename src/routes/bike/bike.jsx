@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box, Button, Content, Form, DataTable, Field, SelectInput, tabUtils, dtUtils} from "beefly-common";
-import {codeType} from '../../maps/bikeMap';
+import {codeType, bikeState} from '../../maps/bikeMap';
 import bikeApi from '../../apis/bikeApi'
 import WhistleModal from './modals/WhistleModal'
 import EditStateModal from './modals/EditStateModal'
@@ -18,7 +18,7 @@ export default class bike extends React.Component {
       columns: [
         {title: '车辆编号', data: 'code'},
 				{title: '所属城市', data: 'cityName'},
-				{title: '车辆状态', data: 'state'},
+				{title: '车辆状态', data: 'state', render: (data) => dtUtils.renderMap(data, bikeState)},
 				{title: '电池编号', data: 'batteryNo'},
 				{title: '电池电量', data: 'margin'},
 				{title: '在线状态', data: 'isOnline'},

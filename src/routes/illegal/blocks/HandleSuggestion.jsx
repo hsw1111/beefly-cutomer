@@ -209,7 +209,6 @@ export default class HandleSuggestion extends React.Component {
 		this.setState({
 			noPunishType: obj
 		})
-
 	}
 
 	componentWillReceiveProps(nextProps){

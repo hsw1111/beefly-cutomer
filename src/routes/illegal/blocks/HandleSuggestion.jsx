@@ -250,7 +250,6 @@ export default class HandleSuggestion extends React.Component {
 				tabUtils.closeTab()
 			})
 		}
-	
 	}
 
 

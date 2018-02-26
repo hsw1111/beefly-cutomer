@@ -72,7 +72,7 @@ class IllegalStore {
 			await this.fetchSmsCount();
 			await this.fetchDepositState();
 			await this.fetchDq();
-
+			
 			setTimeout(()=>{
 				if((!this.detail.content.includes('双人骑行'))&&(this.orderDetail && this.orderDetail.orderFlow == 3 && (this.orderDetail.mileage < 500 || this.orderDetail.timeInOrder < 5 )||(this.orderDetail.endTime > this.detail.createTime ||'')||
 					(beefly.DateMinus(this.orderDetail.placeOrderTime,this.detail.createTime)>5)||(this.orderDetail.orderFlow == 10))){

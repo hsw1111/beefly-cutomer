@@ -85,8 +85,8 @@ export default class Order extends React.Component {
     let {query} = this.state;
 
     // 多选一个字段处理
-    query.mobile = query.id = query.name = '';
-    query[query.category] = query.keyword;
+    // query.mobile = query.id = query.name = '';
+    // query[query.category] = query.keyword;
 
     this._dataTable.search(query);
   }

@@ -45,7 +45,7 @@ export default class Illegal extends React.Component {
 				{title: '登录城市', data: 'registerCity'},
 				{title: '用户状态', data: 'userStatusName'},
 				{title: '注册时间', data: 'registerTime', render: dtUtils.renderDateTime},
-				{title: '账户余额（￥）', data: 'balance'},
+				{title: '账户余额（￥）', data: 'balance', render: this.renderData},
 				{title: '信用积分', data: 'credScore'},
 				{title: '押金状态', data: 'creditLimit', render: (data) => dtUtils.renderMap(data, depositState)},
 				{title: '操作', type: 'object', render: this.renderActions},
@@ -81,7 +81,9 @@ export default class Illegal extends React.Component {
 	renderId(data, type, row){
 		return `<a href="javascript:beefly.details('${data}')">${data}</a>`
 	}
-
+	renderData(data, type, row){
+		return (data*100 + row.grantBalance*100)/100
+	}
 	renderActions(data, type, row) {
 
 		let actions = [

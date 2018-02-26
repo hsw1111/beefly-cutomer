@@ -21,11 +21,11 @@ export default class BalanceModal extends React.Component {
         payeeRemark: ''
       },
       columns: [
-				{title: '提现时间', data: 'createTime', render: dtUtils.renderDateTime},
-				{title: '提现金额', data: 'amount', render: (data, type, row) => (row.modifyType == 1 ? '+' : '-') + data},
-				{title: '支付宝账号', data: 'newBalance'},
-				{title: '收款人姓名', data: 'newBalance'},
-				{title: '备注', data: 'remark'},
+				{title: '提现时间', data: 'applyTime', render: dtUtils.renderDateTime},
+				{title: '提现金额', data: 'payeeAmount', render: (data, type, row) => (row.modifyType == 1 ? '+' : '-') + data},
+				{title: '支付宝账号', data: 'payeeAccount'},
+				{title: '收款人姓名', data: 'payeeRealName'},
+				{title: '备注', data: 'payeeRemark'},
       ],
       queryTable: {
         appUserId: '',
@@ -73,7 +73,7 @@ export default class BalanceModal extends React.Component {
       query: {
         appUserId: data.id,
         payeeAccount: '',
-        payeeAmount: '',
+        payeeAmount: data.balance,
         payeeRealName: data.name,
         payeeRemark: ''
       }
@@ -98,6 +98,10 @@ export default class BalanceModal extends React.Component {
     }
     if (query.payeeAmount == '') {
       msgBox.warning("提现金额不能为空");
+      return
+    }
+    if (query.payeeAmount <= 0) {
+      msgBox.warning("提现金额不能小于0");
       return
     }
     let result = await balaceRecordApi.withdraw(query)

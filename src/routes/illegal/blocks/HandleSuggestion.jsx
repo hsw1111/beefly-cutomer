@@ -87,7 +87,7 @@ export default class HandleSuggestion extends React.Component {
 		// if(!detail.content.includes('双人骑行')){
 		//
 		// }
-		console.log(detail.content.includes('双人骑行'));
+		// console.log(detail.content.includes('双人骑行'));
 
 		//
 		let noPunishLis = [
@@ -210,10 +210,6 @@ export default class HandleSuggestion extends React.Component {
 			noPunishType: obj
 		})
 
-		// // 如果建议处理类型是扣积分或扣押金
-		// let {suggestHandleType} = illegalStore;
-		// this.messageContent(suggestHandleType)
-
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -221,7 +217,6 @@ export default class HandleSuggestion extends React.Component {
 			this.reset();
 		}
 	}
-
 	reset(){
 		this.setState({
 			deductScore: {
@@ -255,6 +250,7 @@ export default class HandleSuggestion extends React.Component {
 				tabUtils.closeTab()
 			})
 		}
+	
 	}
 
 
@@ -455,7 +451,7 @@ export default class HandleSuggestion extends React.Component {
 		this.setState({
 			deductCashPledge: {
 				smsFlag: 1,
-				content: '亲爱的用户您好，您"{订单结束时间}"结束使用的小蜜蜂" {车辆编号}"，违停在"{上报信息}"    (需停在马路边公共停车区域，严禁停放在小区、胡同、巷道内等非开放区域以及道路上影响交通的地方），因是第{收到违停短信次数}次出现违停本次扣除20元押金，剩余的押金已经原路退回，请您重新缴纳押金使用车辆。请正确停放车辆，方便自己和他人使用。如有问题，您可以拨打客服热线：4000-365-917。'
+				content: '亲爱的用户您好，您“{订单结束时间}“结束使用的小蜜蜂" {车辆编号}"，违停在"{上报信息}"    (需停在马路边公共停车区域，严禁停放在小区、胡同、巷道内等非开放区域以及道路上影响交通的地方），因是第{收到违停短信次数}次出现违停本次扣除20元押金，剩余的押金已经原路退回，请您重新缴纳押金使用车辆。请正确停放车辆，方便自己和他人使用。如有问题，您可以拨打客服热线：4000-365-917。'
 			}
 		})
 	}

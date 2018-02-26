@@ -21,7 +21,7 @@ export default class Balance extends React.Component {
 				{title: '用户名', data: 'name'},
 				{title: '手机号码', data: 'mobile'},
 				{title: '当前充值余额（￥）', data: 'balance', render: this.renderBalance},
-				{title: '赠送余额（￥）', data: 'credScore'},
+				{title: '赠送余额（￥）', data: 'grantBalance'},
 				{title: '操作', type: 'object', render: this.renderActions},
 			],
       query: {
@@ -41,7 +41,7 @@ export default class Balance extends React.Component {
     
 		let actions = [
 			{text: '修改余额',  onclick: `beefly.editBalance('${row.id}','${row.mobile}')`},
-			{text: '提现', onclick: `beefly.withdraw('${row.id}','${row.name}')`, visible: row.balance > 0}
+			{text: '提现', onclick: `beefly.withdraw('${row.id}','${row.name}','${row.balance}')`, visible: row.balance > 0}
 		];
 
 		return dtUtils.renderActions(actions, 'link')
@@ -85,10 +85,11 @@ export default class Balance extends React.Component {
     this._editBalanceModal.show({id, mobile})
   }
 
-  withdraw(id, name){
+  withdraw(id, name, balance){
 		this._withdrawModal.show({
 			id,
-			name
+			name,
+			balance
 		})
 	}
 	recharge(id, mobile, rechargeBalance){

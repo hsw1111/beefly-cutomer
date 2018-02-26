@@ -225,7 +225,7 @@ export default class HandleSuggestion extends React.Component {
 
 		setTimeout(()=>{
 			let {suggestHandleType} = illegalStore;
-			console.log(suggestHandleType,111111111)
+			console.log(suggestHandleType,111111111);
 			if(suggestHandleType==0){
 				this.integrald();
 				return

@@ -8,6 +8,7 @@ import DetailModal from './modals/DetailModal'
 import OpenLockModal from './modals/OpenLockModal' 
 import CloseLockModal from './modals/CloseLockModal' 
 import beefly from "../../js/beefly";
+import { LocationModal} from "beefly-common";
 
 /**
  * 订单管理

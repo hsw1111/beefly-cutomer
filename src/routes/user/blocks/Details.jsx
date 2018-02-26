@@ -85,6 +85,13 @@ export default class Detail extends React.Component {
 	render() {
 		let {columns_voucher, columns_deposit,columns_balance,columns_integral,columns_black} = this.state;
 		let {detail} = userStore;
+
+		let balance = (
+			<div>
+				<span>{((detail.balance*100 || 0) + (detail.grantBalance*100 || 0))/100}元</span>
+				<span className='margin-l-20'>（充值金额{detail.balance || 0}元+赠送金额{detail.grantBalance || 0}元）</span>
+			</div>	
+		)
 		return (
 			<Box>
 				<Form horizontal>
@@ -94,7 +101,7 @@ export default class Detail extends React.Component {
 							<Text label="用户姓名" value={detail.name}/>
 							<Text label="手机号" value={detail.mobile}/>
 							<Text label="所属城市" value={detail.registerCity}/>
-							<Text label="余额" value=	{((detail.balance*100 || 0) + (detail.grantBalance*100 || 0))/100}/> <span style={{position: 'absolute', top: 138, left: 180}}>（充值金额{detail.balance || 0}元+赠送金额{detail.grantBalance || 0}元）</span>
+							<Text label="余额" value=	{balance}/> 
 							<Text label="注册时间" value={detail.registerTime}/>
 						</Col>
 						<Col md={7}>

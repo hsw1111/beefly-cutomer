@@ -1,10 +1,14 @@
 import React from 'react'
 import {Box, Form, Row, Col, Text} from "beefly-common";
-
+import {LocationModal} from "beefly-common";
 export default class Detail extends React.Component {
 
 	render() {
 		let {detail} = this.props;
+		let pickLocation = (<div>
+				<span>{detail.pickLocation}</span>
+				{/* <span className='glyphicon glyphicon-map-marker text-blue' aria-hidden="true" onClick={this.map.bind(this)}></span> */}
+			</div>)		
 		return (
 			<Box>
 				<Form horizontal>
@@ -34,7 +38,7 @@ export default class Detail extends React.Component {
 							<Col md={6}>
 								<Text label="车辆编号" value={detail.bikeCode}/>
 								<Text label="扫码解锁时间" value={detail.pickTime}/>
-								<Text label="取车地点" value={detail.pickLocation}/>
+								<Text label="取车地点" value={pickLocation} /> 
 								<Text label="扫码时车辆位置" value={detail.bikeLocation}/>
 								<Text label="还车时间" value={detail.endTime}/>
 								<Text label="订单结束原因" value={detail.finishReason}/>
@@ -50,8 +54,15 @@ export default class Detail extends React.Component {
 					</div>
 
 				</Form>
+				<LocationModal ref={e => this.locationModal = e}/>
 			</Box>
 		)
 	}
 
+	map(){
+		let {detail} = this.props
+		this.locationModal.show({
+			position: detail.pickGps.split(",")
+		})
+	}
 }

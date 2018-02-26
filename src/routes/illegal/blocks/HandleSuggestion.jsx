@@ -84,10 +84,11 @@ export default class HandleSuggestion extends React.Component {
 		}
 		let mobile = orderDetail.mobile || '-';
 
+
 		// if(!detail.content.includes('双人骑行')){
 		//
 		// }
-		// console.log(detail.content.includes('双人骑行'));
+		console.log(detail.content.includes('双人骑行'));
 
 		//
 		let noPunishLis = [
@@ -131,6 +132,10 @@ export default class HandleSuggestion extends React.Component {
 								<Text label="发送目的" value="违规通知"/>
 								<Textarea label="短信内容" model={'deductScore.content'} width={'50%'}  height={135}
 										  validation={{required: true}}/>
+								<Text>
+									{!detail.content.includes('双人骑行')&& <div><span><a href="javascript:void(0)" onClick={this.integrald.bind(this)}>扣积分短信模板</a></span><span style={{marginLeft:'20px'}}><a href="javascript:void(0)" onClick={this.depositd.bind(this)}>扣押金短信模板</a></span></div>}
+									{detail.content.includes('双人骑行')&& <div><span><a href="javascript:void(0)" onClick={this.integralsd.bind(this)}>扣积分短信模板</a></span><span style={{marginLeft:'20px'}}><a href="javascript:void(0)" onClick={this.depositsd.bind(this)}>扣押金短信模板</a></span></div>}
+								</Text>
 							</div>}
 						</Tab>
 						<Tab title="扣押金">
@@ -163,6 +168,10 @@ export default class HandleSuggestion extends React.Component {
 									<Text label="发送目的" value="违规通知"/>
 									<Textarea label="短信内容" model={'deductCashPledge.content'} width={'50%'}  height={135}
 											  validation={{required: true}}/>
+									<Text>
+										{!detail.content.includes('双人骑行')&& <div><span><a href="javascript:void(0)" onClick={this.integral.bind(this)}>扣积分短信模板</a></span><span style={{marginLeft:'20px'}}><a href="javascript:void(0)" onClick={this.deposit.bind(this)}>扣押金短信模板</a></span></div>}
+										{detail.content.includes('双人骑行')&& <div><span><a href="javascript:void(0)" onClick={this.integrals.bind(this)}>扣积分短信模板</a></span><span style={{marginLeft:'20px'}}><a href="javascript:void(0)" onClick={this.deposits.bind(this)}>扣押金短信模板</a></span></div>}
+									</Text>
 								</div>}
 							</div>}
 							{depositState == 3 && <div>
@@ -209,6 +218,32 @@ export default class HandleSuggestion extends React.Component {
 		this.setState({
 			noPunishType: obj
 		})
+
+		// // 如果建议处理类型是扣积分或扣押金
+		// let {suggestHandleType} = illegalStore;
+		// this.messageContent(suggestHandleType)
+
+		setTimeout(()=>{
+			let {suggestHandleType} = illegalStore;
+			console.log(suggestHandleType,111111111)
+			if(suggestHandleType==0){
+				this.integrald();
+				return
+			}
+			if(illegalStore.suggestHandleType==0 && illegalStore.detail.content.includes('双人骑行')){
+				this.integralsd();
+				return
+			}
+			if(suggestHandleType==1){
+				this.deposit();
+				return
+			}
+			if(illegalStore.suggestHandleType==1 && illegalStore.detail.content.includes('双人骑行')){
+				this.deposits();
+				return
+			}
+		},1000)
+
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -216,6 +251,7 @@ export default class HandleSuggestion extends React.Component {
 			this.reset();
 		}
 	}
+
 	reset(){
 		this.setState({
 			deductScore: {
@@ -435,39 +471,83 @@ export default class HandleSuggestion extends React.Component {
 			alert(result.message)
 		}
 	}
-    //扣积分短信模版
+	//扣积分-扣积分短信模版
+	integrald(){
+		let {detail,orderDetail} = illegalStore;
+		this.setState({
+			deductScore: {
+				smsFlag: 1,
+				content: '亲爱的用户您好，您“'+orderDetail.endTime+'“结束使用的小蜜蜂"'+orderDetail.id+'"，违停在"'+detail.content+'"(需停在马路边公共停车区域，严禁停放在小区、胡同、巷道内等非开放区域以及道路上影响交通的地方），因是第一次出现违停本次扣除10个信用积分，如再次发现将会扣除20元押金。请正确停放车辆，方便自己和他人使用。如有问题，您可以拨打客服热线：4000-365-917。'
+			}
+		})
+	}
+	//扣积分-扣押金短信模版
+	depositd(){
+		let {detail,orderDetail,smsCount} = illegalStore;
+		this.setState({
+			deductScore: {
+				smsFlag: 1,
+				content: '亲爱的用户您好，您"'+orderDetail.endTime+'"结束使用的小蜜蜂"'+orderDetail.id+'"，违停在"'+detail.content+'"(需停在马路边公共停车区域，严禁停放在小区、胡同、巷道内等非开放区域以及道路上影响交通的地方），因是第'+smsCount+'次出现违停本次扣除20元押金，剩余的押金已经原路退回，请您重新缴纳押金使用车辆。请正确停放车辆，方便自己和他人使用。如有问题，您可以拨打客服热线：4000-365-917。'
+			}
+		})
+	}
+	//扣积分-双人骑行 扣积分短信模版
+	integralsd(){
+		let {orderDetail} = illegalStore;
+		this.setState({
+			deductScore: {
+				smsFlag: 1,
+				content: '亲爱的用户您好，因您“'+orderDetail.endTime+'”违规双人行驶小蜜蜂 “'+orderDetail.id+'”，(需单人使用，并且停在马路边公共停车区域，严禁停放在小区、胡同、巷道内等非开放区域以及道路上影响交通的地方）因是第一次出现违停本次扣除10个信用积分，如再次发现将会扣除20元押金。请正确停放使用车辆，方便自己和他人使用。如有问题，您可以拨打客服热线：4000-365-917。'
+			}
+		})
+	}
+	//扣积分-双人骑行 扣押金短信模版
+	depositsd(){
+		let {orderDetail,smsCount} = illegalStore;
+		this.setState({
+			deductScore: {
+				smsFlag: 1,
+				content: '亲爱的用户您好，因您“'+orderDetail.endTime+'”违规双人行驶小蜜蜂 “'+orderDetail.id+'”，(需单人使用，并且停在马路边公共停车区域，严禁停放在小区、胡同、巷道内等非开放区域以及道路上影响交通的地方）。因是第'+smsCount+'次出现违停本次扣除20元押金，剩余的押金已经原路退回，请您重新缴纳押金使用车辆。请正确停放车辆，方便自己和他人使用。如有问题，您可以拨打客服热线：4000-365-917。'
+			}
+		})
+	}
+    //扣积分-扣积分短信模版
 	integral(){
+		let {detail,orderDetail} = illegalStore;
 		this.setState({
 			deductCashPledge: {
 				smsFlag: 1,
-				content: '亲爱的用户您好，您“{订单结束时间}“结束使用的小蜜蜂 "{车辆编号}" ，违停在" {上报信息}"(需停在马路边公共停车区域，严禁停放在小区、胡同、巷道内等非开放区域以及道路上影响交通的地方），因是第一次出现违停本次扣除10个信用积分，如再次发现将会扣除20元押金。请正确停放车辆，方便自己和他人使用。如有问题，您可以拨打客服热线：4000-365-917。'
+				content: '亲爱的用户您好，您“'+orderDetail.endTime+'“结束使用的小蜜蜂 "'+orderDetail.id+'" ，违停在"'+detail.content+'"(需停在马路边公共停车区域，严禁停放在小区、胡同、巷道内等非开放区域以及道路上影响交通的地方），因是第一次出现违停本次扣除10个信用积分，如再次发现将会扣除20元押金。请正确停放车辆，方便自己和他人使用。如有问题，您可以拨打客服热线：4000-365-917。'
 			}
 		})
 	}
-	//扣押金短信模版
+	//扣积分-扣押金短信模版
 	deposit(){
+		let {detail,orderDetail,smsCount} = illegalStore;
 		this.setState({
 			deductCashPledge: {
 				smsFlag: 1,
-				content: '亲爱的用户您好，您“{订单结束时间}“结束使用的小蜜蜂" {车辆编号}"，违停在"{上报信息}"    (需停在马路边公共停车区域，严禁停放在小区、胡同、巷道内等非开放区域以及道路上影响交通的地方），因是第{收到违停短信次数}次出现违停本次扣除20元押金，剩余的押金已经原路退回，请您重新缴纳押金使用车辆。请正确停放车辆，方便自己和他人使用。如有问题，您可以拨打客服热线：4000-365-917。'
+				content: '亲爱的用户您好，您"'+orderDetail.endTime+'"结束使用的小蜜蜂" '+orderDetail.id+'"，违停在"'+detail.content+'"(需停在马路边公共停车区域，严禁停放在小区、胡同、巷道内等非开放区域以及道路上影响交通的地方），因是第'+smsCount+'次出现违停本次扣除20元押金，剩余的押金已经原路退回，请您重新缴纳押金使用车辆。请正确停放车辆，方便自己和他人使用。如有问题，您可以拨打客服热线：4000-365-917。'
 			}
 		})
 	}
-	//双人骑行 扣积分短信模版
+	//扣积分-双人骑行 扣积分短信模版
 	integrals(){
+		let {orderDetail} = illegalStore;
 		this.setState({
 			deductCashPledge: {
 				smsFlag: 1,
-				content: '亲爱的用户您好，因您“{订单结束时间}”违规双人行驶小蜜蜂 “{车辆编号}”，(需单人使用，并且停在马路边公共停车区域，严禁停放在小区、胡同、巷道内等非开放区域以及道路上影响交通的地方）因是第一次出现违停本次扣除10个信用积分，如再次发现将会扣除20元押金。请正确停放使用车辆，方便自己和他人使用。如有问题，您可以拨打客服热线：4000-365-917。'
+				content: '亲爱的用户您好，因您“'+orderDetail.endTime+'”违规双人行驶小蜜蜂 “'+orderDetail.id+'”，(需单人使用，并且停在马路边公共停车区域，严禁停放在小区、胡同、巷道内等非开放区域以及道路上影响交通的地方）因是第一次出现违停本次扣除10个信用积分，如再次发现将会扣除20元押金。请正确停放使用车辆，方便自己和他人使用。如有问题，您可以拨打客服热线：4000-365-917。'
 			}
 		})
 	}
-	//双人骑行 扣押金短信模版
+	//扣积分-双人骑行 扣押金短信模版
 	deposits(){
+		let {orderDetail, smsCount} = illegalStore;
 		this.setState({
 			deductCashPledge: {
 				smsFlag: 1,
-				content: '亲爱的用户您好，因您“{订单结束时间}”违规双人行驶小蜜蜂 “{车辆编号}”，(需单人使用，并且停在马路边公共停车区域，严禁停放在小区、胡同、巷道内等非开放区域以及道路上影响交通的地方）。因是第{收到违停短信次数}次出现违停本次扣除20元押金，剩余的押金已经原路退回，请您重新缴纳押金使用车辆。请正确停放车辆，方便自己和他人使用。如有问题，您可以拨打客服热线：4000-365-917。'
+				content: '亲爱的用户您好，因您“'+orderDetail.endTime+'”违规双人行驶小蜜蜂 “'+orderDetail.id+'”，(需单人使用，并且停在马路边公共停车区域，严禁停放在小区、胡同、巷道内等非开放区域以及道路上影响交通的地方）。因是第'+smsCount+'次出现违停本次扣除20元押金，剩余的押金已经原路退回，请您重新缴纳押金使用车辆。请正确停放车辆，方便自己和他人使用。如有问题，您可以拨打客服热线：4000-365-917。'
 			}
 		})
 	}

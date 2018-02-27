@@ -32,7 +32,7 @@ export default class DetailModal extends React.Component {
               <Text label="提现时间" value={detail.applyTime}/>
               <Text label="提现状态" value={withdrawState[detail.state]}/>
               <Text label="提现账号" value={detail.payeeAccount}/>
-              <Text label="提现金额" value={detail.payeeAmount}/>
+              <Text label="提现金额" value={detail.payeeAmount+'元'}/>
             </div>
             
             <Text label="操作人" value={detail.createName}/>

@@ -61,7 +61,7 @@ export default class UserAward extends React.Component {
 					<Tabs model="type">
 						<Tab title="奖积分">
 							<Text label="奖罚类型" value="积分奖励"/>
-							<Text label="处理类型" value="其他"/>
+							<Text label="处理类型" value="违停上报"/>
 							<Input label="奖励积分" model="rewardScore.creditScoreCount" type="number" width={250} validation={{required: true}}/>
 							<Textarea label="备注" model="rewardScore.remark" width={'50%'}/>
 						</Tab>

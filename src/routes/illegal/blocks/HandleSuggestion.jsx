@@ -219,10 +219,6 @@ export default class HandleSuggestion extends React.Component {
 			noPunishType: obj
 		})
 
-		// // 如果建议处理类型是扣积分或扣押金
-		// let {suggestHandleType} = illegalStore;
-		// this.messageContent(suggestHandleType)
-
 		setTimeout(()=>{
 			let {suggestHandleType} = illegalStore;
 			console.log(suggestHandleType,111111111)

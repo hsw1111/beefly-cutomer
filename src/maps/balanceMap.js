@@ -16,3 +16,14 @@ export const vagueState = {
 	'id': '用户编号',
 	'name': '用户姓名',
 };
+
+/**
+ *  余额管理 交易方式
+ */
+export const channelType = {
+	0: '支付宝',
+	1: '微信',
+	2: '余额',
+};
+
+

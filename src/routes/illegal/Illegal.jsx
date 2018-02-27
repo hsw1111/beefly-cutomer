@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Button, CitySelect, Content, DataTable, DateRange, Field, Form, Select, SelectInput, tabUtils, dtUtils, msgBox} from "beefly-common";
+import {Box, Button, CitySelect, Input, Content, DataTable, DateRange, Field, Form, Select, SelectInput, tabUtils, dtUtils, msgBox} from "beefly-common";
 import {handleType, operateState, reportState, vagueState} from '../../maps/illegalMap';
 import AddRemarkModal from "./modals/AddRemarkModal";
 import RejectModal from "./modals/RejectModal";
@@ -43,6 +43,12 @@ export default class Illegal extends React.Component {
 				'bikeCode': '',
 			},
 
+			queryCount: {
+				'endDate': dtUtils.renderDate(new Date())
+			},
+
+			dealDatas: []
+
 		};
 
 		beefly.details = this.details.bind(this);
@@ -74,7 +80,7 @@ export default class Illegal extends React.Component {
 	}
 
 	render() {
-		let {columns, query} = this.state;
+		let {columns, query, dealDatas} = this.state;
 		return (
 			<Content>
 				<Box>
@@ -94,6 +100,16 @@ export default class Illegal extends React.Component {
 					</Form>
 					<DataTable ref={(e) => this._dataTable = e}
 							   columns={columns} api={tripProblemApi.page} query={query}/>
+					
+					<div className="margin-t-20">
+					<Form inline>
+					<Input label="" model="queryCount.endDate" type="date" width={200} onChange={this.getDealCount.bind(this)}/>
+					<span className="padding-t-15" style={{display: 'inline-block'}}>违停已处理工作量统计：</span>
+					</Form>
+					{dealDatas.map((item, index) => {
+						return <span key={index} className='margin-r-20'>{item.auditName} : {item.dealCount}</span>
+					})}
+					</div>
 				</Box>
 
 				<AddRemarkModal ref={(e) => this._addRemarkModal = e}/>
@@ -101,9 +117,10 @@ export default class Illegal extends React.Component {
 			</Content>
 		)
 	}
-	// async componentWillMount(){
-	// 	let result = await systemCityApi.getSystemCitys()
-	// }
+	componentWillMount(){
+		// let result = await systemCityApi.getSystemCitys()
+		this.getDealCount()
+	}
 	search() {
 		let {query} = this.state;
 
@@ -179,6 +196,18 @@ export default class Illegal extends React.Component {
 			params: {
 				id
 			}
+		})
+	}
+
+	// 处理工作量
+	async getDealCount(){
+		let {queryCount} = this.state
+		let result = await tripProblemApi.getDealCount({
+			endDate: queryCount.endDate
+		})
+		console.log(result,1111111)
+		this.setState({
+			dealDatas: result.data
 		})
 	}
 

@@ -40,6 +40,10 @@ const tripProblemApi = {
 	 * 违停上报导出
 	 */
 	export: (params) => request.get(env.apiPath_customer + 'tripProblem/export', params),
+	/**
+	 * 违停上报 客服人员处理违停工作量
+	 */
+	getDealCount: (params) => request.get(env.apiPath_customer + 'tripProblem/getDealCount', params),
 };
 
 export default tripProblemApi

@@ -31,7 +31,7 @@ export default class BalanceModal extends React.Component {
 		return (
 			<Modal show={show} title="充值金额充值明细" size='lg' onHide={this.hide.bind(this)}>
       {show &&
-				<Modal.Body style={{height: 660}}>
+				<Modal.Body style={{maxHeight: 660}}>
 					<Form className="form-label-100" horizontal>
             <Row>
               <Col md={5}>

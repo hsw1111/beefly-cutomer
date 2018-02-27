@@ -64,7 +64,7 @@ export default class CouponModal extends React.Component {
 		return (
 			<Modal show={show} title="信用积分管理" size='lg' onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
       {show &&
-				<Modal.Body style={{height: 660}}>
+				<Modal.Body style={{maxHeight: 660}}>
 					<Form className="form-label-100" horizontal>
             <Row>
               <Col md={5}>

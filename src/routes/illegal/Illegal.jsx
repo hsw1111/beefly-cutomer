@@ -107,7 +107,11 @@ export default class Illegal extends React.Component {
 					<span className="padding-t-15" style={{display: 'inline-block'}}>违停已处理工作量统计：</span>
 					</Form>
 					{dealDatas.map((item, index) => {
-						return <span key={index} className='margin-r-20'>{item.auditName} : {item.dealCount}</span>
+						return(
+							<span key={index} className='margin-r-25' style={{lineHeight: 1.5}}>
+								<span>{item.auditName} : {item.dealCount}</span>
+								{(index + 1) % 20 === 0 ? <br/> : ''}
+							</span>)
 					})}
 					</div>
 				</Box>
@@ -118,7 +122,6 @@ export default class Illegal extends React.Component {
 		)
 	}
 	componentWillMount(){
-		// let result = await systemCityApi.getSystemCitys()
 		this.getDealCount()
 	}
 	search() {

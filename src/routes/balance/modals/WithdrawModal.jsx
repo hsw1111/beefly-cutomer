@@ -39,7 +39,7 @@ export default class BalanceModal extends React.Component {
 		return (
 			<Modal show={show} title="提现" size='lg' onHide={this.hide.bind(this)} onOk={this.ok.bind(this)}>
       {show &&
-				<Modal.Body style={{height: 660}}>
+				<Modal.Body style={{maxHeight: 660}}>
 					<Form className="form-label-100" horizontal>
             <Input label="支付宝账户" model="query.payeeAccount" placeholder='支付宝账号/手机号' width={250}  validation={{required: true}} />
             <Input label="收款人姓名" model="query.payeeRealName" placeholder='默认为用户姓名' width={250}  />
